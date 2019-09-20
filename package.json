@@ -1,0 +1,34 @@
+{
+  "name": "OutsmartOptions",
+  "version": "1.0.0",
+  "description": "Y'all ever wanted to make money?",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx webpack && node server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjjpanda/OutsmartOptions.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjjpanda/OutsmartOptions/issues"
+  },
+  "homepage": "https://github.com/jjjpanda/OutsmartOptions#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9"
+  }
+}
