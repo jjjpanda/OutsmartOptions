@@ -4,6 +4,6 @@ import "./css/logo.css"
 import logo from './img/logo.png'
 
 ReactDOM.render(
-  <img id = "logo" class = "spin" src={logo}></img>,
+  [<img id = "logo" className = "spin" src={logo}></img>,<h1>Bruh</h1>],
   document.getElementById('root')
 );

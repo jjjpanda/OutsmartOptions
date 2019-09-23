@@ -3,7 +3,7 @@ const app = express()
 
 const path = require('path')
 
-const port = process.env.PORT; //change to 8181 or whatever when localhosting 
+const port = 8181//process.env.PORT; //change to 8181 or whatever when localhosting 
 
 //NECESSARY FOR CALLS IN HTML
 app.use('/css', express.static(path.join(__dirname, '../src/css')));
