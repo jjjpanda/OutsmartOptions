@@ -84,7 +84,7 @@ export function getRangeOfPrices(priceUnderlying, percentInterval, numOfInterval
     max = priceUnderlying*Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
     for(i = min; i < max * (1+(percentInterval/200)); i *= (1+(percentInterval/100))){
         rangeOfPrices[i] = initialCost
-    } 
+    }
     return rangeOfPrices
 }
 
@@ -123,10 +123,10 @@ export function vega(t, priceUnderlying, strike, isLong, r, divYield, iv){
 
 export function rho(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv){
     if(isCall){
-        return (isLong ? 1 : -1) * t / 100 * Math.exp(-1 * r * t) * strike * cndf(d2(priceUnderlying, strike, t, divYield, r, iv));                    
+        return (isLong ? 1 : -1) * t / 100 * Math.exp(-1 * r * t) * strike * cndf(d2(priceUnderlying, strike, t, divYield, r, iv));
     }
     else if(!isCall){
-        return (isLong ? 1 : -1) * t / -100 * Math.exp(-1 * r * t) * strike * cndf(-1 * d2(priceUnderlying, strike, t, divYield, r, iv));     
+        return (isLong ? 1 : -1) * t / -100 * Math.exp(-1 * r * t) * strike * cndf(-1 * d2(priceUnderlying, strike, t, divYield, r, iv));
     }
 }
 
@@ -142,7 +142,7 @@ export function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, d
 
 //IV and Price
 export function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r, divYield){
-    var iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption/priceUnderlying 
+    var iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption/priceUnderlying
     var priceOfOptionTheoretical, vega;
     priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true,  r, divYield, iv)
     stopTrying = 0
@@ -164,7 +164,7 @@ export function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r
         priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv)
         stopTrying++
         if(stopTrying > 100){
-            iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption/priceUnderlying 
+            iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption/priceUnderlying
             if((isCall ? priceOfOption + strike < priceUnderlying : priceOfOption - strike > priceUnderlying) && (isCall ? strike/priceUnderlying < 0.80 : strike/priceUnderlying > 1.25)){
                 if(isCall){
                     d = cndfInv(0.999/(Math.exp(-divYield * t)))
@@ -174,7 +174,7 @@ export function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r
                 }
                 return Math.abs((Math.sqrt(t*(2*Math.log(priceUnderlying/priceOfOption) + Math.pow(d,2) - 2*divYield*t + 2*r*t))-d*Math.sqrt(t))/t)
             }
-            break;   
+            break;
         }
     }
     if (iv < 0){
@@ -206,13 +206,13 @@ export function calculateProfitAtExpiry(initialCost, priceUnderlying, strike, is
         }
         else if (!isLong)
         {
-            return Math.min((initialCost - (priceUnderlying - strike)), initialCost);                             
+            return Math.min((initialCost - (priceUnderlying - strike)), initialCost);
         }
     }
     else if (!isCall)
     {
         if (isLong)
-        { 
+        {
             return Math.max(((-1 * initialCost) + (-1 * priceUnderlying + strike)), (-1 * initialCost));
         }
         else if (!isLong)
