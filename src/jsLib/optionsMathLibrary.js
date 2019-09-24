@@ -172,7 +172,6 @@ export function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r
                 else if(!isCall){
                     d = cndfInv(-0.999/(Math.exp(-divYield * t)) + 1)
                 }
-                console.log('bruh')
                 return Math.abs((Math.sqrt(t*(2*Math.log(priceUnderlying/priceOfOption) + Math.pow(d,2) - 2*divYield*t + 2*r*t))-d*Math.sqrt(t))/t)
             }
             break;   
