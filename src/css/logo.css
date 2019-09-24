@@ -1,11 +1,13 @@
 html, body, #root { height: 100%; width: 100%; margin: 0; }
 
 #logo{
-    height:10%
+    height:10%;
+    padding: 1%
 }
 
 #loadingIcon{
-    height:5%
+    height:5%;
+    padding: 1%
 }
 
 @keyframes cycle {
