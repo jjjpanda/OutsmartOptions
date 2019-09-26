@@ -9,7 +9,7 @@ const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-const port = process.env.PORT; //change to 8181 or whatever when localhosting 
+const port = 8181//process.env.PORT; //change to 8181 or whatever when localhosting 
 const key = process.env.tradier;
 
 //NECESSARY FOR CALLS IN HTML
