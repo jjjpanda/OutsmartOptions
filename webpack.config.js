@@ -17,6 +17,21 @@ module.exports = {
         loader: "babel-loader"
       },
       {
+        test: /\.less$/,
+        use: [{
+          loader: 'style-loader' // creates style nodes from JS strings
+        }, {
+          loader: 'css-loader' // translates CSS into CommonJS
+        }, {
+          loader: 'less-loader', // compiles Less to CSS
+          options: {
+            javascriptEnabled: true,
+            modifyVars: {
+              "@primary-color": "#a496b3"
+            }
+          }
+        }]},
+      {
         test: /\.css$/,
         exclude: /node_modules/,
         use: ["style-loader",'css-loader']
