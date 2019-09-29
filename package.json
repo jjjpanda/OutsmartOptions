@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm install && (npx webpack && node server/app.js)"
+    "start": "npm install && (npx webpack && node server/app.js)",
+    "build": "npx webpack && node server/app.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "antd": "^3.23.4",
     "babel-loader": "^8.0.6",
