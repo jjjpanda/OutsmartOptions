@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm install && (npx webpack && node server/app.js)",
-    "build": "npx webpack && node server/app.js"
+    "startClean": "npx webpack && node server/app.js"
   },
   "repository": {
     "type": "git",
@@ -21,22 +21,22 @@
   "dependencies": {
     "express": "^4.17.1",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "antd": "^3.23.4",
+    "core-js": "^3.2.1",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
-    "antd": "^3.23.4",
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.2",
-    "core-js": "^3.2.1",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
-    "request": "^2.88.0",
     "style-loader": "^1.0.0",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9"
