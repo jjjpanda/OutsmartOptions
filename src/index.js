@@ -9,24 +9,42 @@ import {
   Button,
 } from 'antd';
 
+const { Search } = Input
+
 import "./css/logo.css";
 
 class StockSymbol extends React.Component{
   constructor(props){
     super(props);
-    this.state = {data:0};
+    this.state = {symbol:"", price:0};
   }
 
-  onChange = e => {
-    e.persist()
+  onSearch = e => {
     //console.log(e);
-    this.setState({ data: e.target.value });
+    this.setState({ symbol: e, price : 0 });
+    fetch("/price",
+      {
+        method: "post", 
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ticker: e})}
+    )
+    .then(res => res.json())
+    .then( 
+      (data) => {
+        console.log(data)
+        this.setState({symbol : e, price : data.price})
+      }
+    );
   };
   
   render() { return (<div className="App">
       <div>
-        <Input placeholder="input with clear icon" allowClear onChange={this.onChange} />
-        <pre>{this.state.data}</pre>
+        <Search placeholder="Stock Symbol" enterButton onSearch={this.onSearch} />
+        <pre>STOCK: {this.state.symbol}</pre>
+        <pre>IS AT ${this.state.price}</pre>
       </div>
     </div>);
   }
