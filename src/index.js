@@ -12,6 +12,7 @@ import {
 const { Search } = Input
 
 import "./css/logo.css";
+import "./css/calculator.css";
 
 class StockSymbol extends React.Component{
   constructor(props){
@@ -35,16 +36,22 @@ class StockSymbol extends React.Component{
     .then( 
       (data) => {
         console.log(data)
-        this.setState({symbol : e, price : data.price})
+        this.setState({symbol : e, price : data.price, priceChange : data.priceChange})
       }
     );
   };
   
-  render() { return (<div className="App">
-      <div>
-        <Search placeholder="Stock Symbol" enterButton onSearch={this.onSearch} />
-        <pre>STOCK: {this.state.symbol}</pre>
-        <pre>IS AT ${this.state.price}</pre>
+  render() { return (
+    <div className="App">
+      <div className = "stockHeadings">
+        <div className= "stockSymbolHeading">Stock Symbol:</div>
+        <div className= "stockPriceHeading">Stock Price:</div>
+        <div className= "priceChangeHeading">Stock Price Change:</div>
+      </div>
+      <div className="stockInputs">
+        <div id="stockSymbolInput"><Search placeholder="Enter..." onSearch={this.onSearch}/></div>
+        <div id="stockPriceBox"><Input placeholder={this.state.price} disabled/></div>
+        <div id="priceChangeBox"><Input placeholder={this.state.priceChange} disabled/></div>
       </div>
     </div>);
   }

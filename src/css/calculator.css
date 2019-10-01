@@ -1,0 +1,24 @@
+html, body, #root { height: 100%; width: 100%; margin: 0; }
+
+.stockHeadings > div {
+    display: inline-block;
+    padding-left: 60px;
+}
+
+#stockSymbolInput  {
+    display: inline-block;
+    padding-left: 60px;
+    width: 150px;
+}
+
+#stockPriceBox  {
+    display: inline-block;
+    padding-left: 63px;
+    width: 150px;
+}
+
+#priceChangeBox  {
+    display: inline-block;
+    padding-left: 50px;
+    width: 150px;
+}
