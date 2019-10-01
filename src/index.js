@@ -49,7 +49,7 @@ class StockSymbol extends React.Component{
         <div className= "priceChangeHeading">Stock Price Change:</div>
       </div>
       <div className="stockInputs">
-        <div id="stockSymbolInput"><Search placeholder="Enter..." onSearch={this.onSearch}/></div>
+        <div id="stockSymbolInput"><Search placeholder="Bruh..." onSearch={this.onSearch}/></div>
         <div id="stockPriceBox"><Input placeholder={this.state.price} disabled/></div>
         <div id="priceChangeBox"><Input placeholder={this.state.priceChange} disabled/></div>
       </div>
