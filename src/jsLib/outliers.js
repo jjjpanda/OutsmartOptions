@@ -45,7 +45,7 @@ function getOutliers(vols, std){
 //Main
 const fs = require('fs')
 
-fs.readFile('/Users/Eamon/Desktop/data.json', 'utf8', (err, jsonString) => {	//file path for data here
+fs.readFile('/file/path/here/data.json', 'utf8', (err, jsonString) => {	//file path for data here
     if (err) {
         console.log("File read failed:", err)
         return
