@@ -1,5 +1,6 @@
 html, body, #root { height: 100%; width: 100%; margin: 0; }
 
+/* Stock Input Boxes and Labels */
 .stockHeadings > div {
     display: inline-block;
     padding-left: 60px;
@@ -25,7 +26,113 @@ html, body, #root { height: 100%; width: 100%; margin: 0; }
 
 #hr {
     margin-left: 60px;
-    margin-top: 15px;
-    width: 500px;
+    margin-top: 20px;
+    width: 690px;
     border: 1px solid black;
 }
+
+/* Options Input Boxes, Switch, and Labels */
+.optionsHeadings > div {
+    display: inline-block;
+    padding-left: 60px;
+}
+
+#buyWriteHeading {
+    margin-top: 10px;
+}
+
+#contractHeading {
+    padding-left: 70px;
+    margin-top: 10px;
+}
+
+#xHeading {
+    padding-left: 110px;
+    margin-top: 10px;
+}
+
+#quantityHeading {
+    padding-left: 50px;
+    margin-top: 10px;
+}
+
+#atPriceHeading {
+    padding-left: 100px;
+    margin-top: 10px;
+}
+
+
+#buyWriteSwitch  {
+    display: inline-block;
+    padding-left: 60px;
+    width: 150px;
+}
+
+#contractBox  {
+    display: inline-block;
+    padding-left: 63px;
+    width: 200px;
+}
+
+#quantityInput  {
+    display: inline-block;
+    padding-left: 90px;
+    width: 200px;
+}
+
+#atPriceInput  {
+    display: inline-block;
+    padding-left: 50px;
+    width: 200px;
+}
+
+#editButton {
+    display: inline-block;
+    padding-left: 50px;
+}
+
+#removeButton {
+    display: inline-block;
+    padding-left: 5px;
+}
+
+/* Options Buttons */
+.optionsHeadings > div {
+    display: inline-block;
+    padding-left: 60px;
+}
+
+#addLegButton  {
+    display: inline-block;
+    padding-left: 60px;
+    width: 150px;
+    margin-top: 20px;
+}
+
+#ivSkewButton  {
+    display: inline-block;
+    padding-left: 63px;
+    width: 200px;
+    margin-top: 20px;
+}
+
+#strategyButton  {
+    display: inline-block;
+    padding-left: 90px;
+    width: 200px;
+    margin-top: 20px;
+}
+
+#calculateButton  {
+    display: inline-block;
+    padding-left: 50px;
+    width: 200px;
+    margin-top: 20px;
+}
+
+#saveButton {
+    display: inline-block;
+    padding-left: 50px;
+    margin-top: 20px;
+}
+
