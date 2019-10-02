@@ -16,12 +16,16 @@ const { Search } = Input
 import "./css/logo.css";
 import "./css/calculator.css";
 
-class StockSymbol extends React.Component{
+class OptionsCalculator extends React.Component{
   constructor(props){
     super(props);
     this.state = {
       symbol:"", 
       price: 0,
+      addLegModalVisible: false,
+      optionsChain: "",
+      optionsSelected: [],
+      numOfLegs : 0
     };
   }
 
@@ -45,13 +49,54 @@ class StockSymbol extends React.Component{
         this.setState({symbol : e, price : data.price, priceChange : data.change});
       }
     );
+    fetch("/chain",
+      {
+        method: "post", 
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ticker: e})}
+    )
+    .then(res => res.json())
+    .then( 
+      (data) => {
+        console.log(data)
+        this.setState({optionsChain: data});
+      }
+    );
   };
 
-  handleChange(e) {
+  addOption = e => {
+    this.setState({options : [...this.state.optionsSelected, e]})
+  }
+  
+  removeOption = e => {
+    this.setState({options : this.state.optionsSelected.filter(ele => {return ele.key !== e })})
+  }
+
+  handleChange = e => {
     this.setState({[e.target.id]: e.target.value});
     console.log(this.state);
   }
+
+  setAddLegModalVisible(addLegModalVisible) {
+    this.setState({ addLegModalVisible: addLegModalVisible });
+  }
+
+  renderLegs() {
+    var legs = []
+    for (var i = 0; i < this.state.numOfLegs; i++){ 
+      legs.push(<OptionsLeg onCreate={this.addOption} onDelete={this.removeOption}/>);
+    }
+    return legs
+  }
   
+  onOk = () => {
+    this.setState({numOfLegs : this.state.numOfLegs+1})
+    this.setAddLegModalVisible(false)
+  }
+
   render() { return (
     <div className="StockSymbol">
       <div className = "stockHeadings">
@@ -65,13 +110,37 @@ class StockSymbol extends React.Component{
         <div id="priceChangeBox"><Input placeholder={this.state.priceChange+"%"} disabled/></div>
       </div>
       <hr id="hr" align='left'/>
+      <div className="optionsList">{this.renderLegs()}</div>
+      <div className="optionsButtons">
+          <div id= "addLegButton">
+            <Button icon="plus" onClick={() => this.setAddLegModalVisible(true)}>Add Leg</Button>
+            <Modal
+              title="Add Leg"
+              centered
+              visible={this.state.addLegModalVisible}
+              onOk={this.onOk}
+              onCancel={() => this.setAddLegModalVisible(false)}
+            >
+              <p>Insert Table Here...</p>
+              <pre style={{height: '200px', 'overflow-y': 'scroll'}}>{JSON.stringify(this.state.optionsChain, null, 1)}</pre>
+        </Modal>
+
+          </div>
+
+          <div id= "ivSkewButton"><Button icon="profile">IV Skew</Button></div>
+          <div id= "strategyButton"><Button icon="fund">Strategy</Button></div>
+          <div id= "calculateButton"><Button type="primary">Calculate</Button></div>
+          <div id= "saveButton"><Button shape="circle" icon="save" /></div>
+        </div>
     </div>);
+    
   }
 }
 
-class OptionsEditor extends React.Component {
+class OptionsLeg extends React.Component {
   constructor(props){
     super(props);
+    props.onCreate()
     this.state = {
       buyOrWrite: true,
       quantity: 0,
@@ -113,53 +182,11 @@ class OptionsEditor extends React.Component {
   }
 }
 
-class OptionButtons extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      addLegModalVisible: false,
-    };
-  }
-
-  setAddLegModalVisible(addLegModalVisible) {
-    this.setState({ addLegModalVisible });
-  }
-
-  render() { 
-    return (
-      <div className="optionsButtons">
-          <div id= "addLegButton">
-            <Button icon="plus" onClick={() => this.setAddLegModalVisible(true)}>Add Leg</Button>
-            <Modal
-              title="Add Leg"
-              centered
-              visible={this.state.addLegModalVisible}
-              onOk={() => this.setAddLegModalVisible(false)}
-              onCancel={() => this.setAddLegModalVisible(false)}
-            >
-              <p>Insert Table Here...</p>
-              <p>some contents...</p>
-              <p>some contents...</p>
-        </Modal>
-
-          </div>
-
-          <div id= "ivSkewButton"><Button icon="profile">IV Skew</Button></div>
-          <div id= "strategyButton"><Button icon="fund">Strategy</Button></div>
-          <div id= "calculateButton"><Button type="primary">Calculate</Button></div>
-          <div id= "saveButton"><Button shape="circle" icon="save" /></div>
-        </div>
-    );
-  }
-}
-
 ReactDOM.render(
   [
     <img id = "logo" className = "spin" src={logo}></img>,
     <h1 style={{paddingLeft:'60px'}}>Outsmart Options</h1>,
-    <StockSymbol />,
-    <OptionsEditor />,
-    <OptionButtons />
+    <OptionsCalculator />
   ],
   document.getElementById('root')
 );
