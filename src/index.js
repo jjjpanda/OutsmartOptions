@@ -9,10 +9,12 @@ import {
   Button,
   Switch,
   Modal,
-  Table
+  Table,
+  Collapse
 } from 'antd';
 
 const { Search } = Input
+const { Panel } = Collapse
 
 import "./css/logo.css";
 import "./css/calculator.css";
@@ -98,10 +100,25 @@ class OptionsCalculator extends React.Component{
     this.setAddLegModalVisible(false)
   }
 
+  renderOptionsChain = () => {
+    var chain = []
+    for (var expiry of this.state.optionsChain){
+      chain.push(
+      <Panel header={expiry[0]}>
+        <Table dataSource = {expiry[1]} columns ={this.columns} pagination={false} size="small" scroll={{ y: 500 }} /> 
+      </Panel>);
+    }
+    return chain;
+  }
+
   columns = [
     {
       title: 'Call',
       dataIndex: 'call'
+    },
+    {
+      title: 'Call Volume',
+      dataIndex: 'callVol',
     },
     {
       title: 'Strike',
@@ -109,8 +126,12 @@ class OptionsCalculator extends React.Component{
     },
     {
       title: 'Put',
-      dataIndex: 'put'
-    }
+      dataIndex: 'put',
+    },
+    {
+      title: 'Put Volume',
+      dataIndex: 'putVol',
+    },
   ];
 
   render() { return (
@@ -139,8 +160,9 @@ class OptionsCalculator extends React.Component{
               onOk={this.onOk}
               onCancel={() => this.setAddLegModalVisible(false)}
             >
-              <p>Insert Table Here...</p>
-              <Table dataSource = {this.state.optionsChain[0][1]} columns ={this.columns} pagination={false} scroll={{ y: 240 }} /> 
+              <Collapse accordion>
+                {this.renderOptionsChain()}
+              </Collapse>
               <pre style={{height: '200px', overflowY: 'scroll'}}>{JSON.stringify(this.state.optionsChain, null, 1)}</pre>
         </Modal>
 
