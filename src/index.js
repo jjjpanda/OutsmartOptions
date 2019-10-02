@@ -9,6 +9,7 @@ import {
   Button,
   Switch,
   Modal,
+  Table
 } from 'antd';
 
 const { Search } = Input
@@ -23,8 +24,8 @@ class OptionsCalculator extends React.Component{
       symbol:"", 
       price: 0,
       addLegModalVisible: false,
-      optionsChain: "",
-      optionsSelected: [],
+      optionsChain: [['a',{}]],
+      optionsSelected: "",
       numOfLegs : 0
     };
   }
@@ -97,6 +98,21 @@ class OptionsCalculator extends React.Component{
     this.setAddLegModalVisible(false)
   }
 
+  columns = [
+    {
+      title: 'Call',
+      dataIndex: 'call'
+    },
+    {
+      title: 'Strike',
+      dataIndex: 'strike'
+    },
+    {
+      title: 'Put',
+      dataIndex: 'put'
+    }
+  ];
+
   render() { return (
     <div className="StockSymbol">
       <div className = "stockHeadings">
@@ -110,7 +126,9 @@ class OptionsCalculator extends React.Component{
         <div id="priceChangeBox"><Input placeholder={this.state.priceChange+"%"} disabled/></div>
       </div>
       <hr id="hr" align='left'/>
+
       <div className="optionsList">{this.renderLegs()}</div>
+
       <div className="optionsButtons">
           <div id= "addLegButton">
             <Button icon="plus" onClick={() => this.setAddLegModalVisible(true)}>Add Leg</Button>
@@ -122,7 +140,8 @@ class OptionsCalculator extends React.Component{
               onCancel={() => this.setAddLegModalVisible(false)}
             >
               <p>Insert Table Here...</p>
-              <pre style={{height: '200px', 'overflow-y': 'scroll'}}>{JSON.stringify(this.state.optionsChain, null, 1)}</pre>
+              <Table dataSource = {this.state.optionsChain[0][1]} columns ={this.columns} pagination={false} scroll={{ y: 240 }} /> 
+              <pre style={{height: '200px', overflowY: 'scroll'}}>{JSON.stringify(this.state.optionsChain, null, 1)}</pre>
         </Modal>
 
           </div>
