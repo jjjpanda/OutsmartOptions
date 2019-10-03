@@ -10,14 +10,15 @@ import {
   Switch,
   Modal,
   Table,
-  Collapse
+  Collapse,
+  Radio,
 } from 'antd';
 
 const { Search } = Input
 const { Panel } = Collapse
 
 import "./css/logo.css";
-import "./css/calculator.css";
+import "./css/calculator.less";
 
 class OptionsCalculator extends React.Component{
   constructor(props){
@@ -113,12 +114,20 @@ class OptionsCalculator extends React.Component{
 
   columns = [
     {
+      title: '',
+      dataIndex: 'callAction',
+      width: '10%',
+      render: () =>
+      <Radio></Radio>
+    },
+    {
       title: 'Call',
       dataIndex: 'call'
     },
     {
-      title: 'Call Volume',
+      title: 'Call Vol',
       dataIndex: 'callVol',
+      width: '10%',
     },
     {
       title: 'Strike',
@@ -129,8 +138,14 @@ class OptionsCalculator extends React.Component{
       dataIndex: 'put',
     },
     {
-      title: 'Put Volume',
+      title: 'Put Vol',
       dataIndex: 'putVol',
+    },
+    {
+      title: '',
+      dataIndex: 'putAction',
+      render: () =>
+      <Radio></Radio>
     },
   ];
 
@@ -153,18 +168,20 @@ class OptionsCalculator extends React.Component{
       <div className="optionsButtons">
           <div id= "addLegButton">
             <Button icon="plus" onClick={() => this.setAddLegModalVisible(true)}>Add Leg</Button>
-            <Modal
-              title="Add Leg"
-              centered
-              visible={this.state.addLegModalVisible}
-              onOk={this.onOk}
-              onCancel={() => this.setAddLegModalVisible(false)}
-            >
-              <Collapse accordion>
-                {this.renderOptionsChain()}
-              </Collapse>
-              <pre style={{height: '200px', overflowY: 'scroll'}}>{JSON.stringify(this.state.optionsChain, null, 1)}</pre>
-        </Modal>
+            <div className="addLegButtonWrapper">
+              <Modal
+                title="Add Leg"
+                centered
+                visible={this.state.addLegModalVisible}
+                onOk={this.onOk}
+                onCancel={() => this.setAddLegModalVisible(false)}
+              >
+                <Collapse accordion>
+                  {this.renderOptionsChain()}
+                </Collapse>
+                <pre style={{height: '200px', overflowY: 'scroll'}}>{JSON.stringify(this.state.optionsChain, null, 1)}</pre>
+              </Modal>
+            </div>
 
           </div>
 
