@@ -22,12 +22,13 @@
   },
   "homepage": "https://github.com/jjjpanda/OutsmartOptions#readme",
   "dependencies": {
+    "antd": "^3.23.4",
+    "core-js": "^3.2.1",
     "express": "^4.17.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "antd": "^3.23.4",
-    "core-js": "^3.2.1",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
