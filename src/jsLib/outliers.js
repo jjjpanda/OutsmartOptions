@@ -1,29 +1,40 @@
-//Alerts user when volume outliers are found at a given date. 
-//An outlier is defined here as a volume outside of 3 standard deviations of the volume distribution for that date.
-//Does not save the outliers (yet), simply prints alerts
-//I need to get better at JS
+//Finds PDF of the volume for each strike price volume pair 
+//PMF may work better since  Volumes are technically discrete 
+//Distribution functions used: https://github.com/AndreasMadsen/distributions
 
 function getMean(vols){
 //returns mean of set 
 	var sum = 0;
 
-	for(var i = 0; i < vols.length; i ++){
-		sum += parseInt(vols[i]);
+	for(const v of vols){
+		sum += parseInt(v);
 	}
+	
 	return (sum / vols.length);
 }
 
 function getSD(vols){
 //returns standard devitation given set 
-	var mean = getMean(vols);
-	var squares = [];
 
-	for(var i = 0; i < vols.length; i ++){
-		squares.push(Math.pow(vols[i] - mean,2));
+	var mean;
+	mean = getMean(vols);
+	var squares = [];
+	var SD;
+
+	for(const v of vols){		
+		var foo = Math.pow(parseInt(v) - mean,2);
+		squares.push(foo.toString());
 	}
 
+	mean = getMean(squares);
+	SD = Math.sqrt(mean);
 
-	return Math.sqrt(getMean(squares));
+	if(SD <= 0 ){
+		console.log("Error: SD <= 0");
+		return 1;
+	}
+
+	return Math.sqrt(mean);
 
 }
 
@@ -44,50 +55,68 @@ function getOutliers(vols, std){
 
 //Main
 const fs = require('fs')
+var distributions = require('distributions');
+//var gaussian = require('gaussian');
 
-fs.readFile('/file/path/here/data.json', 'utf8', (err, jsonString) => {	//file path for data here
+fs.readFile('/Users/Eamon/Desktop/data.json', 'utf8', (err, jsonString) => {	//file path for data here
     if (err) {
         console.log("File read failed:", err)
         return
     }
 
     var data = JSON.parse(jsonString);
-
     var date;
-    var putVols = [];
-    var callVols = [];
+
+    var putMap = new Map();
+    var callMap = new Map();
+
+	var putVols;
+	var callVols;
+
+	var putDist; 
+	var callDist;
+
+    var mean;
+    var SD;
+
+    var putProb;
+    var callProb;
+
 
     for(var i = 0; i < data.length; i ++){	//traverse each date 
 
-    	date = data[i]
+    	date = data[i];
+
+    	console.log("----------------" + date[0] + "-----------------");
 
     	for(var j = 0; j < date[1].length; j ++){ //collect Volumes 
 
-    		putVols.push(date[1][j]["putVol"]);
-    		callVols.push(date[1][j]["callVol"]);
+    		putMap.set(date[1][j]["strike"], date[1][j]["putVol"]);
+    		callMap.set(date[1][j]["strike"], date[1][j]["callVol"]);
 
     	}
+  		
+  		//Calculate Distribution for puts
+  		putVols = Array.from(putMap.values());
+    	mean = getMean(putVols);
+    	SD = getSD(putVols);
+    	putDist = distributions.Normal(mean, SD);  
 
-    	var putOutliers = getOutliers(putVols, getSD(putVols));
-    	var callOutliers = getOutliers(callVols, getSD(callVols));
+    	//Calculate Distribution for calls
+    	callVols = Array.from(callMap.values());
+    	mean = getMean(callVols);
+    	SD = getSD(callVols);
+    	callDist = distributions.Normal(mean, SD);
 
 
-    	if(putOutliers.length != 0){
-    		console.log(date[0] + ": Put outliers found at " + putOutliers + " (option#, put Vol)");
+    	//Print Put Probabilities 
+    	for(var[s,v] of putMap){
+    		putProb = putDist.pdf(v);
+    		console.log("Strike: " + s + " PutVol: " + v + " Probability: " + putProb);
+
     	}
-
-    	if(callOutliers.length != 0){
-    		console.log(date[0] + ": Call outliers found at " + callOutliers + " (option#, call Vol)");
-    	}
-
-    	if(putOutliers.length == 0 && callOutliers.length == 0){
-    		console.log(date[0] + ": No outliers found ");
-    	}
-
-
-    	putVols = [];
-    	callVols = [];
-
+    	//Need to find way to loop through call and put probabilities at same time
+    	putMap.clear();
     }
 
 })
