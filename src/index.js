@@ -97,7 +97,8 @@ class OptionsCalculator extends React.Component{
   }
   
   onOk = () => {
-    this.setState({numOfLegs : this.state.numOfLegs+1})
+    this.setState({numOfLegs : this.state.optionsSelected.length})
+    console.log(this.state.optionsSelected)
     this.setAddLegModalVisible(false)
   }
 
@@ -106,19 +107,30 @@ class OptionsCalculator extends React.Component{
     for (var expiry of this.state.optionsChain){
       chain.push(
       <Panel header={expiry[0]}>
-        <Table dataSource = {expiry[1]} columns ={this.columns} pagination={false} size="small" scroll={{ y: 500 }} /> 
+        <Table dataSource = {expiry[1]} columns ={this.columns(expiry[0])} pagination={false} size="small" scroll={{ y: 500 }} /> 
       </Panel>);
     }
     return chain;
   }
 
-  columns = [
+  onHandleOptionLegChange = (needToAdd, isCall, strike, price, date) => {
+    console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
+    var option = [isCall, date, strike, price]
+    if(needToAdd){
+      this.setState({optionsSelected : [...this.state.optionsSelected, option]})
+    }
+    else{
+      this.setState({optionsSelected : this.state.optionsSelected.filter( (key) => !(key.include(isCall) || key.include(date) || key.include(strike)) )})
+    }
+  }
+
+  columns = (expiry) => { return [
     {
       title: '',
       dataIndex: 'callAction',
       width: '10%',
-      render: () =>
-      <Switch></Switch>
+      render: (text, row) =>
+      <Switch onChange = {(e) => {this.onHandleOptionLegChange(e, true, row.strike, row.call, expiry);}}></Switch>
     },
     {
       title: 'Call',
@@ -144,10 +156,10 @@ class OptionsCalculator extends React.Component{
     {
       title: '',
       dataIndex: 'putAction',
-      render: () =>
-      <Switch></Switch>
+      render: (text, row) =>
+      <Switch onChange = {(e) => {this.onHandleOptionLegChange(e, false, row.strike, row.call, expiry);}}></Switch>
     },
-  ];
+  ]}
 
   render() { return (
     <div className="StockSymbol">
