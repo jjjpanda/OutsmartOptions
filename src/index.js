@@ -118,7 +118,7 @@ class OptionsCalculator extends React.Component{
       dataIndex: 'callAction',
       width: '10%',
       render: () =>
-      <Radio></Radio>
+      <Switch></Switch>
     },
     {
       title: 'Call',
@@ -145,7 +145,7 @@ class OptionsCalculator extends React.Component{
       title: '',
       dataIndex: 'putAction',
       render: () =>
-      <Radio></Radio>
+      <Switch></Switch>
     },
   ];
 
@@ -167,7 +167,7 @@ class OptionsCalculator extends React.Component{
 
       <div className="optionsButtons">
           <div id= "addLegButton">
-            <Button icon="plus" onClick={() => this.setAddLegModalVisible(true)}>Add Leg</Button>
+            <Button icon="edit" onClick={() => this.setAddLegModalVisible(true)}>Edit Legs</Button>
             <div className="addLegButtonWrapper">
               <Modal
                 title="Add Leg"
@@ -232,8 +232,6 @@ class OptionsLeg extends React.Component {
           <div id= "contractBox"><Input placeholder="Contract" disabled/></div>
           <div id= "quantityInput"><Input id="quantity" placeholder="Enter..." onChange={(e) => this.handleChange(e)}/></div>
           <div id= "atPriceInput"><Input id="atPrice" placeholder="Enter..." onChange={(e) => this.handleChange(e)}/></div>
-          <div id= "editButton"><Button shape="circle" icon="edit" /></div>
-          <div id= "removeButton"><Button shape="circle" icon="delete" /></div>
         </div>
       </div>
     );
