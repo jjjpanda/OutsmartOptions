@@ -169,6 +169,18 @@ getStockHistoricalData: function(apikey, ticker, callback){
             }
         }
     );
+},
+
+getDividend: function(apikey, ticker, callback){
+    request({
+        method: 'get',
+        url: 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol='+ticker+'&apikey='+apikey,
+        }, 
+        (error, response, body) => {
+            body = JSON.parse(body)
+            
+        }
+    );
 }
 
 };
