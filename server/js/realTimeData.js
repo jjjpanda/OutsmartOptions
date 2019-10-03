@@ -122,7 +122,7 @@ getChain: function (apikey, ticker, expiration, index, callback){
                     strikes.push(option.strike)
                     newData.push({'strike':option.strike, 
                                 [option.type+"Bid"]:option.bid, 
-                                [option.type]:(option.bid+option.ask)/2, 
+                                [option.type]:((option.bid+option.ask)/2).toFixed(2),
                                 [option.type+"Ask"]:option.ask,
                                 [option.type+"Vol"]:option.vol,
                                 [option.type+"OI"]:option.oi
@@ -130,7 +130,7 @@ getChain: function (apikey, ticker, expiration, index, callback){
                 }
                 else{
                     newData.find(x => x.strike === option.strike)[option.type+"Bid"] = option.bid
-                    newData.find(x => x.strike === option.strike)[option.type] = (option.bid+option.ask)/2
+                    newData.find(x => x.strike === option.strike)[option.type] = ((option.bid+option.ask)/2).toFixed(2)
                     newData.find(x => x.strike === option.strike)[option.type+"Ask"] = option.ask
                     newData.find(x => x.strike === option.strike)[option.type+"Vol"] = option.vol
                     newData.find(x => x.strike === option.strike)[option.type+"OI"] = option.oi
