@@ -178,7 +178,7 @@ getDividend: function(apikey, ticker, callback){
         }, 
         (error, response, body) => {
             body = JSON.parse(body)
-            
+            callback(body)
         }
     );
 }
