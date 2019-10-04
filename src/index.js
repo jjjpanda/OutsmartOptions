@@ -23,6 +23,21 @@ const { Panel } = Collapse
 import "./css/logo.css";
 import "./css/calculator.less";
 
+fetch("/treasury",
+  {
+    method: "post", 
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+  .then(res => res.json())
+  .then(
+    (data) => {
+      console.log(data)
+    }
+  );
+
 class OptionsCalculator extends React.Component{
   constructor(props){
     super(props);
@@ -93,7 +108,8 @@ class OptionsCalculator extends React.Component{
     .then(res => res.json())
     .then(
       (data) => {
-        console.log(data)
+        //console.log(data)
+        this.setState({divYield : data.dividendAnnum/this.state.price})
       }
     );
 
@@ -367,14 +383,6 @@ class OptionsLeg extends React.Component {
   }
 }
 
-ReactDOM.render(
-  [
-    <img id = "logo" className = "spin" src={logo}></img>,
-    <h1 style={{paddingLeft:'60px'}}>Outsmart Options</h1>,
-    <OptionsCalculator />
-  ],
-  document.getElementById('root')
-);
 
 function mapToObject(map) {
   let obj = Object.create(null);
@@ -391,3 +399,12 @@ function objectToMap(object){
   }
   return map
 }
+
+ReactDOM.render(
+  [
+    <img id = "logo" className = "spin" src={logo}></img>,
+    <h1 style={{paddingLeft:'60px'}}>Outsmart Options</h1>,
+    <OptionsCalculator />
+  ],
+  document.getElementById('root')
+);
