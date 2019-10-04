@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 
 import logo from './img/logo.png'
 
+import * as optionsMath from './jsLib/optionsMathLibrary.js'
+import * as timeMath from './jsLib/timeLibrary.js'
+
 import {
   Input,
   version,
@@ -27,7 +30,7 @@ class OptionsCalculator extends React.Component{
       symbol:"", 
       price: 0,
       addLegModalVisible: false,
-      optionsChain: [['a',{}]],
+      optionsChain: [['Empty',{}]],
       optionsSelected: "",
       numOfLegs : 0
     };
@@ -53,6 +56,7 @@ class OptionsCalculator extends React.Component{
         this.setState({symbol : e, price : data.price, priceChange : data.change});
       }
     );
+
     fetch("/chain",
       {
         method: "post", 
@@ -66,18 +70,17 @@ class OptionsCalculator extends React.Component{
     .then( 
       (data) => {
         console.log(data)
+        data = data.filter((x)=>{
+          return [x[0], x[1].map((y)=>{
+              y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, 0,0);
+              y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, 0,0);
+              return y    
+          })]
+        })
         this.setState({optionsChain: data});
       }
     );
   };
-
-  addOption = e => {
-    this.setState({options : [...this.state.optionsSelected, e]})
-  }
-  
-  removeOption = e => {
-    this.setState({options : this.state.optionsSelected.filter(ele => {return ele.key !== e })})
-  }
 
   handleChange = e => {
     this.setState({[e.target.id]: e.target.value});
@@ -91,9 +94,14 @@ class OptionsCalculator extends React.Component{
   renderLegs() {
     var legs = []
     for (var i = 0; i < this.state.numOfLegs; i++){ 
-      legs.push(<OptionsLeg onCreate={this.addOption} onDelete={this.removeOption}/>);
+      legs.push(<OptionsLeg callback = {this.optionsSelectedMoreInfo} optionRepresented={this.state.optionsSelected[i]}/>);
     }
     return legs
+  }
+
+  optionsSelectedMoreInfo = (e) => {
+    console.log(e)
+    this.setState(state => ({optionsSelected: [...state.optionsSelected.filter(item => !(item.date==e.date && item.strike==e.strike && item.isCall==e.isCall)), e]}))
   }
   
   onOk = () => {
@@ -113,15 +121,45 @@ class OptionsCalculator extends React.Component{
     return chain;
   }
 
-  onHandleOptionLegChange = (needToAdd, isCall, strike, price, date) => {
+  onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv) => {
     console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
-    var option = [isCall, date, strike, price]
+    var option = {isCall:isCall, date:date, strike:strike, price:price, iv:iv}
     if(needToAdd){
       this.setState({optionsSelected : [...this.state.optionsSelected, option]})
     }
     else{
-      this.setState({optionsSelected : this.state.optionsSelected.filter( (key) => !(key.include(isCall) || key.include(date) || key.include(strike)) )})
+      this.setState({optionsSelected : this.state.optionsSelected.filter( (key) => !(key.isCall == isCall && key.date==date && key.strike == strike))})
     }
+  }
+
+  calculateProfits = () => {
+    var selectedOptions = this.state.optionsSelected
+    var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
+    for(var option of selectedOptions){
+      option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong,0,0, option.iv)  
+      option.profit = []
+      var d = timeMath.getCurrentDate();
+      while(timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d) > 0){
+        option.profit.push([timeMath.dateToString(d),rangeOfPrices.map(function(arr) {return arr.slice();})])
+        for(var price of option.profit[option.profit.length-1][1]){
+          price[1] = optionsMath.calculateOptionsPrice(timeMath.percentageOfYear(timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d)), price[0], option.strike, option.isCall, option.isLong,0, 0, option.iv) 
+          price[1] -= option.limitPrice * (option.isLong?1:-1)
+          price[1] *= option.quantity
+        }
+        d = timeMath.incrementOneDay(d)
+      }
+
+      //PROFIT AT EXPIRY
+      option.profit.push([timeMath.dateToString(d),rangeOfPrices.map(function(arr) {return arr.slice();})])
+      for(price of option.profit[option.profit.length-1][1]){
+          price[1] = optionsMath.calculateProfitAtExpiry(option.limitPrice, price[0], option.strike, option.isCall, option.isLong)
+          price[1] *= option.quantity
+      }
+
+    }
+    this.setState({optionsSelected : selectedOptions})
+
+    console.log(this.state)
   }
 
   columns = (expiry) => { return [
@@ -130,7 +168,7 @@ class OptionsCalculator extends React.Component{
       dataIndex: 'callAction',
       width: '10%',
       render: (text, row) =>
-      <Switch onChange = {(e) => {this.onHandleOptionLegChange(e, true, row.strike, row.call, expiry);}}></Switch>
+      <Switch onChange = {(e) => {this.onHandleOptionLegChange(e, true, row.strike, row.call, expiry, row.callIV);}}></Switch>
     },
     {
       title: 'Call',
@@ -157,7 +195,7 @@ class OptionsCalculator extends React.Component{
       title: '',
       dataIndex: 'putAction',
       render: (text, row) =>
-      <Switch onChange = {(e) => {this.onHandleOptionLegChange(e, false, row.strike, row.call, expiry);}}></Switch>
+      <Switch onChange = {(e) => {this.onHandleOptionLegChange(e, false, row.strike, row.put, expiry, row.putIV);}}></Switch>
     },
   ]}
 
@@ -191,7 +229,6 @@ class OptionsCalculator extends React.Component{
                 <Collapse accordion>
                   {this.renderOptionsChain()}
                 </Collapse>
-                <pre style={{height: '200px', overflowY: 'scroll'}}>{JSON.stringify(this.state.optionsChain, null, 1)}</pre>
               </Modal>
             </div>
 
@@ -199,7 +236,7 @@ class OptionsCalculator extends React.Component{
 
           <div id= "ivSkewButton"><Button icon="profile">IV Skew</Button></div>
           <div id= "strategyButton"><Button icon="fund">Strategy</Button></div>
-          <div id= "calculateButton"><Button type="primary">Calculate</Button></div>
+          <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" /></div>
         </div>
     </div>);
@@ -210,23 +247,30 @@ class OptionsCalculator extends React.Component{
 class OptionsLeg extends React.Component {
   constructor(props){
     super(props);
-    props.onCreate()
     this.state = {
-      buyOrWrite: true,
-      quantity: 0,
-      atPrice: 0,
+      isCall : props.optionRepresented.isCall,
+      date: props.optionRepresented.date,
+      strike: props.optionRepresented.strike,
+      price: props.optionRepresented.price,
+      iv: props.optionRepresented.iv,
+      isLong: true,
+      quantity: 1,
+      limitPrice: props.optionRepresented.price
     };
+    this.props.callback(this.state)
   }
 
   handleChange(e) {
     this.setState({[e.target.id]: e.target.value});
     console.log(this.state);
+    this.props.callback(this.state)
   }
 
   handleSwitchChange(checked) {
-    this.setState({buyOrWrite: checked})
+    this.setState({isLong: checked})
     console.log(`switch to ${checked}`);
     console.log(this.state);
+    this.props.callback(this.state)
   }
 
   render() { 
@@ -241,9 +285,11 @@ class OptionsLeg extends React.Component {
         </div>
         <div className="optionsInputs">
           <div id= "buyWriteSwitch"><Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={(e) => this.handleSwitchChange(e)}/></div>
-          <div id= "contractBox"><Input placeholder="Contract" disabled/></div>
-          <div id= "quantityInput"><Input id="quantity" placeholder="Enter..." onChange={(e) => this.handleChange(e)}/></div>
-          <div id= "atPriceInput"><Input id="atPrice" placeholder="Enter..." onChange={(e) => this.handleChange(e)}/></div>
+          <div id= "contractBox">
+            <Input placeholder="Contract" value={this.state.date + " " + this.state.strike + " " + (this.state.isCall?"C":"P")} disabled/>
+          </div>
+          <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={(e) => this.handleChange(e)}/></div>
+          <div id= "atPriceInput"><Input id="atPrice" placeholder={this.state.limitPrice} onChange={(e) => this.handleChange(e)}/></div>
         </div>
       </div>
     );
