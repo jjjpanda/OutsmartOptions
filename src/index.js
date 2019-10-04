@@ -159,7 +159,55 @@ class OptionsCalculator extends React.Component{
     }
     this.setState({optionsSelected : selectedOptions})
 
+    this.mergedOptions(selectedOptions)
+
     console.log(this.state)
+  }
+
+  mergedOptions = (selectedOptions) => {
+    
+    var mergedOptions = {'limitPrice':0, 'date':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':{}}    
+    for (var option of selectedOptions){
+        mergedOptions.limitPrice += (option.isLong ? 1 : -1) * option.limitPrice * option.quantity
+
+        mergedOptions.greeks.delta += option.greeks.delta * option.quantity
+        mergedOptions.greeks.gamma += option.greeks.gamma * option.quantity
+        mergedOptions.greeks.theta += option.greeks.theta * option.quantity
+        mergedOptions.greeks.vega += option.greeks.vega * option.quantity
+        mergedOptions.greeks.rho += option.greeks.rho * option.quantity
+    }
+
+    var optionsProfits = selectedOptions.map(o => o.profit)
+
+    mergedOptions.date = timeMath.dateToString(selectedOptions.map( o => timeMath.stringToDate(o.date) ).sort(timeMath.timeBetweenDates)[0])
+       
+    mergedOptions.percentProfit = []
+    mergedOptions.profit = this.mergeProfits(optionsProfits, mergedOptions.date) 
+    for(var day of mergedOptions.profit){
+        mergedOptions.percentProfit.push([day[0], []])
+        for(var price of day[1]){
+            mergedOptions.percentProfit[mergedOptions.percentProfit.length-1][1].push((price[0]).toFixed(2)
+                ,((price[1]).toFixed(2)+mergedOptions.limitPrice)/Math.abs(mergedOptions.limitPrice))
+        }
+    }
+
+    this.setState({mergedOptions: mergedOptions})
+  }
+
+  mergeProfits = (optionsProfits, expiry) => {
+    var profitMap = []
+    var d = timeMath.getCurrentDate()
+    var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
+    while(timeMath.timeBetweenDates(timeMath.stringToDate(expiry), d) > -1){
+        profitMap.push([timeMath.dateToString(d),rangeOfPrices.map(function(arr) {return arr.slice();})])
+        for(var price of profitMap[profitMap.length-1][1]){
+            for(var profitSet of optionsProfits){
+                price[1] += mapToObject(mapToObject(profitSet)[timeMath.dateToString(d)])[price[0]]
+            }
+        }
+        d = timeMath.incrementOneDay(d)
+    }
+    return profitMap
   }
 
   columns = (expiry) => { return [
@@ -239,6 +287,9 @@ class OptionsCalculator extends React.Component{
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" /></div>
         </div>
+        <pre>
+          {JSON.stringify(this.state.mergedOptions != undefined ?  this.state.mergedOptions.profit : "", null, 2)}
+        </pre>
     </div>);
     
   }
@@ -304,3 +355,19 @@ ReactDOM.render(
   ],
   document.getElementById('root')
 );
+
+function mapToObject(map) {
+  let obj = Object.create(null);
+  for (let [k,v] of map) {
+      obj[k] = v;
+  }
+  return obj;
+}
+
+function objectToMap(object){
+  var map = Object.entries(object)
+  for(var value of map){
+      value[1] = Object.entries(value[1])
+  }
+  return map
+}
