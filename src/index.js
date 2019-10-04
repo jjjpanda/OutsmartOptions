@@ -311,17 +311,20 @@ class OptionsLeg extends React.Component {
     this.props.callback(this.state)
   }
 
-  handleChange(e) {
-    this.setState({[e.target.id]: e.target.value});
+  handleChange = (e) => {
+    e.persist()
+    this.setState(() => ({[e.target.id]: e.target.value}),
+      () => {this.props.callback(this.state)}
+    );
     console.log(this.state);
-    this.props.callback(this.state)
   }
 
-  handleSwitchChange(checked) {
-    this.setState({isLong: checked})
-    console.log(`switch to ${checked}`);
-    console.log(this.state);
-    this.props.callback(this.state)
+  handleSwitchChange = (checked) => {
+    this.setState(() => ({isLong: checked}), 
+      () => {this.props.callback(this.state)}
+    )
+    //console.log(`switch to ${checked}`);
+    //console.log(this.state);
   }
 
   render() { 
@@ -335,12 +338,12 @@ class OptionsLeg extends React.Component {
           <div id= "atPriceHeading">At Price:</div>
         </div>
         <div className="optionsInputs">
-          <div id= "buyWriteSwitch"><Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={(e) => this.handleSwitchChange(e)}/></div>
+          <div id= "buyWriteSwitch"><Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/></div>
           <div id= "contractBox">
             <Input placeholder="Contract" value={this.state.date + " " + this.state.strike + " " + (this.state.isCall?"C":"P")} disabled/>
           </div>
-          <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={(e) => this.handleChange(e)}/></div>
-          <div id= "atPriceInput"><Input id="atPrice" placeholder={this.state.limitPrice} onChange={(e) => this.handleChange(e)}/></div>
+          <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
+          <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
         </div>
       </div>
     );
