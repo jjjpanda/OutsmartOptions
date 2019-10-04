@@ -80,6 +80,23 @@ class OptionsCalculator extends React.Component{
         this.setState({optionsChain: data});
       }
     );
+
+    fetch("/divYield",
+    {
+      method: "post", 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ticker: e})}
+    )
+    .then(res => res.json())
+    .then(
+      (data) => {
+        console.log(data)
+      }
+    );
+
   };
 
   handleChange = e => {
