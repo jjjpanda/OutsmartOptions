@@ -10,7 +10,10 @@ getYield: function (callback){
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
             //console.log(body)
-            callback(convert.xml2json(body))
+            data = (convert.xml2json(body))
+            
+            data = JSON.parse(data).elements[0].elements[4].elements[6].elements[0].elements.slice(2, 14).map(k => ({name: k.name, val: parseFloat(k.elements[0].text)}))
+            callback(data)
         }
         else{
             callback({'error':error, 'response':response.statusCode});
