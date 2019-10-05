@@ -14,7 +14,7 @@ import {
   Modal,
   Table,
   Collapse,
-  Radio,
+  Checkbox,
 } from 'antd';
 
 const { Search } = Input
@@ -72,6 +72,23 @@ class OptionsCalculator extends React.Component{
       }
     );
 
+    fetch("/divYield",
+    {
+      method: "post", 
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ticker: e})}
+    )
+    .then(res => res.json())
+    .then(
+      (data) => {
+        //console.log(data)
+        this.setState({divYield : data.dividendAnnum/this.state.price})
+      }
+    );
+
     fetch("/chain",
       {
         method: "post", 
@@ -87,29 +104,12 @@ class OptionsCalculator extends React.Component{
         console.log(data)
         data = data.filter((x)=>{
           return [x[0], x[1].map((y)=>{
-              y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, 0,0);
-              y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, 0,0);
+              y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, 0,this.state.divYield);
+              y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, 0,this.state.divYield);
               return y    
           })]
         })
         this.setState({optionsChain: data});
-      }
-    );
-
-    fetch("/divYield",
-    {
-      method: "post", 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ticker: e})}
-    )
-    .then(res => res.json())
-    .then(
-      (data) => {
-        //console.log(data)
-        this.setState({divYield : data.dividendAnnum/this.state.price})
       }
     );
 
@@ -155,6 +155,7 @@ class OptionsCalculator extends React.Component{
   }
 
   onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv) => {
+    console.log(needToAdd)
     console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
     var option = {isCall:isCall, date:date, strike:strike, price:price, iv:iv}
     if(needToAdd){
@@ -169,13 +170,13 @@ class OptionsCalculator extends React.Component{
     var selectedOptions = this.state.optionsSelected
     var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
     for(var option of selectedOptions){
-      option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong,0,0, option.iv)  
+      option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong,0,this.state.divYield, option.iv)  
       option.profit = []
       var d = timeMath.getCurrentDate();
       while(timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d) > 0){
         option.profit.push([timeMath.dateToString(d),rangeOfPrices.map(function(arr) {return arr.slice();})])
         for(var price of option.profit[option.profit.length-1][1]){
-          price[1] = optionsMath.calculateOptionsPrice(timeMath.percentageOfYear(timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d)), price[0], option.strike, option.isCall, option.isLong,0, 0, option.iv) 
+          price[1] = optionsMath.calculateOptionsPrice(timeMath.percentageOfYear(timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d)), price[0], option.strike, option.isCall, option.isLong,0, this.state.divYield, option.iv) 
           price[1] -= option.limitPrice * (option.isLong?1:-1)
           price[1] *= option.quantity
         }
@@ -190,14 +191,13 @@ class OptionsCalculator extends React.Component{
       }
 
     }
-    this.setState({optionsSelected : selectedOptions})
-
-    this.mergedOptions(selectedOptions)
-
-    console.log(this.state)
+    this.setState(() => ({optionsSelected : selectedOptions}), 
+    ()=>{
+      this.mergeOptions(selectedOptions)
+    })
   }
 
-  mergedOptions = (selectedOptions) => {
+  mergeOptions = (selectedOptions) => {
     
     var mergedOptions = {'limitPrice':0, 'date':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':{}}    
     for (var option of selectedOptions){
@@ -219,12 +219,19 @@ class OptionsCalculator extends React.Component{
     for(var day of mergedOptions.profit){
         mergedOptions.percentProfit.push([day[0], []])
         for(var price of day[1]){
-            mergedOptions.percentProfit[mergedOptions.percentProfit.length-1][1].push((price[0]).toFixed(2)
-                ,((price[1]).toFixed(2)+mergedOptions.limitPrice)/Math.abs(mergedOptions.limitPrice))
+            mergedOptions.percentProfit[mergedOptions.percentProfit.length-1][1].push(
+                [
+                  parseFloat((price[0]).toFixed(2))
+                  ,parseFloat(((price[1]).toFixed(2))+mergedOptions.limitPrice)/Math.abs(mergedOptions.limitPrice)
+                ]
+            )
         }
     }
 
-    this.setState({mergedOptions: mergedOptions})
+    this.setState(() => ({mergedOptions: mergedOptions}),
+    ()=>{
+      console.log(this.state)
+    })
   }
 
   mergeProfits = (optionsProfits, expiry) => {
@@ -249,7 +256,7 @@ class OptionsCalculator extends React.Component{
       dataIndex: 'callAction',
       width: '10%',
       render: (text, row) =>
-      <Switch onChange = {(e) => {this.onHandleOptionLegChange(e, true, row.strike, row.call, expiry, row.callIV);}}></Switch>
+      <Checkbox onChange = {(e) => {this.onHandleOptionLegChange(e.target.checked, true, row.strike, row.call, expiry, row.callIV);}}></Checkbox>
     },
     {
       title: 'Call',
@@ -276,7 +283,7 @@ class OptionsCalculator extends React.Component{
       title: '',
       dataIndex: 'putAction',
       render: (text, row) =>
-      <Switch onChange = {(e) => {this.onHandleOptionLegChange(e, false, row.strike, row.put, expiry, row.putIV);}}></Switch>
+      <Checkbox onChange = {(e) => {this.onHandleOptionLegChange(e.target.checked, false, row.strike, row.put, expiry, row.putIV);}}></Checkbox>
     },
   ]}
 
