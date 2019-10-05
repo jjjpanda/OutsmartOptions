@@ -327,9 +327,13 @@ class OptionsCalculator extends React.Component{
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" /></div>
         </div>
+        {
+        this.state.mergedOptions != undefined ? (<ProfitTable profitData={this.state.mergedOptions.profit} />) : 
+        (
         <pre>
           {JSON.stringify(this.state.mergedOptions != undefined ?  this.state.mergedOptions.profit : "", null, 2)}
         </pre>
+        )}
     </div>);
     
   }
@@ -390,6 +394,47 @@ class OptionsLeg extends React.Component {
   }
 }
 
+class ProfitTable extends React.Component {
+  constructor(props){
+    super(props);
+
+    this.dataConversion = this.dataConversion.bind(this)
+    this.columnCreation = this.columnCreation.bind(this)
+
+    this.state = {
+      columns: this.columnCreation(props.profitData),
+      dataConverted: this.dataConversion(props.profitData)
+    };
+  }
+  
+  dataConversion = (data) => {
+    var dataConverted = []
+    for(var i = 0, end = data[0][1].length; i < end; i++){
+      var o ={};
+      o['x'] = data[0][1][i][0]
+      for(var date of data){
+        o[date[0]] = date[1][i][1]
+      }
+      dataConverted.push(o)
+    }
+    return dataConverted
+  }
+
+  columnCreation = (data) => {
+    var columns = [{title: '', dataIndex:"x"}, ...data.map(key => ({
+      title: key[0],
+      dataIndex: key[0]
+    }))
+    ]
+    return columns
+  }
+
+  render() {
+    return (
+      <Table dataSource = {this.state.dataConverted} columns = {this.state.columns}/>
+    );
+  }
+}
 
 function mapToObject(map) {
   let obj = Object.create(null);
