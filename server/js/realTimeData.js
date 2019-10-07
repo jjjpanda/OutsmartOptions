@@ -180,7 +180,11 @@ getDividend: function(apikey, ticker, callback){
             body = JSON.parse(body)
             body = body["Monthly Adjusted Time Series"]
             dividend = {dividendAnnum:0}
-            keys = Object.keys(body)
+            if( body === undefined || body === null){
+                callback({yield: false})
+                return;
+            }
+            keys = Object.keys(body) 
             for (var i = 0, end=  keys.length; i < end; i++){
                 if(parseFloat(body[keys[i]]["7. dividend amount"]) != 0){
                     dividend.dividendAnnum = 4 * parseFloat(body[keys[i]]["7. dividend amount"])
