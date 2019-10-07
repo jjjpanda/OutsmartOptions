@@ -331,7 +331,7 @@ class OptionsCalculator extends React.Component{
         this.state.mergedOptions != undefined ? (<ProfitTable profitData={this.state.mergedOptions.profit} />) : 
         (
         <pre>
-          {JSON.stringify(this.state.mergedOptions != undefined ?  this.state.mergedOptions.profit : "", null, 2)}
+          {JSON.stringify(this.state.mergedOptions != undefined ?  this.state.mergedOptions.profit : undefined, null, 2)}
         </pre>
         )}
     </div>);
@@ -409,11 +409,11 @@ class ProfitTable extends React.Component {
   
   dataConversion = (data) => {
     var dataConverted = []
-    for(var i = 0, end = data[0][1].length; i < end; i++){
+    for(var i = data[0][1].length - 1, end = 0; i >= end; i--){
       var o ={};
-      o['x'] = data[0][1][i][0]
+      o['x'] = data[0][1][i][0].toFixed(2)
       for(var date of data){
-        o[date[0]] = date[1][i][1]
+        o[date[0]] = date[1][i][1].toFixed(2)
       }
       dataConverted.push(o)
     }
@@ -423,7 +423,8 @@ class ProfitTable extends React.Component {
   columnCreation = (data) => {
     var columns = [{title: '', dataIndex:"x"}, ...data.map(key => ({
       title: key[0],
-      dataIndex: key[0]
+      dataIndex: key[0],
+      render: (text) => {return (<div style= {{ color: parseFloat(text)>= 0 ? '#006400': '#ff3311'}}>{text}</div> )}
     }))
     ]
     return columns
@@ -431,7 +432,7 @@ class ProfitTable extends React.Component {
 
   render() {
     return (
-      <Table dataSource = {this.state.dataConverted} columns = {this.state.columns}/>
+      <Table dataSource = {this.state.dataConverted} columns = {this.state.columns} pagination={false} size="small" />
     );
   }
 }
