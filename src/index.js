@@ -166,6 +166,42 @@ class OptionsCalculator extends React.Component{
     }
   }
 
+  profitTableFormatting = () => {
+    this.setState((state) => 
+      ({
+        profitData: this.dataConversion(state.mergedOptions.profit)
+      })
+    )
+    this.setState((state) =>
+      ({
+        profitColumns: this.columnCreation(state.mergedOptions.profit)
+      })
+    )
+  }
+
+  dataConversion = (data) => {
+    var dataConverted = []
+    for(var i = data[0][1].length - 1, end = 0; i >= end; i--){
+      var o ={};
+      o['x'] = data[0][1][i][0].toFixed(2)
+      for(var date of data){
+        o[date[0]] = date[1][i][1].toFixed(2)
+      }
+      dataConverted.push(o)
+    }
+    return dataConverted
+  }
+
+  columnCreation = (data) => {
+    var columns = [{title: '', dataIndex:"x"}, ...data.map(key => ({
+      title: key[0],
+      dataIndex: key[0],
+      render: (text) => {return (<div style= {{ color: parseFloat(text)>= 0 ? '#006400': '#ff3311'}}>{text}</div> )}
+    }))
+    ]
+    return columns
+  }
+
   calculateProfits = () => {
     var selectedOptions = this.state.optionsSelected
     var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
@@ -230,6 +266,7 @@ class OptionsCalculator extends React.Component{
 
     this.setState(() => ({mergedOptions: mergedOptions}),
     ()=>{
+      this.profitTableFormatting()
       console.log(this.state)
     })
   }
@@ -328,7 +365,7 @@ class OptionsCalculator extends React.Component{
           <div id= "saveButton"><Button shape="circle" icon="save" /></div>
         </div>
         {
-        this.state.mergedOptions != undefined ? (<ProfitTable profitData={this.state.mergedOptions.profit} />) : 
+        this.state.mergedOptions != undefined ? (<Table dataSource={this.state.profitData} columns={this.state.profitColumns} pagination={false} size="small" />) : 
         (
         <pre>
           {JSON.stringify(this.state.mergedOptions != undefined ?  this.state.mergedOptions.profit : undefined, null, 2)}
@@ -390,49 +427,6 @@ class OptionsLeg extends React.Component {
           <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
         </div>
       </div>
-    );
-  }
-}
-
-class ProfitTable extends React.Component {
-  constructor(props){
-    super(props);
-
-    this.dataConversion = this.dataConversion.bind(this)
-    this.columnCreation = this.columnCreation.bind(this)
-
-    this.state = {
-      columns: this.columnCreation(props.profitData),
-      dataConverted: this.dataConversion(props.profitData)
-    };
-  }
-  
-  dataConversion = (data) => {
-    var dataConverted = []
-    for(var i = data[0][1].length - 1, end = 0; i >= end; i--){
-      var o ={};
-      o['x'] = data[0][1][i][0].toFixed(2)
-      for(var date of data){
-        o[date[0]] = date[1][i][1].toFixed(2)
-      }
-      dataConverted.push(o)
-    }
-    return dataConverted
-  }
-
-  columnCreation = (data) => {
-    var columns = [{title: '', dataIndex:"x"}, ...data.map(key => ({
-      title: key[0],
-      dataIndex: key[0],
-      render: (text) => {return (<div style= {{ color: parseFloat(text)>= 0 ? '#006400': '#ff3311'}}>{text}</div> )}
-    }))
-    ]
-    return columns
-  }
-
-  render() {
-    return (
-      <Table dataSource = {this.state.dataConverted} columns = {this.state.columns} pagination={false} size="small" />
     );
   }
 }
