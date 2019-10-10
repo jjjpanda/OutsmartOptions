@@ -55,7 +55,7 @@ class OptionsCalculator extends React.Component{
         data.price = 0;
         data.change = 0;
       }
-      this.setState({symbol : e, price : data.price, priceChange : data.change}, 
+      this.setState(() => ({symbol : e, price : data.price, priceChange : data.change}), 
         console.log(this.state)); 
     })
 
@@ -332,12 +332,9 @@ class OptionsCalculator extends React.Component{
 class StockSymbol extends React.Component {
   constructor(props){
     super(props);
-    console.log(props)
   }
 
   render() {
-    
-    console.log(this.props)
     return (
       <div>
         <div className = "stockHeadings">
