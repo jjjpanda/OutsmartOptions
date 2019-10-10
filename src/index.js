@@ -26,7 +26,6 @@ import logo from './img/logo.png'
 //CSS
 import "./css/logo.css";
 import "./css/calculator.less";
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 //Treasury Yields
 post.fetchReq('/treasury', '', (data) => {
