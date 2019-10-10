@@ -48,12 +48,15 @@ class OptionsCalculator extends React.Component{
 
   onSearch = e => {
     //console.log(e);
-    this.setState({ symbol: e, price : 0, priceChange: 0});
     
     post.fetchReq('/price', JSON.stringify({ticker: e}), (data) => {
       console.log(data);
       console.log(this.state);
-      this.setState({symbol : e, price : (data.price === undefined) ? 0:data.price, priceChange : (data.price === undefined) ? 0:data.change}); 
+      if (data.price == undefined){
+        data.price = 0;
+        data.change = 0;
+      }
+      this.setState({symbol : e, price : data.price, priceChange : data.change}); 
     })
 
     post.fetchReq('/divYield', JSON.stringify({ticker: e}), (data) => {
