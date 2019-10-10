@@ -9,7 +9,7 @@ function hexColorFromPercent(percentGain){
         return colorToHex(255, 510*(percentGain-0.5), 510*(percentGain-0.5))
     }
     else if(percentGain <= 4 && percentGain > 1){
-        return colorToHex((-255/3)*(percentGain-1) + 255 , 255 , (-255/3)*(percentGain-1) + 255 )
+        return colorToHex((-255/3)*(percentGain-1) + 255, 255, (-255/3)*(percentGain-1) + 255)
     }
     else if(percentGain > 4){
         return colorToHex(0, Math.max(80, 255 - (25*percentGain)), 0)
