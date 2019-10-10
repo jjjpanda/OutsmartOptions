@@ -1,11 +1,6 @@
+//Dependencies
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import logo from './img/logo.png'
-
-import * as optionsMath from './jsLib/optionsMathLibrary.js'
-import * as timeMath from './jsLib/timeLibrary.js'
-
 import {
   Input,
   version,
@@ -16,27 +11,26 @@ import {
   Collapse,
   Checkbox,
 } from 'antd';
-
 const { Search } = Input
 const { Panel } = Collapse
 
+//JS Libraries
+import * as optionsMath from './jsLib/optionsMathLibrary.js'
+import * as timeMath from './jsLib/timeLibrary.js'
+import * as structure from './jsLib/structuresEditingLibrary.js'
+import * as post from './jsLib/fetchLibrary.js'
+
+//Files
+import logo from './img/logo.png'
+
+//CSS
 import "./css/logo.css";
 import "./css/calculator.less";
 
-fetch("/treasury",
-  {
-    method: "post", 
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    }
-  })
-  .then(res => res.json())
-  .then(
-    (data) => {
-      console.log(data)
-    }
-  );
+//Treasury Yields
+post.fetchReq('/treasury', '', (data) => {
+  console.log(data)
+})
 
 class OptionsCalculator extends React.Component{
   constructor(props){
@@ -54,64 +48,27 @@ class OptionsCalculator extends React.Component{
   onSearch = e => {
     //console.log(e);
     this.setState({ symbol: e, price : 0 });
-    fetch("/price",
-      {
-        method: "post", 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ticker: e})}
-    )
-    .then(res => res.json())
-    .then( 
-      (data) => {
-        console.log(data);
-        console.log(this.state);
-        this.setState({symbol : e, price : data.price, priceChange : data.change});
-      }
-    );
+    
+    post.fetchReq('/price', JSON.stringify({ticker: e}), (data) => {
+      console.log(data);
+      console.log(this.state);
+      this.setState({symbol : e, price : data.price, priceChange : data.change}); 
+    })
 
-    fetch("/divYield",
-    {
-      method: "post", 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ticker: e})}
-    )
-    .then(res => res.json())
-    .then(
-      (data) => {
-        //console.log(data)
-        this.setState({divYield : data.dividendAnnum/this.state.price})
-      }
-    );
+    post.fetchReq('/divYield', JSON.stringify({ticker: e}), (data) => {
+      this.setState({divYield : data.dividendAnnum/this.state.price})
+    })
 
-    fetch("/chain",
-      {
-        method: "post", 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ticker: e})}
-    )
-    .then(res => res.json())
-    .then( 
-      (data) => {
-        console.log(data)
-        data = data.filter((x)=>{
-          return [x[0], x[1].map((y)=>{
-              y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, 0,this.state.divYield);
-              y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, 0,this.state.divYield);
-              return y    
-          })]
-        })
-        this.setState({optionsChain: data});
-      }
-    );
+    post.fetchReq('/chain', JSON.stringify({ticker: e}), (data) => {
+      data = data.filter((x)=>{
+        return [x[0], x[1].map((y)=>{
+            y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, 0,this.state.divYield);
+            y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, 0,this.state.divYield);
+            return y    
+        })]
+      })
+      this.setState({optionsChain: data});
+    })
 
   };
 
@@ -279,7 +236,7 @@ class OptionsCalculator extends React.Component{
         profitMap.push([timeMath.dateToString(d),rangeOfPrices.map(function(arr) {return arr.slice();})])
         for(var price of profitMap[profitMap.length-1][1]){
             for(var profitSet of optionsProfits){
-                price[1] += mapToObject(mapToObject(profitSet)[timeMath.dateToString(d)])[price[0]]
+                price[1] += structure.mapToObject(structure.mapToObject(profitSet)[timeMath.dateToString(d)])[price[0]]
             }
         }
         d = timeMath.incrementOneDay(d)
@@ -325,17 +282,9 @@ class OptionsCalculator extends React.Component{
   ]}
 
   render() { return (
-    <div className="StockSymbol">
-      <div className = "stockHeadings">
-        <div id= "stockSymbolHeading">Stock Symbol:</div>
-        <div id= "stockPriceHeading">Stock Price:</div>
-        <div id= "priceChangeHeading">Stock Price Change:</div>
-      </div>
-      <div className="stockInputs">
-        <div id="stockSymbolInput"><Search placeholder="Enter..." onSearch={this.onSearch}/></div>
-        <div id="stockPriceBox"><Input placeholder={"$"+this.state.price} disabled/></div>
-        <div id="priceChangeBox"><Input placeholder={this.state.priceChange+"%"} disabled/></div>
-      </div>
+    <div>
+      <StockSymbol onSearch={this.onSearch} price={this.state.price} priceChange={this.state.priceChange}/>
+      
       <hr id="hr" align='left'/>
 
       <div className="optionsList">{this.renderLegs()}</div>
@@ -373,6 +322,29 @@ class OptionsCalculator extends React.Component{
         )}
     </div>);
     
+  }
+}
+
+class StockSymbol extends React.Component {
+  constructor(props){
+    super(props)
+  }
+
+  render() {
+    return (
+      <div>
+        <div className = "stockHeadings">
+          <div id= "stockSymbolHeading">Stock Symbol:</div>
+          <div id= "stockPriceHeading">Stock Price:</div>
+          <div id= "priceChangeHeading">Stock Price Change:</div>
+        </div>
+        <div className="stockInputs">
+          <div id="stockSymbolInput"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
+          <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
+          <div id="priceChangeBox"><Input placeholder={this.props.priceChange+"%"} disabled/></div>
+        </div>
+      </div>
+    );
   }
 }
 
@@ -429,22 +401,6 @@ class OptionsLeg extends React.Component {
       </div>
     );
   }
-}
-
-function mapToObject(map) {
-  let obj = Object.create(null);
-  for (let [k,v] of map) {
-      obj[k] = v;
-  }
-  return obj;
-}
-
-function objectToMap(object){
-  var map = Object.entries(object)
-  for(var value of map){
-      value[1] = Object.entries(value[1])
-  }
-  return map
 }
 
 ReactDOM.render(
