@@ -26,6 +26,7 @@ import logo from './img/logo.png'
 //CSS
 import "./css/logo.css";
 import "./css/calculator.less";
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 //Treasury Yields
 post.fetchReq('/treasury', '', (data) => {
@@ -36,7 +37,8 @@ class OptionsCalculator extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      symbol:"", 
+      symbol:"",
+      priceChange: 0, 
       price: 0,
       addLegModalVisible: false,
       optionsChain: [['Empty',{}]],
@@ -47,11 +49,15 @@ class OptionsCalculator extends React.Component{
 
   onSearch = e => {
     //console.log(e);
-    this.setState({ symbol: e, price : 0 });
+    this.setState({ symbol: e, price : 0, priceChange: 0});
     
     post.fetchReq('/price', JSON.stringify({ticker: e}), (data) => {
       console.log(data);
       console.log(this.state);
+      if (data.price == undefined){
+        data.price = 0;
+        data.change = 0;
+      }
       this.setState({symbol : e, price : data.price, priceChange : data.change}); 
     })
 
@@ -327,7 +333,7 @@ class OptionsCalculator extends React.Component{
 
 class StockSymbol extends React.Component {
   constructor(props){
-    super(props)
+    super(props);
   }
 
   render() {
