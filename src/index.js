@@ -25,6 +25,7 @@ import logo from './img/logo.png'
 
 //CSS
 import "./css/logo.css";
+import "./"
 import "./css/calculator.less";
 
 //Treasury Yields
@@ -300,6 +301,7 @@ class OptionsCalculator extends React.Component{
               <Modal
                 title="Add Leg"
                 centered
+                width = "1"
                 visible={this.state.addLegModalVisible}
                 onOk={this.onOk}
                 onCancel={() => this.setAddLegModalVisible(false)}
