@@ -93,6 +93,7 @@ getChain: function (apikey, ticker, expiration, index, callback){
         //console.log(response.statusCode);
         if(!error && response.statusCode == 200){
             body = JSON.parse(body).options
+            /*
             if(body.option != undefined){
                 body = body.option;
                 //console.log(body)
@@ -100,9 +101,10 @@ getChain: function (apikey, ticker, expiration, index, callback){
                 ask = body.map(a => a.ask)
                 strike = body.map(a => a.strike)
                 vol = body.map(a => a.volume)
+                avol = body.map(a => a.average_volume)
                 oi = body.map(a => a.open_interest)
                 type = body.map(a => a.option_type)
-                data = zip([type, strike, bid, ask, vol, oi]) 
+                data = zip([type, strike, bid, ask, vol, avol, oi]) 
             }
             data = data.map(function(x){
                 return {
@@ -111,9 +113,24 @@ getChain: function (apikey, ticker, expiration, index, callback){
                     bid: x[2],
                     ask: x[3],
                     vol: x[4],
-                    oi: x[5]
+                    avol: x[5],
+                    oi: x[6]
                 };
             });
+            */
+            var data;
+            if(body.option != undefined){
+                body = body.option;
+                data = body.map(a => ({
+                    type: a.option_type,
+                    strike: a.strike,
+                    bid: a.bid,
+                    ask: a.ask,
+                    vol: a.volume,
+                    //avol: a.average_volume,
+                    oi: a.open_interest
+                }))
+            }
             //REFACTOR
             newData = []
             strikes = []
@@ -125,6 +142,7 @@ getChain: function (apikey, ticker, expiration, index, callback){
                                 [option.type]:((option.bid+option.ask)/2).toFixed(2),
                                 [option.type+"Ask"]:option.ask,
                                 [option.type+"Vol"]:option.vol,
+                                //[option.type+"AvgVol"]:option.avol,
                                 [option.type+"OI"]:option.oi
                             })
                 }
@@ -133,6 +151,7 @@ getChain: function (apikey, ticker, expiration, index, callback){
                     newData.find(x => x.strike === option.strike)[option.type] = ((option.bid+option.ask)/2).toFixed(2)
                     newData.find(x => x.strike === option.strike)[option.type+"Ask"] = option.ask
                     newData.find(x => x.strike === option.strike)[option.type+"Vol"] = option.vol
+                    //newData.find(x => x.strike === option.strike)[option.type+"AvgVol"] = option.avol
                     newData.find(x => x.strike === option.strike)[option.type+"OI"] = option.oi
                 }
             }
