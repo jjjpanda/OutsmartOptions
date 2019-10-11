@@ -401,6 +401,7 @@ class OptionsLeg extends React.Component {
           </div>
           <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
+          <div id= "removeButton"><Button shape="circle" icon="delete"/></div>
         </div>
       </div>
     );
