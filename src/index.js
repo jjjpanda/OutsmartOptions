@@ -57,7 +57,7 @@ class OptionsCalculator extends React.Component{
         data.change = 0;
       }
       this.setState(() => ({symbol : e, price : data.price, priceChange : data.change}), 
-        console.log(this.state)); 
+        () => {console.log(this.state)}); 
     })
 
     post.fetchReq('/divYield', JSON.stringify({ticker: e}), (data) => {
@@ -72,7 +72,7 @@ class OptionsCalculator extends React.Component{
             return y    
         })]
       })
-      this.setState({optionsChain: data});
+      this.setState(() => ({optionsChain: data}), () => {console.log(this.state)});
     })
 
   };
