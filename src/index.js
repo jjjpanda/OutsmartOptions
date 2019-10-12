@@ -42,8 +42,7 @@ class OptionsCalculator extends React.Component{
       price: 0,
       addLegModalVisible: false,
       optionsChain: [['Empty',{}]],
-      optionsSelected: "",
-      numOfLegs : 0
+      optionsSelected: ""
     };
   }
 
@@ -88,8 +87,8 @@ class OptionsCalculator extends React.Component{
 
   renderLegs() {
     var legs = []
-    for (var i = 0; i < this.state.numOfLegs; i++){ 
-      legs.push(<OptionsLeg callback = {this.optionsSelectedMoreInfo} optionRepresented={this.state.optionsSelected[i]}/>);
+    for (var i = 0; i < this.state.optionsSelected.length; i++){ 
+      legs.push(<OptionsLeg callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={this.state.optionsSelected[i]}/>);
     }
     return legs
   }
@@ -100,7 +99,6 @@ class OptionsCalculator extends React.Component{
   }
   
   onOk = () => {
-    this.setState({numOfLegs : this.state.optionsSelected.length})
     console.log(this.state.optionsSelected)
     this.setAddLegModalVisible(false)
   }
@@ -116,15 +114,22 @@ class OptionsCalculator extends React.Component{
     return chain;
   }
 
+  addOption = (isCall, strike, price, date, iv) => {
+    this.setState((state) => ({optionsSelected : [...state.optionsSelected, {isCall:isCall, date:date, strike:strike, price:price, iv:iv}]}))
+  }
+
+  deleteOption = (isCall, strike, date) => {
+    this.setState((state) => ({optionsSelected : state.optionsSelected.filter( (key) => !(key.isCall == isCall && key.date==date && key.strike == strike))}))
+  }
+
   onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv) => {
-    console.log(needToAdd)
-    console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
-    var option = {isCall:isCall, date:date, strike:strike, price:price, iv:iv}
+    //console.log(needToAdd)
+    //console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
     if(needToAdd){
-      this.setState({optionsSelected : [...this.state.optionsSelected, option]})
+      this.addOption(isCall, strike, price, date, iv)
     }
     else{
-      this.setState({optionsSelected : this.state.optionsSelected.filter( (key) => !(key.isCall == isCall && key.date==date && key.strike == strike))})
+      this.deleteOption(isCall, strike, date)
     }
   }
 
@@ -375,7 +380,7 @@ class OptionsLeg extends React.Component {
     this.setState(() => ({[e.target.id]: e.target.value}),
       () => {this.props.callback(this.state)}
     );
-    console.log(this.state);
+    //console.log(this.state);
   }
 
   handleSwitchChange = (checked) => {
@@ -403,7 +408,7 @@ class OptionsLeg extends React.Component {
           </div>
           <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
-          <div id= "removeButton"><Button shape="circle" icon="delete"/></div>
+          <div id= "removeButton"><Button shape="circle" icon="delete" onClick={() => {this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date)}}/></div>
         </div>
       </div>
     );
