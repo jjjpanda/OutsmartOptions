@@ -35,55 +35,56 @@ post.fetchReq('/treasury', '', (data) => {
 })
 
 const mockGraphData = [
-  {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-  {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-  {name: 'Page C', uv: -1000, pv: 9800, amt: 2290},
-  {name: 'Page D', uv: 500, pv: 3908, amt: 2000},
-  {name: 'Page E', uv: -2000, pv: 4800, amt: 2181},
-  {name: 'Page F', uv: -250, pv: 3800, amt: 2500},
-  {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
+  {x: '1', y: 4000},
+  {x: '2', y: 3000},
+  {x: '3', y: -1000},
+  {x: '4', y: 500},
+  {x: '5', y: -2000},
+  {x: '6', y: -250},
+  {x: '7', y: 3490},
 ];
-
-const gradientOffset = () => {
-  const dataMax = Math.max(...mockGraphData.map((i) => i.uv));
-  const dataMin = Math.min(...mockGraphData.map((i) => i.uv));
-
-  if (dataMax <= 0){
-  	return 0
-  }
-  else if (dataMin >= 0){
-  	return 1
-  }
-  else{
-  	return dataMax / (dataMax - dataMin);
-  }
-}
-
-const off = gradientOffset();
 
 class SimpleAreaChart extends React.Component{
   constructor(props){
     super(props)
   }
+
+  gradientOffset = () => {
+    const dataMax = Math.max(...this.props.data.map((i) => i[this.props.y]));
+    const dataMin = Math.min(...this.props.data.map((i) => i[this.props.y]));
+  
+    if (dataMax <= 0){
+      return 0
+    }
+    else if (dataMin >= 0){
+      return 1
+    }
+    else{
+      return dataMax / (dataMax - dataMin);
+    }
+  }
+
+  offset = this.gradientOffset();
+
 	render () {
   	return (
     	<LineChart
         width={600}
         height={400}
-        data={mockGraphData}
+        data={this.props.data}
         margin={{top: 10, right: 30, left: 0, bottom: 0}}
       >
         <CartesianGrid strokeDasharray="3 3"/>
-        <XAxis dataKey="name"/>
+        <XAxis dataKey={this.props.x}/>
         <YAxis/>
         <defs>
           <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
-            <stop offset={off} stopColor="green" stopOpacity={1}/>
-            <stop offset={off} stopColor="red" stopOpacity={1}/>
+            <stop offset={this.offset} stopColor="green" stopOpacity={1}/>
+            <stop offset={this.offset} stopColor="red" stopOpacity={1}/>
           </linearGradient>
         </defs>
         <Tooltip/>
-        <Line type="monotone" dataKey="uv" stroke="#000" stroke="url(#splitColor)" />
+        <Line type="monotone" dataKey={this.props.y} stroke="#000" stroke="url(#splitColor)" />
       </LineChart>
     );
   }
@@ -490,7 +491,7 @@ ReactDOM.render(
     <img key="mainLogo" id = "logo" className = "spin" src={logo}></img>,
     <h1 key = "mainTitle" style={{paddingLeft:'60px'}}>Outsmart Options</h1>,
     <OptionsCalculator key="theVoiceOfThePeople"/>,
-    <SimpleAreaChart key='mockGraph'/>
+    <SimpleAreaChart key='mockGraph' data={mockGraphData} x={"x"} y={"y"}/>
   ],
   document.getElementById('root')
 );
