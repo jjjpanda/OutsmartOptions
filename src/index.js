@@ -110,7 +110,21 @@ class OptionsCalculator extends React.Component{
   }
 
   resortOptionsSelected = () => {
-    this.setState((state) => ({optionsSelected : [...state.optionsSelected].sort((a, b) => {return (b.strike - a.strike)})}), () => console.log(this.state))
+    this.setState((state) => ({optionsSelected : [...state.optionsSelected].sort((a, b) => {
+      var t = timeMath.timeBetweenDates(timeMath.stringToDate(a.date),timeMath.stringToDate(b.date))
+      if(t>0){
+        return 1;
+      }
+      else if(t<0){
+        return -1;
+      }
+      if(a.strike < b.strike){
+        return 1;
+      }
+      else if(b.strike < a.strike){
+        return -1;
+      }
+    })}), () => console.log(this.state))
   }
 
   addOption = (isCall, strike, price, date, iv) => {
