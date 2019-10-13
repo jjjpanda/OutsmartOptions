@@ -143,7 +143,8 @@ getChain: function (apikey, ticker, expiration, index, callback){
                                 [option.type+"Ask"]:option.ask,
                                 [option.type+"Vol"]:option.vol,
                                 //[option.type+"AvgVol"]:option.avol,
-                                [option.type+"OI"]:option.oi
+                                [option.type+"OI"]:option.oi,
+                                'key': expiration[index]+option.strike
                             })
                 }
                 else{

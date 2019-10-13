@@ -42,7 +42,7 @@ class OptionsCalculator extends React.Component{
       price: 0,
       addLegModalVisible: false,
       optionsChain: [['Empty',{}]],
-      optionsSelected: ""
+      optionsSelected: []
     };
   }
 
@@ -86,40 +86,39 @@ class OptionsCalculator extends React.Component{
   }
 
   renderLegs() {
-    var legs = []
-    for (var i = 0; i < this.state.optionsSelected.length; i++){ 
-      legs.push(<OptionsLeg callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={this.state.optionsSelected[i]}/>);
-    }
-    return legs
+    return this.state.optionsSelected.map((option) => (
+      <OptionsLeg key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
+    ));
   }
 
   optionsSelectedMoreInfo = (e) => {
     console.log(e)
-    this.setState(state => ({optionsSelected: [...state.optionsSelected.filter(item => !(item.date==e.date && item.strike==e.strike && item.isCall==e.isCall)), e]}))
+    this.setState(state => ({optionsSelected: [...state.optionsSelected.filter(item => !(item.key==e.key)), e]}), this.resortOptionsSelected)
   }
   
   onOk = () => {
-    console.log(this.state.optionsSelected)
+    //console.log(this.state.optionsSelected)
     this.setAddLegModalVisible(false)
   }
 
   renderOptionsChain = () => {
-    var chain = []
-    for (var expiry of this.state.optionsChain){
-      chain.push(
-      <Panel header={expiry[0]}>
-        <Table dataSource = {expiry[1]} columns ={this.columns(expiry[0])} pagination={false} size="small" scroll={{ y: 500 }} /> 
-      </Panel>);
-    }
-    return chain;
+    return this.state.optionsChain.map(e => (
+      <Panel key = {e[0]+"_expiries"} header={e[0]}>
+        <Table dataSource = {e[1]} columns ={this.columns(e[0])} pagination={false} size="small" scroll={{ y: 500 }} /> 
+      </Panel>
+    ))
+  }
+
+  resortOptionsSelected = () => {
+    this.setState((state) => ({optionsSelected : [...state.optionsSelected].sort((a, b) => {return (b.strike - a.strike)})}), () => console.log(this.state))
   }
 
   addOption = (isCall, strike, price, date, iv) => {
-    this.setState((state) => ({optionsSelected : [...state.optionsSelected, {isCall:isCall, date:date, strike:strike, price:price, iv:iv}]}))
+    this.setState((state) => ({optionsSelected : [...state.optionsSelected, {key: date+strike+isCall, isCall:isCall, date:date, strike:strike, price:price, iv:iv}]}), this.resortOptionsSelected)
   }
 
   deleteOption = (isCall, strike, date) => {
-    this.setState((state) => ({optionsSelected : state.optionsSelected.filter( (key) => !(key.isCall == isCall && key.date==date && key.strike == strike))}))
+    this.setState((state) => ({optionsSelected : state.optionsSelected.filter( (e) => !(e.key == date+strike+isCall))}))
   }
 
   onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv) => {
@@ -363,6 +362,7 @@ class OptionsLeg extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      key: props.optionRepresented.date + props.optionRepresented.strike + props.optionRepresented.isCall,
       isCall : props.optionRepresented.isCall,
       date: props.optionRepresented.date,
       strike: props.optionRepresented.strike,
@@ -417,9 +417,9 @@ class OptionsLeg extends React.Component {
 
 ReactDOM.render(
   [
-    <img id = "logo" className = "spin" src={logo}></img>,
-    <h1 style={{paddingLeft:'60px'}}>Outsmart Options</h1>,
-    <OptionsCalculator />
+    <img key="mainLogo" id = "logo" className = "spin" src={logo}></img>,
+    <h1 key = "mainTitle" style={{paddingLeft:'60px'}}>Outsmart Options</h1>,
+    <OptionsCalculator key="theVoiceOfThePeople"/>
   ],
   document.getElementById('root')
 );
