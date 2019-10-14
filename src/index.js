@@ -34,17 +34,7 @@ post.fetchReq('/treasury', '', (data) => {
   console.log(data)
 })
 
-const mockGraphData = [
-  {x: '1', y: 4000},
-  {x: '2', y: 3000},
-  {x: '3', y: -1000},
-  {x: '4', y: 500},
-  {x: '5', y: -2000},
-  {x: '6', y: -250},
-  {x: '7', y: 3490},
-];
-
-class SimpleAreaChart extends React.Component{
+class ProfitGraph extends React.Component{
   constructor(props){
     super(props)
   }
@@ -56,15 +46,28 @@ class SimpleAreaChart extends React.Component{
     if (dataMax <= 0){
       return 0
     }
-    else if (dataMin >= 0){
+    else if (dataMin > 0){
       return 1
     }
     else{
-      return dataMax / (dataMax - dataMin);
+      return Math.abs(dataMax) / Math.abs(dataMax - dataMin);
     }
   }
 
-  offset = this.gradientOffset();
+  colorOfLine = () => {
+    const arr = this.props.data.map((i) => i[this.props.y])
+    if(arr.every(e => e === arr[0])){
+      if(arr[0] > 0){
+        return 'green'
+      }
+      else {
+        return 'red'
+      }
+    }
+    else{
+      return "url(#splitColor)"
+    }
+  }
 
 	render () {
   	return (
@@ -79,12 +82,12 @@ class SimpleAreaChart extends React.Component{
         <YAxis/>
         <defs>
           <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
-            <stop offset={this.offset} stopColor="green" stopOpacity={1}/>
-            <stop offset={this.offset} stopColor="red" stopOpacity={1}/>
+            <stop offset={this.gradientOffset()} stopColor="green" stopOpacity={1}/>
+            <stop stopColor="red" stopOpacity={1}/>
           </linearGradient>
         </defs>
         <Tooltip/>
-        <Line type="monotone" dataKey={this.props.y} stroke="#000" stroke="url(#splitColor)" />
+        <Line type="monotone" dataKey={this.props.y} stroke={this.colorOfLine()} />
       </LineChart>
     );
   }
@@ -179,6 +182,12 @@ class OptionsCalculator extends React.Component{
         return 1;
       }
       else if(b.strike < a.strike){
+        return -1;
+      }
+      if(a.isCall){
+        return 1;
+      }
+      else{
         return -1;
       }
     })}), () => console.log(this.state))
@@ -399,7 +408,7 @@ class OptionsCalculator extends React.Component{
           this.state.mergedOptions != undefined ? 
           (
             <div>
-              <SimpleAreaChart data={this.state.mergedOptions.profit[this.state.mergedOptions.profit.length-1][1].map(e => {return {x: e[0], y:e[1]}})} x={"x"} y={"y"}/>
+              <ProfitGraph data={this.state.mergedOptions.profit[this.state.mergedOptions.profit.length-1][1].map(e => {return {x: e[0], y:e[1]}})} x={"x"} y={"y"}/>
               <hr />
               <Table dataSource={this.state.profitData} columns={this.state.profitColumns} pagination={false} size="small" />
             </div>
