@@ -394,13 +394,22 @@ class OptionsCalculator extends React.Component{
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" /></div>
         </div>
-        {
-        this.state.mergedOptions != undefined ? (<Table dataSource={this.state.profitData} columns={this.state.profitColumns} pagination={false} size="small" />) : 
-        (
-        <pre>
-          {JSON.stringify(this.state.mergedOptions != undefined ?  this.state.mergedOptions.profit : undefined, null, 2)}
-        </pre>
-        )}
+        <br />
+        <div>{
+          this.state.mergedOptions != undefined ? 
+          (
+            <div>
+              <SimpleAreaChart data={this.state.mergedOptions.profit[this.state.mergedOptions.profit.length-1][1].map(e => {return {x: e[0], y:e[1]}})} x={"x"} y={"y"}/>
+              <hr />
+              <Table dataSource={this.state.profitData} columns={this.state.profitColumns} pagination={false} size="small" />
+            </div>
+          ): 
+          (
+            <pre>
+              {JSON.stringify(this.state.mergedOptions != undefined ?  this.state.mergedOptions.profit : undefined, null, 2)}
+            </pre>
+          )
+        }</div>
     </div>);
     
   }
@@ -491,7 +500,7 @@ ReactDOM.render(
     <img key="mainLogo" id = "logo" className = "spin" src={logo}></img>,
     <h1 key = "mainTitle" style={{paddingLeft:'60px'}}>Outsmart Options</h1>,
     <OptionsCalculator key="theVoiceOfThePeople"/>,
-    <SimpleAreaChart key='mockGraph' data={mockGraphData} x={"x"} y={"y"}/>
+    //<SimpleAreaChart key='mockGraph' data={mockGraphData} x={"x"} y={"y"}/>
   ],
   document.getElementById('root')
 );
