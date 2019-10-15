@@ -26,72 +26,12 @@ import logo from './img/logo.png'
 
 //CSS
 import "./css/logo.css";
-import "./"
 import "./css/calculator.less";
 
 //Treasury Yields
 post.fetchReq('/treasury', '', (data) => {
   console.log(data)
 })
-
-class ProfitGraph extends React.Component{
-  constructor(props){
-    super(props)
-  }
-
-  gradientOffset = () => {
-    const dataMax = Math.max(...this.props.data.map((i) => i[this.props.y]));
-    const dataMin = Math.min(...this.props.data.map((i) => i[this.props.y]));
-  
-    if (dataMax <= 0){
-      return 0
-    }
-    else if (dataMin > 0){
-      return 1
-    }
-    else{
-      return Math.abs(dataMax) / Math.abs(dataMax - dataMin);
-    }
-  }
-
-  colorOfLine = () => {
-    const arr = this.props.data.map((i) => i[this.props.y])
-    if(arr.every(e => e === arr[0])){
-      if(arr[0] > 0){
-        return 'green'
-      }
-      else {
-        return 'red'
-      }
-    }
-    else{
-      return "url(#splitColor)"
-    }
-  }
-
-	render () {
-  	return (
-    	<LineChart
-        width={600}
-        height={400}
-        data={this.props.data}
-        margin={{top: 10, right: 30, left: 0, bottom: 0}}
-      >
-        <CartesianGrid strokeDasharray="3 3"/>
-        <XAxis dataKey={this.props.x}/>
-        <YAxis/>
-        <defs>
-          <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
-            <stop offset={this.gradientOffset()} stopColor="green" stopOpacity={1}/>
-            <stop stopColor="red" stopOpacity={1}/>
-          </linearGradient>
-        </defs>
-        <Tooltip/>
-        <Line type="monotone" dataKey={this.props.y} stroke={this.colorOfLine()} />
-      </LineChart>
-    );
-  }
-}
 
 class OptionsCalculator extends React.Component{
   constructor(props){
@@ -194,11 +134,11 @@ class OptionsCalculator extends React.Component{
   }
 
   addOption = (isCall, strike, price, date, iv) => {
-    this.setState((state) => ({optionsSelected : [...state.optionsSelected, {key: date+strike+isCall, isCall:isCall, date:date, strike:strike, price:price, iv:iv}]}), this.resortOptionsSelected)
+    this.setState((state) => ({optionsSelected : [...state.optionsSelected, {key: date+strike+(isCall?"C":"P"), isCall:isCall, date:date, strike:strike, price:price, iv:iv}]}), this.resortOptionsSelected)
   }
 
   deleteOption = (isCall, strike, date) => {
-    this.setState((state) => ({optionsSelected : state.optionsSelected.filter( (e) => !(e.key == date+strike+isCall))}))
+    this.setState((state) => ({optionsSelected : state.optionsSelected.filter( (e) => !(e.key == date+strike+(isCall?"C":"P")))}))
   }
 
   onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv) => {
@@ -215,7 +155,7 @@ class OptionsCalculator extends React.Component{
   profitTableFormatting = () => {
     this.setState((state) => 
       ({
-        profitData: this.dataConversion(state.mergedOptions.profit)
+        profitTableData: this.dataToTableConversion(state.mergedOptions.profit)
       })
     )
     this.setState((state) =>
@@ -225,7 +165,15 @@ class OptionsCalculator extends React.Component{
     )
   }
 
-  dataConversion = (data) => {
+  profitGraphFormatting = () => {
+    this.setState((state) =>
+      ({
+        profitGraphData: this.dataToGraphConversion(state.optionsSelected.map(option => {return {profit:option.profit, key:option.key}}))
+      })
+    ,()=>console.log(this.state))
+  }
+
+  dataToTableConversion = (data) => {
     var dataConverted = []
     for(var i = data[0][1].length - 1, end = 0; i >= end; i--){
       var o ={};
@@ -248,8 +196,34 @@ class OptionsCalculator extends React.Component{
     return columns
   }
 
+  dataToGraphConversion = (data) => {
+    var dataConverted = []
+    var keyNameObj = {x:0}
+    for(var option of data){
+      for(var i = data[0].profit.length - 1, factor = Math.round(data[0].profit.length / 7) + 1; i >= 0; i-=factor){
+        keyNameObj[option.key+"a"+option.profit[i][0]] = 0;
+      }
+    }
+    for(var j = 0; j < data[0].profit[0][1].length; j++){
+      //console.log(option.key+ option.profit[i][0]+ option.profit[i][1][j])
+      dataConverted.push({...keyNameObj})
+      dataConverted[dataConverted.length - 1].x = data[0].profit[0][1][j][0]
+    }
+    for(var option of data){
+      for(var i = data[0].profit.length - 1, factor = Math.round(data[0].profit.length / 7) + 1; i >= 0; i-=factor){
+        for(var j = 0; j < data[0].profit[i][1].length; j++){
+          dataConverted[j][option.key+"a"+option.profit[i][0]] = option.profit[i][1][j][1]
+        }
+      }
+    }
+    return dataConverted
+  }
+
   calculateProfits = () => {
     var selectedOptions = this.state.optionsSelected
+    if(selectedOptions.length <= 0){
+      return;
+    }
     var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
     for(var option of selectedOptions){
       option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong,0,this.state.divYield, option.iv)  
@@ -309,6 +283,8 @@ class OptionsCalculator extends React.Component{
             )
         }
     }
+
+    this.profitGraphFormatting()
 
     this.setState(() => ({mergedOptions: mergedOptions}),
     ()=>{
@@ -408,9 +384,9 @@ class OptionsCalculator extends React.Component{
           this.state.mergedOptions != undefined ? 
           (
             <div>
-              <ProfitGraph data={this.state.mergedOptions.profit[this.state.mergedOptions.profit.length-1][1].map(e => {return {x: e[0], y:e[1]}})} x={"x"} y={"y"}/>
+              <ProfitGraph data={this.state.profitGraphData} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
               <hr />
-              <Table dataSource={this.state.profitData} columns={this.state.profitColumns} pagination={false} size="small" />
+              <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} size="small" />
             </div>
           ): 
           (
@@ -451,7 +427,7 @@ class OptionsLeg extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      key: props.optionRepresented.date + props.optionRepresented.strike + props.optionRepresented.isCall,
+      key: props.optionRepresented.date + props.optionRepresented.strike + (props.optionRepresented.isCall?"C":"P"),
       isCall : props.optionRepresented.isCall,
       date: props.optionRepresented.date,
       strike: props.optionRepresented.strike,
@@ -500,6 +476,99 @@ class OptionsLeg extends React.Component {
           <div id= "removeButton"><Button shape="circle" icon="delete" onClick={() => {this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date)}}/></div>
         </div>
       </div>
+    );
+  }
+}
+
+
+class ProfitGraph extends React.Component{
+  constructor(props){
+    super(props)
+    var legs = Array.from(new Set(props.keys.map(a=> a.substring(0, a.indexOf("a")))))
+    var dates = Array.from(new Set(props.keys.map(a=> a.substring(a.indexOf("a")+1))))
+    this.legAddition = this.legAddition.bind(this)
+    this.state = {
+      data: this.legAddition(props.data, dates, legs),
+      keys: props.keys, 
+      legs: legs,
+      dates: dates
+    }
+  }
+
+  legAddition = (data, dates, legs) => {
+    for(var date of dates){
+      for(var point of data){
+        point[date] = 0
+        for(var leg of legs){
+          point[date] += point[leg+'a'+date]
+        }
+      }
+    }
+    console.log(data)
+    return data
+  }
+
+  gradientOffset = (data, y) => {
+    const dataMax = Math.max(...data.map((i) => i[y]));
+    const dataMin = Math.min(...data.map((i) => i[y]));
+    
+    if (dataMax <= 0){
+      return 0
+    }
+    else if (dataMin > 0){
+      return 1
+    }
+    else{
+      return Math.abs(dataMax) / Math.abs(dataMax - dataMin);
+    }
+  }
+
+  colorOfLine = (data, y) => {
+    const arr = data.map((i) => i[y])
+    if(arr.every(e => e === arr[0])){
+      if(arr[0] > 0){
+        return 'green'
+      }
+      else {
+        return 'red'
+      }
+    }
+    else{
+      return "url(#splitColor" + y + ")"
+    }
+  }
+
+  renderLines = () => {
+    var arr=[]   
+    for( var date of this.state.dates){
+      arr.push((<defs>
+        <linearGradient id={"splitColor"+date} x1="0" y1="0" x2="0" y2="1">
+          <stop offset={this.gradientOffset(this.state.data, date)} stopColor="green" stopOpacity={1}/>
+          <stop stopColor="red" stopOpacity={1}/>
+        </linearGradient>
+      </defs>
+      ))
+      arr.push((
+        <Line type="monotone" dot={false} dataKey={date} stroke={this.colorOfLine(this.state.data, date)} />
+      ))
+    }
+    return arr
+  }
+
+	render () {
+  	return (
+    	<LineChart
+        width={600}
+        height={400}
+        data={this.state.data}
+        margin={{top: 10, right: 30, left: 0, bottom: 0}}
+      >
+        <CartesianGrid strokeDasharray="3 3"/>
+        <XAxis dataKey={'x'}/>
+        <YAxis/>
+        {this.renderLines()}
+        <Tooltip/>
+      </LineChart>
     );
   }
 }
