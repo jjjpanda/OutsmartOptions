@@ -384,7 +384,7 @@ class OptionsCalculator extends React.Component{
           this.state.mergedOptions != undefined ? 
           (
             <div>
-              <ProfitGraph data={this.state.profitGraphData} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
+              <ProfitGraph key={this.state.mergedOptions} data={this.state.profitGraphData} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
               <hr />
               <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} size="small" />
             </div>
@@ -488,7 +488,7 @@ class ProfitGraph extends React.Component{
     var dates = Array.from(new Set(props.keys.map(a=> a.substring(a.indexOf("a")+1))))
     this.legAddition = this.legAddition.bind(this)
     this.state = {
-      data: this.legAddition(props.data, dates, legs),
+      data: this.legAddition([...props.data], dates, legs),
       keys: props.keys, 
       legs: legs,
       dates: dates
@@ -504,7 +504,6 @@ class ProfitGraph extends React.Component{
         }
       }
     }
-    console.log(data)
     return data
   }
 
@@ -577,8 +576,7 @@ ReactDOM.render(
   [
     <img key="mainLogo" id = "logo" className = "spin" src={logo}></img>,
     <h1 key = "mainTitle" style={{paddingLeft:'60px'}}>Outsmart Options</h1>,
-    <OptionsCalculator key="theVoiceOfThePeople"/>,
-    //<SimpleAreaChart key='mockGraph' data={mockGraphData} x={"x"} y={"y"}/>
+    <OptionsCalculator key="theVoiceOfThePeople"/>
   ],
   document.getElementById('root')
 );
