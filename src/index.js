@@ -10,6 +10,7 @@ import {
   Table,
   Collapse,
   Checkbox,
+  Icon,
 } from 'antd';
 const { Search } = Input
 const { Panel } = Collapse
@@ -38,6 +39,7 @@ class OptionsCalculator extends React.Component{
     super(props);
     this.state = {
       symbol:"",
+      exists: true,
       priceChange: 0, 
       price: 0,
       addLegModalVisible: false,
@@ -48,12 +50,14 @@ class OptionsCalculator extends React.Component{
 
   onSearch = e => {
     //console.log(e);
+    this.setState({exists: true})
     
     post.fetchReq('/price', JSON.stringify({ticker: e}), (data) => {
       console.log(data);
       if (data.price === undefined){
         data.price = 0;
         data.change = 0;
+        this.setState({exists: false});
       }
       this.setState(() => ({symbol : e, price : data.price, priceChange : data.change}), 
         () => {console.log(this.state)}); 
@@ -348,7 +352,7 @@ class OptionsCalculator extends React.Component{
 
   render() { return (
     <div>
-      <StockSymbol onSearch={this.onSearch} price={this.state.price} priceChange={this.state.priceChange}/>
+      <StockSymbol onSearch={this.onSearch} price={this.state.price} priceChange={this.state.priceChange} exists={this.state.exists}/>
       
       <hr id="hr" align='left'/>
 
@@ -384,7 +388,9 @@ class OptionsCalculator extends React.Component{
           this.state.mergedOptions != undefined ? 
           (
             <div>
-              <ProfitGraph key={this.state.mergedOptions} data={this.state.profitGraphData} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
+              <div className="profitGraphWrapper">
+                <ProfitGraph key={this.state.mergedOptions} data={this.state.profitGraphData} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
+              </div>
               <hr />
               <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} size="small" />
             </div>
@@ -414,7 +420,10 @@ class StockSymbol extends React.Component {
           <div id= "priceChangeHeading">Stock Price Change:</div>
         </div>
         <div className="stockInputs">
-          <div id="stockSymbolInput"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
+          <div id="stockSymbolInput">
+            <Search placeholder="Enter..." onSearch={this.props.onSearch}/>
+          </div>
+          <div id="exists">{this.props.exists ? null:(<Icon  type="close-circle" />)}</div>
           <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
           <div id="priceChangeBox"><Input placeholder={this.props.priceChange+"%"} disabled/></div>
         </div>
