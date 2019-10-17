@@ -137,6 +137,8 @@ class OptionsCalculator extends React.Component{
     })}), () => console.log(this.state))
   }
 
+
+
   addOption = (isCall, strike, price, date, iv) => {
     this.setState((state) => ({optionsSelected : [...state.optionsSelected, {key: date+strike+(isCall?"C":"P"), isCall:isCall, date:date, strike:strike, price:price, iv:iv}]}), this.resortOptionsSelected)
   }
@@ -175,6 +177,18 @@ class OptionsCalculator extends React.Component{
         profitGraphData: this.dataToGraphConversion(state.optionsSelected.map(option => {return {profit:option.profit, key:option.key}}))
       })
     ,()=>console.log(this.state))
+  }
+
+  legAddition = (data, dates, legs) => {
+    for(var date of dates){
+      for(var point of data){
+        point[date] = 0
+        for(var leg of legs){
+          point[date] += point[leg+'a'+date]
+        }
+      }
+    }
+    return data
   }
 
   dataToTableConversion = (data) => {
@@ -389,7 +403,7 @@ class OptionsCalculator extends React.Component{
           (
             <div>
               <div className="profitGraphWrapper">
-                <ProfitGraph key={this.state.mergedOptions} data={this.state.profitGraphData} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
+                <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
               </div>
               <hr />
               <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} size="small" />
@@ -493,27 +507,31 @@ class OptionsLeg extends React.Component {
 class ProfitGraph extends React.Component{
   constructor(props){
     super(props)
-    var legs = Array.from(new Set(props.keys.map(a=> a.substring(0, a.indexOf("a")))))
-    var dates = Array.from(new Set(props.keys.map(a=> a.substring(a.indexOf("a")+1))))
-    this.legAddition = this.legAddition.bind(this)
+    var legs = Array.from(new Set(props.keys.map(a=> a.substring(0, a.indexOf("a"))))).filter(a => a!="")
+    var dates = Array.from(new Set(props.keys.map(a=> a.substring(a.indexOf("a")+1)))).filter(a => a!="")
     this.state = {
-      data: this.legAddition([...props.data], dates, legs),
+      data: props.legAddition(props.data, dates, legs),
       keys: props.keys, 
       legs: legs,
       dates: dates
     }
   }
 
-  legAddition = (data, dates, legs) => {
-    for(var date of dates){
-      for(var point of data){
-        point[date] = 0
-        for(var leg of legs){
-          point[date] += point[leg+'a'+date]
-        }
+  static getDerivedStateFromProps(props, state){
+    console.log(props)
+    if(props !== state){
+      var legs = Array.from(new Set(props.keys.map(a=> a.substring(0, a.indexOf("a"))))).filter(a => a!="")
+      var dates = Array.from(new Set(props.keys.map(a=> a.substring(a.indexOf("a")+1)))).filter(a => a!="")
+      return {
+        data: props.legAddition(props.data, dates, legs),
+        keys: props.keys, 
+        legs: legs,
+        dates: dates
       }
     }
-    return data
+    else{
+      return null;
+    }
   }
 
   gradientOffset = (data, y) => {
