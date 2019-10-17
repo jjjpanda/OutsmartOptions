@@ -69,9 +69,10 @@ class OptionsCalculator extends React.Component{
 
     post.fetchReq('/chain', JSON.stringify({ticker: e}), (data) => {
       data = data.filter((x)=>{
-        return [x[0], x[1].map((y)=>{
+        return [x[0], x[1].map((y, index)=>{
             y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, 0,this.state.divYield);
             y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, 0,this.state.divYield);
+            y['atmNess'] = x[1][index+1] != undefined ? ( (x[1][index].strike < this.state.price && x[1][index+1].strike > this.state.price) ? "atmStrike" : "" ) : ""; 
             return y    
         })]
       })
@@ -108,7 +109,9 @@ class OptionsCalculator extends React.Component{
   renderOptionsChain = () => {
     return this.state.optionsChain.map(e => (
       <Panel key = {e[0]+"_expiries"} header={e[0]}>
-        <Table dataSource = {e[1]} columns ={this.columns(e[0])} pagination={false} size="small" scroll={{ y: 500 }} /> 
+        <Table dataSource = {e[1]} columns ={this.columns(e[0])} 
+          rowClassName={(record) => record.atmNess} 
+          pagination={false} size="small" scroll={{ y: 500 }} /> 
       </Panel>
     ))
   }
