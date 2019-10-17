@@ -549,14 +549,29 @@ class ProfitGraph extends React.Component{
     }
   }
 
-  colorOfLine = (data, y) => {
+  opacities = (dates) => {
+    var opacities = {} 
+    for (var date of dates){
+      opacities[date] = timeMath.timeBetweenDates(timeMath.stringToDate(date), timeMath.getCurrentDate())
+    }
+    console.log(opacities)
+    var minOpacity = Math.min(...Object.values(opacities))
+    var maxOpacity = Math.max(...Object.values(opacities))
+    for (var date of dates){
+      opacities[date] -= minOpacity - (maxOpacity-minOpacity)/2
+      opacities[date] /= (maxOpacity-minOpacity)
+    }
+    return opacities
+  }
+
+  colorOfLine = (data, y, opacity) => {
     const arr = data.map((i) => i[y])
     if(arr.every(e => e === arr[0])){
       if(arr[0] > 0){
-        return 'green'
+        return '#00ff00' + Math.round(opacity*255).toString(16)
       }
       else {
-        return 'red'
+        return '#ff0000' + Math.round(opacity*255).toString(16)
       }
     }
     else{
@@ -565,17 +580,20 @@ class ProfitGraph extends React.Component{
   }
 
   renderLines = () => {
+
+    var opacities = this.opacities(this.state.dates)
+
     var arr=[]   
     for( var date of this.state.dates){
       arr.push((<defs>
         <linearGradient id={"splitColor"+date} x1="0" y1="0" x2="0" y2="1">
-          <stop offset={this.gradientOffset(this.state.data, date)} stopColor="green" stopOpacity={1}/>
-          <stop stopColor="red" stopOpacity={1}/>
+          <stop offset={this.gradientOffset(this.state.data, date)} stopColor="green" stopOpacity={opacities[date]}/>
+          <stop stopColor="red" stopOpacity={opacities[date]}/>
         </linearGradient>
       </defs>
       ))
       arr.push((
-        <Line type="monotone" dot={false} dataKey={date} stroke={this.colorOfLine(this.state.data, date)} />
+        <Line type="monotone" dot={false} dataKey={date} stroke={this.colorOfLine(this.state.data, date, opacities[date])} />
       ))
     }
     return arr
