@@ -14,7 +14,7 @@ import {
 } from 'antd';
 const { Search } = Input
 const { Panel } = Collapse
-import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line} from 'recharts';
+import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend} from 'recharts';
 
 //JS Libraries
 import * as optionsMath from './jsLib/optionsMathLibrary.js'
@@ -516,25 +516,38 @@ class ProfitGraph extends React.Component{
       data: props.legAddition(props.data, dates, legs),
       keys: props.keys, 
       legs: legs,
-      dates: dates
+      dates: dates,
+      disabledDates : []
     }
   }
 
   static getDerivedStateFromProps(props, state){
-    console.log(props)
-    if(props !== state){
+    if(props.keys !== state.keys){
       var legs = Array.from(new Set(props.keys.map(a=> a.substring(0, a.indexOf("a"))))).filter(a => a!="")
       var dates = Array.from(new Set(props.keys.map(a=> a.substring(a.indexOf("a")+1)))).filter(a => a!="")
       return {
         data: props.legAddition(props.data, dates, legs),
         keys: props.keys, 
         legs: legs,
-        dates: dates
+        dates: dates,
+        disabledDates : []
       }
     }
     else{
       return null;
     }
+  }
+
+  disableDate = (event) => {
+    this.setState((state)=> {
+      if(state.disabledDates.includes(event.dataKey)){
+        return ({disabledDates : state.disabledDates.filter(a => a != event.dataKey)})
+      }
+      else{
+        return ({disabledDates : [...state.disabledDates, event.dataKey]})
+      }
+    }
+    )
   }
 
   gradientOffset = (data, y) => {
@@ -554,10 +567,14 @@ class ProfitGraph extends React.Component{
 
   opacities = (dates) => {
     var opacities = {} 
+    if(dates.length == 1){
+      opacities[dates[0]] = 1;
+      return opacities
+    }
     for (var date of dates){
       opacities[date] = timeMath.timeBetweenDates(timeMath.stringToDate(date), timeMath.getCurrentDate())
     }
-    console.log(opacities)
+    //console.log(opacities)
     var minOpacity = Math.min(...Object.values(opacities))
     var maxOpacity = Math.max(...Object.values(opacities))
     for (var date of dates){
@@ -571,10 +588,10 @@ class ProfitGraph extends React.Component{
     const arr = data.map((i) => i[y])
     if(arr.every(e => e === arr[0])){
       if(arr[0] > 0){
-        return '#00ff00' + Math.round(opacity*255).toString(16)
+        return '#008000' + ("00"+Math.round(opacity*255).toString(16)).substr(-2)
       }
       else {
-        return '#ff0000' + Math.round(opacity*255).toString(16)
+        return '#ff0000' + ("00"+Math.round(opacity*255).toString(16)).substr(-2)
       }
     }
     else{
@@ -584,6 +601,10 @@ class ProfitGraph extends React.Component{
 
   renderLines = () => {
 
+    console.log(this.state.dates)
+    console.log(this.state.disabledDates)
+    console.log(this.state.dates.filter(a => !this.state.disabledDates.includes(a)))
+    
     var opacities = this.opacities(this.state.dates)
 
     var arr=[]   
@@ -596,7 +617,7 @@ class ProfitGraph extends React.Component{
       </defs>
       ))
       arr.push((
-        <Line type="monotone" dot={false} dataKey={date} stroke={this.colorOfLine(this.state.data, date, opacities[date])} />
+        <Line name = {date} type="monotone" dot={false} hide={this.state.disabledDates.includes(date)} dataKey={date} stroke={this.colorOfLine(this.state.data, date, opacities[date])} />
       ))
     }
     return arr
@@ -614,6 +635,7 @@ class ProfitGraph extends React.Component{
         <XAxis dataKey={'x'}/>
         <YAxis/>
         {this.renderLines()}
+        <Legend onClick= {this.disableDate} align="left" verticalAlign="middle" layout="vertical" />
         <Tooltip/>
       </LineChart>
     );
