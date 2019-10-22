@@ -431,17 +431,19 @@ class StockSymbol extends React.Component {
   render() {
     return (
       <div>
-        <div className = "stockHeadings">
+        <div className = "stockSymbol">
           <div id= "stockSymbolHeading">Stock Symbol:</div>
-          <div id= "stockPriceHeading">Stock Price:</div>
-          <div id= "priceChangeHeading">Stock Price Change:</div>
-        </div>
-        <div className="stockInputs">
           <div id="stockSymbolInput">
-            <Search placeholder="Enter..." onSearch={this.props.onSearch}/>
+              <div id="andyNguyen"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
+            <div id="exists">{this.props.exists ? null:(<Icon  type="close-circle" />)}</div>
           </div>
-          <div id="exists">{this.props.exists ? null:(<Icon  type="close-circle" />)}</div>
+        </div>
+        <div className="stockPrice">
+          <div id= "stockPriceHeading">Stock Price:</div> 
           <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
+        </div>
+        <div className="stockPriceChange">
+          <div id= "priceChangeHeading">Stock Price Change:</div>
           <div id="priceChangeBox"><Input placeholder={this.props.priceChange+"%"} disabled/></div>
         </div>
       </div>
@@ -500,6 +502,7 @@ class OptionsLeg extends React.Component {
           <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
           <div id= "removeButton"><Button shape="circle" icon="delete" onClick={() => {this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date)}}/></div>
+          <div id= "disableButton"><Button shape="circle" icon="stop" onClick={() => {}}/></div>
         </div>
       </div>
     );

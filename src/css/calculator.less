@@ -1,36 +1,58 @@
 html, body, #root { height: 100%; width: 100%; margin: 0; }
 
 /* Stock Input Boxes and Labels */
-.stockHeadings > div {
+.stockSymbol {
     display: inline-block;
+
+    #stockSymbolHeading {
     padding-left: 60px;
+    }
+
+    #stockSymbolInput {
+        padding-left: 60px;
+        width: 100%;
+    }
+
+    #andyNguyen {
+        display: inline-block;
+        width: 40%;
+    }    
+    #exists {
+        display: inline-block;
+        padding-left: 5px;
+        color: red;
+    }
 }
 
-#stockSymbolInput  {
+.stockPrice {
     display: inline-block;
-    padding-left: 4.25%;
-    width: 150px;
+
+    #stockPriceBox  {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+    }
 }
 
-#exists {
+
+
+.stockPriceChange {
     display: inline-block;
-    padding-left: 1%;
-    color: red;
+    
+    #priceChangeHeading {
+        padding-left: 60px;
+    }
+
+    #priceChangeBox  {
+        position: relative;
+        display: inline-block;
+        left: 30.4%;
+        width: 150px;
+    }
 }
 
-#stockPriceBox  {
-    position: absolute;
-    display: inline-block;
-    left: 14.75%;
-    width: 100px;
-}
 
-#priceChangeBox  {
-    position: absolute;
-    display: inline-block;
-    left: 24.4%;
-    width: 150px;
-}
+
 
 #hr {
     margin-left: 60px;
@@ -104,6 +126,11 @@ html, body, #root { height: 100%; width: 100%; margin: 0; }
     padding-left: 20px;
 }
 
+#disableButton {
+    display: inline-block;
+    padding-left: 20px;
+}
+
 /* Options Buttons */
 .optionsHeadings > div {
     display: inline-block;
@@ -115,10 +142,6 @@ html, body, #root { height: 100%; width: 100%; margin: 0; }
     padding-left: 60px;
     margin-top: 20px;
 
-}
-
-.atmStrike {
-    background-color: lightgray;
 }
 
 #ivSkewButton  {
