@@ -1,5 +1,5 @@
 //Finds outliers in volume for each strike price per expiration.
-//Compares the PDF of each strike price with to its % of total volume for the expiry.
+//Compares the PDF of each strike price to its % of total volume for the expiry.
 //An outlier's % of total volume will differ signifigantly from its PDF
 
 
@@ -52,7 +52,6 @@ function getOutliers(strikes, vols, mean, std, dataset){
 	for(var i = 0; i < strikes.length; i ++){
 		pdf = getPDF(strikes[i], mean, std);
 		prob = vols[i] / volSum;
-		strikes[i].status = "boofed";
 	}
 }
 
@@ -72,7 +71,7 @@ function setDistribution(strikes, vols){
 //Main
 const fs = require('fs');
 
-fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/data.json', 'utf8', (err, jsonString) => {	//file path for data here
+fs.readFile('your/data/here/data.json', 'utf8', (err, jsonString) => {	//file path for data here
     if (err) {
         console.log("File read failed:", err)
         return
@@ -119,7 +118,7 @@ fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/data.json', 'utf8', (err, json
 			ratio = putVols[i] / volSum;
 
 			if(ratio > pdf * 2){	//THRESHOLD FOR OUTLIER
-				dataset[exp][1][i].status = "fucked";
+				dataset[exp][1][i].status = "BRUH";
 			}
 			console.log(dataset[exp][1][i]);
 		}
@@ -135,7 +134,7 @@ fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/data.json', 'utf8', (err, json
 			ratio = putVols[i] / volSum;
 
 			if(ratio > pdf * 2){	//THRESHOLD FOR OUTLIER
-				dataset[exp][1][i].status = "fucked";
+				dataset[exp][1][i].status = "BRUH";
 			}
 			console.log(dataset[exp][1][i]);
 		}
