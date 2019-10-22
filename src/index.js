@@ -59,7 +59,7 @@ class OptionsCalculator extends React.Component{
         data.change = 0;
         this.setState({exists: false});
       }
-      this.setState(() => ({symbol : e, price : data.price, priceChange : data.change}), 
+      this.setState(() => ({symbol : e, price : data.price, priceChange : data.change, optionsSelected: []}), 
         () => {console.log(this.state)}); 
     })
 
@@ -336,7 +336,7 @@ class OptionsCalculator extends React.Component{
       dataIndex: 'callAction',
       width: '10%',
       render: (text, row) =>
-      <Checkbox onChange = {(e) => {this.onHandleOptionLegChange(e.target.checked, true, row.strike, row.call, expiry, row.callIV);}}></Checkbox>
+      <Checkbox checked= {this.state.optionsSelected.some(option => option.key === expiry+row.strike+"C") || false} onChange = {(e) => {this.onHandleOptionLegChange(e.target.checked, true, row.strike, row.call, expiry, row.callIV);}}></Checkbox>
     },
     {
       title: 'Call',
@@ -363,7 +363,7 @@ class OptionsCalculator extends React.Component{
       title: '',
       dataIndex: 'putAction',
       render: (text, row) =>
-      <Checkbox onChange = {(e) => {this.onHandleOptionLegChange(e.target.checked, false, row.strike, row.put, expiry, row.putIV);}}></Checkbox>
+      <Checkbox checked= {this.state.optionsSelected.some(option => option.key === expiry+row.strike+"P") || false} onChange = {(e) => {this.onHandleOptionLegChange(e.target.checked, false, row.strike, row.put, expiry, row.putIV);}}></Checkbox>
     },
   ]}
 
@@ -600,11 +600,11 @@ class ProfitGraph extends React.Component{
   }
 
   renderLines = () => {
-
+    /*
     console.log(this.state.dates)
     console.log(this.state.disabledDates)
     console.log(this.state.dates.filter(a => !this.state.disabledDates.includes(a)))
-    
+    */
     var opacities = this.opacities(this.state.dates)
 
     var arr=[]   
