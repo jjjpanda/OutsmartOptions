@@ -95,7 +95,7 @@ class OptionsCalculator extends React.Component{
 
   renderLegs() {
     return this.state.optionsSelected.map((option) => (
-      <OptionsLeg key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} disableSelf = {this.disableOption} optionRepresented={option}/>
+      <OptionsLeg key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
     ));
   }
 
@@ -153,15 +153,6 @@ class OptionsCalculator extends React.Component{
     this.setState((state) => ({optionsSelected : state.optionsSelected.filter( (e) => !(e.key == date+strike+(isCall?"C":"P")))}))
   }
 
-  disableOption = (isCall, strike, date) => {
-    this.setState((state) => (
-      {
-          optionsSelected : [...state.optionsSelected.filter( (e) => !(e.key == date+strike+(isCall?"C":"P"))), {...state.optionsSelected.find( (e) => (e.key === date+strike+(isCall?"C":"P"))), 'hide':true} ] 
-      }
-    ),
-    this.resortOptionsSelected)
-  }
-
   onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv) => {
     //console.log(needToAdd)
     //console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
@@ -189,7 +180,7 @@ class OptionsCalculator extends React.Component{
   profitGraphFormatting = () => {
     this.setState((state) =>
       ({
-        profitGraphData: this.dataToGraphConversion(state.optionsSelected.filter(a => a.hide == undefined && a.hide == true).map(option => {return {profit:option.profit, key:option.key}}))
+        profitGraphData: this.dataToGraphConversion(state.optionsSelected.map(option => {return {profit:option.profit, key:option.key}}))
       })
     ,()=>console.log(this.state))
   }
@@ -208,9 +199,7 @@ class OptionsCalculator extends React.Component{
 
   dataToTableConversion = (data) => {
     var dataConverted = []
-    if(data.length == 0){
-      return dataConverted
-    }
+  
     for(var i = data[0][1].length - 1, end = 0; i >= end; i--){
       var o ={};
       o['x'] = data[0][1][i][0].toFixed(2)
@@ -234,9 +223,7 @@ class OptionsCalculator extends React.Component{
 
   dataToGraphConversion = (data) => {
     var dataConverted = []
-    if(data.length == 0){
-      return dataConverted
-    }
+   
     var keyNameObj = {x:0}
     for(var option of data){
       for(var i = data[0].profit.length - 1, factor = Math.round(data[0].profit.length / 7) + 1; i >= 0; i-=factor){
@@ -288,18 +275,13 @@ class OptionsCalculator extends React.Component{
     }
     this.setState(() => ({optionsSelected : selectedOptions}), 
     ()=>{
-      this.mergeOptions(selectedOptions.filter(a => a.hide != undefined && a.hide == true))
+      this.mergeOptions(selectedOptions)
     })
   }
 
   mergeOptions = (selectedOptions) => {
     var mergedOptions = {'limitPrice':0, 'date':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':{}}    
     
-    if(selectedOptions.length == 0){
-      mergedOptions.profit = [];
-    }
-    
-    else{
     for (var option of selectedOptions){
         mergedOptions.limitPrice += (option.isLong ? 1 : -1) * option.limitPrice * option.quantity
 
@@ -327,7 +309,7 @@ class OptionsCalculator extends React.Component{
             )
         }
     }
-    }
+    
     this.profitGraphFormatting()
 
     this.setState(() => ({mergedOptions: mergedOptions}),
@@ -426,7 +408,7 @@ class OptionsCalculator extends React.Component{
         </div>
         <br />
         <div>{
-          this.state.profitTableData != undefined && this.state.profitGraphData != undefined && this.state.profitTableData.length != 0 && this.state.profitGraphData.length != 0 ? 
+          this.state.mergedOptions != undefined ?
           (
             <div>
               <div className="profitGraphWrapper">
@@ -487,7 +469,8 @@ class OptionsLeg extends React.Component {
       iv: props.optionRepresented.iv,
       isLong: true,
       quantity: 1,
-      limitPrice: props.optionRepresented.price
+      limitPrice: props.optionRepresented.price,
+      hide: false
     };
     this.props.callback(this.state)
   }
@@ -508,6 +491,12 @@ class OptionsLeg extends React.Component {
     //console.log(this.state);
   }
 
+  disableSelf = () => {
+    this.setState((state) => ({hide: !state.hide}), 
+      () => {this.props.callback(this.state)}
+    )
+  }
+
   render() { 
     return (
       <div className="Options Editor">
@@ -526,7 +515,7 @@ class OptionsLeg extends React.Component {
           <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
           <div id= "removeButton"><Button shape="circle" icon="delete" onClick={() => {this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date)}}/></div>
-          <div id= "disableButton"><Button shape="circle" icon="stop" onClick={() => {this.props.disableSelf(this.state.isCall, this.state.strike, this.state.date)}}/></div>
+          <div id= "disableButton"><Button shape="circle" icon="stop" onClick={this.disableSelf}/></div>
         </div>
       </div>
     );
