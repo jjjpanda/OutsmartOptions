@@ -11,9 +11,12 @@ import {
   Collapse,
   Checkbox,
   Icon,
+  Layout,
+  Menu,
 } from 'antd';
 const { Search } = Input
 const { Panel } = Collapse
+const { Header, Footer, Sider, Content } = Layout;
 import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend} from 'recharts';
 
 //JS Libraries
@@ -92,7 +95,7 @@ class OptionsCalculator extends React.Component{
 
   renderLegs() {
     return this.state.optionsSelected.map((option) => (
-      <OptionsLeg key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
+      <OptionsLeg key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} disableSelf = {this.disableOption} optionRepresented={option}/>
     ));
   }
 
@@ -150,6 +153,15 @@ class OptionsCalculator extends React.Component{
     this.setState((state) => ({optionsSelected : state.optionsSelected.filter( (e) => !(e.key == date+strike+(isCall?"C":"P")))}))
   }
 
+  disableOption = (isCall, strike, date) => {
+    this.setState((state) => (
+      {
+          optionsSelected : [...state.optionsSelected.filter( (e) => !(e.key == date+strike+(isCall?"C":"P"))), {...state.optionsSelected.find( (e) => (e.key === date+strike+(isCall?"C":"P"))), 'hide':true} ] 
+      }
+    ),
+    this.resortOptionsSelected)
+  }
+
   onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv) => {
     //console.log(needToAdd)
     //console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
@@ -177,7 +189,7 @@ class OptionsCalculator extends React.Component{
   profitGraphFormatting = () => {
     this.setState((state) =>
       ({
-        profitGraphData: this.dataToGraphConversion(state.optionsSelected.map(option => {return {profit:option.profit, key:option.key}}))
+        profitGraphData: this.dataToGraphConversion(state.optionsSelected.filter(a => a.hide == undefined && a.hide == true).map(option => {return {profit:option.profit, key:option.key}}))
       })
     ,()=>console.log(this.state))
   }
@@ -196,6 +208,9 @@ class OptionsCalculator extends React.Component{
 
   dataToTableConversion = (data) => {
     var dataConverted = []
+    if(data.length == 0){
+      return dataConverted
+    }
     for(var i = data[0][1].length - 1, end = 0; i >= end; i--){
       var o ={};
       o['x'] = data[0][1][i][0].toFixed(2)
@@ -219,6 +234,9 @@ class OptionsCalculator extends React.Component{
 
   dataToGraphConversion = (data) => {
     var dataConverted = []
+    if(data.length == 0){
+      return dataConverted
+    }
     var keyNameObj = {x:0}
     for(var option of data){
       for(var i = data[0].profit.length - 1, factor = Math.round(data[0].profit.length / 7) + 1; i >= 0; i-=factor){
@@ -270,13 +288,18 @@ class OptionsCalculator extends React.Component{
     }
     this.setState(() => ({optionsSelected : selectedOptions}), 
     ()=>{
-      this.mergeOptions(selectedOptions)
+      this.mergeOptions(selectedOptions.filter(a => a.hide != undefined && a.hide == true))
     })
   }
 
   mergeOptions = (selectedOptions) => {
-    
     var mergedOptions = {'limitPrice':0, 'date':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':{}}    
+    
+    if(selectedOptions.length == 0){
+      mergedOptions.profit = [];
+    }
+    
+    else{
     for (var option of selectedOptions){
         mergedOptions.limitPrice += (option.isLong ? 1 : -1) * option.limitPrice * option.quantity
 
@@ -304,7 +327,7 @@ class OptionsCalculator extends React.Component{
             )
         }
     }
-
+    }
     this.profitGraphFormatting()
 
     this.setState(() => ({mergedOptions: mergedOptions}),
@@ -399,10 +422,11 @@ class OptionsCalculator extends React.Component{
           <div id= "strategyButton"><Button icon="fund">Strategy</Button></div>
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" /></div>
+          <div id= "savedStrategyButton"><Button shape="circle" icon="download" /></div>
         </div>
         <br />
         <div>{
-          this.state.mergedOptions != undefined ? 
+          this.state.profitTableData != undefined && this.state.profitGraphData != undefined && this.state.profitTableData.length != 0 && this.state.profitGraphData.length != 0 ? 
           (
             <div>
               <div className="profitGraphWrapper">
@@ -434,7 +458,7 @@ class StockSymbol extends React.Component {
         <div className = "stockSymbol">
           <div id= "stockSymbolHeading">Stock Symbol:</div>
           <div id="stockSymbolInput">
-              <div id="andyNguyen"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
+              <div id="searchWrapper"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
             <div id="exists">{this.props.exists ? null:(<Icon  type="close-circle" />)}</div>
           </div>
         </div>
@@ -487,7 +511,7 @@ class OptionsLeg extends React.Component {
   render() { 
     return (
       <div className="Options Editor">
-        <div className="optionsHeadings">
+        <div className="optionsHeadings"> 
           <div id= "buyWriteHeading">Buy or Write:</div>
           <div id= "contractHeading">Contract:</div>
           <div id= "xHeading">x</div>
@@ -502,7 +526,7 @@ class OptionsLeg extends React.Component {
           <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
           <div id= "removeButton"><Button shape="circle" icon="delete" onClick={() => {this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date)}}/></div>
-          <div id= "disableButton"><Button shape="circle" icon="stop" onClick={() => {}}/></div>
+          <div id= "disableButton"><Button shape="circle" icon="stop" onClick={() => {this.props.disableSelf(this.state.isCall, this.state.strike, this.state.date)}}/></div>
         </div>
       </div>
     );
@@ -645,11 +669,63 @@ class ProfitGraph extends React.Component{
   }
 }
 
+class SideMenu extends React.Component {
+  state = {
+    collapsed: false,
+  };
+  onCollapse = (collapsed) => {
+    console.log(collapsed);
+    this.setState({ collapsed });
+  }
+  render() {
+    return (
+      <Sider
+          collapsible
+          collapsed={this.state.collapsed}
+          onCollapse={this.onCollapse}
+        >
+          <div className="logo" ><img key="mainLogo" id = "logo" className = "spin" src={logo}></img>/></div>
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+            <Menu.Item key="1">
+              <Icon type="home" />
+              <span>Home</span>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Icon type="calculator" />
+              <span>Calculator</span>
+            </Menu.Item>
+            <Menu.Item key="sub1">
+              <Icon type="eye" />
+              <span>Watchlist</span>
+            </Menu.Item>
+            <Menu.Item key="sub2">
+              <Icon type="login" />
+              <span>Login</span>
+            </Menu.Item>
+            <Menu.Item key="9">
+            <Icon type="question-circle-o" />
+              <span>Help</span>
+            </Menu.Item>
+          </Menu>
+        </Sider>
+    );
+  }
+}
+
 ReactDOM.render(
   [
-    <img key="mainLogo" id = "logo" className = "spin" src={logo}></img>,
-    <h1 key = "mainTitle" style={{paddingLeft:'60px'}}>Outsmart Options</h1>,
-    <OptionsCalculator key="theVoiceOfThePeople"/>
+    <Layout style={{ minHeight: '100vh' }}>
+        <SideMenu/>
+      <Layout>
+        <Content>
+          {/*<img key="mainLogo" id = "logo" className = "spin" src={logo}></img>,*/}
+          <h1 key = "mainTitle" style={{paddingLeft:'60px', paddingTop:'20px'}}>Outsmart Options</h1>
+          <OptionsCalculator key="theVoiceOfThePeople"/>
+        </Content>
+        <Footer>
+        </Footer>
+      </Layout>
+    </Layout>
   ],
   document.getElementById('root')
 );

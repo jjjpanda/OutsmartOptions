@@ -1,12 +1,15 @@
 html, body, #root { height: 100%; width: 100%; margin: 0; }
 
+
+
 #logo{
-    height:10%;
-    padding: 1%
+    height:50px;
+    padding: 1%;
+    
 }
 
 #loadingIcon{
-    height:5%;
+    height:1%;
     padding: 1%
 }
 
