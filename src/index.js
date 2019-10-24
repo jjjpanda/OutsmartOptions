@@ -75,7 +75,7 @@ class OptionsCalculator extends React.Component{
         return [x[0], x[1].map((y, index)=>{
             y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, 0,this.state.divYield);
             y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, 0,this.state.divYield);
-            y['atmNess'] = x[1][index+1] != undefined ? ( (x[1][index].strike < this.state.price && x[1][index+1].strike > this.state.price) ? "atmStrike" : "" ) : ""; 
+            y['atmNess'] = x[1][index+1] != undefined ? ( (x[1][index].strike <= this.state.price && x[1][index+1].strike > this.state.price) ? "atmStrike" : "" ) : ""; 
             return y    
         })]
       })
@@ -280,7 +280,7 @@ class OptionsCalculator extends React.Component{
   }
 
   mergeOptions = (selectedOptions) => {
-    var mergedOptions = {'limitPrice':0, 'date':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':{}}    
+    var mergedOptions = {'limitPrice':0, 'date':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':[]}    
     
     for (var option of selectedOptions){
         mergedOptions.limitPrice += (option.isLong ? 1 : -1) * option.limitPrice * option.quantity
