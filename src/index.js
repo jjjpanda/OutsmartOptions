@@ -24,6 +24,7 @@ import * as optionsMath from './jsLib/optionsMathLibrary.js'
 import * as timeMath from './jsLib/timeLibrary.js'
 import * as structure from './jsLib/structuresEditingLibrary.js'
 import * as post from './jsLib/fetchLibrary.js'
+import * as outliers from './jsLib/outliersLibrary.js'
 
 //Files
 import logo from './img/logo.png'
@@ -72,10 +73,20 @@ class OptionsCalculator extends React.Component{
 
     post.fetchReq('/chain', JSON.stringify({ticker: e}), (data) => {
       data = data.filter((x)=>{
+        var callVolSum = x[1].map(x => x.callVol).reduce((a,b) => a + b, 0)
+        var putVolSum = x[1].map(x => x.putVol).reduce((a,b) => a + b, 0) 
+        var callDist = outliers.setDistribution(x[1].map(x => x.strike), x[1].map(x => x.callVol))
+        var putDist = outliers.setDistribution(x[1].map(x => x.strike), x[1].map(x => x.putVol)) 
+        var callVolMean = outliers.getMean(callDist);
+        var putVolMean = outliers.getMean(putDist)
+        var callVolStd = outliers.getSD(callDist, callVolMean)
+        var putVolStd = outliers.getSD(putDist, putVolMean)
         return [x[0], x[1].map((y, index)=>{
             y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, 0,this.state.divYield);
             y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, 0,this.state.divYield);
             y['atmNess'] = x[1][index+1] != undefined ? ( (x[1][index].strike <= this.state.price && x[1][index+1].strike > this.state.price) ? "atmStrike" : "" ) : ""; 
+            y['callOutlier'] =  outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd)
+            y['putOutlier'] = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd)
             return y    
         })]
       })
@@ -345,7 +356,9 @@ class OptionsCalculator extends React.Component{
     },
     {
       title: 'Call',
-      dataIndex: 'call'
+      dataIndex: 'call',
+      render: (text, row) => 
+      (row.callOutlier ? (<strong>{text}</strong>) : (<a>{text}</a>))
     },
     {
       title: 'Call Vol',
@@ -359,6 +372,8 @@ class OptionsCalculator extends React.Component{
     {
       title: 'Put',
       dataIndex: 'put',
+      render: (text, row) => 
+      (row.putOutlier ? (<strong>{text}</strong>) : (<a>{text}</a>))
     },
     {
       title: 'Put Vol',
