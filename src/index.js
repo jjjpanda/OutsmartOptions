@@ -260,7 +260,7 @@ class OptionsCalculator extends React.Component{
         for(var price of option.profit[option.profit.length-1][1]){
           price[1] = optionsMath.calculateOptionsPrice(timeMath.percentageOfYear(timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d)), price[0], option.strike, option.isCall, option.isLong,0, this.state.divYield, option.iv) 
           price[1] -= option.limitPrice * (option.isLong?1:-1)
-          price[1] *= option.quantity
+          price[1] *= option.hide ? 0 : option.quantity
         }
         d = timeMath.incrementOneDay(d)
       }
@@ -269,7 +269,7 @@ class OptionsCalculator extends React.Component{
       option.profit.push([timeMath.dateToString(d),rangeOfPrices.map(function(arr) {return arr.slice();})])
       for(price of option.profit[option.profit.length-1][1]){
           price[1] = optionsMath.calculateProfitAtExpiry(option.limitPrice, price[0], option.strike, option.isCall, option.isLong)
-          price[1] *= option.quantity
+          price[1] *= option.hide ? 0 : option.quantity
       }
 
     }
@@ -283,13 +283,13 @@ class OptionsCalculator extends React.Component{
     var mergedOptions = {'limitPrice':0, 'date':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':[]}    
     
     for (var option of selectedOptions){
-        mergedOptions.limitPrice += (option.isLong ? 1 : -1) * option.limitPrice * option.quantity
+        mergedOptions.limitPrice += (option.isLong ? 1 : -1) * option.limitPrice * option.hide ? 0 : option.quantity
 
-        mergedOptions.greeks.delta += option.greeks.delta * option.quantity
-        mergedOptions.greeks.gamma += option.greeks.gamma * option.quantity
-        mergedOptions.greeks.theta += option.greeks.theta * option.quantity
-        mergedOptions.greeks.vega += option.greeks.vega * option.quantity
-        mergedOptions.greeks.rho += option.greeks.rho * option.quantity
+        mergedOptions.greeks.delta += option.greeks.delta * option.hide ? 0 : option.quantity
+        mergedOptions.greeks.gamma += option.greeks.gamma * option.hide ? 0 : option.quantity
+        mergedOptions.greeks.theta += option.greeks.theta * option.hide ? 0 : option.quantity
+        mergedOptions.greeks.vega += option.greeks.vega * option.hide ? 0 : option.quantity
+        mergedOptions.greeks.rho += option.greeks.rho * option.hide ? 0 : option.quantity
     }
 
     var optionsProfits = selectedOptions.map(o => o.profit)
