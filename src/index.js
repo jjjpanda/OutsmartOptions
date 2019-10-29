@@ -430,6 +430,7 @@ class OptionsCalculator extends React.Component{
                 <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
               </div>
               <hr id="hr2"/>
+              <h3 style={{marginLeft:"60px"}}>Profit Table:</h3>
               <div className="profitTableWrapper">
                 <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} size="small" />
               </div>
@@ -528,7 +529,7 @@ class OptionsLeg extends React.Component {
           <div id= "buyWriteSwitch"><Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/></div>
           <div id= "contractBox">
             <Input placeholder="Contract" value={this.state.date + " " + this.state.strike + " " + (this.state.isCall?"C":"P")} disabled/>
-            {this.state.hide ? (<Icon  type="close-circle" />) : null}
+            {this.state.hide ? (<Icon className="disabledLeg"  type="close-circle" />) : null}
           </div>
           <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
@@ -726,7 +727,6 @@ ReactDOM.render(
         <SideMenu/>
       <Layout>
         <Content>
-          {/*<img key="mainLogo" id = "logo" className = "spin" src={logo}></img>,*/}
           <h1 key = "mainTitle" style={{paddingLeft:'60px', paddingTop:'20px'}}>Outsmart Options</h1>
           <OptionsCalculator key="theVoiceOfThePeople"/>
         </Content>
