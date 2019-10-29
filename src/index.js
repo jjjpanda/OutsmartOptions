@@ -112,7 +112,7 @@ class OptionsCalculator extends React.Component{
   renderOptionsChain = () => {
     return this.state.optionsChain.map(e => (
       <Panel key = {e[0]+"_expiries"} header={e[0]}>
-        <Table dataSource = {e[1]} columns ={this.columns(e[0])} 
+        <Table dataSource = {e[1]} columns ={this.columns(e[0])}
           rowClassName={(record) => record.atmNess} 
           pagination={false} size="small" scroll={{ y: 500 }} /> 
       </Panel>
@@ -415,7 +415,9 @@ class OptionsCalculator extends React.Component{
                 <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
               </div>
               <hr />
-              <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} size="small" />
+              <div className="profitTableWrapper">
+                <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} size="small" />
+              </div>
             </div>
           ): 
           (
@@ -673,6 +675,7 @@ class SideMenu extends React.Component {
           collapsible
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
+          style={{boxShadow:"1px 1px 5px 1px #888888"}}
         >
           <div className="logo" ><img key="mainLogo" id = "logo" className = "spin" src={logo}></img>/></div>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
