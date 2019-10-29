@@ -429,7 +429,7 @@ class OptionsCalculator extends React.Component{
               <div className="profitGraphWrapper">
                 <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
               </div>
-              <hr />
+              <hr id="hr2"/>
               <div className="profitTableWrapper">
                 <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} size="small" />
               </div>
