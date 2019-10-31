@@ -19,8 +19,25 @@ app.use('/css', express.static(path.join(__dirname, '../src/css')));
 app.use('/img', express.static(path.join(__dirname, '../src/img')));
 
 app.use('/', express.static('./dist', {
-  index: "index.html"
+  index: "home.html"
 }))
+
+app.use('/calc', express.static('./dist', {
+  index: "calc.html"
+}))
+
+app.use('/login', express.static('./dist', {
+  index: "login.html"
+}))
+
+app.use('/help', express.static('./dist', {
+  index: "help.html"
+}))
+
+app.use('/watch', express.static('./dist', {
+  index: "watch.html"
+}))
+
 
 app.post('/price', function(req, res){
   var ticker = req.body.ticker

@@ -50,7 +50,29 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
+      chunks : ['home'],
+      filename: 'home.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      chunks : ['calc'],
+      filename: 'calc.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      chunks : ['login'],
+      filename: 'login.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      chunks : ['watch'],
+      filename: 'watch.html'
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      chunks : ['help'],
+      filename: 'help.html'
     })
   ]
 }
