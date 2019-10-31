@@ -29,11 +29,21 @@ export function getSD(dist, mean){
 
 export function getPDF(x, mean, std){
 //returns PDF of a random variable given distribution info (mean and standard deviation)
+//Assume Normal Distribution
 
     var variance = std * std;
     var m = std * Math.sqrt(2 * Math.PI);
     var e = Math.exp(-Math.pow(x - mean, 2) / (2 * variance));
     return e / m;
+}
+
+export function getPDFLaplace(x, mean, std){
+//returns PDF of a random variable given distribution info (mean and standard deviation)
+//Assumes LAPLACE distribution
+	
+	var b = std / (Math.sqrt(2));
+	var e = Math.exp(-Math.abs(x - mean) / b);
+	return (e * (1 / (2*b)));
 }
 
 export function setDistribution(strikes, vols){
