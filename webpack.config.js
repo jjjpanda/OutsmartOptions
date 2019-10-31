@@ -3,9 +3,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: {
+    home: './src/home/index.js',
+    calc: './src/calc/index.js',
+    help: './src/help/index.js',
+    watch: './src/watch/index.js',
+    login: './src/login/index.js',
+  },
   output: {
-    filename: 'main.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {
