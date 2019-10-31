@@ -13,10 +13,12 @@ import {
   Icon,
   Layout,
   Menu,
+  Anchor,
 } from 'antd';
 const { Search } = Input
 const { Panel } = Collapse
 const { Header, Footer, Sider, Content } = Layout;
+const { Link } = Anchor;
 import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend} from 'recharts';
 
 //JS Libraries
@@ -680,11 +682,22 @@ class ProfitGraph extends React.Component{
 class SideMenu extends React.Component {
   state = {
     collapsed: false,
+    currentTab: 'calc',
+
   };
+
   onCollapse = (collapsed) => {
     console.log(collapsed);
     this.setState({ collapsed });
   }
+
+  handleClick = (e) => {
+    console.log('click ', e);
+    this.setState({
+      currentTab: e.key,
+    });
+  };
+
   render() {
     return (
       <Sider
@@ -694,28 +707,30 @@ class SideMenu extends React.Component {
           style={{boxShadow:"1px 1px 5px 1px #888888"}}
         >
           <div className="logo" ><img key="mainLogo" id = "logo" className = "spin" src={logo}></img>/></div>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Anchor>
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" onClick={this.handleClick}>
             <Menu.Item key="1">
               <Icon type="home" />
-              <span>Home</span>
+              <span><Link href="./../home/index.js">Home</Link></span>
             </Menu.Item>
             <Menu.Item key="2">
               <Icon type="calculator" />
-              <span>Calculator</span>
+              <span><Link href="./../calc/index.js">Calculator</Link></span>
             </Menu.Item>
             <Menu.Item key="sub1">
               <Icon type="eye" />
-              <span>Watchlist</span>
+              <span><Link href="./../watch/index.js">Watchlist></Link></span>
             </Menu.Item>
             <Menu.Item key="sub2">
               <Icon type="login" />
-              <span>Login</span>
+              <span><Link href="./../login/index.js">Login</Link></span>
             </Menu.Item>
             <Menu.Item key="9">
             <Icon type="question-circle-o" />
-              <span>Help</span>
+              <span><Link href="./../help/index.js">Help</Link></span>
             </Menu.Item>
           </Menu>
+          </Anchor>
         </Sider>
     );
   }
