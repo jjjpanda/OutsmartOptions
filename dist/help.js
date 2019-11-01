@@ -81,19 +81,19 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/help/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/help.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/help/index.js":
-/*!***************************!*\
-  !*** ./src/help/index.js ***!
-  \***************************/
+/***/ "./src/help.js":
+/*!*********************!*\
+  !*** ./src/help.js ***!
+  \*********************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\n\n//# sourceURL=webpack:///./src/help/index.js?");
+eval("\n\n//# sourceURL=webpack:///./src/help.js?");
 
 /***/ })
 

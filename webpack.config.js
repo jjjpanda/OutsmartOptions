@@ -4,11 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   mode: 'development',
   entry: {
-    home: './src/home/index.js',
-    calc: './src/calc/index.js',
-    help: './src/help/index.js',
-    watch: './src/watch/index.js',
-    login: './src/login/index.js',
+    index: './src/index.js',
   },
   output: {
     filename: '[name].js',
@@ -51,28 +47,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      chunks : ['home'],
-      filename: 'home.html'
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      chunks : ['calc'],
-      filename: 'calc.html'
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      chunks : ['login'],
-      filename: 'login.html'
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      chunks : ['watch'],
-      filename: 'watch.html'
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      chunks : ['help'],
-      filename: 'help.html'
+      chunks : ['index'],
+      filename: 'app.html'
     })
   ]
 }

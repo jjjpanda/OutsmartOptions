@@ -10,7 +10,7 @@ const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-const port = process.env.PORT; //change to 8181 or whatever when localhosting 
+const port = 8181//process.env.PORT; //change to 8181 or whatever when localhosting 
 const tradikey = process.env.tradier;
 const alphakey = process.env.alpha;
 
@@ -19,25 +19,8 @@ app.use('/css', express.static(path.join(__dirname, '../src/css')));
 app.use('/img', express.static(path.join(__dirname, '../src/img')));
 
 app.use('/', express.static('./dist', {
-  index: "home.html"
+  index: "app.html"
 }))
-
-app.use('/calc', express.static('./dist', {
-  index: "calc.html"
-}))
-
-app.use('/login', express.static('./dist', {
-  index: "login.html"
-}))
-
-app.use('/help', express.static('./dist', {
-  index: "help.html"
-}))
-
-app.use('/watch', express.static('./dist', {
-  index: "watch.html"
-}))
-
 
 app.post('/price', function(req, res){
   var ticker = req.body.ticker
