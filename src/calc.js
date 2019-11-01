@@ -13,6 +13,7 @@ import {
 const { Search } = Input
 const { Panel } = Collapse
 import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend} from 'recharts';
+import Cookies from 'js-cookie'
 
 //JS Libraries
 import * as optionsMath from './jsLib/optionsMathLibrary.js'
@@ -379,6 +380,25 @@ class OptionsCalculator extends React.Component{
     },
   ]}
 
+  saveStrategy = () => {
+    if(this.state.symbol != "" && this.state.optionsSelected.length > 0){
+      if(Cookies.get(this.state.symbol.toUpperCase()) != undefined){
+        Cookies.set(this.state.symbol.toUpperCase(), 
+          [...Cookies.get(this.state.symbol.toUpperCase()), this.state.optionsSelected]
+        )
+      }
+      else{  
+        Cookies.set(this.state.symbol.toUpperCase(), 
+          [this.state.optionsSelected]
+        )
+      }
+    }
+  }
+
+  loadStrategy = () => {
+    console.log(Cookies.get())
+  }
+
   render() { return (
     <div>
       <h1 key = "mainTitle" style={{paddingLeft:'60px', paddingTop:'20px'}}>Outsmart Options</h1>
@@ -412,8 +432,8 @@ class OptionsCalculator extends React.Component{
           <div id= "ivSkewButton"><Button icon="profile">IV Skew</Button></div>
           <div id= "strategyButton"><Button icon="fund">Strategy</Button></div>
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
-          <div id= "saveButton"><Button shape="circle" icon="save" /></div>
-          <div id= "savedStrategyButton"><Button shape="circle" icon="download" /></div>
+          <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
+          <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
         </div>
         <br />
         <div>{
