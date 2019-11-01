@@ -1,7 +1,7 @@
 //Dependencies
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom' 
 import {
   Input,
   version,
@@ -57,7 +57,6 @@ class SideMenu extends React.Component {
 
   render() {
     return (
-      <Router>
       <Sider
           collapsible
           collapsed={this.state.collapsed}
@@ -67,42 +66,56 @@ class SideMenu extends React.Component {
           <div className="logo" ><img key="mainLogo" id = "logo" className = "spin" src={logo}></img>/></div>
           <Anchor>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" onClick={this.handleClick}>
+            
             <Menu.Item key="index">
               <Icon type="home" />
+              <Link to="/" ></Link>
             </Menu.Item>
+
             <Menu.Item key="calc">
               <Icon type="calculator" />
+              <Link to="/calc" ></Link>
             </Menu.Item>
+
             <Menu.Item key="watch">
               <Icon type="eye" />
+              <Link to="/watch" ></Link>
             </Menu.Item>
+
             <Menu.Item key="login">
               <Icon type="login" />
+              <Link to="/login" ></Link>
             </Menu.Item>
+
             <Menu.Item key="help">
-            <Icon type="question-circle-o" />
+              <Icon type="question-circle-o" />
+              <Link to="/help" ></Link>
             </Menu.Item>
+
           </Menu>
           </Anchor>
         </Sider>
-        </Router>
     );
   }
 }
 
 ReactDOM.render(
   [
-    <Layout style={{ minHeight: '100vh' }}>
-        <SideMenu/>
-      <Layout>
-        <Content>
-        <OptionsCalculator key="theVoiceOfThePeople"/>
-        
-        </Content>
-        <Footer>
-        </Footer>
+    <Router>
+      <Layout style={{ minHeight: '100vh' }}>
+          <SideMenu/>
+        <Layout>
+          <Content>
+          
+            <Route exact path= "/calc" component = {OptionsCalculator}/> 
+            <Route exact path = "/" />
+
+          </Content>
+          <Footer>
+          </Footer>
+        </Layout>
       </Layout>
-    </Layout>
+    </Router>
   ],
   document.getElementById('root')
 );

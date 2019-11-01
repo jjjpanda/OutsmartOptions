@@ -18,9 +18,12 @@ const alphakey = process.env.alpha;
 app.use('/css', express.static(path.join(__dirname, '../src/css')));
 app.use('/img', express.static(path.join(__dirname, '../src/img')));
 
-app.use('/', express.static('./dist', {
+var knownPaths = ["/", "/calc", "/help", "/login", "/watch"]
+for(var webPath of knownPaths){
+app.use(webPath, express.static('./dist', {
   index: "app.html"
 }))
+}
 
 app.post('/price', function(req, res){
   var ticker = req.body.ticker
@@ -56,5 +59,9 @@ app.post('/treasury', function(req, res){
       res.json(data);
   });
 })
+
+//app.get('*', function(req, res){
+  
+//});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
