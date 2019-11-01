@@ -1,9 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import {
   Input,
-  version,
   Button,
   Switch,
   Modal,
@@ -12,12 +9,9 @@ import {
   Checkbox,
   Icon,
   Layout,
-  Menu,
-  Anchor,
 } from 'antd';
 const { Search } = Input
 const { Panel } = Collapse
-const { Header, Footer, Sider, Content } = Layout;
 import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend} from 'recharts';
 
 //JS Libraries
@@ -26,9 +20,6 @@ import * as timeMath from './jsLib/timeLibrary.js'
 import * as structure from './jsLib/structuresEditingLibrary.js'
 import * as post from './jsLib/fetchLibrary.js'
 import * as outliers from './jsLib/outliersLibrary.js'
-
-//Files
-import logo from './img/logo.png'
 
 //CSS
 import "./css/logo.css";
