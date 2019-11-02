@@ -28,7 +28,7 @@ module.exports = {
           options: {
             javascriptEnabled: true,
             modifyVars: {
-              "@primary-color": "#a496b3"
+              "@primary-color": "#3F4F3F"
             }
           }
         }]},

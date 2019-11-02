@@ -21,7 +21,7 @@ import OptionsCalculator from './calc.js'
 
 class SideMenu extends React.Component {
   state = {
-    collapsed: false,
+    collapsed: true,
     currentTab: 'index',
   };
 
@@ -51,27 +51,27 @@ class SideMenu extends React.Component {
             
             <Menu.Item key="index">
               <Icon type="home" />
-              <Link to="/" ></Link>
+              <Link to="/" >Home</Link>
             </Menu.Item>
 
             <Menu.Item key="calc">
               <Icon type="calculator" />
-              <Link to="/calc" ></Link>
+              <Link to="/calc" >Calculator</Link>
             </Menu.Item>
 
             <Menu.Item key="watch">
               <Icon type="eye" />
-              <Link to="/watch" ></Link>
+              <Link to="/watch" >Watchlist</Link>
             </Menu.Item>
 
             <Menu.Item key="login">
               <Icon type="login" />
-              <Link to="/login" ></Link>
+              <Link to="/login" >Login</Link>
             </Menu.Item>
 
             <Menu.Item key="help">
               <Icon type="question-circle-o" />
-              <Link to="/help" ></Link>
+              <Link to="/help" >About</Link>
             </Menu.Item>
 
           </Menu>
