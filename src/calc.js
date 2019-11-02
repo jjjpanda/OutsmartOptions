@@ -12,7 +12,7 @@ import {
 } from 'antd';
 const { Search } = Input
 const { Panel } = Collapse
-import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend} from 'recharts';
+import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend, Label} from 'recharts';
 import Cookies from 'js-cookie'
 
 //JS Libraries
@@ -637,7 +637,7 @@ class ProfitGraph extends React.Component{
     const arr = data.map((i) => i[y])
     if(arr.every(e => e === arr[0])){
       if(arr[0] > 0){
-        return '#008000' + ("00"+Math.round(opacity*255).toString(16)).substr(-2)
+        return '#009900' + ("00"+Math.round(opacity*255).toString(16)).substr(-2)
       }
       else {
         return '#ff0000' + ("00"+Math.round(opacity*255).toString(16)).substr(-2)
@@ -660,8 +660,8 @@ class ProfitGraph extends React.Component{
     for( var date of this.state.dates){
       arr.push((<defs>
         <linearGradient id={"splitColor"+date} x1="0" y1="0" x2="0" y2="1">
-          <stop offset={this.gradientOffset(this.state.data, date)} stopColor="green" stopOpacity={opacities[date]}/>
-          <stop stopColor="red" stopOpacity={opacities[date]}/>
+          <stop offset={this.gradientOffset(this.state.data, date)} stopColor="#009900" stopOpacity={opacities[date]}/>
+          <stop stopColor="#ff0000" stopOpacity={opacities[date]}/>
         </linearGradient>
       </defs>
       ))
@@ -678,14 +678,18 @@ class ProfitGraph extends React.Component{
         width={600}
         height={400}
         data={this.state.data}
-        margin={{top: 10, right: 30, left: 0, bottom: 0}}
+        margin={{top: 50, right: 50, left: 50, bottom: 50}}
       >
-        <CartesianGrid strokeDasharray="3 3"/>
-        <XAxis dataKey={'x'}/>
-        <YAxis/>
+        <CartesianGrid strokeDasharray="2 3"/>
+        <XAxis dataKey={'x'} allowDecimals = {false} >
+          <Label value = "Stock Price" position = "insideBottom" offset ={-5} />
+        </XAxis>
+        <YAxis>
+          <Label value = "Profit/Loss" position = "insideLeft" offset ={-5} angle = {-90} />
+        </YAxis>
         {this.renderLines()}
-        <Legend onClick= {this.disableDate} align="left" verticalAlign="middle" layout="vertical" />
-        <Tooltip/>
+        <Legend onClick= {this.disableDate} iconType = "circle" align="right" verticalAlign="middle" layout="vertical" />
+        <Tooltip />
       </LineChart>
     );
   }
