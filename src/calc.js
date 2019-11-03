@@ -22,10 +22,6 @@ import * as structure from './jsLib/structuresEditingLibrary.js'
 import * as post from './jsLib/fetchLibrary.js'
 import * as outliers from './jsLib/outliersLibrary.js'
 
-//CSS
-import "./css/logo.css";
-import "./css/calculator.less";
-
 //Treasury Yields
 post.fetchReq('/treasury', '', (data) => {
   console.log(data)
@@ -630,7 +626,6 @@ class ProfitGraph extends React.Component{
       opacities[date] /= 2 * (maxOpacity-minOpacity)
       opacities[date] += 0.5
     }
-    console.log(opacities)
     return opacities
   }
 
@@ -646,6 +641,26 @@ class ProfitGraph extends React.Component{
     }
     else{
       return "url(#splitColor" + y + ")"
+    }
+  }
+
+  customTooltip = (e) => {
+    var arr = []
+    for(var i = e.payload.length-1; i >=0 ; i--){
+      arr.push((
+        <p>On {e.payload[i].name} you will {Math.sign(e.payload[i].value) == 1 ? "make" : "lose"} ${e.payload[i].value.toFixed(2)}</p>
+      ))
+    }
+    if (e.active && e.payload!=null && e.payload[0]!=null) {
+          return (    
+          <div style = {{backgroundColor:"#ffffff", lineHeight:0.5, padding:5}} className="custom-tooltip">
+            <p>${e.label.toFixed(2)}</p>
+            {arr}
+          </div>
+          );
+        }
+    else{
+       return "";
     }
   }
 
@@ -675,7 +690,7 @@ class ProfitGraph extends React.Component{
 
 	render () {
   	return (
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={500}>
     	<LineChart
         data={this.state.data}
         margin={{top: 50, right: 50, left: 50, bottom: 50}}
@@ -689,7 +704,7 @@ class ProfitGraph extends React.Component{
         </YAxis>
         {this.renderLines()}
         <Legend onClick= {this.disableDate} iconType = "circle" align="right" verticalAlign="middle" layout="vertical" />
-        <Tooltip />
+        <Tooltip content = {this.customTooltip}/>
       </LineChart>
       </ResponsiveContainer>
     );
