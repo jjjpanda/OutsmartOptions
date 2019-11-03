@@ -107,11 +107,6 @@ class OptionsCalculator extends React.Component{
     console.log(e)
     this.setState(state => ({optionsSelected: [...state.optionsSelected.filter(item => !(item.key==e.key)), e]}), this.resortOptionsSelected)
   }
-  
-  onOk = () => {
-    //console.log(this.state.optionsSelected)
-    this.setAddLegModalVisible(false)
-  }
 
   renderOptionsChain = () => {
     return this.state.optionsChain.map(e => (
@@ -411,15 +406,19 @@ class OptionsCalculator extends React.Component{
 
       <div className="optionsButtons">
           <div id= "addLegButton">
-            <Button icon="edit" onClick={() => this.setAddLegModalVisible(true)}>Edit Legs</Button>
+            <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={() => this.setAddLegModalVisible(true)}>Edit Legs</Button>
             <div className="addLegButtonWrapper">
               <Modal
                 title="Add Leg"
                 centered
                 width = "1"
                 visible={this.state.addLegModalVisible}
-                onOk={this.onOk}
-                onCancel={() => this.setAddLegModalVisible(false)}
+                footer = {(
+                  <Button key="ok" type="primary" onClick = {() => this.setAddLegModalVisible(false)}>
+                    Ok
+                  </Button>
+                )}
+                onCancel = {() => this.setAddLegModalVisible(false)}
               >
                 <Collapse accordion>
                   {this.renderOptionsChain()}
@@ -627,9 +626,11 @@ class ProfitGraph extends React.Component{
     var minOpacity = Math.min(...Object.values(opacities))
     var maxOpacity = Math.max(...Object.values(opacities))
     for (var date of dates){
-      opacities[date] -= minOpacity - (maxOpacity-minOpacity)/2
-      opacities[date] /= (maxOpacity-minOpacity)
+      opacities[date] -= minOpacity
+      opacities[date] /= 2 * (maxOpacity-minOpacity)
+      opacities[date] += 0.5
     }
+    console.log(opacities)
     return opacities
   }
 
@@ -674,7 +675,7 @@ class ProfitGraph extends React.Component{
 
 	render () {
   	return (
-      <ResponsiveContainer width={700} height={300}>
+      <ResponsiveContainer width="100%" height={300}>
     	<LineChart
         data={this.state.data}
         margin={{top: 50, right: 50, left: 50, bottom: 50}}
