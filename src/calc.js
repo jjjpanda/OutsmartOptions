@@ -104,9 +104,20 @@ class OptionsCalculator extends React.Component{
     this.setState(state => ({optionsSelected: [...state.optionsSelected.filter(item => !(item.key==e.key)), e]}), this.resortOptionsSelected)
   }
 
+  modalTrackSelected = (date) => {
+    if(this.state.optionsSelected.map(e => e.date).includes(date)){
+      return (
+        <Icon type = "pushpin" theme = "twoTone"/>
+      )
+    }
+    else{
+      return null;
+    }
+  }
+
   renderOptionsChain = () => {
     return this.state.optionsChain.map(e => (
-      <Panel key = {e[0]+"_expiries"} header={e[0]}>
+      <Panel key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
         <Table dataSource = {e[1]} columns ={this.columns(e[0])}
           rowClassName={(record) => record.atmNess} 
           pagination={false} size="small" scroll={{ y: 500 }} /> 
