@@ -12,7 +12,7 @@ import {
 } from 'antd';
 const { Search } = Input
 const { Panel } = Collapse
-import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend, Label} from 'recharts';
+import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend, Label, ResponsiveContainer} from 'recharts';
 import Cookies from 'js-cookie'
 
 //JS Libraries
@@ -216,7 +216,7 @@ class OptionsCalculator extends React.Component{
   }
 
   columnCreation = (data) => {
-    var columns = [{title: '', dataIndex:"x"}, ...data.map(key => ({
+    var columns = [{title: '', dataIndex:"x", fixed:"left"}, ...data.map(key => ({
       title: key[0],
       dataIndex: key[0],
       render: (text) => {return (<div style= {{ color: parseFloat(text)>= 0 ? '#006400': '#ff3311'}}>{text}</div> )}
@@ -349,14 +349,14 @@ class OptionsCalculator extends React.Component{
     },
     {
       title: 'Call',
-      dataIndex: 'call',
-      render: (text, row) => 
-      (row.callOutlier ? (<strong>{text}</strong>) : (<a>{text}</a>))
+      dataIndex: 'call'
     },
     {
       title: 'Call Vol',
       dataIndex: 'callVol',
       width: '10%',
+      render: (text, row) => 
+      (row.callOutlier ? (<strong>{text}</strong>) : (<div>{text}</div>))
     },
     {
       title: 'Strike',
@@ -364,13 +364,13 @@ class OptionsCalculator extends React.Component{
     },
     {
       title: 'Put',
-      dataIndex: 'put',
-      render: (text, row) => 
-      (row.putOutlier ? (<strong>{text}</strong>) : (<a>{text}</a>))
+      dataIndex: 'put'
     },
     {
       title: 'Put Vol',
       dataIndex: 'putVol',
+      render: (text, row) => 
+      (row.putOutlier ? (<strong>{text}</strong>) : (<div>{text}</div>))
     },
     {
       title: '',
@@ -446,7 +446,7 @@ class OptionsCalculator extends React.Component{
               <hr id="hr2"/>
               <h3 style={{marginLeft:"60px"}}>Profit Table:</h3>
               <div className="profitTableWrapper">
-                <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} size="small" />
+                <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
               </div>
             </div>
           ): 
@@ -674,9 +674,8 @@ class ProfitGraph extends React.Component{
 
 	render () {
   	return (
+      <ResponsiveContainer width={700} height={300}>
     	<LineChart
-        width={600}
-        height={400}
         data={this.state.data}
         margin={{top: 50, right: 50, left: 50, bottom: 50}}
       >
@@ -691,6 +690,7 @@ class ProfitGraph extends React.Component{
         <Legend onClick= {this.disableDate} iconType = "circle" align="right" verticalAlign="middle" layout="vertical" />
         <Tooltip />
       </LineChart>
+      </ResponsiveContainer>
     );
   }
 }
