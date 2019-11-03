@@ -17,6 +17,7 @@ import logo from './img/logo.png'
 import "./css/logo.css";
 import "./css/calculator.less";
 
+import HomePage from "./home.js"
 import OptionsCalculator from './calc.js'
 
 class SideMenu extends React.Component {
@@ -40,7 +41,7 @@ class SideMenu extends React.Component {
   render() {
     return (
       <Sider
-          collapsible
+          collapsible = {false} 
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
           style={{boxShadow:"1px 1px 5px 1px #888888"}}
@@ -88,9 +89,9 @@ ReactDOM.render(
           <SideMenu/>
         <Layout>
           <Content>
-          
+
+            <Route exact path = "/" component = {HomePage}/>
             <Route exact path= "/calc" component = {OptionsCalculator}/> 
-            <Route exact path = "/" />
 
           </Content>
           <Footer>
