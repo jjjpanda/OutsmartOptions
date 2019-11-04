@@ -21,7 +21,10 @@ import HomePage from "./home.js"
 import OptionsCalculator from './calc.js'
 
 import * as post from './jsLib/fetchLibrary.js'
-post.fetchReq('/track', "", "");
+
+post.fetchReq('https://api.ipify.org?format=json', "", (data) => {
+  post.fetchReq('/track', JSON.stringify({ip : data.ip}), "");
+})
 
 
 class SideMenu extends React.Component {

@@ -15,10 +15,10 @@ sendCalcError: function (url, msg, callback){
     })
 },
 
-getIP: function (key, url){
+getIP: function (key, url, ip){
     request({
         method: "GET",
-        url: "https://api.ipdata.co/?api-key="+key,
+        url: "https://api.ipdata.co/"+ip+"?api-key="+key,
         headers: {
             "Accept": 'application/json'
         }
