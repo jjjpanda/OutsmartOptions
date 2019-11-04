@@ -14,7 +14,11 @@ app.use(bodyParser.json());
 const port = process.env.PORT; //change to 8181 or whatever when localhosting 
 const tradikey = process.env.tradier;
 const alphakey = process.env.alpha;
-const bugUrl = process.env.bugUrl;
+const iptrackkey = process.env.iptrack
+
+const bugUrl = process.env.bugUrl
+const ipUrl = process.env.ipUrl
+
 
 //NECESSARY FOR CALLS IN HTML
 app.use('/css', express.static(path.join(__dirname, '../src/css')));
@@ -26,6 +30,10 @@ app.use(webPath, express.static('./dist', {
   index: "app.html"
 }))
 }
+
+app.post('/track', function(req, res){
+  reportBugs.getIP(iptrackkey, ipUrl);
+})
 
 app.post('/price', function(req, res){
   var ticker = req.body.ticker
