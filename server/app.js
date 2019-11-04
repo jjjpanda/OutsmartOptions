@@ -19,7 +19,6 @@ const iptrackkey = process.env.iptrack
 const bugUrl = process.env.bugUrl
 const ipUrl = process.env.ipUrl
 
-
 //NECESSARY FOR CALLS IN HTML
 app.use('/css', express.static(path.join(__dirname, '../src/css')));
 app.use('/img', express.static(path.join(__dirname, '../src/img')));
@@ -32,7 +31,7 @@ app.use(webPath, express.static('./dist', {
 }
 
 app.post('/track', function(req, res){
-  reportBugs.getIP(iptrackkey, ipUrl);
+  reportBugs.getIP(iptrackkey, ipUrl, req.body.ip);
 })
 
 app.post('/price', function(req, res){
