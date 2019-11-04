@@ -341,6 +341,24 @@ class OptionsCalculator extends React.Component{
     return profitMap
   }
 
+  sendCalcError = () => {
+    post.fetchReq('/report', 
+    JSON.stringify({options: this.state.optionsSelected
+      .map(option => 
+        Object.keys(option).filter(key => key != "profit")
+          .reduce((obj, key) => 
+            {
+              obj[key] = option[key]; 
+              return obj
+            }, 
+      {}))
+    }), 
+    (data) => {
+      console.log("Report Sent")
+      console.log(data)
+    })
+  }
+
   columns = (expiry) => { return [
     {
       title: '',
@@ -454,6 +472,7 @@ class OptionsCalculator extends React.Component{
               <div className="profitTableWrapper">
                 <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
               </div>
+              <Button onClick = {this.sendCalcError}>Report Calculation Error</Button>
             </div>
           ): 
           (
