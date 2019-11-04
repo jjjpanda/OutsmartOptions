@@ -52,7 +52,7 @@ class OptionsCalculator extends React.Component{
         data.change = 0;
         this.setState({exists: false});
       }
-      this.setState(() => ({symbol : e, price : data.price, priceChange : data.change, optionsSelected: []}), 
+      this.setState(() => ({symbol : e, price : data.price, priceChange : data.change, optionsSelected: [], optionsChain: [['Empty', {}]]}), 
         () => {console.log(this.state)}); 
     })
 
