@@ -22,10 +22,20 @@ import OptionsCalculator from './calc.js'
 
 import * as post from './jsLib/fetchLibrary.js'
 
-post.fetchReq('https://api.ipify.org?format=json', "", (data) => {
-  post.fetchReq('/track', JSON.stringify({ip : data.ip}), "");
-})
-
+fetch('https://api.ipify.org?format=json',
+  {
+    method: "get", 
+    headers: {
+      'Accept': 'application/json',
+    }
+  }
+)
+.then(res => res.json())
+.then((data) => {
+  console.log(data)
+  post.fetchReq('/track', JSON.stringify({ip : data.ip}), "")
+  }
+);
 
 class SideMenu extends React.Component {
   state = {
