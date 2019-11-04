@@ -5,6 +5,7 @@ const path = require('path')
 
 const realTimeData = require('./js/realTimeData.js')
 const treasuryXML = require('./js/treasuryXMLConvert.js')
+const reportBugs = require('./js/reportBug.js')
 
 const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({extended:false}));
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 const port = process.env.PORT; //change to 8181 or whatever when localhosting 
 const tradikey = process.env.tradier;
 const alphakey = process.env.alpha;
+const bugUrl = process.env.bugUrl;
 
 //NECESSARY FOR CALLS IN HTML
 app.use('/css', express.static(path.join(__dirname, '../src/css')));
@@ -58,6 +60,12 @@ app.post('/treasury', function(req, res){
   treasuryXML.getYield(function(data){
       res.json(data);
   });
+})
+
+app.post('/report', function(req, res){
+  reportBugs.sendCalcError(bugUrl, req.body.options, function(data){
+    res.json(data)
+  })
 })
 
 // Handle 404
