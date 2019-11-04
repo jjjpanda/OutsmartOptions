@@ -20,6 +20,10 @@ import "./css/calculator.less";
 import HomePage from "./home.js"
 import OptionsCalculator from './calc.js'
 
+import * as post from './jsLib/fetchLibrary.js'
+post.fetchReq('/track', "", "");
+
+
 class SideMenu extends React.Component {
   state = {
     collapsed: true,
