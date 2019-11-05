@@ -436,7 +436,7 @@ class OptionsCalculator extends React.Component{
               <Modal
                 title="Add Leg"
                 centered
-                width = "1"
+                width = {"50%"}
                 visible={this.state.addLegModalVisible}
                 footer = {(
                   <Button key="ok" type="primary" onClick = {() => this.setAddLegModalVisible(false)}>
