@@ -19,6 +19,9 @@ import "./css/calculator.less";
 
 import HomePage from "./home.js"
 import OptionsCalculator from './calc.js'
+import Watchlist from './help.js'
+import Login from './login.js'
+import Help from './help.js'
 
 import * as post from './jsLib/fetchLibrary.js'
 
@@ -108,8 +111,11 @@ ReactDOM.render(
           <Content>
 
             <Route exact path = "/" component = {HomePage}/>
-            <Route exact path= "/calc" component = {OptionsCalculator}/> 
-
+            <Route exact path = "/calc" component = {OptionsCalculator}/> 
+            <Route exact path = "/watch" component = {Watchlist} />
+            <Route exact path = "/login" component = {Login} />
+            <Route exact path = "/help" component = {Help} />
+ 
           </Content>
           <Footer>
           </Footer>
