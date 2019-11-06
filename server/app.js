@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 const fileUpload = require('express-fileupload')
 app.use(fileUpload());
 
+const port = process.env.PORT;
 const tradikey = process.env.tradier;
 const alphakey = process.env.alpha;
 const iptrackkey = process.env.iptrack
