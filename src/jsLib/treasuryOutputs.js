@@ -35,11 +35,17 @@ function getClose(days, prevDay, givenDays, valT, valB, topDays, bottomDays){
 	if(givenDays > days){
 		var distance = valB - valT
 		//interpolatedVal = top + ((givenDays / 100) * distance)
+		if(distance != 0){
+			interpolatedVal = valB + (((valT - valB)/distance)*(topDays - bottomDays))
+
+
+			return interpolatedVal
+		}
+		else{
+			
+		}
 		
-		interpolatedVal = valB + (((valT - valB)/distance)*(topDays - bottomDays))
-
-
-		return interpolatedVal
+		
 	}
 
 }
@@ -59,7 +65,6 @@ function getRightYield(yields, expireTime){
 
 	return rightYield;
 }
-
 
 
 
