@@ -4,7 +4,7 @@
   "description": "Y'all ever wanted to make money?",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server/app.js",
     "createDist": "npx webpack",
     "createDistContinuous": "npx webpack --watch",
@@ -38,18 +38,32 @@
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.2",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.9.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "nodemon": "^1.19.3",
     "npm-run-all": "^4.1.5",
+    "react-test-renderer": "^16.11.0",
     "style-loader": "^1.0.0",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.jsx$": "babel-jest"
+    },
+    "moduleNameMapper":{
+      "\\.(css|less|sass|scss)$": "<rootDir>/test/styleMock.js",
+      "\\.(png|jpg|gif|svg)$": "<rootDir>/test/fileMock.js"
+ }
   }
 }
