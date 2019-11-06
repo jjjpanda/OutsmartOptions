@@ -342,20 +342,27 @@ class OptionsCalculator extends React.Component{
   }
 
   sendCalcError = () => {
+    const input = document.getElementsByTagName('html')[0]
+    html2canvas(input).then(c => {
+      var base64image = c.toDataURL("image/png");
+      var formData = new FormData()
+      formData.append('file', dataURItoBlob( base64image ),"img")
+      post.fileReq('/imageReport', formData)
+    })
     post.fetchReq('/report', 
-    JSON.stringify({options: this.state.optionsSelected
-      .map(option => 
-        Object.keys(option).filter(key => key != "profit")
-          .reduce((obj, key) => 
-            {
-              obj[key] = option[key]; 
-              return obj
-            }, 
-      {}))
-    }), 
-    (data) => {
-      console.log("Report Sent")
-      console.log(data)
+      JSON.stringify({options: this.state.optionsSelected
+        .map(option =>
+          Object.keys(option).filter(key => key != "profit")
+            .reduce((obj, key) => 
+              {
+                obj[key] = option[key]; 
+                return obj
+              }, 
+        {}))
+      }), 
+      (data) => {
+        console.log("Report Sent")
+        console.log(data)
     })
   }
 
