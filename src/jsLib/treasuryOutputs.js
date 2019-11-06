@@ -59,11 +59,15 @@ function getRightYield(yields, expireTime){
 	var rightYield = 0
 
 	//for over yields and look until expire time > days -> take that and prev and interpolate
+	for (var i = 0; i < yields.length; i++){
+		if(expireTime > yields[i].days && i>0){
+				rightYield = getClose(yields[i].days, yields[i-1].days, expireTime, yields[1].val, yields[i-1].val, yields[1].days, yields[i-1].days)
+				return rightYield;
+			}
+	}
+	//return yields.forEach((mat, index) => getClose(mat.days, index < 1 ? 0 : yields[index-1].days, expireTime, mat.val, index < 1 ? 0 : yields[index-1].val, mat.days, index < 1 ? 0 : yields[index-1].days))
 
-	return yields.forEach((mat, index) => getClose(mat.days, index < 1 ? 0 : yields[index-1].days, expireTime, mat.val, index < 1 ? 0 : yields[index-1].val, mat.days, index < 1 ? 0 : yields[index-1].days))
 
-
-	return rightYield;
 }
 
 
