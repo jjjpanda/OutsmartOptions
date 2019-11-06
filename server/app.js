@@ -11,7 +11,9 @@ const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-const port = process.env.PORT; //change to 8181 or whatever when localhosting 
+const fileUpload = require('express-fileupload')
+app.use(fileUpload());
+
 const tradikey = process.env.tradier;
 const alphakey = process.env.alpha;
 const iptrackkey = process.env.iptrack
@@ -22,6 +24,7 @@ const ipUrl = process.env.ipUrl
 //NECESSARY FOR CALLS IN HTML
 app.use('/css', express.static(path.join(__dirname, '../src/css')));
 app.use('/img', express.static(path.join(__dirname, '../src/img')));
+app.use('/jsLib', express.static(path.join(__dirname, '../src/jsLib')));
 
 var knownPaths = ["/", "/calc", "/help", "/login", "/watch"]
 for(var webPath of knownPaths){
@@ -73,6 +76,10 @@ app.post('/report', function(req, res){
   reportBugs.sendCalcError(bugUrl, req.body.options, function(data){
     res.json(data)
   })
+})
+
+app.post('/imageReport', function(req, res){
+  reportBugs.sendImg(bugUrl, req.files.file.data)
 })
 
 // Handle 404
