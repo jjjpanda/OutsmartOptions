@@ -15,6 +15,28 @@ sendCalcError: function (url, msg, callback){
     })
 },
 
+sendImg: function(url, img){
+    request({ 
+        method: "POST",
+        url: url,
+        formData : {
+            custom_file: {
+                value:  img,
+                options: {
+                  filename: 'topsecret.png',
+                  contentType: 'image/png'
+                }
+            }
+        }
+    },
+    (err, httpResponse, body) => {
+        if (err) {
+          //return console.error('upload failed:', err);
+        }
+        //console.log('Upload successful!  Server responded with:', body);
+    })
+},
+
 getIP: function (key, url, ip){
     request({
         method: "GET",
