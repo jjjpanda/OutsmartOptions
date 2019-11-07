@@ -1,6 +1,4 @@
 import React from 'react';
-import 'antd/dist/antd.css';
-import './index.css';
 import { 
     Input, 
     Tooltip, 
@@ -14,7 +12,7 @@ class Login extends React.Component{
 
     render(){
         return (
-            <div>
+            <div style={{paddingLeft:'60px', paddingTop:'20px'}}>
                 <Input
                 placeholder="Username"
                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
