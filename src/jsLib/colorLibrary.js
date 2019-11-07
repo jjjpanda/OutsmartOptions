@@ -13,8 +13,8 @@ function hexColorFromPercent(percentGain){
     }
     else if(percentGain > 4){
         return colorToHex(0, Math.max(80, 255 - (25*percentGain)), 0)
+    }
 }
-
 function colorToHex(r,g,b){
     return '2px solid rgb('+Math.round(r)+","+Math.round(g)+","+Math.round(b)+")"
 }
