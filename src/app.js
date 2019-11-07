@@ -64,11 +64,10 @@ class SideMenu extends React.Component {
           collapsible = {false} 
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
-          style={{boxShadow:"1px 1px 5px 1px #888888"}}
+          style={{boxShadow:"1px 1px 5px 1px #888888", minHeight: '100vh'}}
         >
           <div className="logo" ><img key="mainLogo" id = "logo" className = "spin" src={logo}></img>/></div>
-          <Anchor>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" onClick={this.handleClick}>
+          <Menu theme="dark" defaultSelectedKeys={['calc']} mode="inline" onClick={this.handleClick} >
             
             <Menu.Item key="index">
               <Icon type="home" />
@@ -96,7 +95,6 @@ class SideMenu extends React.Component {
             </Menu.Item>
 
           </Menu>
-          </Anchor>
         </Sider>
     );
   }
@@ -105,16 +103,17 @@ class SideMenu extends React.Component {
 ReactDOM.render(
   [
     <Router>
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout style={{ minHeight: '100vh'}}>
           <SideMenu/>
         <Layout>
           <Content>
-
-            <Route exact path = "/" component = {HomePage}/>
-            <Route exact path = "/calc" component = {OptionsCalculator}/> 
-            <Route exact path = "/watch" component = {Watchlist} />
-            <Route exact path = "/login" component = {Login} />
-            <Route exact path = "/help" component = {Help} />
+            <div className="contentWrapper">
+              <Route exact path = "/" component = {HomePage}/>
+              <Route exact path = "/calc" component = {OptionsCalculator}/> 
+              <Route exact path = "/watch" component = {Watchlist} />
+              <Route exact path = "/login" component = {Login} />
+              <Route exact path = "/help" component = {Help} />
+            </div>
  
           </Content>
           <Footer>

@@ -8,7 +8,7 @@ import {
   Collapse,
   Checkbox,
   Icon,
-  Layout,
+  Popover,
 } from 'antd';
 const { Search } = Input
 const { Panel } = Collapse
@@ -493,16 +493,26 @@ class OptionsCalculator extends React.Component{
   }
 }
 
+
+
 class StockSymbol extends React.Component {
   constructor(props){
     super(props);
+
   }
+
+  
 
   render() {
     return (
       <div>
         <div className = "stockSymbol">
-          <div id= "stockSymbolHeading">Stock Symbol:</div>
+          <div id= "stockSymbolHeading">
+            Stock Symbol:  
+            <Popover content="test" title="Title" trigger="hover">
+              <Icon type="info-circle-o" />
+            </Popover>
+          </div>
           <div id="stockSymbolInput">
               <div id="searchWrapper"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
             <div id="exists">{this.props.exists ? null:(<Icon  type="close-circle" />)}</div>
