@@ -6,6 +6,7 @@ import {
   Icon,
   Layout,
   Menu,
+  Switch,
   Anchor,
 } from 'antd';
 const { Footer, Sider, Content } = Layout;
@@ -67,7 +68,7 @@ class SideMenu extends React.Component {
           style={{boxShadow:"1px 1px 5px 1px #888888", minHeight: '100vh'}}
         >
           <div className="logo" ><img key="mainLogo" id = "logo" className = "spin" src={logo}></img>/></div>
-          <Menu theme="dark" defaultSelectedKeys={['calc']} mode="inline" onClick={this.handleClick} >
+          <Menu theme="dark" defaultSelectedKeys={['index']} mode="inline" onClick={this.handleClick} >
             
             <Menu.Item key="index">
               <Icon type="home" />
@@ -92,6 +93,12 @@ class SideMenu extends React.Component {
             <Menu.Item key="help">
               <Icon type="question-circle-o" />
               <Link to="/help" >About</Link>
+            </Menu.Item>
+
+            <Menu.Item key="darkmode">
+            </Menu.Item>
+
+            <Menu.Item key="tooltip">
             </Menu.Item>
 
           </Menu>
