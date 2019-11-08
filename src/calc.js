@@ -218,7 +218,7 @@ class OptionsCalculator extends React.Component{
   }
 
   columnCreation = (data) => {
-    var columns = [{title: '', dataIndex:"x", fixed:"left"}, ...data.map(key => ({
+    var columns = [{title: 'Stock Price', dataIndex:"x", fixed:"left"}, ...data.map(key => ({
       title: key[0],
       dataIndex: key[0],
       render: (text) => {return (<div style= {{ color: parseFloat(text)>= 0 ? '#006400': '#ff3311'}}>{text}</div> )}
@@ -508,7 +508,7 @@ class StockSymbol extends React.Component {
       <div>
         <div className = "stockSymbol">
           <div id= "stockSymbolHeading">
-            Stock Symbol:  
+            Stock Symbol:&nbsp;
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
@@ -519,11 +519,21 @@ class StockSymbol extends React.Component {
           </div>
         </div>
         <div className="stockPrice">
-          <div id= "stockPriceHeading">Stock Price:</div> 
+          <div id= "stockPriceHeading">
+            Stock Price:&nbsp;
+            <Popover content="test" title="Title" trigger="hover">
+              <Icon type="info-circle-o" />
+            </Popover>
+          </div> 
           <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
         </div>
         <div className="stockPriceChange">
-          <div id= "priceChangeHeading">Stock Price Change:</div>
+          <div id= "priceChangeHeading">
+            Stock Price Change:&nbsp;
+            <Popover content="test" title="Title" trigger="hover">
+              <Icon type="info-circle-o" />
+            </Popover>
+          </div>
           <div id="priceChangeBox"><Input placeholder={this.props.priceChange+"%"} disabled/></div>
         </div>
       </div>
@@ -575,14 +585,36 @@ class OptionsLeg extends React.Component {
     return (
       <div className="Options Editor">
         <div className="optionsHeadings"> 
-          <div id= "buyWriteHeading">Buy or Write:</div>
-          <div id= "contractHeading">Contract:</div>
+          <div id= "buyWriteHeading">
+            Buy or Write:&nbsp;
+            <Popover content="test" title="Title" trigger="hover">
+              <Icon type="info-circle-o" />
+            </Popover>
+          </div>
+          <div id= "contractHeading">
+            Contract:&nbsp;
+            <Popover content="test" title="Title" trigger="hover">
+              <Icon type="info-circle-o" />
+            </Popover>
+          </div>
           <div id= "xHeading">x</div>
-          <div id= "quantityHeading">Quantity:</div>
-          <div id= "atPriceHeading">At Price:</div>
+          <div id= "quantityHeading">
+            Quantity:&nbsp;
+            <Popover content="test" title="Title" trigger="hover">
+              <Icon type="info-circle-o" />
+            </Popover>
+          </div>
+          <div id= "atPriceHeading">
+            At Price:&nbsp;
+            <Popover content="test" title="Title" trigger="hover">
+              <Icon type="info-circle-o" />
+            </Popover>
+          </div>
         </div>
         <div className="optionsInputs">
-          <div id= "buyWriteSwitch"><Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/></div>
+          <div id= "buyWriteSwitch">
+            <Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/>
+          </div>
           <div id= "contractBox">
             <Input placeholder="Contract" value={this.state.date + " " + this.state.strike + " " + (this.state.isCall?"C":"P")} disabled/>
             {this.state.hide ? (<Icon className="disabledLeg"  type="close-circle" />) : null}
