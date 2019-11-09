@@ -426,6 +426,10 @@ class OptionsCalculator extends React.Component{
     console.log(Cookies.get())
   }
 
+  startTutorial = () => {
+    introJs('.intro').start();
+  }
+
   render() { return (
     <div>
       <h1 key = "mainTitle" style={{paddingLeft:'60px', paddingTop:'20px'}}>Outsmart Options</h1>
@@ -461,7 +465,7 @@ class OptionsCalculator extends React.Component{
           </div>
 
           <div id= "ivSkewButton"><Button icon="profile">IV Skew</Button></div>
-          <div id= "strategyButton"><Button icon="fund">Strategy</Button></div>
+          <div id= "strategyButton"><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
           <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
@@ -506,8 +510,8 @@ class StockSymbol extends React.Component {
   render() {
     return (
       <div>
-        <div className = "stockSymbol">
-          <div id= "stockSymbolHeading">
+        <div className = "stockSymbol" data-intro="some text" data-hint="Bruh Moment" data-step={1} >
+          <div id= "stockSymbolHeading" >
             Stock Symbol:&nbsp;
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
@@ -518,7 +522,7 @@ class StockSymbol extends React.Component {
             <div id="exists">{this.props.exists ? null:(<Icon  type="close-circle" />)}</div>
           </div>
         </div>
-        <div className="stockPrice">
+        <div className="stockPrice" data-intro="some text" data-hint="Bruh Moment 2" data-step={2}>
           <div id= "stockPriceHeading">
             Stock Price:&nbsp;
             <Popover content="test" title="Title" trigger="hover">
@@ -527,7 +531,7 @@ class StockSymbol extends React.Component {
           </div> 
           <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
         </div>
-        <div className="stockPriceChange">
+        <div className="stockPriceChange" data-intro="some text" data-hint="Bruh Moment 3" data-step={3}>
           <div id= "priceChangeHeading">
             Stock Price Change:&nbsp;
             <Popover content="test" title="Title" trigger="hover">
