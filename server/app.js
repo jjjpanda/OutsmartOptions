@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 
+const env = require('dotenv').config()
 const path = require('path')
 
 const realTimeData = require('./js/realTimeData.js')
@@ -14,7 +15,7 @@ app.use(bodyParser.json());
 const fileUpload = require('express-fileupload')
 app.use(fileUpload());
 
-const port = process.env.PORT;
+const port = process.env.PORT; //change to 8181 or whatever when localhosting 
 const tradikey = process.env.tradier;
 const alphakey = process.env.alpha;
 const iptrackkey = process.env.iptrack
