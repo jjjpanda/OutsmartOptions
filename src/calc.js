@@ -94,8 +94,8 @@ class OptionsCalculator extends React.Component{
   }
 
   renderLegs() {
-    return this.state.optionsSelected.map((option) => (
-      <OptionsLeg key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
+    return this.state.optionsSelected.map((option, index) => (
+      <OptionsLeg isFirst={index===0 ? false:true} key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
     ));
   }
 
@@ -549,6 +549,7 @@ class OptionsLeg extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      isFirst: false,
       key: props.optionRepresented.date + props.optionRepresented.strike + (props.optionRepresented.isCall?"C":"P"),
       isCall : props.optionRepresented.isCall,
       date: props.optionRepresented.date,
@@ -590,29 +591,33 @@ class OptionsLeg extends React.Component {
       <div className="Options Editor">
         <div className="optionsHeadings"> 
           <div id= "buyWriteHeading">
-            Buy or Write:&nbsp;
+            Buy or Write:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
+            )}
           </div>
           <div id= "contractHeading">
-            Contract:&nbsp;
+            Contract:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
+            )}
           </div>
           <div id= "xHeading">x</div>
           <div id= "quantityHeading">
-            Quantity:&nbsp;
+            Quantity:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
+            )}
           </div>
           <div id= "atPriceHeading">
-            At Price:&nbsp;
+            At Price:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
+            )}
           </div>
         </div>
         <div className="optionsInputs">
