@@ -297,7 +297,7 @@ class OptionsCalculator extends React.Component{
   
     
     for (var option of selectedOptions){
-        mergedOptions.limitPrice += (option.isLong ? 1 : -1) * option.limitPrice * option.hide ? 0 : option.quantity
+        mergedOptions.limitPrice += (option.isLong ? 1 : -1) * parseFloat(option.limitPrice) * (option.hide ? 0 : parseInt(option.quantity))
 
         mergedOptions.greeks.delta += option.greeks.delta * option.hide ? 0 : option.quantity
         mergedOptions.greeks.gamma += option.greeks.gamma * option.hide ? 0 : option.quantity
