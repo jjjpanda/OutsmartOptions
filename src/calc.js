@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card } from 'antd';
 import {
   Input,
   Button,
@@ -288,6 +289,9 @@ class OptionsCalculator extends React.Component{
   mergeOptions = (selectedOptions) => {
     var mergedOptions = {'limitPrice':0, 'date':"", 'greeks':{'delta':0, 'gamma':0, 'theta':0, 'vega':0, 'rho':0}, 'profit':[]}    
     
+    //var strategyCost = 0
+  
+    
     for (var option of selectedOptions){
         mergedOptions.limitPrice += (option.isLong ? 1 : -1) * option.limitPrice * option.hide ? 0 : option.quantity
 
@@ -296,7 +300,15 @@ class OptionsCalculator extends React.Component{
         mergedOptions.greeks.theta += option.greeks.theta * option.hide ? 0 : option.quantity
         mergedOptions.greeks.vega += option.greeks.vega * option.hide ? 0 : option.quantity
         mergedOptions.greeks.rho += option.greeks.rho * option.hide ? 0 : option.quantity
+        //strategyCost += option.limitPrice * option.quantity
+        
     }
+
+
+
+
+
+    
 
     var optionsProfits = selectedOptions.map(o => o.profit)
 
@@ -340,7 +352,7 @@ class OptionsCalculator extends React.Component{
     }
     return profitMap
   }
-
+  
   sendCalcError = () => {
     const input = document.getElementsByTagName('html')[0]
     html2canvas(input).then(c => {
@@ -475,6 +487,12 @@ class OptionsCalculator extends React.Component{
           this.state.mergedOptions != undefined ?
           (
             <div>
+
+              <Card title="Cost of Strategy" extra={<a href="#">More</a>} style={{ width: 400 }}>
+                <p>The cost of this strategy is {this.state.mergedOptions.limitPrice} </p>
+                <p>this worked..?</p>
+              </Card>
+
               <div className="profitGraphWrapper">
                 <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
               </div>
