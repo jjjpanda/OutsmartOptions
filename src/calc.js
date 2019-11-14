@@ -492,9 +492,9 @@ class OptionsCalculator extends React.Component{
           (
             <div>
 
-              <Card title="Cost of Strategy" extra={<a href="#">More</a>} style={{ width: 400 }}>
-                <p>The cost of this strategy is {this.state.mergedOptions.limitPrice} </p>
-                <p>this worked..?</p>
+              <Card title="Cost of Strategy" style={{ width: 400 }}>
+                <p>The cost of this strategy is estimated to be ${this.state.mergedOptions.limitPrice * 100}</p>
+                <p>*bid and ask calculations are approximations</p>
               </Card>
 
               <div className="profitGraphWrapper">
