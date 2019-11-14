@@ -73,7 +73,7 @@ class OptionsCalculator extends React.Component{
         var callVolStd = outliers.getSD(callDist, callVolMean)
         var putVolStd = outliers.getSD(putDist, putVolMean)
         return [x[0], x[1].map((y, index)=>{
-            var rfir = treasury.getRightYield(yields, timeMath.timeBetweenDates(timeMath.stringToDate(x[0]),timeMath.getCurrentDate()))
+            var rfir = treasury.getRightYield(yields, timeMath.timeBetweenDates(timeMath.stringToDate(x[0]),timeMath.getCurrentDate())) / 100
             y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, rfir,this.state.divYield);
             y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, rfir,this.state.divYield);
             y['atmNess'] = x[1][index+1] != undefined ? ( (x[1][index].strike <= this.state.price && x[1][index+1].strike > this.state.price) ? "atmStrike" : "" ) : ""; 
@@ -261,7 +261,7 @@ class OptionsCalculator extends React.Component{
     }
     var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
     for(var option of selectedOptions){
-      var rfir = treasury.getRightYield(yields, timeMath.timeBetweenDates(timeMath.stringToDate(option.date),timeMath.getCurrentDate()))
+      var rfir = treasury.getRightYield(yields, timeMath.timeBetweenDates(timeMath.stringToDate(option.date),timeMath.getCurrentDate())) / 100
       option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong,rfir,this.state.divYield, option.iv)  
       option.profit = []
       var d = timeMath.getCurrentDate();
