@@ -22,10 +22,12 @@ import * as timeMath from './jsLib/timeLibrary.js'
 import * as structure from './jsLib/structuresEditingLibrary.js'
 import * as post from './jsLib/fetchLibrary.js'
 import * as outliers from './jsLib/outliersLibrary.js'
+import * as treasury from './jsLib/treasuryLibrary.js'
 
 //Treasury Yields
+var yields;
 post.fetchReq('/treasury', '', (data) => {
-  console.log(data)
+  yields = data;
 })
 
 class OptionsCalculator extends React.Component{
@@ -72,8 +74,9 @@ class OptionsCalculator extends React.Component{
         var callVolStd = outliers.getSD(callDist, callVolMean)
         var putVolStd = outliers.getSD(putDist, putVolMean)
         return [x[0], x[1].map((y, index)=>{
-            y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, 0,this.state.divYield);
-            y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, 0,this.state.divYield);
+            var rfir = treasury.getRightYield(yields, timeMath.timeBetweenDates(timeMath.stringToDate(x[0]),timeMath.getCurrentDate())) / 100
+            y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, rfir,this.state.divYield);
+            y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, rfir,this.state.divYield);
             y['atmNess'] = x[1][index+1] != undefined ? ( (x[1][index].strike <= this.state.price && x[1][index+1].strike > this.state.price) ? "atmStrike" : "" ) : ""; 
             y['callOutlier'] =  outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd)
             y['putOutlier'] = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd)
@@ -95,8 +98,8 @@ class OptionsCalculator extends React.Component{
   }
 
   renderLegs() {
-    return this.state.optionsSelected.map((option) => (
-      <OptionsLeg key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
+    return this.state.optionsSelected.map((option, index) => (
+      <OptionsLeg isFirst={index===0 ? false:true} key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
     ));
   }
 
@@ -259,13 +262,14 @@ class OptionsCalculator extends React.Component{
     }
     var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
     for(var option of selectedOptions){
-      option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong,0,this.state.divYield, option.iv)  
+      var rfir = treasury.getRightYield(yields, timeMath.timeBetweenDates(timeMath.stringToDate(option.date),timeMath.getCurrentDate())) / 100
+      option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong,rfir,this.state.divYield, option.iv)  
       option.profit = []
       var d = timeMath.getCurrentDate();
       while(timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d) > 0){
         option.profit.push([timeMath.dateToString(d),rangeOfPrices.map(function(arr) {return arr.slice();})])
         for(var price of option.profit[option.profit.length-1][1]){
-          price[1] = optionsMath.calculateOptionsPrice(timeMath.percentageOfYear(timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d)), price[0], option.strike, option.isCall, option.isLong,0, this.state.divYield, option.iv) 
+          price[1] = optionsMath.calculateOptionsPrice(timeMath.percentageOfYear(timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d)), price[0], option.strike, option.isCall, option.isLong,rfir, this.state.divYield, option.iv) 
           price[1] -= option.limitPrice * (option.isLong?1:-1)
           price[1] *= option.hide ? 0 : option.quantity
         }
@@ -567,6 +571,7 @@ class OptionsLeg extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      isFirst: false,
       key: props.optionRepresented.date + props.optionRepresented.strike + (props.optionRepresented.isCall?"C":"P"),
       isCall : props.optionRepresented.isCall,
       date: props.optionRepresented.date,
@@ -608,29 +613,33 @@ class OptionsLeg extends React.Component {
       <div className="Options Editor">
         <div className="optionsHeadings"> 
           <div id= "buyWriteHeading">
-            Buy or Write:&nbsp;
+            Buy or Write:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
+            )}
           </div>
           <div id= "contractHeading">
-            Contract:&nbsp;
+            Contract:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
+            )}
           </div>
           <div id= "xHeading">x</div>
           <div id= "quantityHeading">
-            Quantity:&nbsp;
+            Quantity:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
+            )}
           </div>
           <div id= "atPriceHeading">
-            At Price:&nbsp;
+            At Price:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
+            )}
           </div>
         </div>
         <div className="optionsInputs">

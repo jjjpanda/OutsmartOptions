@@ -2,7 +2,9 @@ import React from 'react';
 import { 
     Input, 
     Tooltip, 
-    Icon 
+    Icon,
+    Form,
+    Button
 } from 'antd';
 
 class Login extends React.Component{
@@ -10,35 +12,54 @@ class Login extends React.Component{
         super(props)
     }
 
-    render(){
-        return (
-            <div style={{paddingLeft:'60px', paddingTop:'20px'}}>
-                <Input
-                placeholder="Username"
-                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                suffix={
-                    <Tooltip title="Enter your username">
-                    <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
-                    </Tooltip>
-                }
-                />
-            
-                <br />
-                <br />
+    componentDidMount() {
+        this.props.form.validateFields();
+      }
+    
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+            }
+        });
+    };
 
+    render() {
+        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+    
+        const usernameError = isFieldTouched('username') && getFieldError('username');
+        const passwordError = isFieldTouched('password') && getFieldError('password');
+        return (
+            <Form layout="inline" onSubmit={this.handleSubmit}>
+            <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
+                {getFieldDecorator('username', {
+                    rules: [{ required: true, message: 'Please input your username' }],
+                })(
                 <Input
-                placeholder="Password"
-                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                suffix={
-                    <Tooltip title="Enter your password">
-                    <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
-                    </Tooltip>
-                }
-                />
-            
-            </div>,
-            mountNode
-        )
+                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    placeholder="Username"
+                />,
+                )}
+            </Form.Item>
+            <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
+                {getFieldDecorator('password', {
+                    rules: [{ required: true, message: 'Please input your password' }],
+                })(
+                <Input
+                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    type="password"
+                    placeholder="Password"
+                />,
+                )}
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
+                    Log in
+                </Button>
+            </Form.Item>
+            </Form>
+        ); 
     }
 }
 
