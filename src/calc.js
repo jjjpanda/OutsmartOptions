@@ -222,7 +222,7 @@ class OptionsCalculator extends React.Component{
   }
 
   columnCreation = (data) => {
-    var columns = [{title: 'Stock Price', dataIndex:"x", fixed:"left"}, ...data.map(key => ({
+    var columns = [{title: 'Price', dataIndex:"x", fixed:"left"}, ...data.map(key => ({
       title: key[0],
       dataIndex: key[0],
       render: (text) => {return (<div style= {{ color: parseFloat(text)>= 0 ? '#006400': '#ff3311'}}>{text}</div> )}
@@ -491,11 +491,12 @@ class OptionsCalculator extends React.Component{
           this.state.mergedOptions != undefined ?
           (
             <div>
-
-              <Card title="Cost of Strategy" style={{ width: 400 }}>
-                <p>The cost of this strategy is estimated to be ${this.state.mergedOptions.limitPrice * 100}</p>
-                <p>*bid and ask calculations are approximations</p>
-              </Card>
+              <div className="costStrategy">
+                <Card  title="Cost of Strategy" style={{ width: 400 }}>
+                  <p>The cost of this strategy is estimated to be ${this.state.mergedOptions.limitPrice * 100}</p>
+                  <p>*bid and ask calculations are approximations</p>
+                </Card>
+              </div>
 
               <div className="profitGraphWrapper">
                 <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
@@ -612,49 +613,50 @@ class OptionsLeg extends React.Component {
     return (
       <div className="Options Editor">
         <div className="optionsHeadings"> 
-          <div id= "buyWriteHeading">
+          <div class= "buyWrite">
             Buy or Write:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
             )}
+            <div id= "buyWriteSwitch">
+              <Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/>
+            </div>
           </div>
-          <div id= "contractHeading">
+          <div class= "contract">
             Contract:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
             )}
+            <div id= "contractBox">
+              <Input placeholder="Contract" value={this.state.date + " " + this.state.strike + " " + (this.state.isCall?"C":"P")} disabled/>
+              {this.state.hide ? (<Icon className="disabledLeg"  type="close-circle" />) : null}
+            </div>
           </div>
           <div id= "xHeading">x</div>
-          <div id= "quantityHeading">
+          <div class= "quantity">
             Quantity:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
             )}
+            <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           </div>
-          <div id= "atPriceHeading">
+          <div class= "atPrice">
             At Price:&nbsp;{this.props.isFirst ? null:(
             <Popover content="test" title="Title" trigger="hover">
               <Icon type="info-circle-o" />
             </Popover>
             )}
+            <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
+          </div>
+          <div className="removeDisable">
+            <div id= "removeButton"><Button shape="circle" icon="delete" onClick={() => {this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date)}}/></div>
+            <div id= "disableButton"><Button shape="circle" icon="stop" onClick={this.disableSelf}/></div>
           </div>
         </div>
-        <div className="optionsInputs">
-          <div id= "buyWriteSwitch">
-            <Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/>
-          </div>
-          <div id= "contractBox">
-            <Input placeholder="Contract" value={this.state.date + " " + this.state.strike + " " + (this.state.isCall?"C":"P")} disabled/>
-            {this.state.hide ? (<Icon className="disabledLeg"  type="close-circle" />) : null}
-          </div>
-          <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
-          <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
-          <div id= "removeButton"><Button shape="circle" icon="delete" onClick={() => {this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date)}}/></div>
-          <div id= "disableButton"><Button shape="circle" icon="stop" onClick={this.disableSelf}/></div>
-        </div>
+        
       </div>
     );
   }

@@ -60,80 +60,96 @@ html, body, #root { height: 100%; width: 100%; margin: 0; }
 }
 
 /* Options Input Boxes, Switch, and Labels */
-.optionsHeadings > div {
+/*.optionsHeadings > div {
     display: inline-block;
     padding-left: 60px;
+    padding-bottom: 5px;
+}*/
+
+.buyWrite {
+    display: inline-block;
+    padding-left: 60px;
+    padding-bottom: 5px;
+
+    #buyWriteHeading {
+        margin-top: 10px;
+    }
+    
+    #buyWriteSwitch  {
+        width: 100px;
+    }
 }
 
-#buyWriteHeading {
-    margin-top: 10px;
+.contract {
+    display: inline-block;
+    padding-left: 60px;
+    padding-bottom: 5px;
+
+    #contractHeading {
+        padding-left: 20px;
+        margin-top: 10px;
+    }
+    
+    #contractBox  {
+        width: 160px;
+    }
 }
 
-#contractHeading {
-    padding-left: 50px;
-    margin-top: 10px;
-}
 
 #xHeading {
-    padding-left: 100px;
-    margin-top: 10px;
-}
-
-#quantityHeading {
-    padding-left: 40px;
-    margin-top: 10px;
-}
-
-#atPriceHeading {
-    padding-left: 90px;
-    margin-top: 10px;
-}
-
-
-#buyWriteSwitch  {
     display: inline-block;
-    padding-left: 60px;
-    width: 150px;
+    padding-left: 30px;
+    margin-top: 10px;
 }
 
-#contractBox  {
+.quantity {
+    display: inline-block;
+    padding-left: 30px;
+    padding-bottom: 5px;
+
+    #quantityHeading {
+        padding-left: 40px;
+        margin-top: 10px;
+    }
+    
+    #quantityInput  {
+        width: 100px;
+    }
+}
+
+.atPrice {
     display: inline-block;
     padding-left: 63px;
-    width: 200px;
+    padding-bottom: 5px;
+
+    #atPriceHeading {
+        padding-left: 90px;
+        margin-top: 10px;
+    }
+    
+    #atPriceInput  {
+        width: 150px;
+    }
 }
 
-#quantityInput  {
+.removeDisable {
     display: inline-block;
-    padding-left: 90px;
-    width: 200px;
+    padding-left: 30px;
+    padding-bottom: 5px;
+
+    #removeButton {
+        display: inline-block;
+    }
+    
+    #disableButton {
+        display: inline-block;
+        padding-left: 10px;
+    }
 }
 
-#atPriceInput  {
-    display: inline-block;
-    padding-left: 50px;
-    width: 200px;
-}
 
-#editButton {
-    display: inline-block;
-    padding-left: 50px;
-}
-
-#removeButton {
-    display: inline-block;
-    padding-left: 20px;
-}
-
-#disableButton {
-    display: inline-block;
-    padding-left: 10px;
-}
 
 /* Options Buttons */
-.optionsHeadings > div {
-    display: inline-block;
-    padding-left: 60px;
-}
 
 #addLegButton  {
     display: inline-block;
@@ -213,5 +229,17 @@ html, body, #root { height: 100%; width: 100%; margin: 0; }
     margin-bottom: 10px;
     margin-top: 10px;
     background-color: white;
-    box-shadow: 1px 1px 5px 1px #888888;
+}
+
+.ant-layout-content {
+    background-color: white;
+}
+
+.ant-layout-footer {
+    background-color: white;
+}
+
+.costStrategy {
+    margin: auto;
+    width: 300px;
 }
