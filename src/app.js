@@ -96,9 +96,11 @@ class SideMenu extends React.Component {
             </Menu.Item>
 
             <Menu.Item key="darkmode">
+              <Switch checkedChildren={<Icon type="bulb" theme="filled" />} unCheckedChildren={<Icon type="bulb"/>} defaultChecked />
             </Menu.Item>
 
             <Menu.Item key="tooltip">
+              <Switch checkedChildren={<Icon type="tool" theme="filled" />} unCheckedChildren={<Icon type="tool"/>} defaultChecked />
             </Menu.Item>
 
           </Menu>

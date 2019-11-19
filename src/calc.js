@@ -23,6 +23,7 @@ import * as structure from './jsLib/structuresEditingLibrary.js'
 import * as post from './jsLib/fetchLibrary.js'
 import * as outliers from './jsLib/outliersLibrary.js'
 import * as treasury from './jsLib/treasuryLibrary.js'
+import { continueStatement } from '@babel/types';
 
 //Treasury Yields
 var yields;
@@ -435,7 +436,7 @@ class OptionsCalculator extends React.Component{
           [this.state.optionsSelected]
         )
       }
-    }
+    } 
   }
 
   loadStrategy = () => {
@@ -493,7 +494,7 @@ class OptionsCalculator extends React.Component{
             <div>
               <div className="costStrategy">
                 <Card  title="Cost of Strategy" style={{ width: 400 }}>
-                  <p>The cost of this strategy is estimated to be ${this.state.mergedOptions.limitPrice * 100}</p>
+                  <p>The cost of this strategy is estimated to be ${(this.state.mergedOptions.limitPrice * 100).toFixed(2)}</p>
                   <p>*bid and ask calculations are approximations</p>
                 </Card>
               </div>
