@@ -20,7 +20,7 @@ import "./css/calculator.less";
 
 import HomePage from "./home.js"
 import OptionsCalculator from './calc.js'
-import Watchlist from './help.js'
+import Watchlist from './watch.js'
 import Login from './login.js'
 import Help from './help.js'
 
