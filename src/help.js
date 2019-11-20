@@ -1,12 +1,44 @@
 import React from 'react';
+import {
+    Button,
+    Modal,
+  } from 'antd';
 
 class Help extends React.Component{
     constructor(props){
         super(props)
+
+        this.state = {
+            guideModalVisible: false
+        };
     }
 
-    render(){
-        return(<div>
+    setGuideModalVisible(guideModalVisible) {
+        this.setState({ guideModalVisible: guideModalVisible });
+    }
+
+    render(){ return (
+        
+        <div id = "Guides">
+            <h1>Helpful Guides</h1>
+            <Button onClick = {() => this.setGuideModalVisible(true)}>Guide 1</Button>
+            <div>
+                <Modal
+                    title="Guide1"
+                    centered
+                    width = {"50%"}
+                    visible={this.state.guideModalVisible}
+                    footer = {(
+                        <Button key="ok" type="primary" onClick = {() => this.setGuideModalVisible(false)}>
+                            Ok
+                        </Button>
+                    )}
+                    onCancel = {() => this.setGuideModalVisible(false)}>
+                </Modal>
+            </div>
+            <br></br>
+            <br></br>
+
             <h1>Contact Us</h1>
             <p>Feel free to contact the team with any questions</p>
             <p>Email: help@outsmart.com</p>
@@ -32,7 +64,9 @@ class Help extends React.Component{
             <p>In order to bring the best possible service at the lowest possible cost, Outsmart Options uses data that can be delayed by upt to 15 minutes.</p>
             <p>Because of this, the Outsmart Options team does not reccomend this website as a tool for active, intraday options trading.</p>
             <p>It is instead, a tool made for ordinary traders and investors to be more informed on options traddes before they place them</p>
-        </div>)
+        </div>
+
+       );
     }
 }
 
