@@ -6,7 +6,9 @@ class Help extends React.Component{
     }
 
     render(){
-        return()
+        return(
+            <div>Hey it us</div>
+        )
  
     }
 }
