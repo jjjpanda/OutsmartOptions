@@ -103,4 +103,4 @@ class Help extends React.Component{
     }
 }
 
-export default Help;
+export {Help};

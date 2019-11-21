@@ -18,11 +18,11 @@ import logo from './img/logo.png'
 import "./css/logo.css";
 import "./css/calculator.less";
 
-import HomePage from "./home.js"
-import OptionsCalculator from './calc.js'
-import Watchlist from './watch.js'
-import Login from './login.js'
-import Help from './help.js'
+import {HomePage} from "./home.js"
+import {OptionsCalculator} from './calc.js'
+import {Watchlist} from './watch.js'
+import {Login} from './login.js'
+import {Help} from './help.js'
 
 import * as post from './jsLib/fetchLibrary.js'
 

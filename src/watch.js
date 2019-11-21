@@ -12,4 +12,4 @@ class Watch extends React.Component{
     }
 }
 
-export default Watch;
+export {Watch};

@@ -849,4 +849,7 @@ function dataURItoBlob(dataURI) {
 
 }
 
-export default OptionsCalculator
+export {
+  OptionsCalculator,
+  StockSymbol
+}
