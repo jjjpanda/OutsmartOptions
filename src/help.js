@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Button,
     Modal,
+    Carousel,
   } from 'antd';
 
 class Help extends React.Component{
@@ -17,14 +18,84 @@ class Help extends React.Component{
         this.setState({ guideModalVisible: guideModalVisible });
     }
 
+    renderModal(){
+
+    }
+
+    guide1(){
+        Modal.info({
+            title:"Guide 1",
+            content: (
+                <Carousel arrows >
+                        <div>
+                            <p>Lesson 1: Bruh</p>
+                        </div>
+                        <div>
+                            <p>End lesson</p>
+                        </div>
+                </Carousel>
+            )
+        });
+    }
+
+    guide2(){
+        Modal.info({
+            title:"Guide 2",
+            content: (
+                <Carousel arrows >
+                        <div>
+                            <p>Lesson 2: What are options ?</p>
+                        </div>
+                        <div>
+                            <p>End Lesson</p>
+                        </div>
+                </Carousel>
+            )
+        });
+    }
+
+    guide3(){
+        Modal.info({
+            title:"Guide 3",
+            content: (
+                <Carousel arrows >
+                        <div>
+                            <p>Lesson 3: Buy High Sell Low</p>
+                        </div>
+                        <div>
+                            <p>End of Lesson</p>
+                        </div>
+                </Carousel>
+            )
+        });
+    }
+
+
+
     render(){ return (
         
         <div id = "Guides">
             <h1>Helpful Guides</h1>
+            {/*}
             <Button onClick = {() => this.setGuideModalVisible(true)}>Guide 1</Button>
+            <br></br><br></br>
+            <Button onClick = {() => this.setGuideModalVisible(true)}>Guide 2</Button>
+            <br></br><br></br>
+            <Button onClick = {() => this.setGuideModalVisible(true)}>Guide 3</Button>
+
+            */}
+    
+            <Button onClick = {() => this.guide1()}>Guide 1</Button>
+            <br></br><br></br>
+            <Button onClick = {() => this.guide2()}>Guide 2</Button>
+            <br></br><br></br>
+            <Button onClick = {() => this.guide3()}>Guide 3</Button>
+            <br></br><br></br>
+            
+
             <div>
                 <Modal
-                    title="Guide1"
+                    title="Guide"
                     centered
                     width = {"50%"}
                     visible={this.state.guideModalVisible}
@@ -34,7 +105,16 @@ class Help extends React.Component{
                         </Button>
                     )}
                     onCancel = {() => this.setGuideModalVisible(false)}>
+                    <Carousel arrows >
+                        <div>
+                            <p>Page1</p>
+                        </div>
+                        <div>
+                            <p>Page2</p>
+                        </div>
+                    </Carousel>
                 </Modal>
+            
             </div>
             <br></br>
             <br></br>
