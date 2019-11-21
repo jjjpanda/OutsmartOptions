@@ -20,13 +20,14 @@ import "./css/calculator.less";
 
 import HomePage from "./home.js"
 import OptionsCalculator from './calc.js'
-import Watchlist from './help.js'
+import Watchlist from './watch.js'
+import About from './about.js'
 import Login from './login.js'
 import Help from './help.js'
 
 import * as post from './jsLib/fetchLibrary.js'
 
-fetch('https://api.ipify.org?format=json',
+fetch('https://api.ipify.org?format=jsoniuhb',
   {
     method: "get", 
     headers: {
@@ -90,9 +91,14 @@ class SideMenu extends React.Component {
               <Link to="/login" >Login</Link>
             </Menu.Item>
 
+            <Menu.Item key="about">
+              <Icon type="woman" />
+              <Link to="/about" >About</Link>
+            </Menu.Item>
+
             <Menu.Item key="help">
               <Icon type="question-circle-o" />
-              <Link to="/help" >About</Link>
+              <Link to="/help" >Help</Link>
             </Menu.Item>
 
             <Menu.Item key="darkmode">
