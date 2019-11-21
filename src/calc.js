@@ -849,4 +849,4 @@ function dataURItoBlob(dataURI) {
 
 }
 
-export default OptionsCalculator
+export default OptionsCalculator 
