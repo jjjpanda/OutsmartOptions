@@ -102,11 +102,13 @@ class SideMenu extends React.Component {
             </Menu.Item>
 
             <Menu.Item key="darkmode">
-              <Switch checkedChildren={<Icon type="bulb" theme="filled" />} unCheckedChildren={<Icon type="bulb"/>} defaultChecked />
+              <Icon type="bulb" theme="filled" />
+              <Link>Toggle Darkmode</Link>
             </Menu.Item>
 
             <Menu.Item key="tooltip">
-              <Switch checkedChildren={<Icon type="tool" theme="filled" />} unCheckedChildren={<Icon type="tool"/>} defaultChecked />
+              <Icon type="tool" theme="filled" />
+              <Link>Toggle Tooltips</Link>
             </Menu.Item>
 
           </Menu>
@@ -127,6 +129,7 @@ ReactDOM.render(
               <Route exact path = "/calc" component = {OptionsCalculator}/> 
               <Route exact path = "/watch" component = {Watchlist} />
               <Route exact path = "/login" component = {Login} />
+              <Route exact path = "/about" component = {About} />
               <Route exact path = "/help" component = {Help} />
             </div>
  
