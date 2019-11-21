@@ -8,18 +8,6 @@ import {
 class Help extends React.Component{
     constructor(props){
         super(props)
-
-        this.state = {
-            guideModalVisible: false
-        };
-    }
-
-    setGuideModalVisible(guideModalVisible) {
-        this.setState({ guideModalVisible: guideModalVisible });
-    }
-
-    renderModal(){
-
     }
 
     guide1(){
@@ -29,6 +17,7 @@ class Help extends React.Component{
                 <Carousel arrows >
                         <div>
                             <p>Lesson 1: Bruh</p>
+                            <img src = "/img/b_1.gif" alt = "pie" height = "150" width = "250"></img>
                         </div>
                         <div>
                             <p>End lesson</p>
@@ -71,55 +60,19 @@ class Help extends React.Component{
     }
 
 
-
     render(){ return (
         
         <div id = "Guides">
-            <h1>Helpful Guides</h1>
-            {/*}
-            <Button onClick = {() => this.setGuideModalVisible(true)}>Guide 1</Button>
-            <br></br><br></br>
-            <Button onClick = {() => this.setGuideModalVisible(true)}>Guide 2</Button>
-            <br></br><br></br>
-            <Button onClick = {() => this.setGuideModalVisible(true)}>Guide 3</Button>
+            <h2>Helpful Guides</h2>
 
-            */}
-    
             <Button onClick = {() => this.guide1()}>Guide 1</Button>
             <br></br><br></br>
             <Button onClick = {() => this.guide2()}>Guide 2</Button>
             <br></br><br></br>
             <Button onClick = {() => this.guide3()}>Guide 3</Button>
             <br></br><br></br>
-            
 
-            <div>
-                <Modal
-                    title="Guide"
-                    centered
-                    width = {"50%"}
-                    visible={this.state.guideModalVisible}
-                    footer = {(
-                        <Button key="ok" type="primary" onClick = {() => this.setGuideModalVisible(false)}>
-                            Ok
-                        </Button>
-                    )}
-                    onCancel = {() => this.setGuideModalVisible(false)}>
-                    <Carousel arrows >
-                        <div>
-                            <p>Page1</p>
-                        </div>
-                        <div>
-                            <p>Page2</p>
-                        </div>
-                    </Carousel>
-                </Modal>
-            
-            </div>
-            <br></br>
-            <br></br>
-
-            <h1>Contact Us</h1>
+            <h2>Contact Us</h2>
             <p>Feel free to contact the team with any questions</p>
             <p>Email: help@outsmart.com</p>
             <p>Phone: 732-555-6969</p>
