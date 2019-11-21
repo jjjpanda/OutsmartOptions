@@ -20,7 +20,11 @@ import "./css/calculator.less";
 
 import HomePage from "./home.js"
 import OptionsCalculator from './calc.js'
+<<<<<<< HEAD
 import Watchlist from './help.js'
+=======
+import Watchlist from './watch.js'
+>>>>>>> parent of f90a254... home page stock symbol
 import Login from './login.js'
 import Help from './help.js'
 
