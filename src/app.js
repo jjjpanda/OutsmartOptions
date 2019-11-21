@@ -46,6 +46,8 @@ class SideMenu extends React.Component {
   state = {
     collapsed: true,
     currentTab: 'index',
+    toggleDarkMode: true,
+    toggleTooltip: true,
   };
 
   onCollapse = (collapsed) => {
@@ -60,13 +62,21 @@ class SideMenu extends React.Component {
     });
   };
 
+  toggleTooltips = () => {
+    this.setState({
+      toggleTooltip: !this.state.toggleTooltip
+    })
+    console.log('Toggled tooltip: ', + this.state.toggleTooltip);
+
+  }
+
   render() {
     return (
       <Sider
           collapsible = {false} 
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
-          style={{boxShadow:"1px 1px 5px 1px #888888", minHeight: '100vh'}}
+          style={{boxShadow:"1px 1px 2px 1px #888888", minHeight: '100vh'}}
         >
           <div className="logo" ><img key="mainLogo" id = "logo" className = "spin" src={logo}></img>/></div>
           <Menu theme="dark" defaultSelectedKeys={['index']} mode="inline" onClick={this.handleClick} >
@@ -106,7 +116,7 @@ class SideMenu extends React.Component {
               <Link>Toggle Darkmode</Link>
             </Menu.Item>
 
-            <Menu.Item key="tooltip">
+            <Menu.Item key="tooltip" onClick= {() => this.toggleTooltips()}>
               <Icon type="tool" theme="filled" />
               <Link>Toggle Tooltips</Link>
             </Menu.Item>
