@@ -9,7 +9,7 @@ import Adapter from "enzyme-adapter-react-16"
 
 configure ({ adapter: new Adapter() })
 
-describe('Jest Test', () => {
+describe('App Test', () => {
     it('sums numbers', () => {
         expect(1 + 2).toEqual(3);
         expect(2 + 2).toEqual(4);
