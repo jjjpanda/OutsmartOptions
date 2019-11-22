@@ -178,7 +178,7 @@ export function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r
         }
     }
     if (iv < 0){
-        return null //INVALID ID
+        return 0.01 //INVALID ID
     }
     return iv
 }
