@@ -403,6 +403,11 @@ class OptionsCalculator extends React.Component{
       (row.callOutlier ? (<strong>{text}</strong>) : (<div>{text}</div>))
     },
     {
+      title: 'Call IV',
+      dataIndex: 'callIV',
+      render : (text) => (<div>{text.toFixed(2)}</div>)
+    },
+    {
       title: 'Strike',
       dataIndex: 'strike'
     },
@@ -415,6 +420,11 @@ class OptionsCalculator extends React.Component{
       dataIndex: 'putVol',
       render: (text, row) => 
       (row.putOutlier ? (<strong>{text}</strong>) : (<div>{text}</div>))
+    },
+    {
+      title: 'Put IV',
+      dataIndex: 'putIV',
+      render : (text) => (<div>{text.toFixed(2)}</div>)
     },
     {
       title: '',
