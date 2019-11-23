@@ -6,7 +6,7 @@ module.exports = {
 getYield: function (callback){
     request({
         method: 'get',
-        url: 'https://data.treasury.gov/feed.svc/DailyTreasuryYieldCurveRateData?$filter=month(NEW_DATE)%20eq%2010%20and%20year(NEW_DATE)%20eq%202019',
+        url: 'https://data.treasury.gov/feed.svc/DailyTreasuryYieldCurveRateData?$filter=month(NEW_DATE)%20eq%20'+((new Date()).getMonth()+1)+'%20and%20year(NEW_DATE)%20eq%20'+((new Date()).getFullYear()),
         }, (error, response, body) => {
         if(!error && response.statusCode == 200){
             //console.log(body)
