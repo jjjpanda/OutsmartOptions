@@ -9,6 +9,9 @@ export function getInt(string){
 	else if (string.includes('Y')){
 		return 365
 	}
+	else {
+		return 1;
+	}
 }
 
 export function getClose(givenDays, valT, valB, topDays, bottomDays){
@@ -19,17 +22,21 @@ export function getClose(givenDays, valT, valB, topDays, bottomDays){
 	return interpolatedVal
 }
 
+export function getDays(yields){
+	return yields.map(y => {return{...y, days: getInt(y.name) * parseInt(y.name.match(/(\d+)/)[0] != undefined ? y.name.match(/(\d+)/)[0] : 0) }});
+}
+
 export function getRightYield(yields, expireTime){
 	
-    yields = yields.map(y => {return{...y, days: getInt(y.name) * parseInt(y.name.match(/(\d+)/)[0] != undefined ? y.name.match(/(\d+)/)[0] : 0) }});
-
+	yields = getDays(yields)
+	
 	//for over yields and look until expire time > days -> take that and prev and interpolate
-	for (var i = 0; i < yields.length; i++){
-		if(i+1 < yields.length && expireTime > yields[i].days && expireTime < yields[i+1].days){
-			return getClose(expireTime, yields[i].val, yields[i+1].val, yields[i].days, yields[i+1].days)
-		}
-		else if(i == yields.length-1) {
-			return yields[i].val
+	if(expireTime < yields[0].days){
+		return getClose(expireTime, 0, yields[0].val, 0, yields[0].days)
+	}
+	for (var i = 0; i < yields.length - 1; i++){
+		if(yields[i].days < expireTime && expireTime <= yields[i+1].days){
+			return getClose(expireTime, yields[i+1].val, yields[i].val, yields[i+1].days, yields[i].days)
 		}
 	}
 	return 0;
