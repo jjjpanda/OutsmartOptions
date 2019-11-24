@@ -40,6 +40,7 @@ class OptionsCalculator extends React.Component{
       priceChange: 0, 
       price: 0,
       addLegModalVisible: false,
+      ivSkewModalVisible: false,
       optionsChain: [['Empty',{}]],
       optionsSelected: []
     };
@@ -98,6 +99,10 @@ class OptionsCalculator extends React.Component{
     this.setState({ addLegModalVisible: addLegModalVisible });
   }
 
+  setIVSkewModalVisible(ivSkewModalVisible) {
+    this.setState({ ivSkewModalVisible: ivSkewModalVisible });
+  }
+
   renderLegs() {
     return this.state.optionsSelected.map((option, index) => (
       <OptionsLeg isFirst={index===0 ? false:true} key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
@@ -126,6 +131,17 @@ class OptionsCalculator extends React.Component{
         <Table dataSource = {e[1]} columns ={this.columns(e[0])}
           rowClassName={(record) => record.atmNess} 
           pagination={false} size="small" scroll={{ y: 500 }} /> 
+      </Panel>
+    ))
+  }
+
+  renderIVSkew = () => {
+    return this.state.optionsChain.map(e => (
+      <Panel key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
+        <div>
+          <NoAxisGraph data = {e[1]} xKey = {'strike'} dataKey = {'callIV'}></NoAxisGraph>
+          <NoAxisGraph data = {e[1]} xKey = {'strike'} dataKey = {'putIV'}></NoAxisGraph>
+        </div>
       </Panel>
     ))
   }
@@ -468,6 +484,7 @@ class OptionsCalculator extends React.Component{
       <div className="optionsList">{this.renderLegs()}</div>
 
       <div className="optionsButtons">
+          
           <div id= "addLegButton">
             <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={() => this.setAddLegModalVisible(true)}>Edit Legs</Button>
             <div className="addLegButtonWrapper">
@@ -488,10 +505,30 @@ class OptionsCalculator extends React.Component{
                 </Collapse>
               </Modal>
             </div>
-
           </div>
 
-          <div id= "ivSkewButton"><Button icon="profile">IV Skew</Button></div>
+          <div id= "ivSkewButton">
+            <Button icon="profile" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={() => this.setIVSkewModalVisible(true)}>IV Skew</Button>
+            <div className="addLegButtonWrapper">
+              <Modal
+                title="IV Skew"
+                centered
+                width = {"50%"}
+                visible={this.state.ivSkewModalVisible}
+                footer = {(
+                  <Button key="ok" type="primary" onClick = {() => this.setIVSkewModalVisible(false)}>
+                    Ok
+                  </Button>
+                )}
+                onCancel = {() => this.setIVSkewModalVisible(false)}
+              >
+                <Collapse accordion>
+                  {this.renderIVSkew()}
+                </Collapse>
+              </Modal>
+            </div>
+          </div>
+          
           <div id= "strategyButton"><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
@@ -673,6 +710,27 @@ class OptionsLeg extends React.Component {
   }
 }
 
+class NoAxisGraph extends React.Component{
+  constructor(props){
+    super(props)
+  }
+
+  render() {
+    return (
+        <ResponsiveContainer height= {300} width='100%'>
+          <LineChart
+            data={this.props.data}
+            margin={{top: 10, right: 10, left: 10, bottom: 10}}
+          >
+            <XAxis dataKey={this.props.xKey} allowDecimals = {false} ></XAxis>
+            <YAxis></YAxis>
+            <Line name = {this.props.dataKey} type="monotone" dot={false} dataKey={this.props.dataKey} stroke={'#000000'} />
+          </LineChart>
+        </ResponsiveContainer>
+    )
+  }
+
+}
 
 class ProfitGraph extends React.Component{
   constructor(props){
@@ -818,7 +876,7 @@ class ProfitGraph extends React.Component{
         data={this.state.data}
         margin={{top: 50, right: 50, left: 50, bottom: 50}}
       >
-        <CartesianGrid strokeDasharray="2 3"/>
+        <CartesianGrid strokeDasharray="4 1 2 1"/>
         <XAxis dataKey={'x'} allowDecimals = {false} >
           <Label value = "Stock Price" position = "insideBottom" offset ={-5} />
         </XAxis>
