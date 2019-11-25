@@ -1,0 +1,33 @@
+.aStyle{
+    font-Family: 'HelveticaNeue';
+    font-Size: 45px;
+    font-Weight: 'bold';
+}
+.bStyle{
+    margin-Left: 200;
+    margin-Right: 200;
+    font-Family: 'HelveticaNeue';
+    font-Size: 20px;
+}
+.cStyle{
+    margin-Left: 50;
+    margin-Right: 400;
+    font-Family: 'HelveticaNeue';
+    font-Size: 17px;
+}
+.dStyle{
+    margin-Left: 50;
+    font-Family: 'HelveticaNeue';
+    font-Size: 20px;
+    font-Weight: 600;
+}
+.eStyle{
+    font-Family: 'HelveticaNeue';
+    font-Size: 20px;
+    font-Weight: 600; 
+}
+.fStyle{
+    font-Family : 'HelveticaNeue';
+    font-size: 17px;
+    font-Weight: 100;
+}
