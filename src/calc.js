@@ -52,7 +52,7 @@ class OptionsCalculator extends React.Component{
     
     post.fetchReq('/price', JSON.stringify({ticker: e}), (data) => {
       console.log(data);
-      if (data.price === undefined){
+      if (data.price === undefined || data.price === null){
         data.price = 0;
         data.change = 0;
         this.setState({exists: false});
