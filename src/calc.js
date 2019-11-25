@@ -138,9 +138,13 @@ class OptionsCalculator extends React.Component{
   renderIVSkew = () => {
     return this.state.optionsChain.map(e => (
       <Panel key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
-        <div>
-          <NoAxisGraph data = {e[1]} xKey = {'strike'} dataKey = {'callIV'}></NoAxisGraph>
-          <NoAxisGraph data = {e[1]} xKey = {'strike'} dataKey = {'putIV'}></NoAxisGraph>
+        <div className="IVSkewGraphs">
+          <div id="IVGraph1">
+            <NoAxisGraph data = {e[1]} xKey = {'strike'} dataKey = {'callIV'}></NoAxisGraph>
+          </div>
+          <div id="IVGraph2">
+            <NoAxisGraph data = {e[1]} xKey = {'strike'} dataKey = {'putIV'}></NoAxisGraph>
+          </div>
         </div>
       </Panel>
     ))
@@ -508,7 +512,8 @@ class OptionsCalculator extends React.Component{
           </div>
 
           <div id= "ivSkewButton">
-            <Button icon="profile" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={() => this.setIVSkewModalVisible(true)}>IV Skew</Button>
+            <Button icon="profile" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] 
+              == "Empty" ? true : false)} onClick={() => this.setIVSkewModalVisible(true)}>IV Skew</Button>
             <div className="addLegButtonWrapper">
               <Modal
                 title="IV Skew"
