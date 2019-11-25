@@ -7,18 +7,19 @@
     font-family: 'HelveticaNeue';
     font-size: 70px;
     font-weight: 'bold';
+    z-index: 1;
+    padding-left: 30%
     
     
-    position: static;
+    
 }
 .firstText{
-    margin: 0 auto;
     color: black;
-    text-align: center;
+    text-align: left;
     position: absolute;
     bottom: 400px;
-    padding-left: 30%;
-    padding-right: 30%;
+    padding-left: 60%;
+    padding-right: 10%;
     z-index: 1;
     font-family: 'HelveticaNeue';
     font-size: 35px;
@@ -26,11 +27,11 @@
 }
 
 .testimony1{
-    text-align: right;
-    margin-left: 60%;
-    margin-right: 2%;
+    text-align: left;
+    margin-left: 2%;
+    margin-right: 60%;
     position: absolute;
-    bottom: 150px;
+    bottom: 250px;
     color: black;
     z-index: 1;
     font-family: 'HelveticaNeue';
@@ -41,7 +42,7 @@
     margin-left: 2%;
     margin-right: 60%;
     position: absolute;
-    bottom: -180px;
+    bottom: -80px;
     z-index: 1;
     font-family: 'HelveticaNeue';
     font-size: 35px;
@@ -59,14 +60,19 @@
     color: black;
 }
 .backgrounds{
-    width: 98%;
-    margin-left: 1%;
-    margin-right: 1%;
-    position: static;
-    opacity: .5;
-    min-height: 400px;
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+    position: relative;
+    opacity: .9;
+    min-height: 500px;
+    border-radius: 5px;
     
     
+}
+#chartBackground{
+    position: relative;
+    top: -800;
 }
 #twitter{
     position: absolute;
@@ -81,5 +87,6 @@
     position: absolute;
     top: 1075px;
     z-index: 1;
-    max-height: 300px;  
+    max-height: 400px;  
 }
+
