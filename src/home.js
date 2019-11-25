@@ -15,13 +15,14 @@ class HomePage extends React.Component{
         <body>
         
         <h1 class = 'title'>Outsmart Options</h1>
-        <img class = 'backgrounds' id = 'chartBackground' src = {chart}></img>
         <img class = 'backgrounds' id = 'wavesBackground' src = {waves}></img>
+        <img class = 'backgrounds' id = 'chartBackground' src = {chart}></img>
+        
         <img class = 'backgrounds' id = 'profitBackground' src = {profit}></img>
 
         <h2 class = 'firstText'>Welcome to the future of options trading</h2>
         <h2 class = 'testimony1'>This is the platform that puts the power of trading in your hands</h2>
-        <h2 class = "testimony2">"Technology that changed the way I see options" - Houston, 22</h2>
+        {/*<h2 class = "testimony2">"Technology that changed the way I see options" - Houston, 22</h2>*/}
         <h2 class = 'testimony3'>"Big nut" - Warren Buffett</h2>
         
         
