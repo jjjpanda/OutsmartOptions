@@ -589,9 +589,7 @@ class StockSymbol extends React.Component {
         <div className = "stockSymbol" data-intro="some text" data-hint="Bruh Moment" data-step={1} >
           <div id= "stockSymbolHeading" >
             Stock Symbol:&nbsp;
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
           </div>
           <div id="stockSymbolInput">
               <div id="searchWrapper"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
@@ -601,18 +599,14 @@ class StockSymbol extends React.Component {
         <div className="stockPrice" data-intro="some text" data-hint="Bruh Moment 2" data-step={2}>
           <div id= "stockPriceHeading">
             Stock Price:&nbsp;
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
           </div> 
           <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
         </div>
         <div className="stockPriceChange" data-intro="some text" data-hint="Bruh Moment 3" data-step={3}>
           <div id= "priceChangeHeading">
             Stock Price Change:&nbsp;
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
           </div>
           <div id="priceChangeBox"><Input placeholder={this.props.priceChange+"%"} disabled/></div>
         </div>
@@ -668,9 +662,7 @@ class OptionsLeg extends React.Component {
         <div className="optionsHeadings"> 
           <div class= "buyWrite">
             Buy or Write:&nbsp;{this.props.isFirst ? null:(
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
             )}
             <div id= "buyWriteSwitch">
               <Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/>
@@ -678,9 +670,7 @@ class OptionsLeg extends React.Component {
           </div>
           <div class= "contract">
             Contract:&nbsp;{this.props.isFirst ? null:(
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
             )}
             <div id= "contractBox">
               <Input placeholder="Contract" value={this.state.date + " " + this.state.strike + " " + (this.state.isCall?"C":"P")} disabled/>
@@ -690,17 +680,13 @@ class OptionsLeg extends React.Component {
           <div id= "xHeading">x</div>
           <div class= "quantity">
             Quantity:&nbsp;{this.props.isFirst ? null:(
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
             )}
             <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           </div>
           <div class= "atPrice">
             At Price:&nbsp;{this.props.isFirst ? null:(
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
             )}
             <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
           </div>
@@ -712,6 +698,25 @@ class OptionsLeg extends React.Component {
         
       </div>
     );
+  }
+}
+
+class HelpTooltip extends React.Component{
+  constructor(props){
+    super(props);
+  }
+  
+  render(){
+    if(!this.props.hide){
+      return (
+        <Popover content={this.props.content} title={this.props.title} trigger="hover">
+          <Icon type="info-circle-o" />
+        </Popover>
+      )
+    }
+    else{
+      return;
+    }
   }
 }
 
