@@ -14,24 +14,24 @@ class HomePage extends React.Component{
         return (
         <body>
         
-        <h1 class = 'title'>Outsmart Options</h1>
+        <h1 class = 'text' id = 'title'>Outsmart Options</h1>
         <img class = 'backgrounds' id = 'wavesBackground' src = {waves}></img>
         <img class = 'backgrounds' id = 'chartBackground' src = {chart}></img>
         
         <img class = 'backgrounds' id = 'profitBackground' src = {profit}></img>
 
-        <h2 class = 'firstText'>Welcome to the future of options trading</h2>
-        <h2 class = 'testimony1'>This is the platform that puts the power of trading in your hands</h2>
+        <h2 class = 'text' id = 'firstText'>Welcome to the future of options trading</h2>
+        <h2 class = 'text' id = 'testimony1'>This is the platform that puts the power of trading in your hands</h2>
         {/*<h2 class = "testimony2">"Technology that changed the way I see options" - Houston, 22</h2>*/}
-        <h2 class = 'testimony3'>"Big nut" - Warren Buffett</h2>
+        <h2 class = 'text' id = 'testimony3'>"Big nut" - Warren Buffett</h2>
         
         
         
         <div class = 'instagram' id = 'insta1'>
             <InstagramEmbed
-                url='https://www.instagram.com/p/B5JC05qpw2g/'
+                url='https://www.instagram.com/p/B5S-8Tshp51/'
                 maxWidth={320}
-                hideCaption={true}
+                hideCaption={false}
                 containerTagName='div'
                 protocol=''
                 injectScript
