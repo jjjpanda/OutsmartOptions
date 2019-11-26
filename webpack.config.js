@@ -31,7 +31,8 @@ module.exports = {
               "@primary-color": "#6FaFcF"
             }
           }
-        }]},
+        }, 
+      ]},
       {
         test: /\.css$/,
         exclude: /node_modules/,
@@ -41,7 +42,13 @@ module.exports = {
         test: /\.(png|svg|jpg|gif)$/,
         exclude: /node_modules/,
         use: ['file-loader']
-       }
+       },
+       {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+        'file-loader',
+        ],
+        },
     ]
   },
   plugins: [
