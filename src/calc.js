@@ -130,7 +130,7 @@ class OptionsCalculator extends React.Component{
       <Panel key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
         <Table dataSource = {e[1]} columns ={this.columns(e[0])}
           rowClassName={(record) => record.atmNess} 
-          pagination={false} size="small" scroll={{ y: 500 }} /> 
+          pagination={false} size="small" scroll={{ y: 500 }} />
       </Panel>
     ))
   }
@@ -488,30 +488,35 @@ class OptionsCalculator extends React.Component{
       <div className="optionsList">{this.renderLegs()}</div>
 
       <div className="optionsButtons">
-          
-          <div id= "addLegButton">
+          <div style={{width:'60px', display: 'inline-block'}}/>
+          <div id= "addLegButton" data-intro="some text" data-step={4}>
             <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={() => this.setAddLegModalVisible(true)}>Edit Legs</Button>
             <div className="addLegButtonWrapper">
-              <Modal
-                title="Add Leg"
-                centered
-                width = {"50%"}
-                visible={this.state.addLegModalVisible}
-                footer = {(
-                  <Button key="ok" type="primary" onClick = {() => this.setAddLegModalVisible(false)}>
-                    Ok
-                  </Button>
-                )}
-                onCancel = {() => this.setAddLegModalVisible(false)}
-              >
-                <Collapse accordion>
-                  {this.renderOptionsChain()}
-                </Collapse>
-              </Modal>
+              <div>
+                <Modal
+                  title="Add Leg"
+                  centered
+                  width = {"50%"}
+                  visible={this.state.addLegModalVisible}
+                  footer = {(
+                    <Button key="ok" type="primary" onClick = {() => this.setAddLegModalVisible(false)}>
+                      Ok
+                    </Button>
+                  )}
+                  onCancel = {() => this.setAddLegModalVisible(false)}
+                >
+                  <div>
+                    <Collapse accordion>
+                      {this.renderOptionsChain()}
+                    </Collapse>
+                  </div>
+
+                </Modal>
+              </div>
             </div>
           </div>
-
-          <div id= "ivSkewButton">
+          <div style={{width:'43px', display: 'inline-block'}}/>
+          <div id= "ivSkewButton" >
             <Button icon="profile" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] 
               == "Empty" ? true : false)} onClick={() => this.setIVSkewModalVisible(true)}>IV Skew</Button>
             <div className="addLegButtonWrapper">
@@ -534,7 +539,8 @@ class OptionsCalculator extends React.Component{
             </div>
           </div>
           
-          <div id= "strategyButton"><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
+          <div style={{width:'43px', display: 'inline-block'}}/>
+          <div id= "strategyButton" data-intro="some text" data-step={6}><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
           <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
@@ -581,12 +587,11 @@ class StockSymbol extends React.Component {
 
   }
 
-  
-
   render() {
     return (
       <div>
-        <div className = "stockSymbol" data-intro="some text" data-hint="Bruh Moment" data-step={1} >
+        <div style={{width:'60px', display: 'inline-block'}}/>
+        <div className = "stockSymbol" data-intro="some text" data-step={1} >
           <div id= "stockSymbolHeading" >
             Stock Symbol:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
@@ -596,14 +601,16 @@ class StockSymbol extends React.Component {
             <div id="exists">{this.props.exists ? null:(<Icon  type="close-circle" />)}</div>
           </div>
         </div>
-        <div className="stockPrice" data-intro="some text" data-hint="Bruh Moment 2" data-step={2}>
+        <div style={{width:'43px', display: 'inline-block'}}/>
+        <div className="stockPrice" data-intro="some text" data-step={2}>
           <div id= "stockPriceHeading">
             Stock Price:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
           </div> 
           <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
         </div>
-        <div className="stockPriceChange" data-intro="some text" data-hint="Bruh Moment 3" data-step={3}>
+        <div style={{width:'43px', display: 'inline-block'}}/>
+        <div className="stockPriceChange" data-intro="some text" data-step={3}>
           <div id= "priceChangeHeading">
             Stock Price Change:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
