@@ -14,6 +14,7 @@ class Help extends React.Component{
         super(props)
     }
 
+    //functions for carousel modals
     guide1(){
 
         Modal.info({
@@ -75,10 +76,10 @@ class Help extends React.Component{
                         <Card 
                             title="Guide1" 
                             cover = {
-                                <img alt ="outsmart" src = "/img/logo.png" width = "100" height = "300"/>
+                               <img alt ="outsmart" src = "/img/logo.png"  className = "spin" width = "100" height = "200"/>
                             }
                             actions = {[
-                                <Icon type = "video-camera"/>,
+                                <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide1()}/>,
                                 <Icon type = "ellipsis" />,
                             ]}
@@ -90,10 +91,10 @@ class Help extends React.Component{
                         <Card 
                             title="Guide2"
                             cover = {
-                                <img alt ="outsmart" src = "/img/logo.png" width = "100" height = "300"/>
+                                <img alt ="outsmart" src = "/img/logo.png" className = "spin" width = "100" height = "200"/>
                             }
                             actions = {[
-                                <Icon type = "video-camera"/>,
+                                <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide2()}/>,
                                 <Icon type = "ellipsis" />,
                             ]}
@@ -105,10 +106,10 @@ class Help extends React.Component{
                         <Card 
                             title="Guide3"
                             cover = {
-                                <img alt ="outsmart" src = "/img/logo.png" width = "100" height = "300"/>
+                                <img alt ="outsmart" src = "/img/logo.png" className = "spin" width = "100" height = "200"/>
                             } 
                             actions = {[
-                                <Icon type = "video-camera"/>,
+                                <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide3()}/>,
                                 <Icon type = "ellipsis" />,
                             ]}
@@ -124,10 +125,10 @@ class Help extends React.Component{
                         <Card 
                             title="Guide1"
                             cover = {
-                                <img alt ="outsmart" src = "/img/logo.png" width = "100" height = "300"/>
+                                <img alt ="outsmart" src = "/img/logo.png" className = "spin" width = "100" height = "200"/>
                             } 
                             actions = {[
-                                <Icon type = "video-camera"/>,
+                                <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide1()}/>,
                                 <Icon type = "ellipsis" />,
                             ]}
@@ -139,10 +140,10 @@ class Help extends React.Component{
                         <Card 
                             title="Guide2"
                             cover = {
-                                <img alt ="outsmart" src = "/img/logo.png" width = "100" height = "300"/>
+                                <img alt ="outsmart" src = "/img/logo.png"  className = "spin" width = "100" height = "200"/>
                             }
                             actions = {[
-                                <Icon type = "video-camera"/>,
+                                <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide2()}/>,
                                 <Icon type = "ellipsis" />,
                             ]}
@@ -154,10 +155,10 @@ class Help extends React.Component{
                         <Card 
                             title="Guide3"
                             cover = {
-                                <img alt ="outsmart" src = "/img/logo.png" width = "100" height = "300"/>
+                                <img alt ="outsmart" src = "/img/logo.png" className = "spin" width = "100" height = "200"/>
                             } 
                             actions = {[
-                                <Icon type = "video-camera"/>,
+                                <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide3()}/>,
                                 <Icon type = "ellipsis" />,
                             ]}
@@ -173,10 +174,10 @@ class Help extends React.Component{
                         <Card 
                             title="Guide1"
                             cover = {
-                                <img alt ="outsmart" src = "/img/logo.png" width = "100" height = "300"/>
+                                <img alt ="outsmart" src = "/img/logo.png" className = "spin" width = "100" height = "200"/>
                             } 
                             actions = {[
-                                <Icon type = "video-camera"/>,
+                                <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide1()}/>,
                                 <Icon type = "ellipsis" />,
                             ]}
@@ -188,10 +189,10 @@ class Help extends React.Component{
                         <Card 
                             title="Guide2"
                             cover = {
-                                <img alt ="outsmart" src = "/img/logo.png" width = "100" height = "300"/>
+                                <img alt ="outsmart" src = "/img/logo.png" className = "spin" width = "100" height = "200"/>
                             } 
                             actions = {[
-                                <Icon type = "video-camera"/>,
+                                <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide2()}/>,
                                 <Icon type = "ellipsis" />,
                             ]}
@@ -203,10 +204,10 @@ class Help extends React.Component{
                         <Card 
                             title="Guide3"
                             cover = {
-                                <img alt ="outsmart" src = "/img/logo.png" width = "100" height = "300"/>
+                                <img alt ="outsmart" src = "/img/logo.png" className = "spin" width = "100" height = "200"/>
                             } 
                             actions = {[
-                                <Icon type = "video-camera"/>,
+                                <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide3()}/>,
                                 <Icon type = "ellipsis" />,
                             ]}
