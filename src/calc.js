@@ -46,7 +46,7 @@ const steps = [
     },
      style: {
       backgroundColor: 'black',
-      color : 'white'
+      color : 'white',
     }
   },
   {
@@ -630,8 +630,9 @@ class OptionsCalculator extends React.Component{
         isOpen={this.state.isTourOpen}
         onRequestClose={this.closeTutorial} 
       />
-      <h1 key = "mainTitle" step-name="title" style={{paddingLeft:'60px', paddingTop:'20px'}}>Outsmart Options</h1>
-
+      <div style={{width:'60px', paddingBottom:'20px'}}/>
+      <div style={{width:'60px', display: 'inline-block'}}/>
+      <h1 key = "mainTitle" step-name="title" style={{ width:'135px', display: 'inline-block'}}>Outsmart Options</h1>
       <StockSymbol onSearch={this.onSearch} price={this.state.price} priceChange={this.state.priceChange} exists={this.state.exists}/>
       
       <hr id="hr" align='left'/>
@@ -742,12 +743,12 @@ class StockSymbol extends React.Component {
     return (
       <div>
         <div style={{width:'60px', display: 'inline-block'}}/>
-        <div className = "stockSymbol">
+        <div className = "stockSymbol" step-name = "stock-symbol-input">
           <div id= "stockSymbolHeading">
             Stock Symbol:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
           </div>
-          <div id="stockSymbolInput" step-name = "stock-symbol-input">
+          <div id="stockSymbolInput">
               <div id="searchWrapper"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
             <div id="exists">{this.props.exists ? null:(<Icon step-name = "stock-nonexistent" type="close-circle" />)}</div>
           </div>
