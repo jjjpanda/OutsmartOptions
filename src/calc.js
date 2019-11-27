@@ -24,7 +24,6 @@ import * as structure from './jsLib/structuresEditingLibrary.js'
 import * as post from './jsLib/fetchLibrary.js'
 import * as outliers from './jsLib/outliersLibrary.js'
 import * as treasury from './jsLib/treasuryLibrary.js'
-import { continueStatement } from '@babel/types';
 
 //Treasury Yields
 var yields;
@@ -34,43 +33,114 @@ post.fetchReq('/treasury', '', (data) => {
 
 const steps = [
   {
-    selector: '[step-number="first-step"]',
-    content: 'BRUH MOMENT',
-    action: node => {
-      //node is the element surrounded by the div
+    selector: '[step-name="title"]',
+    content: ({goTo, inDOM}) => {
+      return (
+        <div>
+          What's up 😊? I'm Mr. Outsmart, a sentient AI that'll help guide you on your journey. 
+          Follow the arrows (⬅➡) and you'll get it in no time.
+          <br></br>  
+          <a onClick ={() => goTo(1)}> Click me ➡ when you're ready to go. </a>
+        </div>
+      )
     },
-  },
-  {
-    selector: '[step-number="second-step"]',
-    content: 'BRUH MOMENT',
-  },
-  {
-    selector: '[step-number="third-step"]',
-    content: ({ goTo, inDOM }) => (
-      <div>
-        Lorem ipsum <button onClick={() => goTo(4)}>Go to Step 5</button>
-        <br />
-        {inDOM ? "🎉 IN DOM" : "Not in DOM"}
-      </div>
-    ),
-    position: 'right',
-    style: {
-      backgroundColor: '#bada55',
+     style: {
+      backgroundColor: 'black',
+      color : 'white'
     }
   },
   {
-    selector: '[step-number="fourth-step"]',
-    content: 'BRUH MOMENT',
+    selector: '[step-name="stock-symbol-input"]',
+    content: ({goTo, inDOM}) => {
+      return (
+        <div>
+          First things first, you should type in a stock and press enter. (Try something like AAPL or MSFT) 
+          <br></br>
+          <a onClick ={() => goTo(2)}>Click here ➡ to move on</a>
+        </div>
+      )
+    }
   },
   {
-    selector: '[step-number="fifth-step"]',
-    content: ({ goTo, inDOM }) => (
-      <div>
-        {inDOM ? "🎉 IN DOM" : "Not in DOM"}
-      </div>
-    )},
+    selector: '[step-name="stock-nonexistent"]',
+    content: ({goTo, inDOM}) =>  {
+      if(inDOM){
+        return (
+          <div>
+            "Well, well, well 😒. Looks like we got a rebel here. <a onClick={() => goTo(1)}>Go back ⬅</a> and type in a stock that actually exists and has options."
+          </div>
+        )
+      }
+      else{
+        goTo(3);
+      }
+    },
+  },
   {
-    selector: '[step-number="sixth-step"]',
+    selector: '[step-name="stock-price"]',
+    content: ({goTo, inDOM}) => {
+      return (
+        <div>
+          Once you type in the stock, you'll see the current price right here. Pretty cool right? 
+          <br></br>
+          <a onClick ={() => goTo(4)}>Click here ➡ to move on</a>
+          <br></br>
+          <a onClick ={() => goTo(1)}>Click here ⬅ to try a different stock</a>
+        </div>
+      )
+    }
+  },
+  {
+    selector: '[step-name="stock-percent-change"]',
+    content: ({goTo, inDOM}) => {
+      return (
+        <div>
+          And here is the percent change for the day. We don't have premarket moves, so only during and after market hours will you see any changes.  
+          <br></br>
+          <a onClick ={() => goTo(5)}>Click here ➡ to move on</a>
+          <br></br>
+          <a onClick ={() => goTo(1)}>Click here ⬅ to try a different stock</a>
+        </div>
+      )
+    },
+  },
+  {
+    selector: '[step-name="edit-leg"]',
+    content: ({goTo, inDOM}) => {
+      return (
+        <div>
+          So here is where we get into the meat 🍖 of this thing. 
+          This button will open up the options chain. 
+          Note that if you -sigh- didn't type in an stock that 
+          has an options chain 😓 the button will be disabled.
+          However, if a stock doesn't immediately load the button, don't get scared 😯.
+          It may take a while to load.
+          So go ahead, click the button.
+        <br></br>
+        <a onClick ={() => goTo(6)}>Click here ➡ to move on.</a>
+        <br></br>
+        <a onClick ={() => goTo(1)}>Click here ⬅ to type in another stock.</a>
+        </div>
+      )
+    }
+  },
+  {
+    selector: '[step-name="edit-leg-modal"]',
+    content: ({ goTo, inDOM }) => {
+      if(inDOM){
+        return (
+          <div>
+            Here it is 🎉.
+          </div>
+        )
+      }
+      else {
+        goTo(5)
+      }
+    }
+  },
+  {
+    selector: '[step-name="strategy-button"]',
     content: 'BRUH MOMENT',
   }  
 ]
@@ -531,10 +601,15 @@ class OptionsCalculator extends React.Component{
     <div>
       <Tour
         steps={steps}
+        showNavigation = {false}
+        showNumber = {false}
+        showButtons = {false}
+        showCloseButton = {false}
+        disableKeyboardNavigation = {true}
         isOpen={this.state.isTourOpen}
         onRequestClose={this.closeTutorial} 
       />
-      <h1 key = "mainTitle" style={{paddingLeft:'60px', paddingTop:'20px'}}>Outsmart Options</h1>
+      <h1 key = "mainTitle" step-name="title" style={{paddingLeft:'60px', paddingTop:'20px'}}>Outsmart Options</h1>
 
       <StockSymbol onSearch={this.onSearch} price={this.state.price} priceChange={this.state.priceChange} exists={this.state.exists}/>
       
@@ -544,7 +619,7 @@ class OptionsCalculator extends React.Component{
 
       <div className="optionsButtons">
           <div style={{width:'60px', display: 'inline-block'}}/>
-          <div id= "addLegButton" step-number = 'fourth-step'>
+          <div id= "addLegButton" step-name = 'edit-leg'>
             <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={() => this.setAddLegModalVisible(true)}>Edit Legs</Button>
             <div className="addLegButtonWrapper">
               <div>
@@ -560,7 +635,7 @@ class OptionsCalculator extends React.Component{
                   )}
                   onCancel = {() => this.setAddLegModalVisible(false)}
                 >
-                  <div data-intro="some text" step-number = 'fifth-step'>
+                  <div data-intro="some text" step-name = 'edit-leg-modal'>
                     <Collapse accordion>
                       {this.renderOptionsChain()}
                     </Collapse>
@@ -595,7 +670,7 @@ class OptionsCalculator extends React.Component{
           </div>
           
           <div style={{width:'43px', display: 'inline-block'}}/>
-          <div id= "strategyButton" step-number = 'sixth-step'><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
+          <div id= "strategyButton" step-name = 'strategy-button'><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
           <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
@@ -646,18 +721,18 @@ class StockSymbol extends React.Component {
     return (
       <div>
         <div style={{width:'60px', display: 'inline-block'}}/>
-        <div className = "stockSymbol" step-number = "first-step" >
-          <div id= "stockSymbolHeading" >
+        <div className = "stockSymbol">
+          <div id= "stockSymbolHeading">
             Stock Symbol:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
           </div>
-          <div id="stockSymbolInput">
+          <div id="stockSymbolInput" step-name = "stock-symbol-input">
               <div id="searchWrapper"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
-            <div id="exists">{this.props.exists ? null:(<Icon  type="close-circle" />)}</div>
+            <div id="exists">{this.props.exists ? null:(<Icon step-name = "stock-nonexistent" type="close-circle" />)}</div>
           </div>
         </div>
         <div style={{width:'43px', display: 'inline-block'}}/>
-        <div className="stockPrice" step-number = "second-step" >
+        <div className="stockPrice" step-name = "stock-price" >
           <div id= "stockPriceHeading">
             Stock Price:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
@@ -665,7 +740,7 @@ class StockSymbol extends React.Component {
           <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
         </div>
         <div style={{width:'43px', display: 'inline-block'}}/>
-        <div className="stockPriceChange" step-number="third-step">
+        <div className="stockPriceChange" step-name="stock-percent-change">
           <div id= "priceChangeHeading">
             Stock Price Change:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
