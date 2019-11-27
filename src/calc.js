@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card } from 'antd';
 import {
   Input,
+  Card,
   Button,
   Switch,
   Modal,
@@ -13,6 +13,7 @@ import {
 } from 'antd';
 const { Search } = Input
 const { Panel } = Collapse
+import Tour from 'reactour'
 import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend, Label, ResponsiveContainer} from 'recharts';
 import Cookies from 'js-cookie'
 
@@ -31,6 +32,33 @@ post.fetchReq('/treasury', '', (data) => {
   yields = data;
 })
 
+const steps = [
+  {
+    selector: '.first-step',
+    content: 'BRUH MOMENT',
+  },
+  {
+    selector: '.second-step',
+    content: 'BRUH MOMENT',
+  },
+  {
+    selector: '.third-step',
+    content: 'BRUH MOMENT',
+  },
+  {
+    selector: '.fourth-step',
+    content: 'BRUH MOMENT',
+  },
+  {
+    selector: '.fifth-step',
+    content: 'BRUH MOMENT',
+  },
+  {
+    selector: '.sixth-step',
+    content: 'BRUH MOMENT',
+  }  
+]
+
 class OptionsCalculator extends React.Component{
   constructor(props){
     super(props);
@@ -41,6 +69,7 @@ class OptionsCalculator extends React.Component{
       price: 0,
       addLegModalVisible: false,
       ivSkewModalVisible: false,
+      isTourOpen: false,
       optionsChain: [['Empty',{}]],
       optionsSelected: []
     };
@@ -474,11 +503,21 @@ class OptionsCalculator extends React.Component{
   }
 
   startTutorial = () => {
-    introJs('.intro').start();
+    //introJs('.intro').start();
+    this.setState(() => ({ isTourOpen : true }))
+  }
+
+  closeTutorial = () => {
+    this.setState(() => ({ isTourOpen : false }))
   }
 
   render() { return (
     <div>
+      <Tour
+        steps={steps}
+        isOpen={this.state.isTourOpen}
+        onRequestClose={this.closeTutorial} 
+      />
       <h1 key = "mainTitle" style={{paddingLeft:'60px', paddingTop:'20px'}}>Outsmart Options</h1>
 
       <StockSymbol onSearch={this.onSearch} price={this.state.price} priceChange={this.state.priceChange} exists={this.state.exists}/>
@@ -489,7 +528,7 @@ class OptionsCalculator extends React.Component{
 
       <div className="optionsButtons">
           <div style={{width:'60px', display: 'inline-block'}}/>
-          <div id= "addLegButton" data-intro="some text" data-step={4}>
+          <div id= "addLegButton" className = 'fourth-step'>
             <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={() => this.setAddLegModalVisible(true)}>Edit Legs</Button>
             <div className="addLegButtonWrapper">
               <div>
@@ -505,7 +544,7 @@ class OptionsCalculator extends React.Component{
                   )}
                   onCancel = {() => this.setAddLegModalVisible(false)}
                 >
-                  <div>
+                  <div data-intro="some text" className = 'fifth-step'>
                     <Collapse accordion>
                       {this.renderOptionsChain()}
                     </Collapse>
@@ -540,7 +579,7 @@ class OptionsCalculator extends React.Component{
           </div>
           
           <div style={{width:'43px', display: 'inline-block'}}/>
-          <div id= "strategyButton" data-intro="some text" data-step={6}><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
+          <div id= "strategyButton" className = 'sixth-step'><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
           <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
@@ -591,7 +630,7 @@ class StockSymbol extends React.Component {
     return (
       <div>
         <div style={{width:'60px', display: 'inline-block'}}/>
-        <div className = "stockSymbol" data-intro="some text" data-step={1} >
+        <div className = "stockSymbol first-step" >
           <div id= "stockSymbolHeading" >
             Stock Symbol:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
@@ -602,7 +641,7 @@ class StockSymbol extends React.Component {
           </div>
         </div>
         <div style={{width:'43px', display: 'inline-block'}}/>
-        <div className="stockPrice" data-intro="some text" data-step={2}>
+        <div className="stockPrice second-step" >
           <div id= "stockPriceHeading">
             Stock Price:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
@@ -610,7 +649,7 @@ class StockSymbol extends React.Component {
           <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
         </div>
         <div style={{width:'43px', display: 'inline-block'}}/>
-        <div className="stockPriceChange" data-intro="some text" data-step={3}>
+        <div className="stockPriceChange third-step">
           <div id= "priceChangeHeading">
             Stock Price Change:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
