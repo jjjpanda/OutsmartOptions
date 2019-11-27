@@ -85,7 +85,7 @@ const steps = [
           <br></br>
           <a onClick ={() => goTo(4)}>Click here ➡ to move on</a>
           <br></br>
-          <a onClick ={() => goTo(1)}>Click here ⬅ to try a different stock</a>
+          <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock</a>
         </div>
       )
     }
@@ -99,7 +99,7 @@ const steps = [
           <br></br>
           <a onClick ={() => goTo(5)}>Click here ➡ to move on</a>
           <br></br>
-          <a onClick ={() => goTo(1)}>Click here ⬅ to try a different stock</a>
+          <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock</a>
         </div>
       )
     },
@@ -117,9 +117,9 @@ const steps = [
           It may take a while to load.
           So go ahead, click the button.
         <br></br>
-        <a onClick ={() => goTo(6)}>Click here ➡ to move on.</a>
+        <a onClick ={() => goTo(6)}>Click here ➡ to continue.</a>
         <br></br>
-        <a onClick ={() => goTo(1)}>Click here ⬅ to type in another stock.</a>
+        <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock.</a>
         </div>
       )
     }
@@ -131,18 +131,39 @@ const steps = [
         return (
           <div>
             Here it is 🎉.
+            Each date displayed is an expiry date for the contracts available for the stock.
+            <br></br>
+            Don't worry about clicking any of those dates. I'll take over for now.
+            <br></br>
+            <a onClick ={() => goTo(7)}>Click here ➡ to continue.</a>
           </div>
         )
       }
       else {
         goTo(5)
       }
-    }
+    },
+    stepInteraction: false
   },
   {
-    selector: '[step-name="strategy-button"]',
-    content: 'BRUH MOMENT',
-  }  
+    selector: '[step-name="edit-leg-modal"]',
+    action: node => {
+      node.children[0].children[0].children[0].click()
+    },
+    content: ({goTo, inDOM}) => {
+      goTo(8)
+    },
+  },
+  {
+    selector: '[step-name="edit-leg-first-table"]',
+    content: ({goTo, inDOM}) => {
+      return (
+        <div>
+          Oof 😬, a lot of data here, huh?   
+        </div>
+      )
+    }
+  }
 ]
 
 class OptionsCalculator extends React.Component{
@@ -241,9 +262,9 @@ class OptionsCalculator extends React.Component{
   }
 
   renderOptionsChain = () => {
-    return this.state.optionsChain.map(e => (
+    return this.state.optionsChain.map((e, i) => (
       <Panel key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
-        <Table dataSource = {e[1]} columns ={this.columns(e[0])}
+        <Table dataSource = {e[1]} columns ={this.columns(e[0])} step-name = {i == 0 ? "edit-leg-first-table" : ""}
           rowClassName={(record) => record.atmNess} 
           pagination={false} size="small" scroll={{ y: 500 }} />
       </Panel>
@@ -635,7 +656,7 @@ class OptionsCalculator extends React.Component{
                   )}
                   onCancel = {() => this.setAddLegModalVisible(false)}
                 >
-                  <div data-intro="some text" step-name = 'edit-leg-modal'>
+                  <div step-name = 'edit-leg-modal'>
                     <Collapse accordion>
                       {this.renderOptionsChain()}
                     </Collapse>
