@@ -34,27 +34,43 @@ post.fetchReq('/treasury', '', (data) => {
 
 const steps = [
   {
-    selector: '.first-step',
+    selector: '[step-number="first-step"]',
+    content: 'BRUH MOMENT',
+    action: node => {
+      //node is the element surrounded by the div
+    },
+  },
+  {
+    selector: '[step-number="second-step"]',
     content: 'BRUH MOMENT',
   },
   {
-    selector: '.second-step',
+    selector: '[step-number="third-step"]',
+    content: ({ goTo, inDOM }) => (
+      <div>
+        Lorem ipsum <button onClick={() => goTo(4)}>Go to Step 5</button>
+        <br />
+        {inDOM ? "🎉 IN DOM" : "Not in DOM"}
+      </div>
+    ),
+    position: 'right',
+    style: {
+      backgroundColor: '#bada55',
+    }
+  },
+  {
+    selector: '[step-number="fourth-step"]',
     content: 'BRUH MOMENT',
   },
   {
-    selector: '.third-step',
-    content: 'BRUH MOMENT',
-  },
+    selector: '[step-number="fifth-step"]',
+    content: ({ goTo, inDOM }) => (
+      <div>
+        {inDOM ? "🎉 IN DOM" : "Not in DOM"}
+      </div>
+    )},
   {
-    selector: '.fourth-step',
-    content: 'BRUH MOMENT',
-  },
-  {
-    selector: '.fifth-step',
-    content: 'BRUH MOMENT',
-  },
-  {
-    selector: '.sixth-step',
+    selector: '[step-number="sixth-step"]',
     content: 'BRUH MOMENT',
   }  
 ]
@@ -528,7 +544,7 @@ class OptionsCalculator extends React.Component{
 
       <div className="optionsButtons">
           <div style={{width:'60px', display: 'inline-block'}}/>
-          <div id= "addLegButton" className = 'fourth-step'>
+          <div id= "addLegButton" step-number = 'fourth-step'>
             <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={() => this.setAddLegModalVisible(true)}>Edit Legs</Button>
             <div className="addLegButtonWrapper">
               <div>
@@ -544,7 +560,7 @@ class OptionsCalculator extends React.Component{
                   )}
                   onCancel = {() => this.setAddLegModalVisible(false)}
                 >
-                  <div data-intro="some text" className = 'fifth-step'>
+                  <div data-intro="some text" step-number = 'fifth-step'>
                     <Collapse accordion>
                       {this.renderOptionsChain()}
                     </Collapse>
@@ -579,7 +595,7 @@ class OptionsCalculator extends React.Component{
           </div>
           
           <div style={{width:'43px', display: 'inline-block'}}/>
-          <div id= "strategyButton" className = 'sixth-step'><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
+          <div id= "strategyButton" step-number = 'sixth-step'><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
           <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
           <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
@@ -630,7 +646,7 @@ class StockSymbol extends React.Component {
     return (
       <div>
         <div style={{width:'60px', display: 'inline-block'}}/>
-        <div className = "stockSymbol first-step" >
+        <div className = "stockSymbol" step-number = "first-step" >
           <div id= "stockSymbolHeading" >
             Stock Symbol:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
@@ -641,7 +657,7 @@ class StockSymbol extends React.Component {
           </div>
         </div>
         <div style={{width:'43px', display: 'inline-block'}}/>
-        <div className="stockPrice second-step" >
+        <div className="stockPrice" step-number = "second-step" >
           <div id= "stockPriceHeading">
             Stock Price:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
@@ -649,7 +665,7 @@ class StockSymbol extends React.Component {
           <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
         </div>
         <div style={{width:'43px', display: 'inline-block'}}/>
-        <div className="stockPriceChange third-step">
+        <div className="stockPriceChange" step-number="third-step">
           <div id= "priceChangeHeading">
             Stock Price Change:&nbsp;
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
