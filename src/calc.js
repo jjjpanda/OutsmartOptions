@@ -815,6 +815,7 @@ class OptionsCalculator extends React.Component{
         disableKeyboardNavigation = {true}
         maskSpace={3}
         startAt = {0}
+        update = {this.state}
         onAfterOpen={this.disableBody}
         onBeforeClose={this.enableBody}
         isOpen={this.state.isTourOpen}
@@ -880,7 +881,6 @@ class OptionsCalculator extends React.Component{
               </Modal>
             </div>
           </div>
-          
           <div style={{width:'43px', display: 'inline-block'}}/>
           <div id= "strategyButton" ><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
           <div id= "calculateButton" step-name="calculate-button"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
