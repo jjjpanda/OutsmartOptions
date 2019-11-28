@@ -184,8 +184,8 @@ getStockHistoricalData: function(apikey, ticker, callback){
             //console.log(response.statusCode);
             //console.log(body);
             body = JSON.parse(body)
-            if(body != undefined || body.history || undefined){
-            callback(body.history.day)
+            if(body != undefined && body.history != undefined && body.history != null){
+                callback(body.history.day)
             }
         }
     );

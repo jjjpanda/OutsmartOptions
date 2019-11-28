@@ -19,6 +19,8 @@ import {StockSymbol} from './components/stocksymbol.js'
 import Tour from 'reactour'
 import Cookies from 'js-cookie'
 
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+
 //JS Libraries
 import * as optionsMath from './jsLib/optionsMathLibrary.js'
 import * as timeMath from './jsLib/timeLibrary.js'
@@ -148,7 +150,8 @@ class OptionsCalculator extends React.Component{
     })}), () => console.log(this.state))
   }
 
-
+  disableBody = target => disableBodyScroll(target)
+  enableBody = target => enableBodyScroll(target)
 
   addOption = (isCall, strike, price, date, iv) => {
     this.setState((state) => ({optionsSelected : [...state.optionsSelected, {key: date+strike+(isCall?"C":"P"), isCall:isCall, date:date, strike:strike, price:price, iv:iv}]}), this.resortOptionsSelected)
@@ -252,7 +255,7 @@ class OptionsCalculator extends React.Component{
 
   calculateProfits = () => {
     var selectedOptions = this.state.optionsSelected
-    if(selectedOptions.length <= 0){
+    if(selectedOptions.filter(o => !o.hide).length <= 0){
       return;
     }
     var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
@@ -303,15 +306,10 @@ class OptionsCalculator extends React.Component{
         
     }
 
+    console.log(selectedOptions.filter(o => !o.hide))
+    var optionsProfits = selectedOptions.filter(o => !o.hide).map(o => o.profit)
 
-
-
-
-    
-
-    var optionsProfits = selectedOptions.map(o => o.profit)
-
-    mergedOptions.date = timeMath.dateToString(selectedOptions.map( o => timeMath.stringToDate(o.date) ).sort(timeMath.timeBetweenDates)[0])
+    mergedOptions.date = timeMath.dateToString(selectedOptions.filter(o => !o.hide).map( o => timeMath.stringToDate(o.date) ).sort(timeMath.timeBetweenDates)[0])
        
     mergedOptions.percentProfit = []
     mergedOptions.profit = this.mergeProfits(optionsProfits, mergedOptions.date) 
@@ -473,7 +471,7 @@ class OptionsCalculator extends React.Component{
           </div>
         )
       },
-        style: {
+      style: {
         backgroundColor: 'black',
         color : 'white',
       }
@@ -482,16 +480,12 @@ class OptionsCalculator extends React.Component{
     {
       selector: '[step-name="stock-symbol-input"]',
       content: ({goTo, inDOM, step}) => {
+        if(!state.exists || state.symbol != ""){
+          goTo(step)
+        }
         return (
           <div>
-            First things first, you should type in a stock and press enter. (Try something like AAPL or MSFT) 
-            <br></br>
-            <a onClick ={() => {
-              if(state.symbol != "") goTo(step)
-            }
-            }>
-              Click here ➡ to move on
-            </a>
+            First things first, you should type in a stock and press enter. 😎 (Try something like AAPL or MSFT)
           </div>
         )
       }
@@ -504,7 +498,10 @@ class OptionsCalculator extends React.Component{
           return (
             <div>
               Well, well, well 😒. Looks like we got a rebel here. 
-              <a onClick={() => goTo(1)}> Go back ⬅</a> 
+              <a onClick={() => {
+                this.setState(()=> ({exists:true, symbol: ""}))
+                goTo(1)
+              }}> Go back ⬅</a> 
               and type in a stock that actually exists and has options.
             </div>
           )
@@ -524,11 +521,14 @@ class OptionsCalculator extends React.Component{
             <br></br>
             <a onClick ={() => goTo(step)}>Click here ➡ to move on</a>
             <br></br>
-            <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock</a>
+            <a onClick ={() => {
+              this.setState(() => ({symbol: ""}))
+              goTo(1)
+            }}>Click here ⬅ to input a stock</a>
           </div>
         )
       }
-    }, 
+    },
     //Step 5: Percent Change
     {
       selector: '[step-name="stock-percent-change"]',
@@ -539,15 +539,21 @@ class OptionsCalculator extends React.Component{
             <br></br>
             <a onClick ={() => goTo(step)}>Click here ➡ to move on</a>
             <br></br>
-            <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock</a>
+            <a onClick ={() => {
+              this.setState(() => ({symbol: ""}))
+              goTo(1)
+            }}>Click here ⬅ to input a stock</a>
           </div>
         )
       },
-    }, 
+    },
     //Step 6: Edit Leg Button
     {
       selector: '[step-name="edit-leg"]',
       content: ({goTo, inDOM, step}) => {
+        if(state.addLegModalVisible){
+          goTo(step)
+        }
         return (
           <div>
             So here is where we get into the meat 🍖 of this thing. 
@@ -557,9 +563,7 @@ class OptionsCalculator extends React.Component{
             However, if a stock doesn't immediately load the button, don't get scared 😯.
             It may take a while to load. So go ahead, click the button.
           <br></br>
-          <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
-          <br></br>
-          <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock.</a>
+          <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
           </div>
         )
       },
@@ -568,6 +572,9 @@ class OptionsCalculator extends React.Component{
     {
       selector: '[step-name="edit-leg-modal"]',
       content: ({ goTo, inDOM, step}) => {
+        if(state.activeOptionExpiry != undefined && state.activeOptionExpiry.length > 0){
+          goTo(step)
+        }
         if(state.addLegModalVisible){
           return (
             <div>
@@ -588,7 +595,7 @@ class OptionsCalculator extends React.Component{
           )
         }
         else {
-          goTo(5)
+          goTo(step-2)
         }
       },
     }, 
@@ -596,7 +603,7 @@ class OptionsCalculator extends React.Component{
     {
       selector: '[step-name="'+(state.activeOptionExpiry || " ")+'"]',
       content: ({goTo, inDOM, step}) => {
-        if(inDOM && state.activeOptionExpiry != undefined && state.activeOptionExpiry != ""){
+        if(inDOM && state.addLegModalVisible && state.activeOptionExpiry != undefined && state.activeOptionExpiry != ""){
           return (
             <div>
               Yikes 😬. A lot, right?
@@ -608,7 +615,10 @@ class OptionsCalculator extends React.Component{
               <br></br>
               <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
               <br></br>
-              <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>  
+              <a onClick ={() => {
+                this.closeOptionsChainModal()
+                goTo(step-3)
+              }}>Click here ⬅ to go back.</a>  
             </div>
           )
         }
@@ -781,7 +791,7 @@ class OptionsCalculator extends React.Component{
           )
         }
     }
-  ]
+]
 
   render() {
     console.log(this.state)
@@ -794,6 +804,8 @@ class OptionsCalculator extends React.Component{
         showButtons = {false}
         showCloseButton = {false}
         disableKeyboardNavigation = {true}
+        onAfterOpen={this.disableBody}
+        onBeforeClose={this.enableBody}
         isOpen={this.state.isTourOpen}
         onRequestClose={this.closeTutorial} 
       />
