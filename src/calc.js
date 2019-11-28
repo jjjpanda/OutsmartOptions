@@ -146,20 +146,20 @@ const steps = [
     stepInteraction: false
   },
   {
-    selector: '[step-name="edit-leg-modal"]',
+    selector: '#expiry0',
     action: node => {
-      node.children[0].children[0].children[0].click()
+      node.children[0].click()
     },
     content: ({goTo, inDOM}) => {
       goTo(8)
     },
   },
   {
-    selector: '[step-name="edit-leg-first-table"]',
+    selector: '[step-name="edit-leg-modal"]',
     content: ({goTo, inDOM}) => {
       return (
         <div>
-          Oof 😬, a lot of data here, huh?   
+          Oof 😬, a lot of data here.
         </div>
       )
     }
@@ -263,10 +263,10 @@ class OptionsCalculator extends React.Component{
 
   renderOptionsChain = () => {
     return this.state.optionsChain.map((e, i) => (
-      <Panel key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
-        <Table dataSource = {e[1]} columns ={this.columns(e[0])} step-name = {i == 0 ? "edit-leg-first-table" : ""}
-          rowClassName={(record) => record.atmNess} 
-          pagination={false} size="small" scroll={{ y: 500 }} />
+      <Panel id = {"expiry"+i} key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])} >
+          <Table dataSource = {e[1]} columns ={this.columns(e[0])} 
+            rowClassName={(record) => record.atmNess} 
+            pagination={false} size="small" scroll={{ y: 500 }} />
       </Panel>
     ))
   }
