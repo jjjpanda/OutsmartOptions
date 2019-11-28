@@ -27,10 +27,10 @@ export function getDays(yields){
 }
 
 export function getRightYield(yields, expireTime){
-	if(yields == [] || yields == undefined || yields == null){
+	if(yields.length == 0 || yields == undefined || yields == null){
 		return 0;
 	}
-	
+
 	yields = getDays(yields)
 	
 	//for over yields and look until expire time > days -> take that and prev and interpolate
