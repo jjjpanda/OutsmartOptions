@@ -78,7 +78,7 @@ class SideMenu extends React.Component {
           onCollapse={this.onCollapse}
           style={{boxShadow:"1px 1px 2px 1px #888888", minHeight: '100vh'}}
         >
-          <div className="logo" ><img key="mainLogo" id = "logo" className = "spin" src={logo}></img>/></div>
+          <div className="logo" ><img key="mainLogo" id = "logo" className = "spin" src={logo}></img></div>
           <Menu theme="dark" defaultSelectedKeys={['index']} mode="inline" onClick={this.handleClick} >
             
             <Menu.Item key="index">

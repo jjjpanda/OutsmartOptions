@@ -27,8 +27,8 @@ export function getDays(yields){
 }
 
 export function getRightYield(yields, expireTime){
-	if(yields == [] || yields == undefined){
-		return 0
+	if(yields == [] || yields == undefined || yields == null){
+		return 0;
 	}
 	
 	yields = getDays(yields)

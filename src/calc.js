@@ -134,9 +134,15 @@ const steps = [
             Here it is 🎉.
             Each date displayed is an expiry date for the contracts available for the stock.
             <br></br>
-            Don't worry about clicking any of those dates. I'll take over for now.
+            Go ahead and click an expiry. You'll see call options on the left, put options on the right. 
+            You can use the checkboxes ☑ to add those contracts to your strategy. 
+            Then, scroll down and click that ok button 🆗.
+            <br></br>
+            If you don't know what these words mean 🤔, you should probably go to our help page. We explain stuff in detail there 🤓.
             <br></br>
             <a onClick ={() => goTo(7)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
           </div>
         )
       }
@@ -144,27 +150,82 @@ const steps = [
         goTo(5)
       }
     },
-    stepInteraction: false
   },
   {
-    selector: '#expiry0',
-    action: node => {
-      node.children[0].click()
-    },
+    selector: '[step-name="example-contract"]',
     content: ({goTo, inDOM}) => {
-      goTo(8)
-    },
+      if(inDOM){
+        return (
+          <div>
+            Contract
+            <br></br>
+            <a onClick ={() => goTo(8)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+      else{
+        goTo(6)
+      }
+    }
   },
   {
-    selector: '[step-name="edit-leg-modal"]',
+    selector: '[step-name="contract-name"]',
     content: ({goTo, inDOM}) => {
       return (
         <div>
-          Oof 😬, a lot of data here.
+          Contract Name
+          <br></br>
+          <a onClick ={() => goTo(9)}>Click here ➡ to continue.</a>
+          <br></br>
+          <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
         </div>
       )
     }
-  }
+  },
+  {
+    selector: '[step-name="buy-or-write"]',
+    content: ({goTo, inDOM}) => {
+      return (
+        <div>
+          Contract Buy or Write
+          <br></br>
+          <a onClick ={() => goTo(10)}>Click here ➡ to continue.</a>
+          <br></br>
+          <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
+        </div>
+      )
+    }
+  },
+  {
+    selector: '[step-name="option-quantity"]',
+    content: ({goTo, inDOM}) => {
+      return (
+        <div>
+          Contract Quantity
+          <br></br>
+          <a onClick ={() => goTo(11)}>Click here ➡ to continue.</a>
+          <br></br>
+          <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
+        </div>
+      )
+    }
+  },
+  {
+    selector: '[step-name="limit-price"]',
+    content: ({goTo, inDOM}) => {
+      return (
+        <div>
+          Contract Price
+          <br></br>
+          <a onClick ={() => goTo(12)}>Click here ➡ to continue.</a>
+          <br></br>
+          <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
+        </div>
+      )
+    }
+  },
 ]
 
 class OptionsCalculator extends React.Component{
@@ -745,9 +806,9 @@ class OptionsLeg extends React.Component {
 
   render() { 
     return (
-      <div className="Options Editor">
+      <div className="Options Editor" step-names = {this.props.isFirst ? "example-contract" : ""}>
         <div className="optionsHeadings"> 
-          <div class= "buyWrite">
+          <div class= "buyWrite" step-names = {this.props.isFirst ? "buy-or-write" : ""}>
             Buy or Write:&nbsp;{this.props.isFirst ? null:(
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
             )}
@@ -755,7 +816,7 @@ class OptionsLeg extends React.Component {
               <Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/>
             </div>
           </div>
-          <div class= "contract">
+          <div class= "contract" step-names = {this.props.isFirst ? "contract-name" : ""}>
             Contract:&nbsp;{this.props.isFirst ? null:(
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
             )}
@@ -765,13 +826,13 @@ class OptionsLeg extends React.Component {
             </div>
           </div>
           <div id= "xHeading">x</div>
-          <div class= "quantity">
+          <div class= "quantity" step-names = {this.props.isFirst ? "option-quantity" : ""}>
             Quantity:&nbsp;{this.props.isFirst ? null:(
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
             )}
             <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           </div>
-          <div class= "atPrice">
+          <div class= "atPrice" step-names = {this.props.isFirst ? "limit-price" : ""}>
             At Price:&nbsp;{this.props.isFirst ? null:(
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
             )}
