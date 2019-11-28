@@ -22,12 +22,12 @@ class StockSymbol extends React.Component {
         price: 0,
         optionsChain: [['Empty',{}]],
         divYield : 0,
-        histoical: []
+        historical: []
       }
     }
   
     onSearch = e => {
-        this.setState({exists: true})
+        this.setState(() => ({exists: true, symbol: e}))
         
         post.fetchReq('/price', JSON.stringify({ticker: e}), (data) => {
           console.log(data);
@@ -75,7 +75,11 @@ class StockSymbol extends React.Component {
         }
 
         if(this.props.historical){
-            //getHistorical
+            post.fetchReq('/historical', JSON.stringify({ticker: e}), (data) => {
+                this.setState(() => ({historical : data}), () => {
+                    this.props.updateCallback(this.state)
+                })
+            })
         }
     
     };

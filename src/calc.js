@@ -186,6 +186,7 @@ class OptionsCalculator extends React.Component{
 
   updateSearchResults = (state) => {
     this.setState(() => ({
+      symbol: state.symbol,
       exists: state.exists,
       priceChange: state.priceChange, 
       price: state.price,
