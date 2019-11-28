@@ -18,12 +18,12 @@ class Help extends React.Component{
     guide1(){
 
         Modal.info({
-            title:"Guide 1",
+            title:"Lesson 1: Buying Stocks",
             content: (
                 <Carousel arrows>
                     <div>
-                        <p>Lesson 1: Buying Stocks</p>
-                        <img src = "/img/b_1.gif" alt = "pie" height = "150" width = "250"></img>
+                        <p></p>
+                        <img src = "/img/b_1.gif" alt = "pie" height = "150" width = "300"></img>
                     </div>
                     <div>
                         <p>End lesson</p>
@@ -35,11 +35,11 @@ class Help extends React.Component{
 
     guide2(){
         Modal.info({
-            title:"Guide 2",
+            title:"Lesson 2: What is short selling anyway?",
             content: (
                 <Carousel arrows >
                     <div>
-                        <p>Lesson 2: What are options ?</p>
+                        <p></p>
                     </div>
                     <div>
                         <p>End Lesson</p>
@@ -51,11 +51,11 @@ class Help extends React.Component{
 
     guide3(){
         Modal.info({
-            title:"Guide 3",
+            title:"Lesson 3: Option Contracts",
             content: (
                 <Carousel arrows>
                     <div>
-                        <p>Lesson 3: Buy High Sell Low</p>
+                        <p></p>
                     </div>
                     <div>
                         <p>End of Lesson</p>
@@ -81,7 +81,7 @@ class Help extends React.Component{
                             actions = {[
                                 <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide1()}/>,
-                                <Icon type = "ellipsis" />,
+                                <Icon type = "book" />,
                             ]}
                         > 
                             The Beginning
@@ -96,7 +96,7 @@ class Help extends React.Component{
                             actions = {[
                                 <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide2()}/>,
-                                <Icon type = "ellipsis" />,
+                                <Icon type = "book" />,
                             ]}
                         > 
                             What even is it?
@@ -111,7 +111,7 @@ class Help extends React.Component{
                             actions = {[
                                 <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide3()}/>,
-                                <Icon type = "ellipsis" />,
+                                <Icon type = "book" />,
                             ]}
                         > 
                             You might need a lawyer... 
@@ -130,7 +130,7 @@ class Help extends React.Component{
                             actions = {[
                                 <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide1()}/>,
-                                <Icon type = "ellipsis" />,
+                                <Icon type = "book" />,
                             ]}
                         > 
                             When you work out and Die
@@ -145,7 +145,7 @@ class Help extends React.Component{
                             actions = {[
                                 <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide2()}/>,
-                                <Icon type = "ellipsis" />,
+                                <Icon type = "book" />,
                             ]}
                         > 
                             (678) 999-8212
@@ -160,7 +160,7 @@ class Help extends React.Component{
                             actions = {[
                                 <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide3()}/>,
-                                <Icon type = "ellipsis" />,
+                                <Icon type = "book" />,
                             ]}
                         > 
                             Put it on me! 
@@ -179,7 +179,7 @@ class Help extends React.Component{
                             actions = {[
                                 <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide1()}/>,
-                                <Icon type = "ellipsis" />,
+                                <Icon type = "book" />,
                             ]}
                         > 
                             Sunday! Sunday! Sunday!
@@ -194,7 +194,7 @@ class Help extends React.Component{
                             actions = {[
                                 <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide2()}/>,
-                                <Icon type = "ellipsis" />,
+                                <Icon type = "book" />,
                             ]}
                         > 
                             A guide for Marty McFly
@@ -209,7 +209,7 @@ class Help extends React.Component{
                             actions = {[
                                 <Icon type = "youtube"/>,
                                 <Icon type = "info-circle" onClick = {() => this.guide3()}/>,
-                                <Icon type = "ellipsis" />,
+                                <Icon type = "book" />,
                             ]}
                         > 
                             Even I don't know what it is... 
