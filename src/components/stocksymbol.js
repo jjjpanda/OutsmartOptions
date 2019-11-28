@@ -34,7 +34,7 @@ class StockSymbol extends React.Component {
           if (data.price === undefined || data.price === null){
             data.price = 0;
             data.change = 0;
-            this.setState({exists: false});
+            this.setState(() => ({exists: false}), () => {this.props.updateCallback(this.state)});
           }
           this.setState(() => ({symbol : e, price : data.price, priceChange : data.change, optionsChain: [['Empty', {}]]}), 
             () => {
