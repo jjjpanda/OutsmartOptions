@@ -9,12 +9,14 @@ import {
   Collapse,
   Checkbox,
   Icon,
-  Popover,
 } from 'antd';
-const { Search } = Input
 const { Panel } = Collapse
+
+import {NoAxisGraph, ProfitGraph} from './components/graphs.js'
+import {HelpTooltip} from "./components/help-tooltip.js"
+import {StockSymbol} from './components/stocksymbol.js'
+
 import Tour from 'reactour'
-import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend, Label, ResponsiveContainer} from 'recharts';
 import Cookies from 'js-cookie'
 
 //JS Libraries
@@ -732,48 +734,6 @@ class OptionsCalculator extends React.Component{
 }
 
 
-
-class StockSymbol extends React.Component {
-  constructor(props){
-    super(props);
-
-  }
-
-  render() {
-    return (
-      <div>
-        <div style={{width:'60px', display: 'inline-block'}}/>
-        <div className = "stockSymbol" step-name = "stock-symbol-input">
-          <div id= "stockSymbolHeading">
-            Stock Symbol:&nbsp;
-            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
-          </div>
-          <div id="stockSymbolInput">
-              <div id="searchWrapper"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
-            <div id="exists">{this.props.exists ? null:(<Icon step-name = "stock-nonexistent" type="close-circle" />)}</div>
-          </div>
-        </div>
-        <div style={{width:'43px', display: 'inline-block'}}/>
-        <div className="stockPrice" step-name = "stock-price" >
-          <div id= "stockPriceHeading">
-            Stock Price:&nbsp;
-            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
-          </div> 
-          <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
-        </div>
-        <div style={{width:'43px', display: 'inline-block'}}/>
-        <div className="stockPriceChange" step-name="stock-percent-change">
-          <div id= "priceChangeHeading">
-            Stock Price Change:&nbsp;
-            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
-          </div>
-          <div id="priceChangeBox"><Input placeholder={this.props.priceChange+"%"} disabled/></div>
-        </div>
-      </div>
-    );
-  }
-}
-
 class OptionsLeg extends React.Component {
   constructor(props){
     super(props);
@@ -856,207 +816,6 @@ class OptionsLeg extends React.Component {
         </div>
         
       </div>
-    );
-  }
-}
-
-class HelpTooltip extends React.Component{
-  constructor(props){
-    super(props);
-  }
-  
-  render(){
-    if(!this.props.hide){
-      return (
-        <Popover content={this.props.content} title={this.props.title} trigger="hover">
-          <Icon type="info-circle-o" />
-        </Popover>
-      )
-    }
-    else{
-      return;
-    }
-  }
-}
-
-class NoAxisGraph extends React.Component{
-  constructor(props){
-    super(props)
-  }
-
-  render() {
-    return (
-        <ResponsiveContainer height= {300} width='100%'>
-          <LineChart
-            data={this.props.data}
-            margin={{top: 10, right: 10, left: 10, bottom: 10}}
-          >
-            <XAxis dataKey={this.props.xKey} allowDecimals = {false} ></XAxis>
-            <YAxis></YAxis>
-            <Line name = {this.props.dataKey} type="monotone" dot={false} dataKey={this.props.dataKey} stroke={'#000000'} />
-          </LineChart>
-        </ResponsiveContainer>
-    )
-  }
-
-}
-
-class ProfitGraph extends React.Component{
-  constructor(props){
-    super(props)
-    var legs = Array.from(new Set(props.keys.map(a=> a.substring(0, a.indexOf("a"))))).filter(a => a!="")
-    var dates = Array.from(new Set(props.keys.map(a=> a.substring(a.indexOf("a")+1)))).filter(a => a!="")
-    this.state = {
-      data: props.legAddition(props.data, dates, legs),
-      keys: props.keys, 
-      legs: legs,
-      dates: dates,
-      disabledDates : []
-    }
-  }
-
-  static getDerivedStateFromProps(props, state){
-    if(props.keys !== state.keys){
-      var legs = Array.from(new Set(props.keys.map(a=> a.substring(0, a.indexOf("a"))))).filter(a => a!="")
-      var dates = Array.from(new Set(props.keys.map(a=> a.substring(a.indexOf("a")+1)))).filter(a => a!="")
-      return {
-        data: props.legAddition(props.data, dates, legs),
-        keys: props.keys, 
-        legs: legs,
-        dates: dates,
-        disabledDates : []
-      }
-    }
-    else{
-      return null;
-    }
-  }
-
-  disableDate = (event) => {
-    this.setState((state)=> {
-      if(state.disabledDates.includes(event.dataKey)){
-        return ({disabledDates : state.disabledDates.filter(a => a != event.dataKey)})
-      }
-      else{
-        return ({disabledDates : [...state.disabledDates, event.dataKey]})
-      }
-    }
-    )
-  }
-
-  gradientOffset = (data, y) => {
-    const dataMax = Math.max(...data.map((i) => i[y]));
-    const dataMin = Math.min(...data.map((i) => i[y]));
-    
-    if (dataMax <= 0){
-      return 0
-    }
-    else if (dataMin > 0){
-      return 1
-    }
-    else{
-      return Math.abs(dataMax) / Math.abs(dataMax - dataMin);
-    }
-  }
-
-  opacities = (dates) => {
-    var opacities = {} 
-    if(dates.length == 1){
-      opacities[dates[0]] = 1;
-      return opacities
-    }
-    for (var date of dates){
-      opacities[date] = timeMath.timeBetweenDates(timeMath.stringToDate(date), timeMath.getCurrentDate())
-    }
-    //console.log(opacities)
-    var minOpacity = Math.min(...Object.values(opacities))
-    var maxOpacity = Math.max(...Object.values(opacities))
-    for (var date of dates){
-      opacities[date] -= minOpacity
-      opacities[date] /= 2 * (maxOpacity-minOpacity)
-      opacities[date] += 0.5
-    }
-    return opacities
-  }
-
-  colorOfLine = (data, y, opacity) => {
-    const arr = data.map((i) => i[y])
-    if(arr.every(e => e === arr[0])){
-      if(arr[0] > 0){
-        return '#009900' + ("00"+Math.round(opacity*255).toString(16)).substr(-2)
-      }
-      else {
-        return '#ff0000' + ("00"+Math.round(opacity*255).toString(16)).substr(-2)
-      }
-    }
-    else{
-      return "url(#splitColor" + y + ")"
-    }
-  }
-
-  customTooltip = (e) => {
-    var arr = []
-    for(var i = e.payload.length-1; i >=0 ; i--){
-      arr.push((
-        <p>On {e.payload[i].name} you will {Math.sign(e.payload[i].value) == 1 ? "make" : "lose"} ${e.payload[i].value.toFixed(2)}</p>
-      ))
-    }
-    if (e.active && e.payload!=null && e.payload[0]!=null) {
-          return (    
-          <div style = {{backgroundColor:"#ffffff", lineHeight:0.5, padding:5}} className="custom-tooltip">
-            <p>${e.label.toFixed(2)}</p>
-            {arr}
-          </div>
-          );
-        }
-    else{
-       return "";
-    }
-  }
-
-  renderLines = () => {
-    /*
-    console.log(this.state.dates)
-    console.log(this.state.disabledDates)
-    console.log(this.state.dates.filter(a => !this.state.disabledDates.includes(a)))
-    */
-    var opacities = this.opacities(this.state.dates)
-
-    var arr=[]   
-    for( var date of this.state.dates){
-      arr.push((<defs>
-        <linearGradient id={"splitColor"+date} x1="0" y1="0" x2="0" y2="1">
-          <stop offset={this.gradientOffset(this.state.data, date)} stopColor="#009900" stopOpacity={opacities[date]}/>
-          <stop stopColor="#ff0000" stopOpacity={opacities[date]}/>
-        </linearGradient>
-      </defs>
-      ))
-      arr.push((
-        <Line name = {date} type="monotone" dot={false} hide={this.state.disabledDates.includes(date)} dataKey={date} stroke={this.colorOfLine(this.state.data, date, opacities[date])} />
-      ))
-    }
-    return arr
-  }
-
-	render () {
-  	return (
-      <ResponsiveContainer width="100%" height={500}>
-    	<LineChart
-        data={this.state.data}
-        margin={{top: 50, right: 50, left: 50, bottom: 50}}
-      >
-        <CartesianGrid strokeDasharray="4 1 2 1"/>
-        <XAxis dataKey={'x'} allowDecimals = {false} >
-          <Label value = "Stock Price" position = "insideBottom" offset ={-5} />
-        </XAxis>
-        <YAxis>
-          <Label value = "Profit/Loss" position = "insideLeft" offset ={-5} angle = {-90} />
-        </YAxis>
-        {this.renderLines()}
-        <Legend onClick= {this.disableDate} iconType = "circle" align="right" verticalAlign="middle" layout="vertical" />
-        <Tooltip content = {this.customTooltip}/>
-      </LineChart>
-      </ResponsiveContainer>
     );
   }
 }
