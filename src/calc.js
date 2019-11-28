@@ -32,202 +32,6 @@ post.fetchReq('/treasury', '', (data) => {
   yields = data;
 })
 
-const steps = [
-  {
-    selector: '[step-name="title"]',
-    content: ({goTo, inDOM}) => {
-      return (
-        <div>
-          What's up 😊? I'm Mr. Outsmart, a sentient AI that'll help guide you on your journey. 
-          Follow the arrows (⬅➡) and you'll get it in no time.
-          <br></br>  
-          <a onClick ={() => goTo(1)}> Click me ➡ when you're ready to go. </a>
-        </div>
-      )
-    },
-     style: {
-      backgroundColor: 'black',
-      color : 'white',
-    }
-  },
-  {
-    selector: '[step-name="stock-symbol-input"]',
-    content: ({goTo, inDOM}) => {
-      return (
-        <div>
-          First things first, you should type in a stock and press enter. (Try something like AAPL or MSFT) 
-          <br></br>
-          <a onClick ={() => goTo(2)}>Click here ➡ to move on</a>
-        </div>
-      )
-    }
-  },
-  {
-    selector: '[step-name="stock-nonexistent"]',
-    content: ({goTo, inDOM}) =>  {
-      if(inDOM){
-        return (
-          <div>
-            "Well, well, well 😒. Looks like we got a rebel here. <a onClick={() => goTo(1)}>Go back ⬅</a> and type in a stock that actually exists and has options."
-          </div>
-        )
-      }
-      else{
-        goTo(3);
-      }
-    },
-  },
-  {
-    selector: '[step-name="stock-price"]',
-    content: ({goTo, inDOM}) => {
-      return (
-        <div>
-          Once you type in the stock, you'll see the current price right here. Pretty cool right? 
-          <br></br>
-          <a onClick ={() => goTo(4)}>Click here ➡ to move on</a>
-          <br></br>
-          <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock</a>
-        </div>
-      )
-    }
-  },
-  {
-    selector: '[step-name="stock-percent-change"]',
-    content: ({goTo, inDOM}) => {
-      return (
-        <div>
-          And here is the percent change for the day. We don't have premarket moves, so only during and after market hours will you see any changes.  
-          <br></br>
-          <a onClick ={() => goTo(5)}>Click here ➡ to move on</a>
-          <br></br>
-          <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock</a>
-        </div>
-      )
-    },
-  },
-  {
-    selector: '[step-name="edit-leg"]',
-    content: ({goTo, inDOM}) => {
-      return (
-        <div>
-          So here is where we get into the meat 🍖 of this thing. 
-          This button will open up the options chain. 
-          Note that if you -sigh- didn't type in an stock that 
-          has an options chain 😓 the button will be disabled.
-          However, if a stock doesn't immediately load the button, don't get scared 😯.
-          It may take a while to load.
-          So go ahead, click the button.
-        <br></br>
-        <a onClick ={() => goTo(6)}>Click here ➡ to continue.</a>
-        <br></br>
-        <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock.</a>
-        </div>
-      )
-    }
-  },
-  {
-    selector: '[step-name="edit-leg-modal"]',
-    content: ({ goTo, inDOM }) => {
-      if(inDOM){
-        return (
-          <div>
-            Here it is 🎉.
-            Each date displayed is an expiry date for the contracts available for the stock.
-            <br></br>
-            Go ahead and click an expiry. You'll see call options on the left, put options on the right. 
-            You can use the checkboxes ☑ to add those contracts to your strategy. 
-            Then, scroll down and click that ok button 🆗.
-            <br></br>
-            If you don't know what these words mean 🤔, you should probably go to our help page. We explain stuff in detail there 🤓.
-            <br></br>
-            <a onClick ={() => goTo(7)}>Click here ➡ to continue.</a>
-            <br></br>
-            <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
-          </div>
-        )
-      }
-      else {
-        goTo(5)
-      }
-    },
-  },
-  {
-    selector: '[step-name="example-contract"]',
-    content: ({goTo, inDOM}) => {
-      if(inDOM){
-        return (
-          <div>
-            Contract
-            <br></br>
-            <a onClick ={() => goTo(8)}>Click here ➡ to continue.</a>
-            <br></br>
-            <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
-          </div>
-        )
-      }
-      else{
-        goTo(6)
-      }
-    }
-  },
-  {
-    selector: '[step-name="contract-name"]',
-    content: ({goTo, inDOM}) => {
-      return (
-        <div>
-          Contract Name
-          <br></br>
-          <a onClick ={() => goTo(9)}>Click here ➡ to continue.</a>
-          <br></br>
-          <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
-        </div>
-      )
-    }
-  },
-  {
-    selector: '[step-name="buy-or-write"]',
-    content: ({goTo, inDOM}) => {
-      return (
-        <div>
-          Contract Buy or Write
-          <br></br>
-          <a onClick ={() => goTo(10)}>Click here ➡ to continue.</a>
-          <br></br>
-          <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
-        </div>
-      )
-    }
-  },
-  {
-    selector: '[step-name="option-quantity"]',
-    content: ({goTo, inDOM}) => {
-      return (
-        <div>
-          Contract Quantity
-          <br></br>
-          <a onClick ={() => goTo(11)}>Click here ➡ to continue.</a>
-          <br></br>
-          <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
-        </div>
-      )
-    }
-  },
-  {
-    selector: '[step-name="limit-price"]',
-    content: ({goTo, inDOM}) => {
-      return (
-        <div>
-          Contract Price
-          <br></br>
-          <a onClick ={() => goTo(12)}>Click here ➡ to continue.</a>
-          <br></br>
-          <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
-        </div>
-      )
-    }
-  },
-]
-
 class OptionsCalculator extends React.Component{
   constructor(props){
     super(props);
@@ -241,7 +45,8 @@ class OptionsCalculator extends React.Component{
       ivSkewModalVisible: false,
       isTourOpen: false,
       optionsChain: [['Empty',{}]],
-      optionsSelected: []
+      optionsSelected: [],
+      activeOptionExpiry: ""
     };
   }
 
@@ -272,7 +77,7 @@ class OptionsCalculator extends React.Component{
 
   renderLegs() {
     return this.state.optionsSelected.map((option, index) => (
-      <OptionsLeg isFirst={index===0 ? false:true} key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
+      <OptionsLeg isFirst={index===0 ? true:false} key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
     ));
   }
 
@@ -293,18 +98,20 @@ class OptionsCalculator extends React.Component{
   }
 
   renderOptionsChain = () => {
-    return this.state.optionsChain.map((e, i) => (
-      <Panel id = {"expiry"+i} key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])} >
-          <Table dataSource = {e[1]} columns ={this.columns(e[0])} 
-            rowClassName={(record) => record.atmNess} 
-            pagination={false} size="small" scroll={{ y: 500 }} />
+    return this.state.optionsChain.map((e) => (
+      <Panel key = {e[0]+"_optionexpiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])} >
+          <div step-name = {e[0]+"_optionexpiries"}>
+            <Table dataSource = {e[1]} columns ={this.columns(e[0])} 
+              rowClassName={(record) => record.atmNess} 
+              pagination={false} size="small" scroll={{ y: 500 }} />
+          </div>
       </Panel>
     ))
   }
 
   renderIVSkew = () => {
     return this.state.optionsChain.map(e => (
-      <Panel key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
+      <Panel key = {e[0]+"_ivexpiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
         <div className="IVSkewGraphs">
           <div id="IVGraph1">
             <NoAxisGraph data = {e[1]} xKey = {'strike'} dataKey = {'callIV'}></NoAxisGraph>
@@ -544,6 +351,9 @@ class OptionsCalculator extends React.Component{
     }
     return profitMap
   }
+
+  openOptionsChainModal = () => this.setAddLegModalVisible(true)
+  closeOptionsChainModal = () => this.setAddLegModalVisible(false)
   
   sendCalcError = () => {
     const input = document.getElementsByTagName('html')[0]
@@ -649,10 +459,336 @@ class OptionsCalculator extends React.Component{
     this.setState(() => ({ isTourOpen : false }))
   }
 
-  render() { return (
+  tutorialSteps = (state) => [
+    //Step 1: Title
+    {
+      selector: '[step-name="title"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            What's up 😊? I'm Mr. Outsmart, a sentient AI that'll help guide you on your journey. 
+            Follow the arrows (⬅➡) and you'll get it in no time.
+            <br></br>  
+            <a onClick ={() => goTo(step)}> Click me ➡ when you're ready to go. </a>
+          </div>
+        )
+      },
+        style: {
+        backgroundColor: 'black',
+        color : 'white',
+      }
+    }, 
+    //Step 2: Stock Symbol
+    {
+      selector: '[step-name="stock-symbol-input"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            First things first, you should type in a stock and press enter. (Try something like AAPL or MSFT) 
+            <br></br>
+            <a onClick ={() => {
+              if(state.symbol != "") goTo(step)
+            }
+            }>
+              Click here ➡ to move on
+            </a>
+          </div>
+        )
+      }
+    }, 
+    //Step 3: Stock Symbol Incorrect
+    {
+      selector: '[step-name="stock-nonexistent"]',
+      content: ({goTo, inDOM, step}) =>  {
+        if(inDOM){
+          return (
+            <div>
+              Well, well, well 😒. Looks like we got a rebel here. 
+              <a onClick={() => goTo(1)}> Go back ⬅</a> 
+              and type in a stock that actually exists and has options.
+            </div>
+          )
+        }
+        else{
+          goTo(step);
+        }
+      },
+    }, 
+    //Step 4: Price
+    {
+      selector: '[step-name="stock-price"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Once you type in the stock, you'll see the current price right here. Pretty cool right? 
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to move on</a>
+            <br></br>
+            <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock</a>
+          </div>
+        )
+      }
+    }, 
+    //Step 5: Percent Change
+    {
+      selector: '[step-name="stock-percent-change"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            And here is the percent change for the day. We don't have premarket moves, so only during and after market hours will you see any changes.  
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to move on</a>
+            <br></br>
+            <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock</a>
+          </div>
+        )
+      },
+    }, 
+    //Step 6: Edit Leg Button
+    {
+      selector: '[step-name="edit-leg"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            So here is where we get into the meat 🍖 of this thing. 
+            This button will open up the options chain. 
+            Note that if you -sigh- didn't type in an stock that 
+            has an options chain 😓 the button will be disabled.
+            However, if a stock doesn't immediately load the button, don't get scared 😯.
+            It may take a while to load. So go ahead, click the button.
+          <br></br>
+          <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+          <br></br>
+          <a onClick ={() => goTo(1)}>Click here ⬅ to input a stock.</a>
+          </div>
+        )
+      },
+    }, 
+    //Step 7: Show modal with expiries
+    {
+      selector: '[step-name="edit-leg-modal"]',
+      content: ({ goTo, inDOM, step}) => {
+        if(state.addLegModalVisible){
+          return (
+            <div>
+              Here it is 🎉.
+              Each date displayed is an expiry date for the contracts available for the stock.
+              So what are you waiting for? Pick an expiry.
+              <br></br>
+              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+              <br></br>
+              <a onClick ={() => {
+                  this.closeOptionsChainModal()
+                  goTo(step-2)
+                }
+              }>
+                Click here ⬅ to go back.
+              </a>
+            </div>
+          )
+        }
+        else {
+          goTo(5)
+        }
+      },
+    }, 
+    //Step 8: Show selected expiry table
+    {
+      selector: '[step-name="'+(state.activeOptionExpiry || " ")+'"]',
+      content: ({goTo, inDOM, step}) => {
+        if(inDOM && state.activeOptionExpiry != undefined && state.activeOptionExpiry != ""){
+          return (
+            <div>
+              Yikes 😬. A lot, right?
+              You'll see call options on the left, put options on the right. 
+              If you found the green row, that is the at-the-money strike.
+              Use the checkboxes ☑ to add a contract to your strategy. Or 3 contracts. Or 5. Up to you 🤷‍♀️.
+              <br></br>
+              If you don't know what these words mean 🤔, you should probably go to our help page. We explain stuff in detail there 🤓.
+              <br></br>
+              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+              <br></br>
+              <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>  
+            </div>
+          )
+        }
+        else{
+          goTo(step-2)
+        }
+      }
+    }, 
+    //Step 9: Ok button on modal
+    {
+      selector: '[step-name="ok-button-modal"]',
+      content: ({goTo, inDOM, step}) => {
+        if(state.addLegModalVisible){
+          if(state.optionsSelected.length > 0){
+            return (
+              <div>
+                Once you select all the strategies your heart desires, click this ok button 🆗.
+                <br></br>
+                <a onClick ={() => {
+                    this.closeOptionsChainModal()
+                    goTo(step)
+                  }
+                }>
+                  Click here ➡ to continue.
+                </a>
+              </div>
+            )
+          }
+          else{
+            goTo(step-2)
+          }
+        }
+        else {
+          goTo(step)
+        }
+      }
+    },
+    //Step 10: Example option leg
+    {
+      selector: '[step-name="example-contract"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Contract
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    }, 
+    //Step 11: Option name 
+    {
+      selector: '[step-name="contract-name"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Contract Name
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    }, 
+    //Step 12: Option long or short
+    {
+      selector: '[step-name="buy-or-write"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Contract Buy or Write
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    }, 
+    //Step 13: Option quantity.
+    {
+      selector: '[step-name="option-quantity"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Contract Quantity
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    }, 
+    //Step 14: Option bought at price.
+    {
+      selector: '[step-name="limit-price"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Contract Price
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    },
+    //Step 15: Calculate button
+    {
+        selector: '[step-name="calculate-button"]',
+        content: ({goTo, inDOM, step}) => {
+          return (
+            <div>
+              Calc
+              <br></br>
+              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+              <br></br>
+              <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+            </div>
+          )
+        }
+    },
+    //Step 16: Cost of strat card
+    {
+        selector: '[step-name="cost-card"]',
+        content: ({goTo, inDOM, step}) => {
+          return (
+            <div>
+              Cost
+              <br></br>
+              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+              <br></br>
+              <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+            </div>
+          )
+        }
+    },
+    //Step 17: Profit graph
+    {
+        selector: '[step-name="profit-graph"]',
+        content: ({goTo, inDOM, step}) => {
+          return (
+            <div>
+              graf
+              <br></br>
+              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+              <br></br>
+              <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+            </div>
+          )
+        }
+    },
+    //Step 18: Profit table
+    {
+        selector: '[step-name="profit-table"]',
+        content: ({goTo, inDOM, step}) => {
+          return (
+            <div>
+              table
+              <br></br>
+              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+              <br></br>
+              <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+            </div>
+          )
+        }
+    }
+  ]
+
+  render() {
+    console.log(this.state)
+    return (
     <div>
       <Tour
-        steps={steps}
+        steps={this.tutorialSteps(this.state)}
         showNavigation = {false}
         showNumber = {false}
         showButtons = {false}
@@ -673,7 +809,7 @@ class OptionsCalculator extends React.Component{
       <div className="optionsButtons">
           <div style={{width:'60px', display: 'inline-block'}}/>
           <div id= "addLegButton" step-name = 'edit-leg'>
-            <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={() => this.setAddLegModalVisible(true)}>Edit Legs</Button>
+            <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={this.openOptionsChainModal}>Edit Legs</Button>
             <div className="addLegButtonWrapper">
               <div>
                 <Modal
@@ -682,14 +818,14 @@ class OptionsCalculator extends React.Component{
                   width = {"50%"}
                   visible={this.state.addLegModalVisible}
                   footer = {(
-                    <Button key="ok" type="primary" onClick = {() => this.setAddLegModalVisible(false)}>
+                    <Button key="ok" step-name="ok-button-modal" type="primary" onClick = {this.closeOptionsChainModal}>
                       Ok
                     </Button>
                   )}
-                  onCancel = {() => this.setAddLegModalVisible(false)}
+                  onCancel = {this.closeOptionsChainModal}
                 >
                   <div step-name = 'edit-leg-modal'>
-                    <Collapse accordion>
+                    <Collapse onChange={(e) => {this.setState(() => ({activeOptionExpiry: e}))}} accordion>
                       {this.renderOptionsChain()}
                     </Collapse>
                   </div>
@@ -723,8 +859,8 @@ class OptionsCalculator extends React.Component{
           </div>
           
           <div style={{width:'43px', display: 'inline-block'}}/>
-          <div id= "strategyButton" step-name = 'strategy-button'><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
-          <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
+          <div id= "strategyButton" ><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
+          <div id= "calculateButton" step-name="calculate-button"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
           <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
         </div>
@@ -733,19 +869,19 @@ class OptionsCalculator extends React.Component{
           this.state.mergedOptions != undefined ?
           (
             <div>
-              <div className="costStrategy">
+              <div className="costStrategy" step-name="cost-card">
                 <Card  title="Cost of Strategy" style={{ width: 400 }}>
                   <p>The cost of this strategy is estimated to be ${(this.state.mergedOptions.limitPrice * 100).toFixed(2)}</p>
                   <p>*bid and ask calculations are approximations</p>
                 </Card>
               </div>
 
-              <div className="profitGraphWrapper">
+              <div className="profitGraphWrapper" step-name="profit-graph">
                 <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
               </div>
               <hr id="hr2"/>
               <h3 style={{marginLeft:"60px"}}>Profit Table:</h3>
-              <div className="profitTableWrapper">
+              <div className="profitTableWrapper" step-name="profit-table">
                 <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
               </div>
               <Button onClick = {this.sendCalcError}>Report Calculation Error</Button>
@@ -767,7 +903,7 @@ class OptionsLeg extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      isFirst: false,
+      isFirst: props.isFirst,
       key: props.optionRepresented.date + props.optionRepresented.strike + (props.optionRepresented.isCall?"C":"P"),
       isCall : props.optionRepresented.isCall,
       date: props.optionRepresented.date,
@@ -806,36 +942,36 @@ class OptionsLeg extends React.Component {
 
   render() { 
     return (
-      <div className="Options Editor" step-names = {this.props.isFirst ? "example-contract" : ""}>
+      <div className="Options Editor"  step-name = {this.props.isFirst ? "example-contract" : ""}>
         <div className="optionsHeadings"> 
-          <div class= "buyWrite" step-names = {this.props.isFirst ? "buy-or-write" : ""}>
-            Buy or Write:&nbsp;{this.props.isFirst ? null:(
+          <div className= "buyWrite"  step-name = {this.props.isFirst ? "buy-or-write" : ""}>
+            Buy or Write:&nbsp;{this.props.isFirst ?  (
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
-            )}
+            ) : null}
             <div id= "buyWriteSwitch">
               <Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/>
             </div>
           </div>
-          <div class= "contract" step-names = {this.props.isFirst ? "contract-name" : ""}>
-            Contract:&nbsp;{this.props.isFirst ? null:(
+          <div className= "contract"  step-name = {this.props.isFirst ? "contract-name" : ""}>
+            Contract:&nbsp;{this.props.isFirst ?  (
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
-            )}
+            ) : null}
             <div id= "contractBox">
               <Input placeholder="Contract" value={this.state.date + " " + this.state.strike + " " + (this.state.isCall?"C":"P")} disabled/>
               {this.state.hide ? (<Icon className="disabledLeg"  type="close-circle" />) : null}
             </div>
           </div>
           <div id= "xHeading">x</div>
-          <div class= "quantity" step-names = {this.props.isFirst ? "option-quantity" : ""}>
-            Quantity:&nbsp;{this.props.isFirst ? null:(
+          <div className= "quantity"  step-name = {this.props.isFirst ? "option-quantity" : ""}>
+            Quantity:&nbsp;{this.props.isFirst ?  (
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
-            )}
+            ) : null}
             <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           </div>
-          <div class= "atPrice" step-names = {this.props.isFirst ? "limit-price" : ""}>
-            At Price:&nbsp;{this.props.isFirst ? null:(
+          <div className= "atPrice"  step-name = {this.props.isFirst ? "limit-price" : ""}>
+            At Price:&nbsp;{this.props.isFirst ?  (
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
-            )}
+            ) : null}
             <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
           </div>
           <div className="removeDisable">
