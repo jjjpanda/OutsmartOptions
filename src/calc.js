@@ -24,7 +24,6 @@ import * as optionsMath from './jsLib/optionsMathLibrary.js'
 import * as timeMath from './jsLib/timeLibrary.js'
 import * as structure from './jsLib/structuresEditingLibrary.js'
 import * as post from './jsLib/fetchLibrary.js'
-import * as outliers from './jsLib/outliersLibrary.js'
 import * as treasury from './jsLib/treasuryLibrary.js'
 
 //Treasury Yields
@@ -176,6 +175,7 @@ class OptionsCalculator extends React.Component{
       exists: true,
       priceChange: 0, 
       price: 0,
+      divYield: 0,
       addLegModalVisible: false,
       ivSkewModalVisible: false,
       isTourOpen: false,
@@ -184,52 +184,19 @@ class OptionsCalculator extends React.Component{
     };
   }
 
-  onSearch = e => {
-    //console.log(e);
-    this.setState({exists: true})
-    
-    post.fetchReq('/price', JSON.stringify({ticker: e}), (data) => {
-      console.log(data);
-      if (data.price === undefined || data.price === null){
-        data.price = 0;
-        data.change = 0;
-        this.setState({exists: false});
-      }
-      this.setState(() => ({symbol : e, price : data.price, priceChange : data.change, optionsSelected: [], optionsChain: [['Empty', {}]]}), 
-        () => {console.log(this.state)}); 
-    })
+  updateSearchResults = (state) => {
+    this.setState(() => ({
+      exists: state.exists,
+      priceChange: state.priceChange, 
+      price: state.price,
+      optionsChain: state.optionsChain,
+      divYield: state.divYield,
+      optionsSelected : []
+    }))
+  }
 
-    post.fetchReq('/divYield', JSON.stringify({ticker: e}), (data) => {
-      this.setState({divYield : data.dividendAnnum/this.state.price})
-    })
-
-    post.fetchReq('/chain', JSON.stringify({ticker: e}), (data) => {
-      data = data.filter((x)=>{
-        var callVolSum = x[1].map(x => x.callVol).reduce((a,b) => a + b, 0)
-        var putVolSum = x[1].map(x => x.putVol).reduce((a,b) => a + b, 0) 
-        var callDist = outliers.setDistribution(x[1].map(x => x.strike), x[1].map(x => x.callVol))
-        var putDist = outliers.setDistribution(x[1].map(x => x.strike), x[1].map(x => x.putVol)) 
-        var callVolMean = outliers.getMean(callDist);
-        var putVolMean = outliers.getMean(putDist)
-        var callVolStd = outliers.getSD(callDist, callVolMean)
-        var putVolStd = outliers.getSD(putDist, putVolMean)
-        return [x[0], x[1].map((y, index)=>{
-            var rfir = treasury.getRightYield(yields, timeMath.timeBetweenDates(timeMath.stringToDate(x[0]),timeMath.getCurrentDate())) / 100
-            y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, rfir,this.state.divYield);
-            y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, rfir,this.state.divYield);
-            y['atmNess'] = x[1][index+1] != undefined ? ( (x[1][index].strike <= this.state.price && x[1][index+1].strike > this.state.price) ? "atmStrike" : "" ) : ""; 
-            y['callOutlier'] =  outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd)
-            y['putOutlier'] = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd)
-            return y    
-        })]
-      })
-      this.setState(() => ({optionsChain: data}), () => {console.log(this.state)});
-    })
-
-  };
-  
   handleChange = e => {
-    this.setState({[e.target.id]: e.target.value});
+    this.setState(() => ({[e.target.id]: e.target.value}));
     console.log(this.state);
   }
 
@@ -421,7 +388,7 @@ class OptionsCalculator extends React.Component{
     }
     var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
     for(var option of selectedOptions){
-      var rfir = treasury.getRightYield(yields, timeMath.timeBetweenDates(timeMath.stringToDate(option.date),timeMath.getCurrentDate())) / 100
+      var rfir = treasury.getRightYield(yields || [], timeMath.timeBetweenDates(timeMath.stringToDate(option.date),timeMath.getCurrentDate())) / 100
       option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong,rfir,this.state.divYield, option.iv)  
       option.profit = []
       var d = timeMath.getCurrentDate();
@@ -635,7 +602,7 @@ class OptionsCalculator extends React.Component{
       <div style={{width:'60px', paddingBottom:'20px'}}/>
       <div style={{width:'60px', display: 'inline-block'}}/>
       <h1 key = "mainTitle" step-name="title" style={{ width:'135px', display: 'inline-block'}}>Outsmart Options</h1>
-      <StockSymbol onSearch={this.onSearch} price={this.state.price} priceChange={this.state.priceChange} exists={this.state.exists}/>
+      <StockSymbol updateCallback = {this.updateSearchResults} yieldCurve = {yields} options={true} historical = {false}/>
       
       <hr id="hr" align='left'/>
 
