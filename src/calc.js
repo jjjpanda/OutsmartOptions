@@ -460,7 +460,8 @@ class OptionsCalculator extends React.Component{
   tutorialSteps = (state) => [
     //Step 1: Title
     {
-      selector: '[step-name="title"]',
+      position : "right", 
+			selector: '[step-name="title"]',
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
@@ -478,7 +479,8 @@ class OptionsCalculator extends React.Component{
     }, 
     //Step 2: Stock Symbol
     {
-      selector: '[step-name="stock-symbol-input"]',
+      position : "right", 
+			selector: '[step-name="stock-symbol-input"]',
       content: ({goTo, inDOM, step}) => {
         if(!state.exists || state.symbol != ""){
           goTo(step)
@@ -492,7 +494,8 @@ class OptionsCalculator extends React.Component{
     }, 
     //Step 3: Stock Symbol Incorrect
     {
-      selector: '[step-name="stock-nonexistent"]',
+      position : "right", 
+			selector: '[step-name="stock-nonexistent"]',
       content: ({goTo, inDOM, step}) =>  {
         if(inDOM){
           return (
@@ -513,7 +516,8 @@ class OptionsCalculator extends React.Component{
     }, 
     //Step 4: Price
     {
-      selector: '[step-name="stock-price"]',
+      position : "right", 
+			selector: '[step-name="stock-price"]',
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
@@ -531,7 +535,8 @@ class OptionsCalculator extends React.Component{
     },
     //Step 5: Percent Change
     {
-      selector: '[step-name="stock-percent-change"]',
+      position : "right", 
+			selector: '[step-name="stock-percent-change"]',
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
@@ -549,7 +554,8 @@ class OptionsCalculator extends React.Component{
     },
     //Step 6: Edit Leg Button
     {
-      selector: '[step-name="edit-leg"]',
+      position : "right", 
+			selector: '[step-name="edit-leg"]',
       content: ({goTo, inDOM, step}) => {
         if(state.addLegModalVisible){
           goTo(step)
@@ -570,7 +576,8 @@ class OptionsCalculator extends React.Component{
     }, 
     //Step 7: Show modal with expiries
     {
-      selector: '[step-name="edit-leg-modal"]',
+      position : "right", 
+			selector: '[step-name="edit-leg-modal"]',
       content: ({ goTo, inDOM, step}) => {
         if(state.activeOptionExpiry != undefined && state.activeOptionExpiry.length > 0){
           goTo(step)
@@ -601,7 +608,8 @@ class OptionsCalculator extends React.Component{
     }, 
     //Step 8: Show selected expiry table
     {
-      selector: '[step-name="'+(state.activeOptionExpiry || " ")+'"]',
+      position : "right", 
+			selector: '[step-name="'+(state.activeOptionExpiry || " ")+'"]',
       content: ({goTo, inDOM, step}) => {
         if(inDOM && state.addLegModalVisible && state.activeOptionExpiry != undefined && state.activeOptionExpiry != ""){
           return (
@@ -629,21 +637,14 @@ class OptionsCalculator extends React.Component{
     }, 
     //Step 9: Ok button on modal
     {
-      selector: '[step-name="ok-button-modal"]',
+      position : "right", 
+			selector: '[step-name="ok-button-modal"]',
       content: ({goTo, inDOM, step}) => {
         if(state.addLegModalVisible){
           if(state.optionsSelected.length > 0){
             return (
               <div>
                 Once you select all the strategies your heart desires, click this ok button 🆗.
-                <br></br>
-                <a onClick ={() => {
-                    this.closeOptionsChainModal()
-                    goTo(step)
-                  }
-                }>
-                  Click here ➡ to continue.
-                </a>
               </div>
             )
           }
@@ -658,7 +659,8 @@ class OptionsCalculator extends React.Component{
     },
     //Step 10: Example option leg
     {
-      selector: '[step-name="example-contract"]',
+      position : "right", 
+			selector: '[step-name="example-contract"]',
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
@@ -673,7 +675,8 @@ class OptionsCalculator extends React.Component{
     }, 
     //Step 11: Option name 
     {
-      selector: '[step-name="contract-name"]',
+      position : "right", 
+			selector: '[step-name="contract-name"]',
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
@@ -688,7 +691,8 @@ class OptionsCalculator extends React.Component{
     }, 
     //Step 12: Option long or short
     {
-      selector: '[step-name="buy-or-write"]',
+      position : "right", 
+			selector: '[step-name="buy-or-write"]',
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
@@ -703,7 +707,8 @@ class OptionsCalculator extends React.Component{
     }, 
     //Step 13: Option quantity.
     {
-      selector: '[step-name="option-quantity"]',
+      position : "right", 
+			selector: '[step-name="option-quantity"]',
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
@@ -718,7 +723,8 @@ class OptionsCalculator extends React.Component{
     }, 
     //Step 14: Option bought at price.
     {
-      selector: '[step-name="limit-price"]',
+      position : "right", 
+			selector: '[step-name="limit-price"]',
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
@@ -733,68 +739,71 @@ class OptionsCalculator extends React.Component{
     },
     //Step 15: Calculate button
     {
-        selector: '[step-name="calculate-button"]',
-        content: ({goTo, inDOM, step}) => {
-          return (
-            <div>
-              Calc
-              <br></br>
-              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
-              <br></br>
-              <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
-            </div>
-          )
-        }
+      position : "right", 
+      selector: '[step-name="calculate-button"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Calc
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
     },
     //Step 16: Cost of strat card
     {
-        selector: '[step-name="cost-card"]',
-        content: ({goTo, inDOM, step}) => {
-          return (
-            <div>
-              Cost
-              <br></br>
-              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
-              <br></br>
-              <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
-            </div>
-          )
-        }
+      position : "right", 
+      selector: '[step-name="cost-card"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Cost
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
     },
     //Step 17: Profit graph
     {
-        selector: '[step-name="profit-graph"]',
-        content: ({goTo, inDOM, step}) => {
-          return (
-            <div>
-              graf
-              <br></br>
-              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
-              <br></br>
-              <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
-            </div>
-          )
-        }
+      position : "right", 
+      selector: '[step-name="profit-graph"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            graf
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
     },
     //Step 18: Profit table
     {
-        selector: '[step-name="profit-table"]',
-        content: ({goTo, inDOM, step}) => {
-          return (
-            <div>
-              table
-              <br></br>
-              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
-              <br></br>
-              <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
-            </div>
-          )
-        }
+      position : "right", 
+      selector: '[step-name="profit-table"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            table
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
     }
 ]
 
   render() {
-    console.log(this.state)
     return (
     <div>
       <Tour
@@ -804,10 +813,12 @@ class OptionsCalculator extends React.Component{
         showButtons = {false}
         showCloseButton = {false}
         disableKeyboardNavigation = {true}
+        maskSpace={3}
+        startAt = {0}
         onAfterOpen={this.disableBody}
         onBeforeClose={this.enableBody}
         isOpen={this.state.isTourOpen}
-        onRequestClose={this.closeTutorial} 
+        onRequestClose={this.closeTutorial}
       />
       <div style={{width:'60px', paddingBottom:'20px'}}/>
       <div style={{width:'60px', display: 'inline-block'}}/>
@@ -816,7 +827,7 @@ class OptionsCalculator extends React.Component{
       
       <hr id="hr" align='left'/>
 
-      <div className="optionsList">{this.renderLegs()}</div>
+      <div className="optionsList" step-name = "example-contract">{this.renderLegs()}</div>
 
       <div className="optionsButtons">
           <div style={{width:'60px', display: 'inline-block'}}/>
@@ -881,8 +892,8 @@ class OptionsCalculator extends React.Component{
           this.state.mergedOptions != undefined ?
           (
             <div>
-              <div className="costStrategy" step-name="cost-card">
-                <Card  title="Cost of Strategy" style={{ width: 400 }}>
+              <div className="costStrategy">
+                <Card  title="Cost of Strategy" step-name="cost-card" style={{ width: 400 }}>
                   <p>The cost of this strategy is estimated to be ${(this.state.mergedOptions.limitPrice * 100).toFixed(2)}</p>
                   <p>*bid and ask calculations are approximations</p>
                 </Card>
@@ -891,6 +902,7 @@ class OptionsCalculator extends React.Component{
               <div className="profitGraphWrapper" step-name="profit-graph">
                 <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
               </div>
+
               <hr id="hr2"/>
               <h3 style={{marginLeft:"60px"}}>Profit Table:</h3>
               <div className="profitTableWrapper" step-name="profit-table">
@@ -899,11 +911,7 @@ class OptionsCalculator extends React.Component{
               <Button onClick = {this.sendCalcError}>Report Calculation Error</Button>
             </div>
           ): 
-          (
-            <pre>
-              {JSON.stringify(this.state.mergedOptions != undefined ?  this.state.mergedOptions.profit : undefined, null, 2)}
-            </pre>
-          )
+          null
         }</div>
     </div>);
     
@@ -954,7 +962,7 @@ class OptionsLeg extends React.Component {
 
   render() { 
     return (
-      <div className="Options Editor"  step-name = {this.props.isFirst ? "example-contract" : ""}>
+      <div className="Options Editor">
         <div className="optionsHeadings"> 
           <div className= "buyWrite"  step-name = {this.props.isFirst ? "buy-or-write" : ""}>
             Buy or Write:&nbsp;{this.props.isFirst ?  (
