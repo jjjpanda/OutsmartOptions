@@ -2,6 +2,8 @@ import React from 'react'
 import {
     Input,
     Icon,
+    Menu, 
+    Dropdown
 } from 'antd';
 const { Search } = Input
 import {HelpTooltip} from "./help-tooltip.js"
@@ -22,18 +24,49 @@ class StockSymbol extends React.Component {
         price: 0,
         optionsChain: [['Empty',{}]],
         divYield : 0,
-        historical: []
+        historical: [],
+        guess: []
       }
+    }
+
+    notFound = e => {
+      post.fetchReq('/guessSymbol', JSON.stringify({text: e}), (data) => {
+        data = JSON.parse(data)
+        data = data['bestMatches'].filter(e => e['4. region'] === "United States")
+        console.log(data)
+        this.setState(() => (
+          {
+            guess : data
+          }
+        ))
+      })
+    }
+
+    renderDropdown = () => {
+      return (
+      <Menu>
+      {this.state.guess.map((guess, i) => {
+        return (
+          <Menu.Item key = {i}>
+            <div>
+              {guess['1. symbol']} - {guess['2. name']} 
+            </div>
+          </Menu.Item>
+        )
+      })}
+      </Menu>
+      )
     }
   
     onSearch = e => {
-        this.setState(() => ({exists: true, symbol: e}))
+        this.setState(() => ({exists: true, symbol: e, guess: []}))
         
         post.fetchReq('/price', JSON.stringify({ticker: e}), (data) => {
           console.log(data);
           if (data.price === undefined || data.price === null){
             data.price = 0;
             data.change = 0;
+            this.notFound(e)
             this.setState(() => ({exists: false}), () => {this.props.updateCallback(this.state)});
           }
           this.setState(() => ({symbol : e, price : data.price, priceChange : data.change, optionsChain: [['Empty', {}]]}), 
@@ -94,7 +127,11 @@ class StockSymbol extends React.Component {
               <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
             </div>
             <div id="stockSymbolInput">
-                <div id="searchWrapper"><Search placeholder="Enter..." onSearch={this.onSearch}/></div>
+                <div id="searchWrapper">
+                  <Dropdown overlay= {this.renderDropdown()}>
+                    <Search placeholder="Enter..." onSearch={this.onSearch}/>
+                  </Dropdown>
+                </div>
               <div id="exists">{this.state.exists ? null:(<Icon step-name = "stock-nonexistent" type="close-circle" />)}</div>
             </div>
           </div>
