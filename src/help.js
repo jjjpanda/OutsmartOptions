@@ -14,9 +14,15 @@ class Help extends React.Component{
         super(props)
     }
 
+    state = {modal1Visible:false};
+
+    setModal1Visible(modal1Visible){
+        this.setState({modal1Visible});
+    }
+
+
     //functions for carousel modals
     guide1(){
-
         Modal.info({
             title:"Lesson 1: Buying Stocks",
             content: (
@@ -33,18 +39,22 @@ class Help extends React.Component{
         });
     }
 
+
     guide2(){
         Modal.info({
             title:"Lesson 2: What is short selling anyway?",
             content: (
-                <Carousel arrows >
+                <Carousel id = "hey">
                     <div>
-                        <p></p>
+                        <p>first</p>
+                        <br></br>
+                        <br></br>
                     </div>
                     <div>
                         <p>End Lesson</p>
                     </div>
                 </Carousel>
+                    
             )
         });
     }
@@ -53,18 +63,18 @@ class Help extends React.Component{
         Modal.info({
             title:"Lesson 3: Option Contracts",
             content: (
-                <Carousel arrows>
+                <Carousel arrows >
                     <div>
-                        <p></p>
+                        <p>Hey</p>
                     </div>
                     <div>
                         <p>End of Lesson</p>
                     </div>
                 </Carousel>
+                
             )
         });
      }
-
 
     render(){
 
@@ -80,12 +90,40 @@ class Help extends React.Component{
                             }
                             actions = {[
                                 <Icon type = "youtube"/>,
-                                <Icon type = "info-circle" onClick = {() => this.guide1()}/>,
+                                <Icon type = "info-circle" onClick = {() => this.setModal1Visible(true)}/>,
                                 <Icon type = "book" />,
                             ]}
                         > 
                             The Beginning
                         </Card>
+                        <Modal
+                            title = "Guide1"
+                            visible = {this.state.modal1Visible}
+                            onOk = {() => this.setModal1Visible(false)}
+                            onCancel = {() => this.setModal1Visible(false)}
+                        >
+                            <Carousel arrows padding = "50px" ref = "caros">
+                                <div>
+                                    <p>Ye Ye Ye</p>
+                                    <img src = "/img/b_1.gif" alt = "pie" height = "100" width = "200"></img>
+                                </div>
+                                <div>
+                                    <p>End lesson</p>
+                                </div>
+                            </Carousel>
+                            <Button.Group>
+                                <Button type="primary" onClick = {() => this.refs.caros.prev()}>
+                                    <Icon type="left" />
+                                    Backward
+                                </Button>
+                                <Button type="primary" onClick = {() => this.refs.caros.next()}>
+                                    Forward
+                                    <Icon type="right" />
+                                </Button>
+                            </Button.Group>
+                        </Modal>
+
+                        
                     </Col>
                     <Col span={8}>
                         <Card 

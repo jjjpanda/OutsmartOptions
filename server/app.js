@@ -61,6 +61,13 @@ app.post('/historical', function(req, res){
   });
 })
 
+app.post('/guessSymbol', function(req, res){
+  var text = req.body.text
+  realTimeData.guessSymbol(alphakey, text, function(data){
+      res.json(data);
+  })
+})
+
 app.post('/divYield', function(req, res){
   var ticker = req.body.ticker
   realTimeData.getDividend(alphakey, ticker, function(data){

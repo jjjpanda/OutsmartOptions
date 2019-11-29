@@ -191,6 +191,19 @@ getStockHistoricalData: function(apikey, ticker, callback){
     );
 },
 
+guessSymbol: function (apikey, data, callback){
+    request({
+        method: 'get',
+        url: 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords='+data+'&apikey='+apikey,
+        }, 
+        (error, response, body) => {
+            if(!error){
+                callback(body)
+            }
+        }
+    )
+},
+
 getDividend: function(apikey, ticker, callback){
     request({
         method: 'get',
