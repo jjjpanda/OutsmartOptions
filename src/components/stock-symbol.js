@@ -3,8 +3,9 @@ import {
     Input,
     Icon,
     Menu, 
-    Dropdown
+    AutoComplete
 } from 'antd';
+const { Option, OptGroup } = AutoComplete;
 const { Search } = Input
 import {HelpTooltip} from "./help-tooltip.js"
 
@@ -32,7 +33,7 @@ class StockSymbol extends React.Component {
     notFound = e => {
       post.fetchReq('/guessSymbol', JSON.stringify({text: e}), (data) => {
         data = JSON.parse(data)
-        data = data['bestMatches'].filter(e => e['4. region'] === "United States")
+        data = data['bestMatches'].filter(e => e['4. region'] === "United States").filter(e => e['3. type'] === "Equity")
         console.log(data)
         this.setState(() => (
           {
@@ -43,18 +44,12 @@ class StockSymbol extends React.Component {
     }
 
     renderDropdown = () => {
-      return (
-      <Menu>
-      {this.state.guess.map((guess, i) => {
-        return (
-          <Menu.Item key = {i}>
-            <div>
-              {guess['1. symbol']} - {guess['2. name']} 
-            </div>
-          </Menu.Item>
+      return this.state.guess.map((guess, i) => (
+        <Option key = {guess['1. symbol']} value = {guess['1. symbol']} >  
+          {guess['1. symbol']} 
+          <span> {guess['2. name']}  </span>
+        </Option>
         )
-      })}
-      </Menu>
       )
     }
   
@@ -128,9 +123,9 @@ class StockSymbol extends React.Component {
             </div>
             <div id="stockSymbolInput">
                 <div id="searchWrapper">
-                  <Dropdown overlay= {this.renderDropdown()}>
+                  <AutoComplete optionLabelProp="value" dataSource= {this.renderDropdown()} dropdownMatchSelectWidth={false}>
                     <Search placeholder="Enter..." onSearch={this.onSearch}/>
-                  </Dropdown>
+                  </AutoComplete>
                 </div>
               <div id="exists">{this.state.exists ? null:(<Icon step-name = "stock-nonexistent" type="close-circle" />)}</div>
             </div>
