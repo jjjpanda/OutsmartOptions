@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card } from 'antd';
 import {
   Input,
+  Card,
   Button,
   Switch,
   Modal,
@@ -9,21 +9,25 @@ import {
   Collapse,
   Checkbox,
   Icon,
-  Popover,
 } from 'antd';
-const { Search } = Input
 const { Panel } = Collapse
-import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend, Label, ResponsiveContainer} from 'recharts';
+
+import {NoAxisGraph, ProfitGraph} from './components/graphs.js'
+import {HelpTooltip} from "./components/help-tooltip.js"
+import {StockSymbol} from './components/stock-symbol.js'
+import {StrategyInfo} from './components/strategy-info.js'
+
+import Tour from 'reactour'
 import Cookies from 'js-cookie'
+
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
 //JS Libraries
 import * as optionsMath from './jsLib/optionsMathLibrary.js'
 import * as timeMath from './jsLib/timeLibrary.js'
 import * as structure from './jsLib/structuresEditingLibrary.js'
 import * as post from './jsLib/fetchLibrary.js'
-import * as outliers from './jsLib/outliersLibrary.js'
 import * as treasury from './jsLib/treasuryLibrary.js'
-import { continueStatement } from '@babel/types';
 
 //Treasury Yields
 var yields;
@@ -39,59 +43,30 @@ class OptionsCalculator extends React.Component{
       exists: true,
       priceChange: 0, 
       price: 0,
+      divYield: 0,
       addLegModalVisible: false,
       ivSkewModalVisible: false,
+      isTourOpen: false,
       optionsChain: [['Empty',{}]],
-      optionsSelected: []
+      optionsSelected: [],
+      activeOptionExpiry: ""
     };
   }
 
-  onSearch = e => {
-    //console.log(e);
-    this.setState({exists: true})
-    
-    post.fetchReq('/price', JSON.stringify({ticker: e}), (data) => {
-      console.log(data);
-      if (data.price === undefined || data.price === null){
-        data.price = 0;
-        data.change = 0;
-        this.setState({exists: false});
-      }
-      this.setState(() => ({symbol : e, price : data.price, priceChange : data.change, optionsSelected: [], optionsChain: [['Empty', {}]]}), 
-        () => {console.log(this.state)}); 
-    })
+  updateSearchResults = (state) => {
+    this.setState(() => ({
+      symbol: state.symbol,
+      exists: state.exists,
+      priceChange: state.priceChange, 
+      price: state.price,
+      optionsChain: state.optionsChain,
+      divYield: state.divYield,
+      optionsSelected : []
+    }))
+  }
 
-    post.fetchReq('/divYield', JSON.stringify({ticker: e}), (data) => {
-      this.setState({divYield : data.dividendAnnum/this.state.price})
-    })
-
-    post.fetchReq('/chain', JSON.stringify({ticker: e}), (data) => {
-      data = data.filter((x)=>{
-        var callVolSum = x[1].map(x => x.callVol).reduce((a,b) => a + b, 0)
-        var putVolSum = x[1].map(x => x.putVol).reduce((a,b) => a + b, 0) 
-        var callDist = outliers.setDistribution(x[1].map(x => x.strike), x[1].map(x => x.callVol))
-        var putDist = outliers.setDistribution(x[1].map(x => x.strike), x[1].map(x => x.putVol)) 
-        var callVolMean = outliers.getMean(callDist);
-        var putVolMean = outliers.getMean(putDist)
-        var callVolStd = outliers.getSD(callDist, callVolMean)
-        var putVolStd = outliers.getSD(putDist, putVolMean)
-        return [x[0], x[1].map((y, index)=>{
-            var rfir = treasury.getRightYield(yields, timeMath.timeBetweenDates(timeMath.stringToDate(x[0]),timeMath.getCurrentDate())) / 100
-            y['callIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, rfir,this.state.divYield);
-            y['putIV'] = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, rfir,this.state.divYield);
-            y['atmNess'] = x[1][index+1] != undefined ? ( (x[1][index].strike <= this.state.price && x[1][index+1].strike > this.state.price) ? "atmStrike" : "" ) : ""; 
-            y['callOutlier'] =  outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd)
-            y['putOutlier'] = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd)
-            return y    
-        })]
-      })
-      this.setState(() => ({optionsChain: data}), () => {console.log(this.state)});
-    })
-
-  };
-  
   handleChange = e => {
-    this.setState({[e.target.id]: e.target.value});
+    this.setState(() => ({[e.target.id]: e.target.value}));
     console.log(this.state);
   }
 
@@ -105,7 +80,7 @@ class OptionsCalculator extends React.Component{
 
   renderLegs() {
     return this.state.optionsSelected.map((option, index) => (
-      <OptionsLeg isFirst={index===0 ? false:true} key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
+      <OptionsLeg isFirst={index===0 ? true:false} key= {option.key} callback = {this.optionsSelectedMoreInfo} deleteSelf ={this.deleteOption} optionRepresented={option}/>
     ));
   }
 
@@ -126,18 +101,20 @@ class OptionsCalculator extends React.Component{
   }
 
   renderOptionsChain = () => {
-    return this.state.optionsChain.map(e => (
-      <Panel key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
-        <Table dataSource = {e[1]} columns ={this.columns(e[0])}
-          rowClassName={(record) => record.atmNess} 
-          pagination={false} size="small" scroll={{ y: 500 }} /> 
+    return this.state.optionsChain.map((e) => (
+      <Panel key = {e[0]+"_optionexpiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])} >
+          <div step-name = {e[0]+"_optionexpiries"}>
+            <Table dataSource = {e[1]} columns ={this.columns(e[0])} 
+              rowClassName={(record) => record.atmNess} 
+              pagination={false} size="small" scroll={{ y: 500 }} />
+          </div>
       </Panel>
     ))
   }
 
   renderIVSkew = () => {
     return this.state.optionsChain.map(e => (
-      <Panel key = {e[0]+"_expiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
+      <Panel key = {e[0]+"_ivexpiries"} header={e[0]} extra = {this.modalTrackSelected(e[0])}>
         <div className="IVSkewGraphs">
           <div id="IVGraph1">
             <NoAxisGraph data = {e[1]} xKey = {'strike'} dataKey = {'callIV'}></NoAxisGraph>
@@ -174,7 +151,8 @@ class OptionsCalculator extends React.Component{
     })}), () => console.log(this.state))
   }
 
-
+  disableBody = target => disableBodyScroll(target)
+  enableBody = target => enableBodyScroll(target)
 
   addOption = (isCall, strike, price, date, iv) => {
     this.setState((state) => ({optionsSelected : [...state.optionsSelected, {key: date+strike+(isCall?"C":"P"), isCall:isCall, date:date, strike:strike, price:price, iv:iv}]}), this.resortOptionsSelected)
@@ -278,12 +256,12 @@ class OptionsCalculator extends React.Component{
 
   calculateProfits = () => {
     var selectedOptions = this.state.optionsSelected
-    if(selectedOptions.length <= 0){
+    if(selectedOptions.filter(o => !o.hide).length <= 0){
       return;
     }
     var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
     for(var option of selectedOptions){
-      var rfir = treasury.getRightYield(yields, timeMath.timeBetweenDates(timeMath.stringToDate(option.date),timeMath.getCurrentDate())) / 100
+      var rfir = treasury.getRightYield(yields || [], timeMath.timeBetweenDates(timeMath.stringToDate(option.date),timeMath.getCurrentDate())) / 100
       option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong,rfir,this.state.divYield, option.iv)  
       option.profit = []
       var d = timeMath.getCurrentDate();
@@ -329,15 +307,10 @@ class OptionsCalculator extends React.Component{
         
     }
 
+    console.log(selectedOptions.filter(o => !o.hide))
+    var optionsProfits = selectedOptions.filter(o => !o.hide).map(o => o.profit)
 
-
-
-
-    
-
-    var optionsProfits = selectedOptions.map(o => o.profit)
-
-    mergedOptions.date = timeMath.dateToString(selectedOptions.map( o => timeMath.stringToDate(o.date) ).sort(timeMath.timeBetweenDates)[0])
+    mergedOptions.date = timeMath.dateToString(selectedOptions.filter(o => !o.hide).map( o => timeMath.stringToDate(o.date) ).sort(timeMath.timeBetweenDates)[0])
        
     mergedOptions.percentProfit = []
     mergedOptions.profit = this.mergeProfits(optionsProfits, mergedOptions.date) 
@@ -377,6 +350,9 @@ class OptionsCalculator extends React.Component{
     }
     return profitMap
   }
+
+  openOptionsChainModal = () => this.setAddLegModalVisible(true)
+  closeOptionsChainModal = () => this.setAddLegModalVisible(false)
   
   sendCalcError = () => {
     const input = document.getElementsByTagName('html')[0]
@@ -474,44 +450,417 @@ class OptionsCalculator extends React.Component{
   }
 
   startTutorial = () => {
-    introJs('.intro').start();
+    //introJs('.intro').start();
+    this.setState(() => ({ isTourOpen : true }))
   }
 
-  render() { return (
-    <div>
-      <h1 key = "mainTitle" style={{paddingLeft:'60px', paddingTop:'20px'}}>Outsmart Options</h1>
+  closeTutorial = () => {
+    this.setState(() => ({ isTourOpen : false }))
+  }
 
-      <StockSymbol onSearch={this.onSearch} price={this.state.price} priceChange={this.state.priceChange} exists={this.state.exists}/>
+  tutorialSteps = (state) => [
+    //Step 1: Title
+    {
+      position : "right", 
+			selector: '[step-name="title"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            What's up 😊? I'm Mr. Outsmart, a sentient AI that'll help guide you on your journey. 
+            Follow the arrows (⬅➡) and you'll get it in no time.
+            <br></br>  
+            <a onClick ={() => goTo(step)}> Click me ➡ when you're ready to go. </a>
+          </div>
+        )
+      },
+      style: {
+        backgroundColor: 'black',
+        color : 'white',
+      }
+    }, 
+    //Step 2: Stock Symbol
+    {
+      position : "right", 
+			selector: '[step-name="stock-symbol-input"]',
+      content: ({goTo, inDOM, step}) => {
+        if(!state.exists || state.symbol != ""){
+          goTo(step)
+        }
+        return (
+          <div>
+            First things first, you should type in a stock and press enter. 😎 (Try something like AAPL or MSFT)
+          </div>
+        )
+      }
+    }, 
+    //Step 3: Stock Symbol Incorrect
+    {
+      position : "right", 
+			selector: '[step-name="stock-nonexistent"]',
+      content: ({goTo, inDOM, step}) =>  {
+        if(inDOM){
+          return (
+            <div>
+              Well, well, well 😒. Looks like we got a rebel here. 
+              <a onClick={() => {
+                this.setState(()=> ({exists:true, symbol: ""}))
+                goTo(1)
+              }}> Go back ⬅</a> 
+              and type in a stock that actually exists and has options.
+            </div>
+          )
+        }
+        else{
+          goTo(step);
+        }
+      },
+    }, 
+    //Step 4: Price
+    {
+      position : "right", 
+			selector: '[step-name="stock-price"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Once you type in the stock, you'll see the current price right here. Pretty cool right? 
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to move on</a>
+            <br></br>
+            <a onClick ={() => {
+              this.setState(() => ({symbol: ""}))
+              goTo(1)
+            }}>Click here ⬅ to input a stock</a>
+          </div>
+        )
+      }
+    },
+    //Step 5: Percent Change
+    {
+      position : "right", 
+			selector: '[step-name="stock-percent-change"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            And here is the percent change for the day. We don't have premarket moves, so only during and after market hours will you see any changes.  
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to move on</a>
+            <br></br>
+            <a onClick ={() => {
+              this.setState(() => ({symbol: ""}))
+              goTo(1)
+            }}>Click here ⬅ to input a stock</a>
+          </div>
+        )
+      },
+    },
+    //Step 6: Edit Leg Button
+    {
+      position : "right", 
+			selector: '[step-name="edit-leg"]',
+      content: ({goTo, inDOM, step}) => {
+        if(state.addLegModalVisible){
+          goTo(step)
+        }
+        return (
+          <div>
+            So here is where we get into the meat 🍖 of this thing. 
+            This button will open up the options chain. 
+            Note that if you -sigh- didn't type in an stock that 
+            has an options chain 😓 the button will be disabled.
+            However, if a stock doesn't immediately load the button, don't get scared 😯.
+            It may take a while to load. So go ahead, click the button.
+          <br></br>
+          <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      },
+    }, 
+    //Step 7: Show modal with expiries
+    {
+      position : "right", 
+			selector: '[step-name="edit-leg-modal"]',
+      content: ({ goTo, inDOM, step}) => {
+        if(state.activeOptionExpiry != undefined && state.activeOptionExpiry.length > 0){
+          goTo(step)
+        }
+        if(state.addLegModalVisible){
+          return (
+            <div>
+              Here it is 🎉.
+              Each date displayed is an expiry date for the contracts available for the stock.
+              So what are you waiting for? Pick an expiry.
+              <br></br>
+              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+              <br></br>
+              <a onClick ={() => {
+                  this.closeOptionsChainModal()
+                  goTo(step-2)
+                }
+              }>
+                Click here ⬅ to go back.
+              </a>
+            </div>
+          )
+        }
+        else {
+          goTo(step-2)
+        }
+      },
+    }, 
+    //Step 8: Show selected expiry table
+    {
+      position : "right", 
+			selector: '[step-name="'+(state.activeOptionExpiry || " ")+'"]',
+      content: ({goTo, inDOM, step}) => {
+        if(inDOM && state.addLegModalVisible && state.activeOptionExpiry != undefined && state.activeOptionExpiry != ""){
+          return (
+            <div>
+              Yikes 😬. A lot, right?
+              You'll see call options on the left, put options on the right. 
+              If you found the green row, that is the at-the-money strike.
+              Use the checkboxes ☑ to add a contract to your strategy. Or 3 contracts. Or 5. Up to you 🤷‍♀️.
+              <br></br>
+              If you don't know what these words mean 🤔, you should probably go to our help page. We explain stuff in detail there 🤓.
+              <br></br>
+              <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+              <br></br>
+              <a onClick ={() => {
+                this.closeOptionsChainModal()
+                goTo(step-3)
+              }}>Click here ⬅ to go back.</a>  
+            </div>
+          )
+        }
+        else{
+          goTo(step-2)
+        }
+      }
+    }, 
+    //Step 9: Ok button on modal
+    {
+      position : "right", 
+			selector: '[step-name="ok-button-modal"]',
+      content: ({goTo, inDOM, step}) => {
+        if(state.addLegModalVisible){
+          if(state.optionsSelected.length > 0){
+            return (
+              <div>
+                Once you select all the strategies your heart desires, click this ok button 🆗.
+              </div>
+            )
+          }
+          else{
+            goTo(step-2)
+          }
+        }
+        else {
+          goTo(step)
+        }
+      }
+    },
+    //Step 10: Example option leg
+    {
+      position : "right", 
+			selector: '[step-name="example-contract"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Contract
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(5)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    }, 
+    //Step 11: Option name 
+    {
+      position : "right", 
+			selector: '[step-name="contract-name"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Contract Name
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    }, 
+    //Step 12: Option long or short
+    {
+      position : "right", 
+			selector: '[step-name="buy-or-write"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Contract Buy or Write
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    }, 
+    //Step 13: Option quantity.
+    {
+      position : "right", 
+			selector: '[step-name="option-quantity"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Contract Quantity
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    }, 
+    //Step 14: Option bought at price.
+    {
+      position : "right", 
+			selector: '[step-name="limit-price"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Contract Price
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    },
+    //Step 15: Calculate button
+    {
+      position : "right", 
+      selector: '[step-name="calculate-button"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Calc
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    },
+    //Step 16: Cost of strat card
+    {
+      position : "right", 
+      selector: '[step-name="cost-card"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            Cost
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    },
+    //Step 17: Profit graph
+    {
+      position : "right", 
+      selector: '[step-name="profit-graph"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            graf
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    },
+    //Step 18: Profit table
+    {
+      position : "right", 
+      selector: '[step-name="profit-table"]',
+      content: ({goTo, inDOM, step}) => {
+        return (
+          <div>
+            table
+            <br></br>
+            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            <br></br>
+            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+          </div>
+        )
+      }
+    }
+]
+
+  render() {
+    return (
+    <div>
+      <Tour
+        steps={this.tutorialSteps(this.state)}
+        showNavigation = {false}
+        showNumber = {false}
+        showButtons = {false}
+        showCloseButton = {false}
+        disableKeyboardNavigation = {true}
+        maskSpace={3}
+        startAt = {0}
+        update = {this.state}
+        onAfterOpen={this.disableBody}
+        onBeforeClose={this.enableBody}
+        isOpen={this.state.isTourOpen}
+        onRequestClose={this.closeTutorial}
+      />
+      <div style={{width:'60px', paddingBottom:'20px'}}/>
+      <div style={{width:'60px', display: 'inline-block'}}/>
+      <h1 key = "mainTitle" step-name="title" style={{ width:'135px', display: 'inline-block'}}>Outsmart Options</h1>
+      <StockSymbol updateCallback = {this.updateSearchResults} yieldCurve = {yields} options={true} historical = {false}/>
       
       <hr id="hr" align='left'/>
 
-      <div className="optionsList">{this.renderLegs()}</div>
+      <div className="optionsList" step-name = "example-contract">{this.renderLegs()}</div>
 
       <div className="optionsButtons">
-          
-          <div id= "addLegButton">
-            <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={() => this.setAddLegModalVisible(true)}>Edit Legs</Button>
+          <div style={{width:'60px', display: 'inline-block'}}/>
+          <div id= "addLegButton" step-name = 'edit-leg'>
+            <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={this.openOptionsChainModal}>Edit Legs</Button>
             <div className="addLegButtonWrapper">
-              <Modal
-                title="Add Leg"
-                centered
-                width = {"50%"}
-                visible={this.state.addLegModalVisible}
-                footer = {(
-                  <Button key="ok" type="primary" onClick = {() => this.setAddLegModalVisible(false)}>
-                    Ok
-                  </Button>
-                )}
-                onCancel = {() => this.setAddLegModalVisible(false)}
-              >
-                <Collapse accordion>
-                  {this.renderOptionsChain()}
-                </Collapse>
-              </Modal>
+              <div>
+                <Modal
+                  title="Add Leg"
+                  centered
+                  width = {"50%"}
+                  visible={this.state.addLegModalVisible}
+                  footer = {(
+                    <Button key="ok" step-name="ok-button-modal" type="primary" onClick = {this.closeOptionsChainModal}>
+                      Ok
+                    </Button>
+                  )}
+                  onCancel = {this.closeOptionsChainModal}
+                >
+                  <div step-name = 'edit-leg-modal'>
+                    <Collapse onChange={(e) => {this.setState(() => ({activeOptionExpiry: e}))}} accordion>
+                      {this.renderOptionsChain()}
+                    </Collapse>
+                  </div>
+
+                </Modal>
+              </div>
             </div>
           </div>
-
-          <div id= "ivSkewButton">
+          <div style={{width:'43px', display: 'inline-block'}}/>
+          <div id= "ivSkewButton" >
             <Button icon="profile" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] 
               == "Empty" ? true : false)} onClick={() => this.setIVSkewModalVisible(true)}>IV Skew</Button>
             <div className="addLegButtonWrapper">
@@ -533,9 +882,9 @@ class OptionsCalculator extends React.Component{
               </Modal>
             </div>
           </div>
-          
-          <div id= "strategyButton"><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
-          <div id= "calculateButton"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
+          <div style={{width:'43px', display: 'inline-block'}}/>
+          <div id= "strategyButton" ><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
+          <div id= "calculateButton" step-name="calculate-button"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
           <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
         </div>
@@ -545,28 +894,22 @@ class OptionsCalculator extends React.Component{
           (
             <div>
               <div className="costStrategy">
-                <Card  title="Cost of Strategy" style={{ width: 400 }}>
-                  <p>The cost of this strategy is estimated to be ${(this.state.mergedOptions.limitPrice * 100).toFixed(2)}</p>
-                  <p>*bid and ask calculations are approximations</p>
-                </Card>
+                <StrategyInfo optionsSelected = {this.state.optionsSelected} mergedOptions = {this.state.mergedOptions} step-name="cost-card"/>
               </div>
 
-              <div className="profitGraphWrapper">
+              <div className="profitGraphWrapper" step-name="profit-graph">
                 <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
               </div>
+
               <hr id="hr2"/>
               <h3 style={{marginLeft:"60px"}}>Profit Table:</h3>
-              <div className="profitTableWrapper">
+              <div className="profitTableWrapper" step-name="profit-table">
                 <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
               </div>
               <Button onClick = {this.sendCalcError}>Report Calculation Error</Button>
             </div>
           ): 
-          (
-            <pre>
-              {JSON.stringify(this.state.mergedOptions != undefined ?  this.state.mergedOptions.profit : undefined, null, 2)}
-            </pre>
-          )
+          null
         }</div>
     </div>);
     
@@ -574,58 +917,11 @@ class OptionsCalculator extends React.Component{
 }
 
 
-
-class StockSymbol extends React.Component {
-  constructor(props){
-    super(props);
-
-  }
-
-  
-
-  render() {
-    return (
-      <div>
-        <div className = "stockSymbol" data-intro="some text" data-hint="Bruh Moment" data-step={1} >
-          <div id= "stockSymbolHeading" >
-            Stock Symbol:&nbsp;
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
-          </div>
-          <div id="stockSymbolInput">
-              <div id="searchWrapper"><Search placeholder="Enter..." onSearch={this.props.onSearch}/></div>
-            <div id="exists">{this.props.exists ? null:(<Icon  type="close-circle" />)}</div>
-          </div>
-        </div>
-        <div className="stockPrice" data-intro="some text" data-hint="Bruh Moment 2" data-step={2}>
-          <div id= "stockPriceHeading">
-            Stock Price:&nbsp;
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
-          </div> 
-          <div id="stockPriceBox"><Input placeholder={"$"+this.props.price} disabled/></div>
-        </div>
-        <div className="stockPriceChange" data-intro="some text" data-hint="Bruh Moment 3" data-step={3}>
-          <div id= "priceChangeHeading">
-            Stock Price Change:&nbsp;
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
-          </div>
-          <div id="priceChangeBox"><Input placeholder={this.props.priceChange+"%"} disabled/></div>
-        </div>
-      </div>
-    );
-  }
-}
-
 class OptionsLeg extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      isFirst: false,
+      isFirst: props.isFirst,
       key: props.optionRepresented.date + props.optionRepresented.strike + (props.optionRepresented.isCall?"C":"P"),
       isCall : props.optionRepresented.isCall,
       date: props.optionRepresented.date,
@@ -666,42 +962,34 @@ class OptionsLeg extends React.Component {
     return (
       <div className="Options Editor">
         <div className="optionsHeadings"> 
-          <div class= "buyWrite">
-            Buy or Write:&nbsp;{this.props.isFirst ? null:(
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
-            )}
+          <div className= "buyWrite"  step-name = {this.props.isFirst ? "buy-or-write" : ""}>
+            Buy or Write:&nbsp;{this.props.isFirst ?  (
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
+            ) : null}
             <div id= "buyWriteSwitch">
               <Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/>
             </div>
           </div>
-          <div class= "contract">
-            Contract:&nbsp;{this.props.isFirst ? null:(
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
-            )}
+          <div className= "contract"  step-name = {this.props.isFirst ? "contract-name" : ""}>
+            Contract:&nbsp;{this.props.isFirst ?  (
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
+            ) : null}
             <div id= "contractBox">
               <Input placeholder="Contract" value={this.state.date + " " + this.state.strike + " " + (this.state.isCall?"C":"P")} disabled/>
               {this.state.hide ? (<Icon className="disabledLeg"  type="close-circle" />) : null}
             </div>
           </div>
           <div id= "xHeading">x</div>
-          <div class= "quantity">
-            Quantity:&nbsp;{this.props.isFirst ? null:(
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
-            )}
+          <div className= "quantity"  step-name = {this.props.isFirst ? "option-quantity" : ""}>
+            Quantity:&nbsp;{this.props.isFirst ?  (
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
+            ) : null}
             <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           </div>
-          <div class= "atPrice">
-            At Price:&nbsp;{this.props.isFirst ? null:(
-            <Popover content="test" title="Title" trigger="hover">
-              <Icon type="info-circle-o" />
-            </Popover>
-            )}
+          <div className= "atPrice"  step-name = {this.props.isFirst ? "limit-price" : ""}>
+            At Price:&nbsp;{this.props.isFirst ?  (
+            <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
+            ) : null}
             <div id= "atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange}/></div>
           </div>
           <div className="removeDisable">
@@ -711,188 +999,6 @@ class OptionsLeg extends React.Component {
         </div>
         
       </div>
-    );
-  }
-}
-
-class NoAxisGraph extends React.Component{
-  constructor(props){
-    super(props)
-  }
-
-  render() {
-    return (
-        <ResponsiveContainer height= {300} width='100%'>
-          <LineChart
-            data={this.props.data}
-            margin={{top: 10, right: 10, left: 10, bottom: 10}}
-          >
-            <XAxis dataKey={this.props.xKey} allowDecimals = {false} ></XAxis>
-            <YAxis></YAxis>
-            <Line name = {this.props.dataKey} type="monotone" dot={false} dataKey={this.props.dataKey} stroke={'#000000'} />
-          </LineChart>
-        </ResponsiveContainer>
-    )
-  }
-
-}
-
-class ProfitGraph extends React.Component{
-  constructor(props){
-    super(props)
-    var legs = Array.from(new Set(props.keys.map(a=> a.substring(0, a.indexOf("a"))))).filter(a => a!="")
-    var dates = Array.from(new Set(props.keys.map(a=> a.substring(a.indexOf("a")+1)))).filter(a => a!="")
-    this.state = {
-      data: props.legAddition(props.data, dates, legs),
-      keys: props.keys, 
-      legs: legs,
-      dates: dates,
-      disabledDates : []
-    }
-  }
-
-  static getDerivedStateFromProps(props, state){
-    if(props.keys !== state.keys){
-      var legs = Array.from(new Set(props.keys.map(a=> a.substring(0, a.indexOf("a"))))).filter(a => a!="")
-      var dates = Array.from(new Set(props.keys.map(a=> a.substring(a.indexOf("a")+1)))).filter(a => a!="")
-      return {
-        data: props.legAddition(props.data, dates, legs),
-        keys: props.keys, 
-        legs: legs,
-        dates: dates,
-        disabledDates : []
-      }
-    }
-    else{
-      return null;
-    }
-  }
-
-  disableDate = (event) => {
-    this.setState((state)=> {
-      if(state.disabledDates.includes(event.dataKey)){
-        return ({disabledDates : state.disabledDates.filter(a => a != event.dataKey)})
-      }
-      else{
-        return ({disabledDates : [...state.disabledDates, event.dataKey]})
-      }
-    }
-    )
-  }
-
-  gradientOffset = (data, y) => {
-    const dataMax = Math.max(...data.map((i) => i[y]));
-    const dataMin = Math.min(...data.map((i) => i[y]));
-    
-    if (dataMax <= 0){
-      return 0
-    }
-    else if (dataMin > 0){
-      return 1
-    }
-    else{
-      return Math.abs(dataMax) / Math.abs(dataMax - dataMin);
-    }
-  }
-
-  opacities = (dates) => {
-    var opacities = {} 
-    if(dates.length == 1){
-      opacities[dates[0]] = 1;
-      return opacities
-    }
-    for (var date of dates){
-      opacities[date] = timeMath.timeBetweenDates(timeMath.stringToDate(date), timeMath.getCurrentDate())
-    }
-    //console.log(opacities)
-    var minOpacity = Math.min(...Object.values(opacities))
-    var maxOpacity = Math.max(...Object.values(opacities))
-    for (var date of dates){
-      opacities[date] -= minOpacity
-      opacities[date] /= 2 * (maxOpacity-minOpacity)
-      opacities[date] += 0.5
-    }
-    return opacities
-  }
-
-  colorOfLine = (data, y, opacity) => {
-    const arr = data.map((i) => i[y])
-    if(arr.every(e => e === arr[0])){
-      if(arr[0] > 0){
-        return '#009900' + ("00"+Math.round(opacity*255).toString(16)).substr(-2)
-      }
-      else {
-        return '#ff0000' + ("00"+Math.round(opacity*255).toString(16)).substr(-2)
-      }
-    }
-    else{
-      return "url(#splitColor" + y + ")"
-    }
-  }
-
-  customTooltip = (e) => {
-    var arr = []
-    for(var i = e.payload.length-1; i >=0 ; i--){
-      arr.push((
-        <p>On {e.payload[i].name} you will {Math.sign(e.payload[i].value) == 1 ? "make" : "lose"} ${e.payload[i].value.toFixed(2)}</p>
-      ))
-    }
-    if (e.active && e.payload!=null && e.payload[0]!=null) {
-          return (    
-          <div style = {{backgroundColor:"#ffffff", lineHeight:0.5, padding:5}} className="custom-tooltip">
-            <p>${e.label.toFixed(2)}</p>
-            {arr}
-          </div>
-          );
-        }
-    else{
-       return "";
-    }
-  }
-
-  renderLines = () => {
-    /*
-    console.log(this.state.dates)
-    console.log(this.state.disabledDates)
-    console.log(this.state.dates.filter(a => !this.state.disabledDates.includes(a)))
-    */
-    var opacities = this.opacities(this.state.dates)
-
-    var arr=[]   
-    for( var date of this.state.dates){
-      arr.push((<defs>
-        <linearGradient id={"splitColor"+date} x1="0" y1="0" x2="0" y2="1">
-          <stop offset={this.gradientOffset(this.state.data, date)} stopColor="#009900" stopOpacity={opacities[date]}/>
-          <stop stopColor="#ff0000" stopOpacity={opacities[date]}/>
-        </linearGradient>
-      </defs>
-      ))
-      arr.push((
-        <Line name = {date} type="monotone" dot={false} hide={this.state.disabledDates.includes(date)} dataKey={date} stroke={this.colorOfLine(this.state.data, date, opacities[date])} />
-      ))
-    }
-    return arr
-  }
-
-	render () {
-  	return (
-      <ResponsiveContainer width="100%" height={500}>
-    	<LineChart
-        data={this.state.data}
-        margin={{top: 50, right: 50, left: 50, bottom: 50}}
-      >
-        <CartesianGrid strokeDasharray="4 1 2 1"/>
-        <XAxis dataKey={'x'} allowDecimals = {false} >
-          <Label value = "Stock Price" position = "insideBottom" offset ={-5} />
-        </XAxis>
-        <YAxis>
-          <Label value = "Profit/Loss" position = "insideLeft" offset ={-5} angle = {-90} />
-        </YAxis>
-        {this.renderLines()}
-        <Legend onClick= {this.disableDate} iconType = "circle" align="right" verticalAlign="middle" layout="vertical" />
-        <Tooltip content = {this.customTooltip}/>
-      </LineChart>
-      </ResponsiveContainer>
     );
   }
 }

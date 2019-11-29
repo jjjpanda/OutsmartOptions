@@ -5,14 +5,39 @@ import './css/home.css'
 import chart from './img/graphBackground.png'
 import waves from'./img/coolWaves.png'
 import profit from'./img/profitGraph.png'
+
+import {NoAxisGraph} from './components/graphs.js'
+import {StockSymbol} from './components/stock-symbol.js'
+
 class HomePage extends React.Component{
     constructor(props){
         super(props)
+        this.state = {
+            symbol:"",
+            exists: true,
+            priceChange: 0, 
+            price: 0,
+            historical: []
+        }
+    }
+
+    updateSearchResults = (state) => {
+        this.setState(() => ({
+          symbol: state.symbol,
+          exists: state.exists,
+          priceChange: state.priceChange, 
+          price: state.price,
+          historical: state.historical
+        }))
     }
     
     render(){
         return (
         <body>
+
+        <StockSymbol updateCallback = {this.updateSearchResults} options={false} historical = {true}/>
+
+        {this.state.historical != [] && this.state.historical.length > 1 ? <NoAxisGraph data = {this.state.historical} xKey = {'date'} dataKey = {'close'}></NoAxisGraph> : null}
         
         <h1 class = 'text' id = 'title'>Outsmart Options</h1>
         <img class = 'backgrounds' id = 'wavesBackground' src = {waves}></img>
