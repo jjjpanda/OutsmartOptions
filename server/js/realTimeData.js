@@ -19,7 +19,8 @@ getData: function (apikey, ticker, callback){
             if(body != null && 'quote' in body){
                 price = body.quote.last
                 change = body.quote.change_percentage
-                body = {'price':price, 'change':change}
+                name = body.quote.description
+                body = {'price':price, 'change':change, 'name':name}
             }
             if(body === undefined){
                 body = null
