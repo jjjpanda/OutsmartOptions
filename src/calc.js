@@ -14,7 +14,8 @@ const { Panel } = Collapse
 
 import {NoAxisGraph, ProfitGraph} from './components/graphs.js'
 import {HelpTooltip} from "./components/help-tooltip.js"
-import {StockSymbol} from './components/stocksymbol.js'
+import {StockSymbol} from './components/stock-symbol.js'
+import {StrategyInfo} from './components/strategy-info.js'
 
 import Tour from 'reactour'
 import Cookies from 'js-cookie'
@@ -893,10 +894,7 @@ class OptionsCalculator extends React.Component{
           (
             <div>
               <div className="costStrategy">
-                <Card  title="Cost of Strategy" step-name="cost-card" style={{ width: 400 }}>
-                  <p>The cost of this strategy is estimated to be ${(this.state.mergedOptions.limitPrice * 100).toFixed(2)}</p>
-                  <p>*bid and ask calculations are approximations</p>
-                </Card>
+                <StrategyInfo optionsSelected = {this.state.optionsSelected} mergedOptions = {this.state.mergedOptions} step-name="cost-card"/>
               </div>
 
               <div className="profitGraphWrapper" step-name="profit-graph">
