@@ -7,7 +7,7 @@ import waves from'./img/coolWaves.png'
 import profit from'./img/profitGraph.png'
 
 import {NoAxisGraph} from './components/graphs.js'
-import {StockSymbol} from './components/stocksymbol.js'
+import {StockSymbol} from './components/stock-symbol.js'
 
 class HomePage extends React.Component{
     constructor(props){
