@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "npm-run-all -s createDist ignorantStart",
-    "createDist" : "npx webpack",
-    "ignorantStart" : "node server/app.js",
+    "start": "npx webpack && node server/app.js",
     "startContinuous": "npm-run-all -p createDistContinuous nodemonStart",
     "createDistContinuous": "npx webpack --watch",
     "nodemonStart": "npx nodemon ./server/app.js"
@@ -24,6 +22,7 @@
   "homepage": "https://github.com/jjjpanda/OutsmartOptions#readme",
   "dependencies": {
     "antd": "^3.23.4",
+    "body-scroll-lock": "^2.6.4",
     "core-js": "^3.2.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -35,8 +34,10 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-twitter-embed": "^3.0.3",
+    "reactour": "^1.15.5",
     "recharts": "^1.7.1",
     "request": "^2.88.0",
+    "styled-components": "^4.4.1",
     "url-loader": "^2.3.0",
     "xml-js": "^1.6.11"
   },
