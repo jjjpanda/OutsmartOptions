@@ -5,6 +5,8 @@ import {
     Icon
   } from 'antd';
 
+  import * as optionsMath from '../jsLib/optionsMathLibrary.js'
+
 const warningColor = (state) => {
     if(state.risks <= 0){
         return "#00000000"
@@ -20,74 +22,27 @@ const warningColor = (state) => {
     }
 }
 
-const collateralAnalysis = (list, merged) => {
-    if(merged.limitPrice >= 0){
-        return 0;
-    }
-    else{
-
-    }
-    console.log(list)
-    console.log(merged)
-}
-
-const identifyStrategy = (list) => {
-    if(new Set(list.map(e => (e.isLong?"L":"S")+(e.isCall?"C":"P"))).size == 1){
-        if(list[0].isCall){
-            if(list[0].isLong) return list.length > 1 ? "Long Calls" :"Long Call"
-            else return list.length > 1 ? "Call Sells" : "Call Sell"
-        }
-        else{
-            if(list[0].isLong) return list.length > 1 ? "Long Puts" : "Long Put"
-            else return list.length > 1 ? "Put Sells" : "Put Sell"
+const listRedux = (list) => {
+    var arr = []
+    for(var option of list){
+        for(var i = 0; i < option.quantity; i++){
+            arr.push({
+                isLong: option.isLong,
+                isCall: option.isCall,
+                strike: option.strike,
+                date: option.date
+            })
         }
     }
-    else if(list.length == 2){
-        if( new Set(list.map(e => e.date)).size == 1 ){
-            //Spread
-            if(list[0].isCall === list[1].isCall){
-                if(list[0].isLong && list[0].isCall){
-                    //Larger Call Strike is Long
-                    return "Call Credit Spread"
-                }
-                else if(!list[0].isLong && !list[0].isCall){
-                    //Larger Put Strike is short
-                    return "Put Credit Spread"
-                }
-                else if(list[0].isLong && !list[0].isCall){
-                    //Larger Put Strike is Long
-                    return "Put Debit Spread"
-                }
-                if(!list[0].isLong && list[0].isCall){
-                    //Larger Call Strike is Short
-                    return "Call Debit Spread"
-                }
-            }
-            else{
-                //Straddle or Strangle
-                if(list[0].isLong === list[1].isLong){
-                    if(list[0]){
-                        if(list[0].strike == list[1].strike) return "Long Straddle"
-                        else return "Long Strangle"
-                    } 
-                    else{
-                        if(list[0].strike == list[1].strike) return "Short Straddle"
-                        else return "Short Strangle"
-                    }
-                }
-            }    
-        }
-        else{
-
-        }
-    }
+    return arr
 }
 
 const StrategyInfo = ({optionsSelected, mergedOptions}) => {
     optionsSelected = optionsSelected.filter(o => !o.hide)
-    collateralAnalysis(optionsSelected, mergedOptions)
+    optionsMath.extractStrategies(listRedux(optionsSelected))
+    optionsMath.collateralAnalysis(optionsSelected, mergedOptions)
     var state = {
-        strategy: identifyStrategy(optionsSelected),
+        strategy: optionsMath.idStrat(optionsSelected),
         risks: 0,
         ivRisk: [],
         nakedCalls: [],

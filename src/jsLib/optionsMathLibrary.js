@@ -221,3 +221,111 @@ export function calculateProfitAtExpiry(initialCost, priceUnderlying, strike, is
         }
     }
 }
+
+export function collateralAnalysis(list, merged){
+    if(merged.limitPrice >= 0){
+        return 0;
+    }
+    else{
+
+    }
+    console.log(list)
+    console.log(merged)
+}
+
+export function idStrat(list){
+    if(new Set(list.map(e => (e.isLong?"L":"S")+(e.isCall?"C":"P"))).size == 1){
+        if(list[0].isCall){
+            if(list[0].isLong) return list.length > 1 ? "Long Calls" :"Long Call"
+            else return list.length > 1 ? "Call Sells" : "Call Sell"
+        }
+        else{
+            if(list[0].isLong) return list.length > 1 ? "Long Puts" : "Long Put"
+            else return list.length > 1 ? "Put Sells" : "Put Sell"
+        }
+    }
+    else if(list.length == 2){
+        if( new Set(list.map(e => e.date)).size == 1 ){
+            //Spread
+            if(list[0].isCall === list[1].isCall){
+                if(list[0].isLong && list[0].isCall){
+                    //Larger Call Strike is Long
+                    return "Call Credit Spread"
+                }
+                else if(!list[0].isLong && !list[0].isCall){
+                    //Larger Put Strike is short
+                    return "Put Credit Spread"
+                }
+                else if(list[0].isLong && !list[0].isCall){
+                    //Larger Put Strike is Long
+                    return "Put Debit Spread"
+                }
+                if(!list[0].isLong && list[0].isCall){
+                    //Larger Call Strike is Short
+                    return "Call Debit Spread"
+                }
+            }
+            else{
+                //Straddle or Strangle
+                if(list[0].isLong === list[1].isLong){
+                    if(list[0]){
+                        if(list[0].strike == list[1].strike) return "Long Straddle"
+                        else return "Long Strangle"
+                    } 
+                    else{
+                        if(list[0].strike == list[1].strike) return "Short Straddle"
+                        else return "Short Strangle"
+                    }
+                }
+            }    
+        }
+        else{
+
+        }
+    }
+}
+
+export function extractStrategies(list) {
+    //Spreads
+    var searching = true;
+    var i = 0, j = 1;
+    while(searching){
+        if(list[j] == undefined){
+            searching == false;
+            break;
+        }
+        else if(list[i].date === list[j].date && list[i].isCall === list[j].isCall){
+            list.unshift({
+                type: (list[i].isCall ? (list[i].isLong ? "Call Credit Spread" : "Call Debit Spread") : (list[i].isLong ? "Put Debit Spread" : "Put Credit Spread")),
+                upper: list[i].strike,
+                lower: list[j].strike,
+                date: list[i].date
+            })
+            list.splice(j, 2)
+        }
+        i++
+        j++
+    }
+    //Straddles and Strangles
+    searching = true;
+    i = 0, j = 1;
+    while(searching){
+        if(list[j] == undefined){
+            searching == false;
+            break;
+        }
+        else if(list[i].date === list[j].date && list[i].isLong === list[j].isLong){
+            list.unshift({
+                type: (list[i].isCall ? (list[i].isLong ? "Call Credit Spread" : "Call Debit Spread") : (list[i].isLong ? "Put Debit Spread" : "Put Credit Spread")),
+                upper: list[i].strike,
+                lower: list[j].strike,
+                date: list[i].date
+            })
+            list.splice(j, 2)
+        }
+        i++
+        j++
+    }
+    
+    return list
+}
