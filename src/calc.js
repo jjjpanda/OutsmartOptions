@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Input,
-  Card,
   Button,
   Switch,
   Modal,
