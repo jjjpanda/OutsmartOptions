@@ -59,7 +59,7 @@ export function setDistribution(strikes, vols){
 }
     
 export function isOutlier(volume, sum, strike, mean, std){
-    if (volume / sum > getPDF(strike, mean, std) * 3){
+    if (volume / sum > getPDFLaplace(strike, mean, std) * 3){
         return true;
     }
     else {
