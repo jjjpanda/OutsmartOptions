@@ -54,7 +54,7 @@ const StrategyInfo = ({optionsSelected, mergedOptions}) => {
     }
 
     return (
-        <Card title={state.strategy} extra={(state.risks ? <Icon type="warning" style={{fontSize: '24px'}} theme="twoTone" twoToneColor={warningColor(state)} /> : null)} style={{ width: 400 }}>
+        <Card step-name="cost-card" title={state.strategy} extra={(state.risks ? <Icon type="warning" style={{fontSize: '24px'}} theme="twoTone" twoToneColor={warningColor(state)} /> : null)} style={{ width: 400 }}>
             {state.cost >= 0 ? 
             <div>
                 The cost of this strategy is ${state.cost.toFixed(2)}.
