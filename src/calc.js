@@ -24,6 +24,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 //JS Libraries
 import * as optionsMath from './jsLib/optionsMathLibrary.js'
 import * as timeMath from './jsLib/timeLibrary.js'
+import * as percentageColor from './jsLib/colorLibrary.js'
 import * as structure from './jsLib/structuresEditingLibrary.js'
 import * as post from './jsLib/fetchLibrary.js'
 import * as treasury from './jsLib/treasuryLibrary.js'
@@ -217,10 +218,13 @@ class OptionsCalculator extends React.Component{
   }
 
   columnCreation = (data) => {
-    var columns = [{title: 'Price', dataIndex:"x", fixed:"left"}, ...data.map(key => ({
+    var columns = [{title: 'Price', dataIndex:"x", fixed:"left"}, ...data.map((key, i) => ({
       title: key[0],
       dataIndex: key[0],
-      render: (text) => {return (<div style= {{ color: parseFloat(text)>= 0 ? '#006400': '#ff3311'}}>{text}</div> )}
+      render: (text, record, index) => {
+        //console.log(percentageColor.hexColorFromPercent(data[i][1][index][1]))
+        return (<div style= {{ border: percentageColor.hexColorFromPercent(data[i][1][index][1]) }
+      }>{text}</div> )}
     }))
     ]
     return columns
