@@ -229,8 +229,8 @@ export function collateralAnalysis(list, merged){
     else{
 
     }
-    console.log(list)
-    console.log(merged)
+    //console.log(list)
+    //console.log(merged)
 }
 
 export function idStrat(list){
@@ -285,47 +285,349 @@ export function idStrat(list){
     }
 }
 
+export function test(list){
+    var searching = true;
+    var i = 0, j = 1, k = 0;
+    while(searching){
+        if(list[j] == undefined){
+            searching == false;
+            break;
+        }
+        else if(list[i].type == undefined && list[i].date == list[j].date && list[i].isCall === list[j].isCall && list[i].isLong != list[j].isLong && list[i].strike != list[j].strike){
+            list.splice(k, 0 ,{
+                isCall : list[i].isCall,
+                isLong : (list[i].isCall ? !list[i].isLong : list[i].isLong),
+                type: (list[i].isCall ? "Call Spread" : "Put Spread"),
+                dir: (list[i].isLong ? "Bear" : "Bull"),
+                upper: list[i].strike,
+                lower: list[j].strike,
+                date: list[i].date
+            })
+            list.splice(i+1, 1)
+            list.splice(j, 1)
+            k++;
+            i = k
+            j = k+1
+        }
+        else{
+            if(j == list.length-1){
+                i++
+                j = i
+            }
+            j++ 
+        }
+    }
+    return list
+}
+
 export function extractStrategies(list) {
+
     //Spreads
     var searching = true;
-    var i = 0, j = 1;
+    var i = 0, j = 1, k = 0;
     while(searching){
         if(list[j] == undefined){
             searching == false;
             break;
         }
-        else if(list[i].date === list[j].date && list[i].isCall === list[j].isCall){
-            list.unshift({
-                type: (list[i].isCall ? (list[i].isLong ? "Call Credit Spread" : "Call Debit Spread") : (list[i].isLong ? "Put Debit Spread" : "Put Credit Spread")),
+        else if(list[i].type == undefined && list[i].date == list[j].date && list[i].isCall === list[j].isCall && list[i].isLong != list[j].isLong && list[i].strike != list[j].strike){
+            list.splice(k, 0 ,{
+                isCall : list[i].isCall,
+                isLong : (list[i].isCall ? !list[i].isLong : list[i].isLong),
+                type: (list[i].isCall ? "Call Spread" : "Put Spread"),
+                dir: (list[i].isLong ? "Bear" : "Bull"),
                 upper: list[i].strike,
                 lower: list[j].strike,
                 date: list[i].date
             })
-            list.splice(j, 2)
+            list.splice(i+1, 1)
+            list.splice(j, 1)
+            k++;
+            i = k
+            j = k+1
         }
-        i++
-        j++
+        else{
+            if(j == list.length-1){
+                i++
+                j = i
+            }
+            j++ 
+        }
     }
-    //Straddles and Strangles
+
+    //Condors, Boxes and Flys
     searching = true;
-    i = 0, j = 1;
+    i = 0, j = 1, k = 0;
     while(searching){
         if(list[j] == undefined){
             searching == false;
             break;
         }
-        else if(list[i].date === list[j].date && list[i].isLong === list[j].isLong){
-            list.unshift({
-                type: (list[i].isCall ? (list[i].isLong ? "Call Credit Spread" : "Call Debit Spread") : (list[i].isLong ? "Put Debit Spread" : "Put Credit Spread")),
-                upper: list[i].strike,
-                lower: list[j].strike,
-                date: list[i].date
+        else if (list[i].type != list[j].type && list[i].type != undefined && list[j].type != undefined && list[i].type.includes("Spread") && list[i].date == list[j].date && list[i].dir != list[j].dir){
+            if(list[i].lower == list[j].upper && list[i].upper != list[j].lower){
+                // Iron Fly
+                list.splice(k, 0, {
+                    date: list[i].date,
+                    a: list[i].upper,
+                    b: list[i].lower,
+                    c: list[j].upper,
+                    d: list[j].lower,
+                    isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
+                    dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
+                    type: "Iron Fly"
+                })
+                list.splice(i+1, 1)
+                list.splice(j, 1)
+                k++
+                i = k
+                j = k+1
+            }
+            else if(list[i].upper == list[j].upper && list[i].lower == list[j].lower){
+                //Box Spread
+                list.splice(k, 0, {
+                    date: list[i].date,
+                    upper: list[i].upper,
+                    lower: list[i].lower,
+                    isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
+                    dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
+                    type: "Box Spread"
+                })
+                list.splice(i+1, 1)
+                list.splice(j, 1)
+                k++
+                i = k
+                j = k+1
+            }
+            else if(list[i].lower != list[j].upper && list[i].upper != list[j].lower){
+                //Iron Condor
+                list.splice(k, 0, {
+                    date: list[i].date,
+                    a: list[i].upper,
+                    b: list[i].lower > list[j].upper ? list[i].lower : list[j].upper,
+                    c: list[i].lower < list[j].upper ? list[i].lower : list[j].upper,
+                    d: list[j].lower,
+                    isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
+                    dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
+                    type: "Iron Condor"
+                })
+                list.splice(i+1, 1)
+                list.splice(j, 1)
+                k++
+                i = k
+                j = k+1
+            }
+        }
+        else if (list[i].type == list[j].type && list[i].type != undefined && list[i].type.includes("Spread") && list[i].date == list[j].date && list[i].dir != list[j].dir){
+            if(list[i].lower == list[j].upper && list[i].upper != list[j].lower){
+                // Call/Put Fly
+                list.splice(k, 0, {
+                    date: list[i].date,
+                    a: list[i].upper,
+                    b: list[i].lower,
+                    c: list[j].upper,
+                    d: list[j].lower,
+                    isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
+                    isCall: list[i].isCall,
+                    dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
+                    type: (list[i].isCall ? "Call" : "Put") + " Fly"
+                })
+                list.splice(i+1, 1)
+                list.splice(j, 1)
+                k++
+                i = k
+                j = k+1
+            }
+            else if(list[i].lower != list[j].upper && list[i].upper != list[j].lower){
+                // Call/put Condor
+                list.splice(k, 0, {
+                    date: list[i].date,
+                    a: list[i].upper,
+                    b: list[i].lower > list[j].upper ? list[i].lower : list[j].upper,
+                    c: list[i].lower < list[j].upper ? list[i].lower : list[j].upper,
+                    d: list[j].lower,
+                    isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
+                    isCall: list[i].isCall,
+                    dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
+                    type: (list[i].isCall ? "Call" : "Put") + " Condor"
+                })
+                list.splice(i+1, 1)
+                list.splice(j, 1)
+                k++
+                i = k
+                j = k+1
+            }
+        }
+        else{
+            if(j == list.length-1){
+                i++
+                j = i
+            }
+            j++
+        }
+        
+    }
+
+    //Diagonals
+    searching = true;
+    i = 0, j = 1, k = 0;
+    while(searching){
+        if(list[j] == undefined){
+            searching == false;
+            break;
+        }
+        else if(list[i].type == undefined && list[j].type == undefined && list[i].isCall === list[j].isCall && list[i].isLong != list[j].isLong && list[i].strike != list[j].strike){
+            list.splice(k, 0, {
+                isCall: list[i].isCall, 
+                isLong: list[j].isLong, 
+                date: list[i].date, 
+                upper: list[i].strike > list[j].strike ? list[i].strike : list[j].strike, 
+                lower: list[i].strike < list[j].strike ? list[i].strike : list[j].strike, 
+                dir: (list[j].isLong?(list[i].strike > list[j].strike?"Bull":"Bear"):(list[i].strike > list[j].strike?"Bear":"Bull")), 
+                type: "Diagonal "+ (list[i].isCall?"Call":"Put") +" Spread"
             })
-            list.splice(j, 2)
+            list.splice(i+1, 1)
+            list.splice(j, 1)
+            k++;
+            i = k
+            j = k+1
+        }
+        else{
+            if(j == list.length-1){
+                i++
+                j = i
+            } 
+            j++
+        }
+    }
+
+    //Calendar
+    searching = true;
+    i = 0, j = 1, k = 0;
+    while(searching){
+        if(list[j] == undefined){
+            searching == false;
+            break;
+        }
+        else if(list[i].type == undefined && list[j].type == undefined && list[i].date != list[j].date && list[i].strike === list[j].strike && list[i].isCall == list[j].isCall && list[i].isLong != list[j].isLong){
+            list.splice(k, 0 ,{
+                isCall: list[i].isCall,
+                isLong: list[j].isLong, 
+                date: list[i].date, 
+                strike: list[i].strike, 
+                dir: (list[j].isLong ? "Pin" : "Neu"), 
+                type: (list[i].isCall?"Call":"Put") + " Calendar Spread"
+            })
+            list.splice(i+1, 1)
+            list.splice(j, 1)
+            k++;
+            i = k
+            j = k+1
+        }
+        else{
+            if(j == list.length-1){
+                i++
+                j = i
+            } 
+            j++
+        }
+    }
+
+    //Strangles and Straddles
+    searching = true;
+    i = 0, j = 1, k = 0;
+    while(searching){
+        if(list[j] == undefined){
+            searching == false;
+            break;
+        }
+        else if(list[i].type == undefined && list[j].type == undefined && list[i].date == list[j].date && list[i].isCall != list[j].isCall && list[i].isLong == list[j].isLong){
+            if(list[i].strike === list[j].strike){
+                //Straddle
+                list.splice(k, 0 ,{
+                    isLong: list[i].isLong, 
+                    date: list[i].date, 
+                    strike: list[i].strike, 
+                    dir: (list[i].isLong ? "Neu" : "Pin"), 
+                    type: "Straddle"
+                })
+                list.splice(i+1, 1)
+                list.splice(j, 1)
+                k++;
+                i = k
+                j = k+1
+            }
+            else{
+                //Strangle
+                list.splice(k, 0 ,{
+                    isLong: list[i].isLong, 
+                    date: list[i].date,  
+                    upper: list[i].strike, 
+                    lower: list[j].strike, 
+                    dir: (list[i].isLong ? "Neu" : "Pin"), 
+                    type: "Strangle"
+                })
+                list.splice(i+1, 1)
+                list.splice(j, 1)
+                k++;
+                i = k
+                j = k+1
+            }
+        }
+        else{
+            if(j == list.length-1){
+                i++
+                j = i
+            } 
+            j++
+        }
+    }
+
+    //Synthetics
+    searching = true;
+    i = 0, j = 1, k = 0;
+    while(searching){
+        if(list[j] == undefined){
+            searching == false;
+            break;
+        }
+        else if(list[i].type == undefined && list[j].type == undefined && list[i].isCall != list[j].isCall && list[i].isLong != list[j].isLong){
+            list.splice(k, 0 ,{
+                isLong: (list[i].isLong ? list[i].isCall : list[j].isCall ) ,
+                date: list[i].date, 
+                upper: list[i].strike, 
+                lower: list[j].strike, 
+                dir: (list[i].isLong ? (list[i].isCall ? "Bull" : "Bear") : (list[i].isCall ? "Bear" : "Bull")),
+                type: "Synthetic"
+            })
+            list.splice(i+1, 1)
+            list.splice(j, 1)
+            k++;
+            i = k
+            j = k+1
+        }
+        else{
+            if(j == list.length-1){
+                i++
+                j = i
+            } 
+            j++
+        }
+    }
+
+    //1 Legged Remainers
+    searching = true;
+    i = 0;
+    while(searching){
+        if(list[i] == undefined){
+            searching == false;
+            break;
+        }
+        else if(list[i].type == undefined){
+            list[i]['type'] = (list[i].isCall ? 'Call' : "Put")
+            list[i]['dir'] = (list[i].isLong ? (list[i].isCall ? "Bull": "Bear"): (list[i].isCall? "Bear":"Bull"))
         }
         i++
-        j++
     }
-    
+
     return list
 }

@@ -39,7 +39,10 @@ const listRedux = (list) => {
 
 const StrategyInfo = ({optionsSelected, mergedOptions}) => {
     optionsSelected = optionsSelected.filter(o => !o.hide)
-    optionsMath.extractStrategies(listRedux(optionsSelected))
+
+    console.log(listRedux(optionsSelected))
+    console.log(optionsMath.extractStrategies(listRedux(optionsSelected)))
+    
     optionsMath.collateralAnalysis(optionsSelected, mergedOptions)
     var state = {
         strategy: optionsMath.idStrat(optionsSelected),
