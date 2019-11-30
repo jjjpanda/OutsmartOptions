@@ -222,102 +222,25 @@ export function calculateProfitAtExpiry(initialCost, priceUnderlying, strike, is
     }
 }
 
-export function collateralAnalysis(list, merged){
-    if(merged.limitPrice >= 0){
-        return 0;
-    }
-    else{
-
-    }
-    //console.log(list)
-    //console.log(merged)
-}
-
-export function idStrat(list){
-    if(new Set(list.map(e => (e.isLong?"L":"S")+(e.isCall?"C":"P"))).size == 1){
-        if(list[0].isCall){
-            if(list[0].isLong) return list.length > 1 ? "Long Calls" :"Long Call"
-            else return list.length > 1 ? "Call Sells" : "Call Sell"
-        }
-        else{
-            if(list[0].isLong) return list.length > 1 ? "Long Puts" : "Long Put"
-            else return list.length > 1 ? "Put Sells" : "Put Sell"
-        }
-    }
-    else if(list.length == 2){
-        if( new Set(list.map(e => e.date)).size == 1 ){
-            //Spread
-            if(list[0].isCall === list[1].isCall){
-                if(list[0].isLong && list[0].isCall){
-                    //Larger Call Strike is Long
-                    return "Call Credit Spread"
-                }
-                else if(!list[0].isLong && !list[0].isCall){
-                    //Larger Put Strike is short
-                    return "Put Credit Spread"
-                }
-                else if(list[0].isLong && !list[0].isCall){
-                    //Larger Put Strike is Long
-                    return "Put Debit Spread"
-                }
-                if(!list[0].isLong && list[0].isCall){
-                    //Larger Call Strike is Short
-                    return "Call Debit Spread"
+export function collateralAnalysis(stratsNamed){
+    var collateral = 0;
+    for(var strategy of stratsNamed){
+       //Analysis
+       if(strategy.price < 0){
+            if(strategy.quantity == 4 || strategy.quantity == 3){
+                return Math.max(strategy.a - strategy.b, strategy.c - strategy.d)
+            }
+            else if(strategy.quantity == 2){
+                return strategy.upper - strategy.lower
+            }
+            else if(strategy.quantity == 1){
+                if(!strategy.isLong){
+                    return Infinity
                 }
             }
-            else{
-                //Straddle or Strangle
-                if(list[0].isLong === list[1].isLong){
-                    if(list[0]){
-                        if(list[0].strike == list[1].strike) return "Long Straddle"
-                        else return "Long Strangle"
-                    } 
-                    else{
-                        if(list[0].strike == list[1].strike) return "Short Straddle"
-                        else return "Short Strangle"
-                    }
-                }
-            }    
-        }
-        else{
-
-        }
+       }
     }
-}
-
-export function test(list){
-    var searching = true;
-    var i = 0, j = 1, k = 0;
-    while(searching){
-        if(list[j] == undefined){
-            searching == false;
-            break;
-        }
-        else if(list[i].type == undefined && list[i].date == list[j].date && list[i].isCall === list[j].isCall && list[i].isLong != list[j].isLong && list[i].strike != list[j].strike){
-            list.splice(k, 0 ,{
-                isCall : list[i].isCall,
-                isLong : (list[i].isCall ? !list[i].isLong : list[i].isLong),
-                type: (list[i].isCall ? "Call Spread" : "Put Spread"),
-                dir: (list[i].isLong ? "Bear" : "Bull"),
-                upper: list[i].strike,
-                lower: list[j].strike,
-                date: list[i].date
-            })
-            list.splice(i+1, 1)
-            list.splice(j, 1)
-            k++;
-            i = k
-            j = k+1
-        }
-        else{
-            if(j == list.length-1){
-                i++
-                j = i
-            }
-            j++ 
-        }
-    }
-    return list
+    return collateral
 }
 
 export function extractStrategies(list) {
@@ -338,7 +261,9 @@ export function extractStrategies(list) {
                 dir: (list[i].isLong ? "Bear" : "Bull"),
                 upper: list[i].strike,
                 lower: list[j].strike,
-                date: list[i].date
+                date: list[i].date,
+                price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+                quantity: 2
             })
             list.splice(i+1, 1)
             list.splice(j, 1)
@@ -374,7 +299,9 @@ export function extractStrategies(list) {
                     d: list[j].lower,
                     isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
                     dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
-                    type: "Iron Fly"
+                    type: "Iron Fly",
+                    price: list[i].price + list[j].price, 
+                    quantity: 3
                 })
                 list.splice(i+1, 1)
                 list.splice(j, 1)
@@ -390,7 +317,9 @@ export function extractStrategies(list) {
                     lower: list[i].lower,
                     isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
                     dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
-                    type: "Box Spread"
+                    type: "Box Spread",
+                    price: list[i].price + list[j].price , 
+                    quantity: 4
                 })
                 list.splice(i+1, 1)
                 list.splice(j, 1)
@@ -408,7 +337,9 @@ export function extractStrategies(list) {
                     d: list[j].lower,
                     isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
                     dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
-                    type: "Iron Condor"
+                    type: "Iron Condor",
+                    price: list[i].price + list[j].price , 
+                    quantity: 4
                 })
                 list.splice(i+1, 1)
                 list.splice(j, 1)
@@ -429,7 +360,9 @@ export function extractStrategies(list) {
                     isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
                     isCall: list[i].isCall,
                     dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
-                    type: (list[i].isCall ? "Call" : "Put") + " Fly"
+                    type: (list[i].isCall ? "Call" : "Put") + " Fly",
+                    price: list[i].price + list[j].price , 
+                    quantity: 3
                 })
                 list.splice(i+1, 1)
                 list.splice(j, 1)
@@ -448,7 +381,9 @@ export function extractStrategies(list) {
                     isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
                     isCall: list[i].isCall,
                     dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
-                    type: (list[i].isCall ? "Call" : "Put") + " Condor"
+                    type: (list[i].isCall ? "Call" : "Put") + " Condor",
+                    price: list[i].price + list[j].price , 
+                    quantity: 4
                 })
                 list.splice(i+1, 1)
                 list.splice(j, 1)
@@ -483,7 +418,9 @@ export function extractStrategies(list) {
                 upper: list[i].strike > list[j].strike ? list[i].strike : list[j].strike, 
                 lower: list[i].strike < list[j].strike ? list[i].strike : list[j].strike, 
                 dir: (list[j].isLong?(list[i].strike > list[j].strike?"Bull":"Bear"):(list[i].strike > list[j].strike?"Bear":"Bull")), 
-                type: "Diagonal "+ (list[i].isCall?"Call":"Put") +" Spread"
+                type: "Diagonal "+ (list[i].isCall?"Call":"Put") +" Spread",
+                price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice, 
+                quantity: 2
             })
             list.splice(i+1, 1)
             list.splice(j, 1)
@@ -515,7 +452,9 @@ export function extractStrategies(list) {
                 date: list[i].date, 
                 strike: list[i].strike, 
                 dir: (list[j].isLong ? "Pin" : "Neu"), 
-                type: (list[i].isCall?"Call":"Put") + " Calendar Spread"
+                type: (list[i].isCall?"Call":"Put") + " Calendar Spread",
+                price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice, 
+                quantity: 2
             })
             list.splice(i+1, 1)
             list.splice(j, 1)
@@ -548,7 +487,9 @@ export function extractStrategies(list) {
                     date: list[i].date, 
                     strike: list[i].strike, 
                     dir: (list[i].isLong ? "Neu" : "Pin"), 
-                    type: "Straddle"
+                    type: "Straddle",
+                    price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice, 
+                    quantity: 2
                 })
                 list.splice(i+1, 1)
                 list.splice(j, 1)
@@ -564,7 +505,9 @@ export function extractStrategies(list) {
                     upper: list[i].strike, 
                     lower: list[j].strike, 
                     dir: (list[i].isLong ? "Neu" : "Pin"), 
-                    type: "Strangle"
+                    type: "Strangle",
+                    price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice , 
+                    quantity: 2
                 })
                 list.splice(i+1, 1)
                 list.splice(j, 1)
@@ -597,7 +540,9 @@ export function extractStrategies(list) {
                 upper: list[i].strike, 
                 lower: list[j].strike, 
                 dir: (list[i].isLong ? (list[i].isCall ? "Bull" : "Bear") : (list[i].isCall ? "Bear" : "Bull")),
-                type: "Synthetic"
+                type: "Synthetic",
+                price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice, 
+                quantity: 2
             })
             list.splice(i+1, 1)
             list.splice(j, 1)
@@ -623,8 +568,16 @@ export function extractStrategies(list) {
             break;
         }
         else if(list[i].type == undefined){
-            list[i]['type'] = (list[i].isCall ? 'Call' : "Put")
-            list[i]['dir'] = (list[i].isLong ? (list[i].isCall ? "Bull": "Bear"): (list[i].isCall? "Bear":"Bull"))
+            list[i] = {
+                type : (list[i].isCall ? 'Call' : "Put"),
+                dir: (list[i].isLong ? (list[i].isCall ? "Bull": "Bear"): (list[i].isCall? "Bear":"Bull")),
+                isCall: list[i].isCall,
+                isLong: list[i].isLong,
+                date: list[i].date,
+                strike: list[i].strike,
+                price: (list[i].isLong?1:-1) * list[i].limitPrice, 
+                quantity: 1
+            }
         }
         i++
     }
