@@ -3,7 +3,21 @@ import * as math from '../src/jsLib/optionsMathLibrary.js'
 describe('Options Math Test', () => {
     
     it('Collateral Calculation', () => {
-        expect(math.collateralAnalysis([], {limitPrice: 0})).toBe(0);
+        expect(math.collateralAnalysis([
+            {isCall: true, isLong: true, date: "2020-12-20", upper: 101, lower: 100, dir: "Bull", type: "Call Spread", price: 1, quantity: 2}
+        ])).toBe(0);
+        expect(math.collateralAnalysis([
+            {isCall: true, isLong: false, date: "2020-12-20", upper: 101, lower: 100, dir: "Bear", type: "Call Spread", price: -.33, quantity: 2}
+        ])).toBe(1);
+        expect(math.collateralAnalysis([
+            {isLong: false, date: "2020-12-20", a:102, b:101, c:99, d:97, dir: "Neu", type: "Iron Condor", quantity: 4, price: -1}
+        ])).toBe(2);
+        expect(math.collateralAnalysis([
+            {"date":"2019-12-27","a":187.5,"b":185,"c":182.5,"d":180,"isLong":false,"isCall":true,"dir":"Neu","type":"Call Condor","price":-.5,"quantity":4}]
+        )).toBe(2.5)
+        expect(math.collateralAnalysis([
+            {isCall: true, isLong: false, date: "2020-12-20", strike: 100, dir: "Bull", price: -12, type: "Call", quantity: 1}
+        ])).toBe(Infinity);
     });
     it('Jest Meta Testing', () => {
         expect({a:3, b:2}).toMatchObject({b:2, a:3})
@@ -26,9 +40,9 @@ describe('Options Math Test', () => {
                             {isCall: true, isLong: true, date: "2020-12-20", strike: 100, dir: "Bull", type: "Call"}]);
     })
     it('Identify Spreads', () => {
-        expect(math.extractStrategies([{isCall: true, isLong: false, date: "2020-12-20", strike: 101}, 
-                                        {isCall: true, isLong: true, date: "2020-12-20", strike: 100}]))
-            .toMatchObject([{isCall: true, isLong: true, date: "2020-12-20", upper: 101, lower: 100, dir: "Bull", type: "Call Spread"}]);
+        expect(math.extractStrategies([{isCall: true, isLong: false, date: "2020-12-20", strike: 101, limitPrice: 2}, 
+                                        {isCall: true, isLong: true, date: "2020-12-20", strike: 100, limitPrice: 3}]))
+            .toMatchObject([{isCall: true, isLong: true, date: "2020-12-20", upper: 101, lower: 100, dir: "Bull", type: "Call Spread", price: 1, quantity: 2}]);
 
         expect(math.extractStrategies([{isCall: true, isLong: true, date: "2020-12-20", strike: 101}, 
                                         {isCall: true, isLong: false, date: "2020-12-20", strike: 100}]))
@@ -127,7 +141,7 @@ describe('Options Math Test', () => {
                                         {isCall: true, isLong: false, date: "2020-12-20", strike: 101},
                                         {isCall: false, isLong: false, date: "2020-12-20", strike: 99}, 
                                         {isCall: false, isLong: true, date: "2020-12-20", strike: 98}]))
-            .toMatchObject([{isLong: true, date: "2020-12-20", a:102, b:101, c:99, d:98, dir: "Pin", type: "Iron Condor"}]);
+            .toMatchObject([{isLong: true, date: "2020-12-20", a:102, b:101, c:99, d:98, dir: "Pin", type: "Iron Condor", quantity: 4}]);
 
         expect(math.extractStrategies([{isCall: true, isLong: false, date: "2020-12-20", strike: 102}, 
                                         {isCall: true, isLong: true, date: "2020-12-20", strike: 101},
@@ -155,7 +169,7 @@ describe('Options Math Test', () => {
                                         {isCall: true, isLong: false, date: "2020-12-20", strike: 100},
                                         {isCall: false, isLong: false, date: "2020-12-20", strike: 100}, 
                                         {isCall: false, isLong: true, date: "2020-12-20", strike: 98}]))
-            .toMatchObject([{isLong: true, date: "2020-12-20", a:102, b:100, c:100, d:98, dir: "Pin", type: "Iron Fly"}]);
+            .toMatchObject([{isLong: true, date: "2020-12-20", a:102, b:100, c:100, d:98, dir: "Pin", type: "Iron Fly", quantity: 3}]);
 
         expect(math.extractStrategies([{isCall: true, isLong: false, date: "2020-12-20", strike: 102}, 
                                         {isCall: true, isLong: true, date: "2020-12-20", strike: 100},
