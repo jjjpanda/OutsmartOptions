@@ -105,7 +105,7 @@ class OptionsCalculator extends React.Component{
           <div step-name = {e[0]+"_optionexpiries"}>
             <Table dataSource = {e[1]} columns ={this.columns(e[0])} 
               rowClassName={(record) => record.atmNess} 
-              pagination={false} size="small" scroll={{ y: 500 }} />
+              pagination={false} size="small" scroll={{y:500}} />
           </div>
       </Panel>
     ))
@@ -149,9 +149,6 @@ class OptionsCalculator extends React.Component{
       }
     })}), () => console.log(this.state))
   }
-
-  disableBody = target => disableBodyScroll(target)
-  enableBody = target => enableBodyScroll(target)
 
   addOption = (isCall, strike, price, date, iv) => {
     this.setState((state) => ({optionsSelected : [...state.optionsSelected, {key: date+strike+(isCall?"C":"P"), isCall:isCall, date:date, strike:strike, price:price, iv:iv}]}), this.resortOptionsSelected)
@@ -664,7 +661,7 @@ class OptionsCalculator extends React.Component{
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
-            Contract
+            Here's the list of the options you just selected. 
             <br></br>
             <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
             <br></br>
@@ -680,7 +677,7 @@ class OptionsCalculator extends React.Component{
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
-            Contract Name
+            This is the name of the contract. 
             <br></br>
             <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
             <br></br>
@@ -696,7 +693,7 @@ class OptionsCalculator extends React.Component{
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
-            Contract Buy or Write
+            Here you can specify whether this specific option is being written or bought.
             <br></br>
             <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
             <br></br>
@@ -712,7 +709,8 @@ class OptionsCalculator extends React.Component{
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
-            Contract Quantity
+            And here's some more input if you wanna increase the quantity of the specific contract 💸.
+            Maybe you wanna buy 3, 4, 50 contracts. No judgement here 🤐.
             <br></br>
             <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
             <br></br>
@@ -728,7 +726,9 @@ class OptionsCalculator extends React.Component{
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
-            Contract Price
+            And another input 😪. This is for specifying the price you paid or got paid for this specific leg. 
+            For example, you may have already bought a contract and it didn't go so well 📉.
+            In that case you can type in that you paid a bit more than the price now.
             <br></br>
             <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
             <br></br>
@@ -742,11 +742,12 @@ class OptionsCalculator extends React.Component{
       position : "right", 
       selector: '[step-name="calculate-button"]',
       content: ({goTo, inDOM, step}) => {
+        if(state.mergedOptions != undefined){
+          goTo(step)
+        }
         return (
           <div>
-            Calc
-            <br></br>
-            <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
+            Finally, we get to the big cheese 🧀. Hit this calculate button for the results we've all been waiting for. 
             <br></br>
             <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
           </div>
@@ -760,11 +761,14 @@ class OptionsCalculator extends React.Component{
       content: ({goTo, inDOM, step}) => {
         return (
           <div>
-            Cost
+            Here is the cost of the strategy.
             <br></br>
             <a onClick ={() => goTo(step)}>Click here ➡ to continue.</a>
             <br></br>
-            <a onClick ={() => goTo(step-2)}>Click here ⬅ to go back.</a>
+            <a onClick ={() => {
+              this.setState(() => ({mergedOptions : undefined}))
+              goTo(step-2)
+            }}>Click here ⬅ to go back.</a>
           </div>
         )
       }
@@ -806,21 +810,6 @@ class OptionsCalculator extends React.Component{
   render() {
     return (
     <div>
-      <Tour
-        steps={this.tutorialSteps(this.state)}
-        showNavigation = {false}
-        showNumber = {false}
-        showButtons = {false}
-        showCloseButton = {false}
-        disableKeyboardNavigation = {true}
-        maskSpace={3}
-        startAt = {0}
-        update = {this.state}
-        onAfterOpen={this.disableBody}
-        onBeforeClose={this.enableBody}
-        isOpen={this.state.isTourOpen}
-        onRequestClose={this.closeTutorial}
-      />
       <div style={{width:'60px', paddingBottom:'20px'}}/>
       <div style={{width:'60px', display: 'inline-block'}}/>
       <h1 key = "mainTitle" step-name="title" style={{ width:'135px', display: 'inline-block'}}>Outsmart Options</h1>
@@ -893,7 +882,7 @@ class OptionsCalculator extends React.Component{
           (
             <div>
               <div className="costStrategy">
-                <StrategyInfo optionsSelected = {this.state.optionsSelected} mergedOptions = {this.state.mergedOptions} step-name="cost-card"/>
+                <StrategyInfo optionsSelected = {this.state.optionsSelected} mergedOptions = {this.state.mergedOptions}/>
               </div>
 
               <div className="profitGraphWrapper" step-name="profit-graph">
@@ -903,15 +892,29 @@ class OptionsCalculator extends React.Component{
               <hr id="hr2"/>
               <h3 style={{marginLeft:"60px"}}>Profit Table:</h3>
               <div className="profitTableWrapper" step-name="profit-table">
-                <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
+                <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{x:500}} size="small" />
               </div>
               <Button onClick = {this.sendCalcError}>Report Calculation Error</Button>
             </div>
           ): 
           null
         }</div>
+      <Tour
+        steps={this.tutorialSteps(this.state)}
+        showNavigation = {false}
+        showNumber = {false}
+        showButtons = {false}
+        showCloseButton = {false}
+        disableKeyboardNavigation = {true}
+        maskSpace={3}
+        startAt = {0}
+        update = {this.state}
+        onAfterOpen={target => disableBodyScroll(target)}
+        onBeforeClose={target => enableBodyScroll(target)}
+        isOpen={this.state.isTourOpen}
+        onRequestClose={this.closeTutorial}
+      />
     </div>);
-    
   }
 }
 
@@ -995,8 +998,7 @@ class OptionsLeg extends React.Component {
             <div id= "removeButton"><Button shape="circle" icon="delete" onClick={() => {this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date)}}/></div>
             <div id= "disableButton"><Button shape="circle" icon="stop" onClick={this.disableSelf}/></div>
           </div>
-        </div>
-        
+        </div>        
       </div>
     );
   }
