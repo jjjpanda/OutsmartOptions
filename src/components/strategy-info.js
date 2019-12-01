@@ -40,7 +40,7 @@ const listRedux = (list) => {
 const StrategyInfo = ({optionsSelected, mergedOptions}) => {
     optionsSelected = optionsSelected.filter(o => !o.hide)
     var analyzedStrategies = optionsMath.extractStrategies(optionsSelected)
-    
+    console.log(analyzedStrategies)
     var state = {
         strategy: "Cost of Strategy",
         risks: 0,
@@ -66,7 +66,9 @@ const StrategyInfo = ({optionsSelected, mergedOptions}) => {
             {state.collateral <= 0 ?
             null:
             <div>
-                Your broker will probably make you hold an extra ${(state.collateral.toFixed(2))} as collateral.
+                {state.collateral != Infinity ? 
+                "Your broker will probably make you hold an extra $" + (state.collateral.toFixed(2)) + " as collateral." :
+                "Your broker probably won't let this trade even happen."}
             </div>
             }
             

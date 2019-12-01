@@ -226,6 +226,7 @@ export function collateralAnalysis(stratsNamed){
     var collateral = 0;
     for(var strategy of stratsNamed){
        //Analysis
+       console.log(strategy)
        if(strategy.price < 0){
             if(strategy.quantity == 4 || strategy.quantity == 3){
                 return Math.max(strategy.a - strategy.b, strategy.c - strategy.d)
@@ -239,6 +240,7 @@ export function collateralAnalysis(stratsNamed){
                 }
             }
        }
+       console.log(collateral)
     }
     return collateral
 }
