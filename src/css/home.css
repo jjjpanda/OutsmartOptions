@@ -43,48 +43,41 @@
 #title {
     margin: 0 auto;
     text-align: center;
-    position: absolute;
+    position: static;
     font-size: 70px;
     z-index: 1;
-    padding-left: 30%;  
+      
 }
 #firstText{
     color: black;
     text-align: left;
     position: absolute;
-    bottom: 300px;
+    margin-top: 5%;
     padding-left: 60%;
     padding-right: 10%;
     z-index: 1;
     font-size: 35px;
 }
-
+.symbol{
+    z-index: 1;
+    margin: 2% 1%;
+}
 #testimony1{
     text-align: left;
     margin-left: 2%;
     margin-right: 60%;
     position: absolute;
-    bottom: 175px;
+    margin-top: 15%;
     color: black;
     z-index: 1;
     font-size: 35px;
 }
 #testimony2{
-    text-align: left;
-    margin-left: 2%;
-    margin-right: 60%;
-    position: absolute;
-    bottom: -80px;
-    z-index: 1;
-    font-size: 35px;
-    color: black;
-}
-#testimony3{
     text-align: right;
     margin-left: 60%;
     margin-right: 2%;
     position: absolute;
-    bottom: -850px;
+    margin-top: 93%;
     z-index: 1;
     font-size: 35px;
     color: black;
@@ -98,22 +91,18 @@
     min-height: 500px;
     border-radius: 5px;
 }
-#chartBackground{
-    position: relative;
-    top: -800;
-}
 #twitter{
     position: absolute;
     z-index: 1;
     max-height: 600px;
-    top: 700px;
+    margin-top: 30%;
     overflow: auto;
     right: 2%;
     margin-left: 80%;    
 }
 #insta1{
     position: absolute;
-    top: 1075px;
+    margin-top: 50%;
     z-index: 1;
     max-height: 400px;  
 }
