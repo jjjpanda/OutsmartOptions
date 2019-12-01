@@ -11,15 +11,16 @@ class About extends React.Component{
         return(
         
         <div>
-            <br></br>
+            
             <h3 class = 'aStyle'><center>Outsmart Options</center></h3>
-            <br></br>
+            
             <hr size="7" width="40%" align="center" color="green"></hr>
             <br></br>
-            <h3 class = 'bStyle'><center>We’re a team of developers tired of the status quo.  We hate that online brokers think every-day
+            <h3 class = 'bStyle' id = 'mission'><center>We’re a team of developers tired of the status quo.  We hate that online brokers think every-day
                  investors don’t need complex data because they’re “amateurs”. You should have access to the same tools used by the pros in
                  a market where every advantage counts. We created Outsmart Options so that every trader can plan their trades in a way that is beautiful to see, 
                  easy to use, and affordable to regular traders like us, and like you.</center></h3>
+            <br></br>
             <h3 class = 'bStyle'><center>Take a look around, the future of options trading is here</center></h3>
             <br></br>
             <hr size="7" width="40%" align="center" color="green"></hr>
@@ -28,9 +29,17 @@ class About extends React.Component{
             <br></br>
             <br></br>
             <br></br>
+            <div id = 'contactInfo'>
+            <h2 class = 'dStyle'>Feel free to contact our team</h2>
+            <h2 class = 'cStyle'>Feel free to contact the team with any questions</h2>
+            <h2 class = 'cStyle'>Email: help@outsmartoptions.com</h2>
+            <h2 class = 'cStyle'>Phone: 732-555-6969</h2>
+            <h2 class = 'cStyle'>1 Castle Point Terrace, Hoboken, New Jersey, 07030</h2>
+            </div>
             <br></br>
             <br></br>
-            
+
+            <div id = 'disclaimers'>
             <h2 class = 'eStyle'><center>Disclaimers</center></h2>
             <h3 class = 'fStyle'><center>Before placing any trades, please make sure you do the following</center></h3>
             <br></br>
@@ -49,15 +58,11 @@ class About extends React.Component{
             <h1 class = 'cStyle'>In order to bring the best possible service at the lowest possible cost, Outsmart Options uses data that can be delayed by upt to 15 minutes.
             Because of this, the Outsmart Options team does not reccomend this website as a tool for active, intraday options trading.
             It is instead, a tool made for ordinary traders and investors to be more informed on options trades before they place them</h1>
-            
+            </div>
             <br></br>
             <br></br>
             
-            <h2 class = 'dStyle'>Feel free to contact our team</h2>
-            <h2 class = 'cStyle'>Feel free to contact the team with any questions</h2>
-            <h2 class = 'cStyle'>Email: help@outsmartoptions.com</h2>
-            <h2 class = 'cStyle'>Phone: 732-555-6969</h2>
-            <h2 class = 'cStyle'>1 Castle Point Terrace, Hoboken, New Jersey, 07030</h2>
+            
         </div>)
     }
 }
