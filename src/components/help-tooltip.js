@@ -1,26 +1,23 @@
-import React from 'react'
+import React from 'react';
 import {
-    Popover,
-    Icon,
+  Popover,
+  Icon,
 } from 'antd';
 
-class HelpTooltip extends React.Component{
-    constructor(props){
-      super(props);
+class HelpTooltip extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    if (!this.props.hide) {
+      return (
+        <Popover content={this.props.content} title={this.props.title} trigger="hover">
+          <Icon type="info-circle-o" />
+        </Popover>
+      );
     }
-    
-    render(){
-      if(!this.props.hide){
-        return (
-          <Popover content={this.props.content} title={this.props.title} trigger="hover">
-            <Icon type="info-circle-o" />
-          </Popover>
-        )
-      }
-      else{
-        return;
-      }
-    }
+  }
 }
 
-export {HelpTooltip}
+export { HelpTooltip };
