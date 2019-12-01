@@ -1,590 +1,561 @@
-export function cndf(x){
-    if(x < -5){
-        return 0;
-    }
-    if (x > 5){
-        return 1;
-    }
-    // constants
-    var a1 = 0.254829592;
-    var a2 = -0.284496736;
-    var a3 = 1.421413741;
-    var a4 = -1.453152027;
-    var a5 = 1.061405429;
-    var p = 0.3275911;
+export function cndf(x) {
+  if (x < -5) {
+    return 0;
+  }
+  if (x > 5) {
+    return 1;
+  }
+  // constants
+  const a1 = 0.254829592;
+  const a2 = -0.284496736;
+  const a3 = 1.421413741;
+  const a4 = -1.453152027;
+  const a5 = 1.061405429;
+  const p = 0.3275911;
 
-    // Save the sign of x
-    var sign = 1;
-    if (x < 0)
-        sign = -1;
-    x = Math.abs(x) / Math.sqrt(2.0);
+  // Save the sign of x
+  let sign = 1;
+  if (x < 0) { sign = -1; }
+  x = Math.abs(x) / Math.sqrt(2.0);
 
-    // A&S formula 7.1.26
-    var t = 1.0 / (1.0 + p * x);
-    var y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+  // A&S formula 7.1.26
+  const t = 1.0 / (1.0 + p * x);
+  const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
 
-    return 0.5 * (1.0 + sign * y);
+  return 0.5 * (1.0 + sign * y);
 }
 
 export function cndfInv(p) {
-    var a1 = -39.6968302866538, a2 = 220.946098424521, a3 = -275.928510446969;
-    var a4 = 138.357751867269, a5 = -30.6647980661472, a6 = 2.50662827745924;
-    var b1 = -54.4760987982241, b2 = 161.585836858041, b3 = -155.698979859887;
-    var b4 = 66.8013118877197, b5 = -13.2806815528857, c1 = -7.78489400243029E-03;
-    var c2 = -0.322396458041136, c3 = -2.40075827716184, c4 = -2.54973253934373;
-    var c5 = 4.37466414146497, c6 = 2.93816398269878, d1 = 7.78469570904146E-03;
-    var d2 = 0.32246712907004, d3 = 2.445134137143, d4 = 3.75440866190742;
-    var p_low = 0.02425, p_high = 1 - p_low;
-    var q, r;
-    var icndf;
+  const a1 = -39.6968302866538; const a2 = 220.946098424521; const
+    a3 = -275.928510446969;
+  const a4 = 138.357751867269; const a5 = -30.6647980661472; const
+    a6 = 2.50662827745924;
+  const b1 = -54.4760987982241; const b2 = 161.585836858041; const
+    b3 = -155.698979859887;
+  const b4 = 66.8013118877197; const b5 = -13.2806815528857; const
+    c1 = -7.78489400243029E-03;
+  const c2 = -0.322396458041136; const c3 = -2.40075827716184; const
+    c4 = -2.54973253934373;
+  const c5 = 4.37466414146497; const c6 = 2.93816398269878; const
+    d1 = 7.78469570904146E-03;
+  const d2 = 0.32246712907004; const d3 = 2.445134137143; const
+    d4 = 3.75440866190742;
+  const p_low = 0.02425; const
+    p_high = 1 - p_low;
+  let q; let
+    r;
+  let icndf;
 
-    if ((p < 0) || (p > 1))
-    {
-        icndf = null;
+  if ((p < 0) || (p > 1)) {
+    icndf = null;
+  } else if (p < p_low) {
+    q = Math.sqrt(-2 * Math.log(p));
+    icndf = (((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) / ((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
+  } else if (p <= p_high) {
+    q = p - 0.5;
+    r = q * q;
+    icndf = (((((a1 * r + a2) * r + a3) * r + a4) * r + a5) * r + a6) * q / (((((b1 * r + b2) * r + b3) * r + b4) * r + b5) * r + 1);
+  } else {
+    q = Math.sqrt(-2 * Math.log(1 - p));
+    icndf = -(((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) / ((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
+  }
+
+  return icndf;
+}
+
+export function ndf(x) {
+  return 1 / Math.sqrt(2 * Math.PI) * Math.exp(-1 * x * x / 2);
+}
+
+export function loss(a, b) {
+  return a - b;
+}
+
+export function d1(p, x, t, q, r, sigma) {
+  return (Math.log(p / x) + t * (r - q + (sigma * sigma) / 2)) / (sigma * Math.sqrt(t));
+}
+
+export function d2(p, x, t, q, r, sigma) {
+  return (Math.log(p / x) + t * (r - q + (sigma * sigma) / 2)) / (sigma * Math.sqrt(t)) - (sigma * Math.sqrt(t));
+}
+
+export function getRangeOfPrices(priceUnderlying, percentInterval, numOfIntervals, initialCost) {
+  const rangeOfPrices = [];
+  const min = priceUnderlying / Math.pow(1 + (percentInterval / 100), Math.floor(numOfIntervals / 2));
+  const max = priceUnderlying * Math.pow(1 + (percentInterval / 100), Math.floor(numOfIntervals / 2));
+  for (let i = min; i < max * (1 + (percentInterval / 200)); i *= (1 + (percentInterval / 100))) {
+    rangeOfPrices.push([i, initialCost]);
+  }
+  return rangeOfPrices;
+}
+
+// GREEKS
+export function delta(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv) {
+  if (isCall) {
+    return (isLong ? 1 : -1) * Math.exp(-1 * divYield * t) * cndf(d1(priceUnderlying, strike, t, divYield, r, iv));
+  }
+  if (!isCall) {
+    return (isLong ? 1 : -1) * Math.exp(-1 * divYield * t) * (cndf(d1(priceUnderlying, strike, t, divYield, r, iv)) - 1);
+  }
+}
+
+export function gamma(t, priceUnderlying, strike, isLong, r, divYield, iv) {
+  return (isLong ? 1 : -1) * Math.exp(-1 * divYield * t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv)) / (priceUnderlying * iv * Math.sqrt(t));
+}
+
+export function theta(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv) {
+  if (isCall) {
+    return (isLong ? 1 : -1) * (-(ndf(d1(priceUnderlying, strike, t, divYield, r, iv)) / (2 * Math.sqrt(t)) * priceUnderlying * iv * Math.exp(-1 * divYield * t))
+        + (divYield * priceUnderlying * Math.exp(-1 * divYield * t) * cndf(d1(priceUnderlying, strike, t, divYield, r, iv)))
+        - (r * strike * Math.exp(-1 * r * t) * ndf(d2(priceUnderlying, strike, t, divYield, r, iv)))
+    ) / 365;
+  }
+  if (!isCall) {
+    return (isLong ? 1 : -1) * (-(ndf(d1(priceUnderlying, strike, t, divYield, r, iv)) / (2 * Math.sqrt(t)) * priceUnderlying * iv * Math.exp(-1 * divYield * t))
+        - (divYield * priceUnderlying * Math.exp(-1 * divYield * t) * cndf(-1 * d1(priceUnderlying, strike, t, divYield, r, iv)))
+        - (r * strike * Math.exp(-1 * r * t) * ndf(-1 * d2(priceUnderlying, strike, t, divYield, r, iv)))
+    ) / 365;
+  }
+}
+
+export function vega(t, priceUnderlying, strike, isLong, r, divYield, iv) {
+  return (isLong ? 1 : -1) * priceUnderlying / 100 * Math.exp(-1 * divYield * t) * Math.sqrt(t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv));
+}
+
+export function rho(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv) {
+  if (isCall) {
+    return (isLong ? 1 : -1) * t / 100 * Math.exp(-1 * r * t) * strike * cndf(d2(priceUnderlying, strike, t, divYield, r, iv));
+  }
+  if (!isCall) {
+    return (isLong ? 1 : -1) * t / -100 * Math.exp(-1 * r * t) * strike * cndf(-1 * d2(priceUnderlying, strike, t, divYield, r, iv));
+  }
+}
+
+export function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv) {
+  const greeks = {};
+  greeks.delta = delta(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv);
+  greeks.gamma = gamma(t, priceUnderlying, strike, isLong, r, divYield, iv);
+  greeks.theta = theta(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv);
+  greeks.vega = vega(t, priceUnderlying, strike, isLong, r, divYield, iv);
+  greeks.rho = rho(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv);
+  return greeks;
+}
+
+// IV and Price
+export function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r, divYield) {
+  let iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption / priceUnderlying;
+  let priceOfOptionTheoretical; let
+    vega;
+  priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv);
+  let stopTrying = 0;
+  while (loss(priceOfOption, priceOfOptionTheoretical) > 0.000005 || loss(priceOfOption, priceOfOptionTheoretical) < -0.000005) {
+    if (loss(priceOfOption, priceOfOptionTheoretical) > priceOfOption / 10) {
+      if (priceOfOption > priceOfOptionTheoretical) {
+        iv += 0.075 + Math.random() / 15;
+      }
+      if (priceOfOption < priceOfOptionTheoretical) {
+        iv -= 0.075 + Math.random() / 15;
+      }
+    } else {
+      vega = priceUnderlying * Math.exp(-1 * divYield * t) * Math.sqrt(t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv));
+      iv += (loss(priceOfOption, priceOfOptionTheoretical) / vega);
     }
-    else if (p < p_low)
-    {
-        q = Math.sqrt(-2 * Math.log(p));
-        icndf = (((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) / ((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
-    }
-    else if (p <= p_high)
-    {
-        q = p - 0.5;
-        r = q * q;
-        icndf = (((((a1 * r + a2) * r + a3) * r + a4) * r + a5) * r + a6) * q / (((((b1 * r + b2) * r + b3) * r + b4) * r + b5) * r + 1);
-    }
-    else
-    {
-        q = Math.sqrt(-2 * Math.log(1 - p));
-        icndf = -(((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) / ((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
-    }
-
-    return icndf;
-}
-
-export function ndf(x){
-    return 1 / Math.sqrt(2 * Math.PI) * Math.exp(-1 * x * x / 2);
-}
-
-export function loss(a,b){
-    return a - b;
-}
-
-export function d1(p, x, t, q, r, sigma){
-    return (Math.log(p / x) + t * (r - q + (sigma * sigma) / 2)) / (sigma * Math.sqrt(t));
-}
-
-export function d2(p, x, t, q, r, sigma){
-    return (Math.log(p / x) + t * (r - q + (sigma * sigma) / 2)) / (sigma * Math.sqrt(t)) - (sigma * Math.sqrt(t));
-}
-
-export function getRangeOfPrices(priceUnderlying, percentInterval, numOfIntervals, initialCost){
-    var rangeOfPrices = []
-    var min = priceUnderlying/Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
-    var max = priceUnderlying*Math.pow(1+(percentInterval/100), Math.floor(numOfIntervals/2))
-    for(var i = min; i < max * (1+(percentInterval/200)); i *= (1+(percentInterval/100))){
-        rangeOfPrices.push([i,initialCost])
-    }
-    return rangeOfPrices
-}
-
-//GREEKS
-export function delta(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv){
-    if(isCall){
-        return (isLong ? 1 : -1) * Math.exp(-1 * divYield * t) * cndf(d1(priceUnderlying, strike, t, divYield, r, iv));
-    }
-    else if(!isCall){
-        return (isLong ? 1 : -1) * Math.exp(-1 * divYield * t) * (cndf(d1(priceUnderlying, strike, t, divYield, r, iv)) - 1);
-    }
-}
-
-export function gamma(t, priceUnderlying, strike, isLong, r, divYield, iv){
-    return (isLong ? 1 : -1) * Math.exp(-1 * divYield * t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv)) / (priceUnderlying * iv * Math.sqrt(t));
-}
-
-export function theta(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv){
-    if(isCall){
-        return (isLong ? 1 : -1) * (-(ndf(d1(priceUnderlying, strike, t, divYield, r, iv)) / (2 * Math.sqrt(t)) * priceUnderlying * iv * Math.exp(-1 * divYield * t)) +
-        (divYield * priceUnderlying * Math.exp(-1 * divYield * t) * cndf(d1(priceUnderlying, strike, t, divYield, r, iv))) -
-        (r * strike * Math.exp(-1 * r * t) * ndf(d2(priceUnderlying, strike, t, divYield, r, iv)))
-        ) / 365;
-    }
-    else if(!isCall){
-        return (isLong ? 1 : -1) * (-(ndf(d1(priceUnderlying, strike, t, divYield, r, iv)) / (2 * Math.sqrt(t)) * priceUnderlying * iv * Math.exp(-1 * divYield * t)) -
-        (divYield * priceUnderlying * Math.exp(-1 * divYield * t) * cndf(-1 * d1(priceUnderlying, strike, t, divYield, r, iv))) -
-        (r * strike * Math.exp(-1 * r * t) * ndf(-1 * d2(priceUnderlying, strike, t, divYield, r, iv)))
-        ) / 365;
-    }
-}
-
-export function vega(t, priceUnderlying, strike, isLong, r, divYield, iv){
-    return (isLong ? 1 : -1) * priceUnderlying / 100 * Math.exp(-1 * divYield * t) * Math.sqrt(t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv));
-}
-
-export function rho(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv){
-    if(isCall){
-        return (isLong ? 1 : -1) * t / 100 * Math.exp(-1 * r * t) * strike * cndf(d2(priceUnderlying, strike, t, divYield, r, iv));
-    }
-    else if(!isCall){
-        return (isLong ? 1 : -1) * t / -100 * Math.exp(-1 * r * t) * strike * cndf(-1 * d2(priceUnderlying, strike, t, divYield, r, iv));
-    }
-}
-
-export function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv){
-    var greeks = {}
-    greeks.delta = delta(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv)
-    greeks.gamma = gamma(t, priceUnderlying, strike, isLong, r, divYield, iv)
-    greeks.theta = theta(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv)
-    greeks.vega = vega(t, priceUnderlying, strike, isLong, r, divYield, iv)
-    greeks.rho = rho(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv)
-    return greeks
-}
-
-//IV and Price
-export function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r, divYield){
-    var iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption/priceUnderlying
-    var priceOfOptionTheoretical, vega;
-    priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true,  r, divYield, iv)
-    var stopTrying = 0
-    while (loss(priceOfOption, priceOfOptionTheoretical) > 0.000005 || loss(priceOfOption, priceOfOptionTheoretical) < -0.000005){
-        if(loss(priceOfOption, priceOfOptionTheoretical) > priceOfOption / 10){
-            if (priceOfOption > priceOfOptionTheoretical)
-            {
-                iv += 0.075 + Math.random()/15;
-            }
-            if (priceOfOption < priceOfOptionTheoretical)
-            {
-                iv -= 0.075 + Math.random()/15;
-            }
+    priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv);
+    stopTrying++;
+    if (stopTrying > 100) {
+      iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption / priceUnderlying;
+      if ((isCall ? priceOfOption + strike < priceUnderlying : priceOfOption - strike > priceUnderlying) && (isCall ? strike / priceUnderlying < 0.80 : strike / priceUnderlying > 1.25)) {
+        if (isCall) {
+          var d = cndfInv(0.999 / (Math.exp(-divYield * t)));
+        } else if (!isCall) {
+          var d = cndfInv(-0.999 / (Math.exp(-divYield * t)) + 1);
         }
-        else{
-            vega = priceUnderlying * Math.exp(-1 * divYield * t) * Math.sqrt(t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv))
-            iv = iv + (loss(priceOfOption, priceOfOptionTheoretical) / vega)
-        }
-        priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv)
-        stopTrying++
-        if(stopTrying > 100){
-            iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption/priceUnderlying
-            if((isCall ? priceOfOption + strike < priceUnderlying : priceOfOption - strike > priceUnderlying) && (isCall ? strike/priceUnderlying < 0.80 : strike/priceUnderlying > 1.25)){
-                if(isCall){
-                    var d = cndfInv(0.999/(Math.exp(-divYield * t)))
-                }
-                else if(!isCall){
-                    var d = cndfInv(-0.999/(Math.exp(-divYield * t)) + 1)
-                }
-                return Math.abs((Math.sqrt(t*(2*Math.log(priceUnderlying/priceOfOption) + Math.pow(d,2) - 2*divYield*t + 2*r*t))-d*Math.sqrt(t))/t)
-            }
-            break;
-        }
+        return Math.abs((Math.sqrt(t * (2 * Math.log(priceUnderlying / priceOfOption) + Math.pow(d, 2) - 2 * divYield * t + 2 * r * t)) - d * Math.sqrt(t)) / t);
+      }
+      break;
     }
-    if (iv < 0){
-        return 0.01 //INVALID ID
-    }
-    return iv
+  }
+  if (iv < 0) {
+    return 0.01; // INVALID ID
+  }
+  return iv;
 }
 
-export function calculateOptionsPrice(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv){
-    var priceOfOptionTheoretical
-    if(isCall){
-        priceOfOptionTheoretical = priceUnderlying * Math.exp(-1* divYield* t) * cndf(d1(priceUnderlying, strike, t, divYield, r, iv)) - strike * Math.exp(-1 * r * t) * cndf(d2(priceUnderlying, strike, t, divYield, r, iv))
-    }
-    else if(!isCall){
-        priceOfOptionTheoretical = -1 * priceUnderlying * Math.exp(-1* divYield* t) * cndf(-1 * d1(priceUnderlying, strike, t, divYield, r, iv)) + strike * Math.exp(-1 * r * t) * cndf(-1 * d2(priceUnderlying, strike, t, divYield, r, iv))
-    }
-    if(!isLong){
-        priceOfOptionTheoretical *= -1
-    }
-    return priceOfOptionTheoretical
+export function calculateOptionsPrice(t, priceUnderlying, strike, isCall, isLong, r, divYield, iv) {
+  let priceOfOptionTheoretical;
+  if (isCall) {
+    priceOfOptionTheoretical = priceUnderlying * Math.exp(-1 * divYield * t) * cndf(d1(priceUnderlying, strike, t, divYield, r, iv)) - strike * Math.exp(-1 * r * t) * cndf(d2(priceUnderlying, strike, t, divYield, r, iv));
+  } else if (!isCall) {
+    priceOfOptionTheoretical = -1 * priceUnderlying * Math.exp(-1 * divYield * t) * cndf(-1 * d1(priceUnderlying, strike, t, divYield, r, iv)) + strike * Math.exp(-1 * r * t) * cndf(-1 * d2(priceUnderlying, strike, t, divYield, r, iv));
+  }
+  if (!isLong) {
+    priceOfOptionTheoretical *= -1;
+  }
+  return priceOfOptionTheoretical;
 }
 
-export function calculateProfitAtExpiry(initialCost, priceUnderlying, strike, isCall, isLong){
-    if (isCall)
-    {
-        if (isLong)
-        {
-            return Math.max(((-1 * initialCost) + (priceUnderlying - strike)), (-1 * initialCost));
-        }
-        else if (!isLong)
-        {
-            return Math.min((initialCost - (priceUnderlying - strike)), initialCost);
-        }
+export function calculateProfitAtExpiry(initialCost, priceUnderlying, strike, isCall, isLong) {
+  if (isCall) {
+    if (isLong) {
+      return Math.max(((-1 * initialCost) + (priceUnderlying - strike)), (-1 * initialCost));
     }
-    else if (!isCall)
-    {
-        if (isLong)
-        {
-            return Math.max(((-1 * initialCost) + (-1 * priceUnderlying + strike)), (-1 * initialCost));
-        }
-        else if (!isLong)
-        {
-            return Math.min((initialCost - (-1 * priceUnderlying + strike)), initialCost);
-        }
+    if (!isLong) {
+      return Math.min((initialCost - (priceUnderlying - strike)), initialCost);
     }
+  } else if (!isCall) {
+    if (isLong) {
+      return Math.max(((-1 * initialCost) + (-1 * priceUnderlying + strike)), (-1 * initialCost));
+    }
+    if (!isLong) {
+      return Math.min((initialCost - (-1 * priceUnderlying + strike)), initialCost);
+    }
+  }
 }
 
-export function collateralAnalysis(stratsNamed){
-    var collateral = 0;
-    for(var strategy of stratsNamed){
-       //Analysis
-       console.log(strategy)
-       if(strategy.price < 0){
-            if(strategy.quantity == 4 || strategy.quantity == 3){
-                return Math.max(strategy.a - strategy.b, strategy.c - strategy.d)
-            }
-            else if(strategy.quantity == 2){
-                return strategy.upper - strategy.lower
-            }
-            else if(strategy.quantity == 1){
-                if(!strategy.isLong){
-                    return Infinity
-                }
-            }
-       }
-       console.log(collateral)
+export function collateralAnalysis(stratsNamed) {
+  const collateral = 0;
+  for (const strategy of stratsNamed) {
+    // Analysis
+    console.log(strategy);
+    if (strategy.price < 0) {
+      if (strategy.quantity == 4 || strategy.quantity == 3) {
+        return Math.max(strategy.a - strategy.b, strategy.c - strategy.d);
+      }
+      if (strategy.quantity == 2) {
+        return strategy.upper - strategy.lower;
+      }
+      if (strategy.quantity == 1) {
+        if (!strategy.isLong) {
+          return Infinity;
+        }
+      }
     }
-    return collateral
+    console.log(collateral);
+  }
+  return collateral;
 }
 
 export function extractStrategies(options) {
+  const list = [...options];
 
-    var list = [...options]
-
-    //Spreads
-    var searching = true;
-    var i = 0, j = 1, k = 0;
-    while(searching){
-        if(list[j] == undefined){
-            searching == false;
-            break;
-        }
-        else if(list[i].type == undefined && list[i].date == list[j].date && list[i].isCall === list[j].isCall && list[i].isLong != list[j].isLong && list[i].strike != list[j].strike){
-            list.splice(k, 0 ,{
-                isCall : list[i].isCall,
-                isLong : (list[i].isCall ? !list[i].isLong : list[i].isLong),
-                type: (list[i].isCall ? "Call Spread" : "Put Spread"),
-                dir: (list[i].isLong ? "Bear" : "Bull"),
-                upper: list[i].strike,
-                lower: list[j].strike,
-                date: list[i].date,
-                price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
-                quantity: 2
-            })
-            list.splice(i+1, 1)
-            list.splice(j, 1)
-            k++;
-            i = k
-            j = k+1
-        }
-        else{
-            if(j == list.length-1){
-                i++
-                j = i
-            }
-            j++ 
-        }
+  // Spreads
+  let searching = true;
+  let i = 0; let j = 1; let
+    k = 0;
+  while (searching) {
+    if (list[j] == undefined) {
+      searching == false;
+      break;
+    } else if (list[i].type == undefined && list[i].date == list[j].date && list[i].isCall === list[j].isCall && list[i].isLong != list[j].isLong && list[i].strike != list[j].strike) {
+      list.splice(k, 0, {
+        isCall: list[i].isCall,
+        isLong: (list[i].isCall ? !list[i].isLong : list[i].isLong),
+        type: (list[i].isCall ? 'Call Spread' : 'Put Spread'),
+        dir: (list[i].isLong ? 'Bear' : 'Bull'),
+        upper: list[i].strike,
+        lower: list[j].strike,
+        date: list[i].date,
+        price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+        quantity: 2,
+      });
+      list.splice(i + 1, 1);
+      list.splice(j, 1);
+      k++;
+      i = k;
+      j = k + 1;
+    } else {
+      if (j == list.length - 1) {
+        i++;
+        j = i;
+      }
+      j++;
     }
+  }
 
-    //Condors, Boxes and Flys
-    searching = true;
-    i = 0, j = 1, k = 0;
-    while(searching){
-        if(list[j] == undefined){
-            searching == false;
-            break;
-        }
-        else if (list[i].type != list[j].type && list[i].type != undefined && list[j].type != undefined && list[i].type.includes("Spread") && list[i].date == list[j].date && list[i].dir != list[j].dir){
-            if(list[i].lower == list[j].upper && list[i].upper != list[j].lower){
-                // Iron Fly
-                list.splice(k, 0, {
-                    date: list[i].date,
-                    a: list[i].upper,
-                    b: list[i].lower,
-                    c: list[j].upper,
-                    d: list[j].lower,
-                    isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
-                    dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
-                    type: "Iron Fly",
-                    price: list[i].price + list[j].price, 
-                    quantity: 3
-                })
-                list.splice(i+1, 1)
-                list.splice(j, 1)
-                k++
-                i = k
-                j = k+1
-            }
-            else if(list[i].upper == list[j].upper && list[i].lower == list[j].lower){
-                //Box Spread
-                list.splice(k, 0, {
-                    date: list[i].date,
-                    upper: list[i].upper,
-                    lower: list[i].lower,
-                    isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
-                    dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
-                    type: "Box Spread",
-                    price: list[i].price + list[j].price , 
-                    quantity: 4
-                })
-                list.splice(i+1, 1)
-                list.splice(j, 1)
-                k++
-                i = k
-                j = k+1
-            }
-            else if(list[i].lower != list[j].upper && list[i].upper != list[j].lower){
-                //Iron Condor
-                list.splice(k, 0, {
-                    date: list[i].date,
-                    a: list[i].upper,
-                    b: list[i].lower > list[j].upper ? list[i].lower : list[j].upper,
-                    c: list[i].lower < list[j].upper ? list[i].lower : list[j].upper,
-                    d: list[j].lower,
-                    isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
-                    dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
-                    type: "Iron Condor",
-                    price: list[i].price + list[j].price , 
-                    quantity: 4
-                })
-                list.splice(i+1, 1)
-                list.splice(j, 1)
-                k++
-                i = k
-                j = k+1
-            }
-        }
-        else if (list[i].type == list[j].type && list[i].type != undefined && list[i].type.includes("Spread") && list[i].date == list[j].date && list[i].dir != list[j].dir){
-            if(list[i].lower == list[j].upper && list[i].upper != list[j].lower){
-                // Call/Put Fly
-                list.splice(k, 0, {
-                    date: list[i].date,
-                    a: list[i].upper,
-                    b: list[i].lower,
-                    c: list[j].upper,
-                    d: list[j].lower,
-                    isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
-                    isCall: list[i].isCall,
-                    dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
-                    type: (list[i].isCall ? "Call" : "Put") + " Fly",
-                    price: list[i].price + list[j].price , 
-                    quantity: 3
-                })
-                list.splice(i+1, 1)
-                list.splice(j, 1)
-                k++
-                i = k
-                j = k+1
-            }
-            else if(list[i].lower != list[j].upper && list[i].upper != list[j].lower){
-                // Call/put Condor
-                list.splice(k, 0, {
-                    date: list[i].date,
-                    a: list[i].upper,
-                    b: list[i].lower > list[j].upper ? list[i].lower : list[j].upper,
-                    c: list[i].lower < list[j].upper ? list[i].lower : list[j].upper,
-                    d: list[j].lower,
-                    isLong: (list[i].dir == "Bear" && list[j].dir == "Bull"),
-                    isCall: list[i].isCall,
-                    dir: ((list[i].dir == "Bear" && list[j].dir == "Bull")?"Pin":"Neu"),
-                    type: (list[i].isCall ? "Call" : "Put") + " Condor",
-                    price: list[i].price + list[j].price , 
-                    quantity: 4
-                })
-                list.splice(i+1, 1)
-                list.splice(j, 1)
-                k++
-                i = k
-                j = k+1
-            }
-        }
-        else{
-            if(j == list.length-1){
-                i++
-                j = i
-            }
-            j++
-        }
-        
+  // Condors, Boxes and Flys
+  searching = true;
+  i = 0, j = 1, k = 0;
+  while (searching) {
+    if (list[j] == undefined) {
+      searching == false;
+      break;
+    } else if (list[i].type != list[j].type && list[i].type != undefined && list[j].type != undefined && list[i].type.includes('Spread') && list[i].date == list[j].date && list[i].dir != list[j].dir) {
+      if (list[i].lower == list[j].upper && list[i].upper != list[j].lower) {
+        // Iron Fly
+        list.splice(k, 0, {
+          date: list[i].date,
+          a: list[i].upper,
+          b: list[i].lower,
+          c: list[j].upper,
+          d: list[j].lower,
+          isLong: (list[i].dir == 'Bear' && list[j].dir == 'Bull'),
+          dir: ((list[i].dir == 'Bear' && list[j].dir == 'Bull') ? 'Pin' : 'Neu'),
+          type: 'Iron Fly',
+          price: list[i].price + list[j].price,
+          quantity: 3,
+        });
+        list.splice(i + 1, 1);
+        list.splice(j, 1);
+        k++;
+        i = k;
+        j = k + 1;
+      } else if (list[i].upper == list[j].upper && list[i].lower == list[j].lower) {
+        // Box Spread
+        list.splice(k, 0, {
+          date: list[i].date,
+          upper: list[i].upper,
+          lower: list[i].lower,
+          isLong: (list[i].dir == 'Bear' && list[j].dir == 'Bull'),
+          dir: ((list[i].dir == 'Bear' && list[j].dir == 'Bull') ? 'Pin' : 'Neu'),
+          type: 'Box Spread',
+          price: list[i].price + list[j].price,
+          quantity: 4,
+        });
+        list.splice(i + 1, 1);
+        list.splice(j, 1);
+        k++;
+        i = k;
+        j = k + 1;
+      } else if (list[i].lower != list[j].upper && list[i].upper != list[j].lower) {
+        // Iron Condor
+        list.splice(k, 0, {
+          date: list[i].date,
+          a: list[i].upper,
+          b: list[i].lower > list[j].upper ? list[i].lower : list[j].upper,
+          c: list[i].lower < list[j].upper ? list[i].lower : list[j].upper,
+          d: list[j].lower,
+          isLong: (list[i].dir == 'Bear' && list[j].dir == 'Bull'),
+          dir: ((list[i].dir == 'Bear' && list[j].dir == 'Bull') ? 'Pin' : 'Neu'),
+          type: 'Iron Condor',
+          price: list[i].price + list[j].price,
+          quantity: 4,
+        });
+        list.splice(i + 1, 1);
+        list.splice(j, 1);
+        k++;
+        i = k;
+        j = k + 1;
+      }
+    } else if (list[i].type == list[j].type && list[i].type != undefined && list[i].type.includes('Spread') && list[i].date == list[j].date && list[i].dir != list[j].dir) {
+      if (list[i].lower == list[j].upper && list[i].upper != list[j].lower) {
+        // Call/Put Fly
+        list.splice(k, 0, {
+          date: list[i].date,
+          a: list[i].upper,
+          b: list[i].lower,
+          c: list[j].upper,
+          d: list[j].lower,
+          isLong: (list[i].dir == 'Bear' && list[j].dir == 'Bull'),
+          isCall: list[i].isCall,
+          dir: ((list[i].dir == 'Bear' && list[j].dir == 'Bull') ? 'Pin' : 'Neu'),
+          type: `${list[i].isCall ? 'Call' : 'Put'} Fly`,
+          price: list[i].price + list[j].price,
+          quantity: 3,
+        });
+        list.splice(i + 1, 1);
+        list.splice(j, 1);
+        k++;
+        i = k;
+        j = k + 1;
+      } else if (list[i].lower != list[j].upper && list[i].upper != list[j].lower) {
+        // Call/put Condor
+        list.splice(k, 0, {
+          date: list[i].date,
+          a: list[i].upper,
+          b: list[i].lower > list[j].upper ? list[i].lower : list[j].upper,
+          c: list[i].lower < list[j].upper ? list[i].lower : list[j].upper,
+          d: list[j].lower,
+          isLong: (list[i].dir == 'Bear' && list[j].dir == 'Bull'),
+          isCall: list[i].isCall,
+          dir: ((list[i].dir == 'Bear' && list[j].dir == 'Bull') ? 'Pin' : 'Neu'),
+          type: `${list[i].isCall ? 'Call' : 'Put'} Condor`,
+          price: list[i].price + list[j].price,
+          quantity: 4,
+        });
+        list.splice(i + 1, 1);
+        list.splice(j, 1);
+        k++;
+        i = k;
+        j = k + 1;
+      }
+    } else {
+      if (j == list.length - 1) {
+        i++;
+        j = i;
+      }
+      j++;
     }
+  }
 
-    //Diagonals
-    searching = true;
-    i = 0, j = 1, k = 0;
-    while(searching){
-        if(list[j] == undefined){
-            searching == false;
-            break;
-        }
-        else if(list[i].type == undefined && list[j].type == undefined && list[i].isCall === list[j].isCall && list[i].isLong != list[j].isLong && list[i].strike != list[j].strike){
-            list.splice(k, 0, {
-                isCall: list[i].isCall, 
-                isLong: list[j].isLong, 
-                date: list[i].date, 
-                upper: list[i].strike > list[j].strike ? list[i].strike : list[j].strike, 
-                lower: list[i].strike < list[j].strike ? list[i].strike : list[j].strike, 
-                dir: (list[j].isLong?(list[i].strike > list[j].strike?"Bull":"Bear"):(list[i].strike > list[j].strike?"Bear":"Bull")), 
-                type: "Diagonal "+ (list[i].isCall?"Call":"Put") +" Spread",
-                price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice, 
-                quantity: 2
-            })
-            list.splice(i+1, 1)
-            list.splice(j, 1)
-            k++;
-            i = k
-            j = k+1
-        }
-        else{
-            if(j == list.length-1){
-                i++
-                j = i
-            } 
-            j++
-        }
+  // Diagonals
+  searching = true;
+  i = 0, j = 1, k = 0;
+  while (searching) {
+    if (list[j] == undefined) {
+      searching == false;
+      break;
+    } else if (list[i].type == undefined && list[j].type == undefined && list[i].isCall === list[j].isCall && list[i].isLong != list[j].isLong && list[i].strike != list[j].strike) {
+      list.splice(k, 0, {
+        isCall: list[i].isCall,
+        isLong: list[j].isLong,
+        date: list[i].date,
+        upper: list[i].strike > list[j].strike ? list[i].strike : list[j].strike,
+        lower: list[i].strike < list[j].strike ? list[i].strike : list[j].strike,
+        dir: (list[j].isLong ? (list[i].strike > list[j].strike ? 'Bull' : 'Bear') : (list[i].strike > list[j].strike ? 'Bear' : 'Bull')),
+        type: `Diagonal ${list[i].isCall ? 'Call' : 'Put'} Spread`,
+        price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+        quantity: 2,
+      });
+      list.splice(i + 1, 1);
+      list.splice(j, 1);
+      k++;
+      i = k;
+      j = k + 1;
+    } else {
+      if (j == list.length - 1) {
+        i++;
+        j = i;
+      }
+      j++;
     }
+  }
 
-    //Calendar
-    searching = true;
-    i = 0, j = 1, k = 0;
-    while(searching){
-        if(list[j] == undefined){
-            searching == false;
-            break;
-        }
-        else if(list[i].type == undefined && list[j].type == undefined && list[i].date != list[j].date && list[i].strike === list[j].strike && list[i].isCall == list[j].isCall && list[i].isLong != list[j].isLong){
-            list.splice(k, 0 ,{
-                isCall: list[i].isCall,
-                isLong: list[j].isLong, 
-                date: list[i].date, 
-                strike: list[i].strike, 
-                dir: (list[j].isLong ? "Pin" : "Neu"), 
-                type: (list[i].isCall?"Call":"Put") + " Calendar Spread",
-                price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice, 
-                quantity: 2
-            })
-            list.splice(i+1, 1)
-            list.splice(j, 1)
-            k++;
-            i = k
-            j = k+1
-        }
-        else{
-            if(j == list.length-1){
-                i++
-                j = i
-            } 
-            j++
-        }
+  // Calendar
+  searching = true;
+  i = 0, j = 1, k = 0;
+  while (searching) {
+    if (list[j] == undefined) {
+      searching == false;
+      break;
+    } else if (list[i].type == undefined && list[j].type == undefined && list[i].date != list[j].date && list[i].strike === list[j].strike && list[i].isCall == list[j].isCall && list[i].isLong != list[j].isLong) {
+      list.splice(k, 0, {
+        isCall: list[i].isCall,
+        isLong: list[j].isLong,
+        date: list[i].date,
+        strike: list[i].strike,
+        dir: (list[j].isLong ? 'Pin' : 'Neu'),
+        type: `${list[i].isCall ? 'Call' : 'Put'} Calendar Spread`,
+        price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+        quantity: 2,
+      });
+      list.splice(i + 1, 1);
+      list.splice(j, 1);
+      k++;
+      i = k;
+      j = k + 1;
+    } else {
+      if (j == list.length - 1) {
+        i++;
+        j = i;
+      }
+      j++;
     }
+  }
 
-    //Strangles and Straddles
-    searching = true;
-    i = 0, j = 1, k = 0;
-    while(searching){
-        if(list[j] == undefined){
-            searching == false;
-            break;
-        }
-        else if(list[i].type == undefined && list[j].type == undefined && list[i].date == list[j].date && list[i].isCall != list[j].isCall && list[i].isLong == list[j].isLong){
-            if(list[i].strike === list[j].strike){
-                //Straddle
-                list.splice(k, 0 ,{
-                    isLong: list[i].isLong, 
-                    date: list[i].date, 
-                    strike: list[i].strike, 
-                    dir: (list[i].isLong ? "Neu" : "Pin"), 
-                    type: "Straddle",
-                    price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice, 
-                    quantity: 2
-                })
-                list.splice(i+1, 1)
-                list.splice(j, 1)
-                k++;
-                i = k
-                j = k+1
-            }
-            else{
-                //Strangle
-                list.splice(k, 0 ,{
-                    isLong: list[i].isLong, 
-                    date: list[i].date,  
-                    upper: list[i].strike, 
-                    lower: list[j].strike, 
-                    dir: (list[i].isLong ? "Neu" : "Pin"), 
-                    type: "Strangle",
-                    price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice , 
-                    quantity: 2
-                })
-                list.splice(i+1, 1)
-                list.splice(j, 1)
-                k++;
-                i = k
-                j = k+1
-            }
-        }
-        else{
-            if(j == list.length-1){
-                i++
-                j = i
-            } 
-            j++
-        }
+  // Strangles and Straddles
+  searching = true;
+  i = 0, j = 1, k = 0;
+  while (searching) {
+    if (list[j] == undefined) {
+      searching == false;
+      break;
+    } else if (list[i].type == undefined && list[j].type == undefined && list[i].date == list[j].date && list[i].isCall != list[j].isCall && list[i].isLong == list[j].isLong) {
+      if (list[i].strike === list[j].strike) {
+        // Straddle
+        list.splice(k, 0, {
+          isLong: list[i].isLong,
+          date: list[i].date,
+          strike: list[i].strike,
+          dir: (list[i].isLong ? 'Neu' : 'Pin'),
+          type: 'Straddle',
+          price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+          quantity: 2,
+        });
+        list.splice(i + 1, 1);
+        list.splice(j, 1);
+        k++;
+        i = k;
+        j = k + 1;
+      } else {
+        // Strangle
+        list.splice(k, 0, {
+          isLong: list[i].isLong,
+          date: list[i].date,
+          upper: list[i].strike,
+          lower: list[j].strike,
+          dir: (list[i].isLong ? 'Neu' : 'Pin'),
+          type: 'Strangle',
+          price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+          quantity: 2,
+        });
+        list.splice(i + 1, 1);
+        list.splice(j, 1);
+        k++;
+        i = k;
+        j = k + 1;
+      }
+    } else {
+      if (j == list.length - 1) {
+        i++;
+        j = i;
+      }
+      j++;
     }
+  }
 
-    //Synthetics
-    searching = true;
-    i = 0, j = 1, k = 0;
-    while(searching){
-        if(list[j] == undefined){
-            searching == false;
-            break;
-        }
-        else if(list[i].type == undefined && list[j].type == undefined && list[i].isCall != list[j].isCall && list[i].isLong != list[j].isLong){
-            list.splice(k, 0 ,{
-                isLong: (list[i].isLong ? list[i].isCall : list[j].isCall ) ,
-                date: list[i].date, 
-                upper: list[i].strike, 
-                lower: list[j].strike, 
-                dir: (list[i].isLong ? (list[i].isCall ? "Bull" : "Bear") : (list[i].isCall ? "Bear" : "Bull")),
-                type: "Synthetic",
-                price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice, 
-                quantity: 2
-            })
-            list.splice(i+1, 1)
-            list.splice(j, 1)
-            k++;
-            i = k
-            j = k+1
-        }
-        else{
-            if(j == list.length-1){
-                i++
-                j = i
-            } 
-            j++
-        }
+  // Synthetics
+  searching = true;
+  i = 0, j = 1, k = 0;
+  while (searching) {
+    if (list[j] == undefined) {
+      searching == false;
+      break;
+    } else if (list[i].type == undefined && list[j].type == undefined && list[i].isCall != list[j].isCall && list[i].isLong != list[j].isLong) {
+      list.splice(k, 0, {
+        isLong: (list[i].isLong ? list[i].isCall : list[j].isCall),
+        date: list[i].date,
+        upper: list[i].strike,
+        lower: list[j].strike,
+        dir: (list[i].isLong ? (list[i].isCall ? 'Bull' : 'Bear') : (list[i].isCall ? 'Bear' : 'Bull')),
+        type: 'Synthetic',
+        price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+        quantity: 2,
+      });
+      list.splice(i + 1, 1);
+      list.splice(j, 1);
+      k++;
+      i = k;
+      j = k + 1;
+    } else {
+      if (j == list.length - 1) {
+        i++;
+        j = i;
+      }
+      j++;
     }
+  }
 
-    //1 Legged Remainers
-    searching = true;
-    i = 0;
-    while(searching){
-        if(list[i] == undefined){
-            searching == false;
-            break;
-        }
-        else if(list[i].type == undefined){
-            list[i] = {
-                type : (list[i].isCall ? 'Call' : "Put"),
-                dir: (list[i].isLong ? (list[i].isCall ? "Bull": "Bear"): (list[i].isCall? "Bear":"Bull")),
-                isCall: list[i].isCall,
-                isLong: list[i].isLong,
-                date: list[i].date,
-                strike: list[i].strike,
-                price: (list[i].isLong?1:-1) * list[i].limitPrice, 
-                quantity: 1
-            }
-        }
-        i++
+  // 1 Legged Remainers
+  searching = true;
+  i = 0;
+  while (searching) {
+    if (list[i] == undefined) {
+      searching == false;
+      break;
+    } else if (list[i].type == undefined) {
+      list[i] = {
+        type: (list[i].isCall ? 'Call' : 'Put'),
+        dir: (list[i].isLong ? (list[i].isCall ? 'Bull' : 'Bear') : (list[i].isCall ? 'Bear' : 'Bull')),
+        isCall: list[i].isCall,
+        isLong: list[i].isLong,
+        date: list[i].date,
+        strike: list[i].strike,
+        price: (list[i].isLong ? 1 : -1) * list[i].limitPrice,
+        quantity: 1,
+      };
     }
+    i++;
+  }
 
-    return list
+  return list;
 }

@@ -1,0 +1,609 @@
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\about.js
+   4:1  error  Component should be written as a pure function         react/prefer-stateless-function
+   5:3  error  Useless constructor                                    no-useless-constructor
+  12:7  error  JSX not allowed in files with extension '.js'          react/jsx-filename-extension
+  21:1  error  This line has a length of 139. Maximum allowed is 100  max-len
+  22:1  error  This line has a length of 161. Maximum allowed is 100  max-len
+  52:1  error  This line has a length of 143. Maximum allowed is 100  max-len
+  59:1  error  This line has a length of 109. Maximum allowed is 100  max-len
+  60:1  error  This line has a length of 155. Maximum allowed is 100  max-len
+  66:1  error  This line has a length of 141. Maximum allowed is 100  max-len
+  67:1  error  This line has a length of 134. Maximum allowed is 100  max-len
+  68:1  error  This line has a length of 134. Maximum allowed is 100  max-len
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\app.js
+  46:9  error  Parsing error: Unexpected token =
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\calc.js
+  56:23  error  Parsing error: Unexpected token =
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\graphs.js
+  61:17  error  Parsing error: Unexpected token =
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\help-tooltip.js
+   7:1   error  Component should be written as a pure function            react/prefer-stateless-function
+   8:3   error  Useless constructor                                       no-useless-constructor
+  12:3   error  Expected to return a value at the end of method 'render'  consistent-return
+  13:10  error  Must use destructuring props assignment                   react/destructuring-assignment
+  13:21  error  'hide' is missing in props validation                     react/prop-types
+  15:9   error  JSX not allowed in files with extension '.js'             react/jsx-filename-extension
+  15:27  error  Must use destructuring props assignment                   react/destructuring-assignment
+  15:38  error  'content' is missing in props validation                  react/prop-types
+  15:54  error  Must use destructuring props assignment                   react/destructuring-assignment
+  15:65  error  'title' is missing in props validation                    react/prop-types
+  23:10  error  Prefer default export                                     import/prefer-default-export
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\stock-symbol.js
+  34:14  error  Parsing error: Unexpected token =
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\strategy-info.js
+   8:30  error    Unexpected use of file extension "js" for "../jsLib/optionsMathLibrary.js"                                                                                                 import/extensions
+  10:30  error    Expected to return a value at the end of arrow function                                                                                                                    consistent-return
+  25:7   error    'listRedux' is assigned a value but never used                                                                                                                             no-unused-vars
+  27:3   error    iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+  28:42  error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  40:25  error    'optionsSelected' is missing in props validation                                                                                                                           react/prop-types
+  40:42  error    'mergedOptions' is missing in props validation                                                                                                                             react/prop-types
+  41:3   error    Assignment to function parameter 'optionsSelected'                                                                                                                         no-param-reassign
+  41:37  error    'optionsSelected.filter' is missing in props validation                                                                                                                    react/prop-types
+  43:3   warning  Unexpected console statement                                                                                                                                               no-console
+  52:26  error    'mergedOptions.limitPrice' is missing in props validation                                                                                                                  react/prop-types
+  57:5   error    JSX not allowed in files with extension '.js'                                                                                                                              react/jsx-filename-extension
+  67:31  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                            react/no-unescaped-entities
+  76:31  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  82:7   error    Emojis should be wrapped in <span>, have role="img", and have an accessible description with aria-label or aria-labelledby                                                 jsx-a11y/accessible-emoji
+  87:10  error    Prefer default export                                                                                                                                                      import/prefer-default-export
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\help.js
+  17:11  error  Parsing error: Unexpected token =
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\home.js
+  24:25  error  Parsing error: Unexpected token =
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\colorLibrary.js
+   1:1   error  Prefer default export                                                    import/prefer-default-export
+   1:17  error  Expected to return a value at the end of function 'hexColorFromPercent'  consistent-return
+   3:12  error  'colorToHex' was used before it was defined                              no-use-before-define
+   6:12  error  'colorToHex' was used before it was defined                              no-use-before-define
+   6:34  error  Unexpected mix of '/' and '*'                                            no-mixed-operators
+   6:40  error  Unexpected mix of '/' and '*'                                            no-mixed-operators
+   9:12  error  'colorToHex' was used before it was defined                              no-use-before-define
+  12:1   error  This line has a length of 103. Maximum allowed is 100                    max-len
+  12:12  error  'colorToHex' was used before it was defined                              no-use-before-define
+  15:12  error  'colorToHex' was used before it was defined                              no-use-before-define
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\optionsMathLibrary.js
+   19:3    error    Assignment to function parameter 'x'                                                                                                                                       no-param-reassign
+   40:5    error    'd1' is already declared in the upper scope                                                                                                                                no-shadow
+   41:9    error    'd2' is already declared in the upper scope                                                                                                                                no-shadow
+   43:9    error    Identifier 'p_low' is not in camel case                                                                                                                                    camelcase
+   44:5    error    Identifier 'p_high' is not in camel case                                                                                                                                   camelcase
+   44:18   error    Identifier 'p_low' is not in camel case                                                                                                                                    camelcase
+   51:18   error    Identifier 'p_low' is not in camel case                                                                                                                                    camelcase
+   53:1    error    This line has a length of 118. Maximum allowed is 100                                                                                                                      max-len
+   54:19   error    Identifier 'p_high' is not in camel case                                                                                                                                   camelcase
+   57:1    error    This line has a length of 133. Maximum allowed is 100                                                                                                                      max-len
+   57:71   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+   57:75   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+   60:1    error    This line has a length of 119. Maximum allowed is 100                                                                                                                      max-len
+   67:12   error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+   67:37   error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+   67:55   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+   67:59   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+   79:1    error    This line has a length of 113. Maximum allowed is 100                                                                                                                      max-len
+   84:1    error    This line has a length of 102. Maximum allowed is 100                                                                                                                      max-len
+   84:33   error    'Math.pow' is restricted from being used. Use the exponentiation operator (**) instead                                                                                     no-restricted-properties
+   85:1    error    This line has a length of 102. Maximum allowed is 100                                                                                                                      max-len
+   85:33   error    'Math.pow' is restricted from being used. Use the exponentiation operator (**) instead                                                                                     no-restricted-properties
+   93:17   error    Expected to return a value at the end of function 'delta'                                                                                                                  consistent-return
+   95:1    error    This line has a length of 115. Maximum allowed is 100                                                                                                                      max-len
+   98:1    error    This line has a length of 121. Maximum allowed is 100                                                                                                                      max-len
+  103:1    error    This line has a length of 152. Maximum allowed is 100                                                                                                                      max-len
+  103:58   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  103:113  error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  106:17   error    Expected to return a value at the end of function 'theta'                                                                                                                  consistent-return
+  108:1    error    This line has a length of 161. Maximum allowed is 100                                                                                                                      max-len
+  108:30   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  108:88   error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  108:109  error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  109:1    error    This line has a length of 124. Maximum allowed is 100                                                                                                                      max-len
+  111:7    error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  114:1    error    This line has a length of 161. Maximum allowed is 100                                                                                                                      max-len
+  114:30   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  114:88   error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  114:109  error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  115:1    error    This line has a length of 129. Maximum allowed is 100                                                                                                                      max-len
+  116:1    error    This line has a length of 105. Maximum allowed is 100                                                                                                                      max-len
+  117:7    error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  122:1    error    This line has a length of 151. Maximum allowed is 100                                                                                                                      max-len
+  122:28   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  122:46   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  122:46   error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  122:52   error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  125:17   error    Expected to return a value at the end of function 'rho'                                                                                                                    consistent-return
+  127:1    error    This line has a length of 127. Maximum allowed is 100                                                                                                                      max-len
+  127:30   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  127:34   error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  127:34   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  127:40   error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  130:1    error    This line has a length of 133. Maximum allowed is 100                                                                                                                      max-len
+  130:30   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  130:34   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  130:34   error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  130:41   error    Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  146:30   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  146:34   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  146:39   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  146:55   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  148:5    error    'vega' is already declared in the upper scope                                                                                                                              no-shadow
+  149:1    error    This line has a length of 110. Maximum allowed is 100                                                                                                                      max-len
+  149:30   error    'calculateOptionsPrice' was used before it was defined                                                                                                                     no-use-before-define
+  151:1    error    This line has a length of 129. Maximum allowed is 100                                                                                                                      max-len
+  160:1    error    This line has a length of 129. Maximum allowed is 100                                                                                                                      max-len
+  163:1    error    This line has a length of 112. Maximum allowed is 100                                                                                                                      max-len
+  163:32   error    'calculateOptionsPrice' was used before it was defined                                                                                                                     no-use-before-define
+  164:5    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  166:30   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  166:34   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  166:39   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  166:55   error    Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  167:1    error    This line has a length of 187. Maximum allowed is 100                                                                                                                      max-len
+  169:11   error    All 'var' declarations must be at the top of the function scope                                                                                                            vars-on-top
+  169:11   error    Unexpected var, use let or const instead                                                                                                                                   no-var
+  169:15   error    'd' used outside of binding context                                                                                                                                        block-scoped-var
+  171:11   error    Unexpected var, use let or const instead                                                                                                                                   no-var
+  171:11   error    All 'var' declarations must be at the top of the function scope                                                                                                            vars-on-top
+  171:15   error    'd' is already defined                                                                                                                                                     no-redeclare
+  171:15   error    'd' used outside of binding context                                                                                                                                        block-scoped-var
+  173:1    error    This line has a length of 161. Maximum allowed is 100                                                                                                                      max-len
+  173:89   error    'Math.pow' is restricted from being used. Use the exponentiation operator (**) instead                                                                                     no-restricted-properties
+  173:98   error    'd' used outside of binding context                                                                                                                                        block-scoped-var
+  173:98   error    'd' used outside of binding context                                                                                                                                        block-scoped-var
+  173:139  error    'd' used outside of binding context                                                                                                                                        block-scoped-var
+  173:139  error    'd' used outside of binding context                                                                                                                                        block-scoped-var
+  187:1    error    This line has a length of 221. Maximum allowed is 100                                                                                                                      max-len
+  189:1    error    This line has a length of 236. Maximum allowed is 100                                                                                                                      max-len
+  197:17   error    Expected to return a value at the end of function 'calculateProfitAtExpiry'                                                                                                consistent-return
+  217:3    error    iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+  219:5    warning  Unexpected console statement                                                                                                                                               no-console
+  221:29   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  221:55   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  224:29   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  227:29   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  233:5    warning  Unexpected console statement                                                                                                                                               no-console
+  246:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  247:7    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  247:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  249:1    error    This line has a length of 184. Maximum allowed is 100                                                                                                                      max-len
+  249:29   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  249:58   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  249:129  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  249:165  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  258:1    error    This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
+  263:7    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  267:13   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  268:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  271:7    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  277:3    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  277:8    error    Unexpected use of comma operator                                                                                                                                           no-sequences
+  279:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  280:7    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  280:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  282:29   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  282:61   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  282:90   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  282:154  error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  282:185  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  283:25   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  283:59   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  291:32   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  291:57   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  292:30   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  292:55   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  299:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  302:32   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  302:66   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  308:32   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  308:57   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  309:30   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  309:55   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  316:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  319:32   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  319:66   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  327:32   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  327:57   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  328:30   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  328:55   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  335:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  339:29   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  339:61   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  339:125  error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  339:156  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  340:25   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  340:59   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  348:32   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  348:57   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  350:30   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  350:55   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  357:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  360:32   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  360:66   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  368:32   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  368:57   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  370:30   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  370:55   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  377:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  382:13   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  383:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  386:7    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  392:3    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  392:8    error    Unexpected use of comma operator                                                                                                                                           no-sequences
+  394:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  395:7    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  395:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  397:1    error    This line has a length of 181. Maximum allowed is 100                                                                                                                      max-len
+  397:29   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  397:58   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  397:126  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  397:162  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  404:15   error    Do not nest ternary expressions                                                                                                                                            no-nested-ternary
+  406:1    error    This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
+  411:7    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  415:13   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  416:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  419:7    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  425:3    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  425:8    error    Unexpected use of comma operator                                                                                                                                           no-sequences
+  427:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  428:7    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  428:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  430:1    error    This line has a length of 213. Maximum allowed is 100                                                                                                                      max-len
+  430:29   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  430:58   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  430:87   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  430:158  error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  430:194  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  438:1    error    This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
+  443:7    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  447:13   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  448:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  451:7    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  457:3    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  457:8    error    Unexpected use of comma operator                                                                                                                                           no-sequences
+  459:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  460:7    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  460:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  462:1    error    This line has a length of 176. Maximum allowed is 100                                                                                                                      max-len
+  462:29   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  462:58   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  462:87   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  462:121  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  462:157  error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  471:1    error    This line has a length of 113. Maximum allowed is 100                                                                                                                      max-len
+  476:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  488:1    error    This line has a length of 113. Maximum allowed is 100                                                                                                                      max-len
+  493:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  498:13   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  499:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  502:7    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  508:3    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  508:8    error    Unexpected use of comma operator                                                                                                                                           no-sequences
+  510:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  511:7    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  511:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  513:1    error    This line has a length of 144. Maximum allowed is 100                                                                                                                      max-len
+  513:29   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  513:58   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  513:89   error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  513:125  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  519:15   error    Do not nest ternary expressions                                                                                                                                            no-nested-ternary
+  521:1    error    This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
+  526:7    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  530:13   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  531:9    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  534:7    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+  542:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  543:7    error    Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  543:17   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  545:29   error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  548:15   error    Do not nest ternary expressions                                                                                                                                            no-nested-ternary
+  557:5    error    Unary operator '++' used                                                                                                                                                   no-plusplus
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\outliers.js
+    9:3   error    iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+   19:3   error    iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+   20:12  error    'Math.pow' is restricted from being used. Use the exponentiation operator (**) instead                                                                                     no-restricted-properties
+   23:5   warning  Unexpected console statement                                                                                                                                               no-console
+   34:23  error    'Math.pow' is restricted from being used. Use the exponentiation operator (**) instead                                                                                     no-restricted-properties
+   39:1   error    This line has a length of 117. Maximum allowed is 100                                                                                                                      max-len
+   43:3   warning  Unexpected console statement                                                                                                                                               no-console
+   44:3   warning  Unexpected console statement                                                                                                                                               no-console
+   48:39  error    Unary operator '++' used                                                                                                                                                   no-plusplus
+   48:45  error    Unexpected tab character                                                                                                                                                   no-tabs
+   49:5   error    'pdf' is not defined                                                                                                                                                       no-undef
+   50:5   error    'ratio' is not defined                                                                                                                                                     no-undef
+   52:9   error    'ratio' is not defined                                                                                                                                                     no-undef
+   52:17  error    'pdf' is not defined                                                                                                                                                       no-undef
+   52:27  error    Unexpected tab character                                                                                                                                                   no-tabs
+   53:7   error    Assignment to property of function parameter 'dataset'                                                                                                                     no-param-reassign
+   56:5   warning  Unexpected console statement                                                                                                                                               no-console
+   57:1   error    This line has a length of 109. Maximum allowed is 100                                                                                                                      max-len
+   58:5   warning  Unexpected console statement                                                                                                                                               no-console
+   58:30  error    'ratio' is not defined                                                                                                                                                     no-undef
+   58:44  error    'pdf' is not defined                                                                                                                                                       no-undef
+   66:39  error    Unary operator '++' used                                                                                                                                                   no-plusplus
+   67:34  error    Unary operator '++' used                                                                                                                                                   no-plusplus
+   77:70  error    Unexpected tab character                                                                                                                                                   no-tabs
+   79:5   warning  Unexpected console statement                                                                                                                                               no-console
+   84:3   error    All 'var' declarations must be at the top of the function scope                                                                                                            vars-on-top
+   84:3   error    Unexpected var, use let or const instead                                                                                                                                   no-var
+   94:8   error    Unexpected var, use let or const instead                                                                                                                                   no-var
+   94:8   error    All 'var' declarations must be at the top of the function scope                                                                                                            vars-on-top
+   94:12  error    'exp' is already defined                                                                                                                                                   no-redeclare
+   94:43  error    Unary operator '++' used                                                                                                                                                   no-plusplus
+   95:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+   95:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+   96:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+   96:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+   97:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+   97:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+   99:1   error    This line has a length of 106. Maximum allowed is 100                                                                                                                      max-len
+   99:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+   99:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+   99:6   error    iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+   99:11  error    'strike' is not defined                                                                                                                                                    no-undef
+   99:39  error    Unexpected tab character                                                                                                                                                   no-tabs
+  100:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  100:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  100:20  error    'strike' is not defined                                                                                                                                                    no-undef
+  101:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  101:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  101:20  error    'strike' is not defined                                                                                                                                                    no-undef
+  102:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  102:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  102:21  error    'strike' is not defined                                                                                                                                                    no-undef
+  103:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  103:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  103:7   error    'strike' is not defined                                                                                                                                                    no-undef
+  104:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  104:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  106:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  106:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  107:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  107:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  108:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  108:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  109:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  109:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  110:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  110:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  112:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  112:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  113:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  113:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  114:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  114:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  115:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  115:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+  116:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
+  116:5   error    Unexpected tab character                                                                                                                                                   no-tabs
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\outliersLibrary.js
+   5:3   error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+  17:3   error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+  18:12  error  'Math.pow' is restricted from being used. Use the exponentiation operator (**) instead                                                                                     no-restricted-properties
+  35:23  error  'Math.pow' is restricted from being used. Use the exponentiation operator (**) instead                                                                                     no-restricted-properties
+  51:39  error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  52:34  error  Unary operator '++' used                                                                                                                                                   no-plusplus
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\structuresEditingLibrary.js
+   3:3  error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+  11:3  error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\timeLibrary.js
+   1:7   error  Identifier 'ms_per_day' is not in camel case  camelcase
+  10:38  error  Identifier 'ms_per_day' is not in camel case  camelcase
+  32:3   error  Assignment to function parameter 'strDate'    no-param-reassign
+  37:3   error  Assignment to function parameter 'strDate'    no-param-reassign
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\treasuryLibrary.js
+   3:1   error  This line has a length of 119. Maximum allowed is 100  max-len
+  18:28  error  Expected '!==' and instead saw '!='                    eqeqeq
+  19:45  error  Unexpected mix of '*' and '/'                          no-mixed-operators
+  19:72  error  Unexpected mix of '*' and '/'                          no-mixed-operators
+  25:60  error  Missing radix parameter                                radix
+  25:94  error  Expected '!==' and instead saw '!='                    eqeqeq
+  29:21  error  Expected '===' and instead saw '=='                    eqeqeq
+  29:36  error  Expected '===' and instead saw '=='                    eqeqeq
+  33:3   error  Assignment to function parameter 'yields'              no-param-reassign
+  39:42  error  Unary operator '++' used                               no-plusplus
+  41:1   error  This line has a length of 104. Maximum allowed is 100  max-len
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\treasuryOutputs.js
+   1:7   error    'yields' is assigned a value but never used                 no-unused-vars
+  14:1   error    'expireTime' is not defined                                 no-undef
+  15:1   error    'rightYield' is not defined                                 no-undef
+  19:1   error    This line has a length of 119. Maximum allowed is 100       max-len
+  21:10  error    Expected to return a value at the end of function 'getInt'  consistent-return
+  31:3   warning  Unexpected console statement                                no-console
+  34:28  error    Expected '!==' and instead saw '!='                         eqeqeq
+  35:45  error    Unexpected mix of '*' and '/'                               no-mixed-operators
+  35:72  error    Unexpected mix of '*' and '/'                               no-mixed-operators
+  40:10  error    'getRightYield' is defined but never used                   no-unused-vars
+  40:24  error    'yields' is already declared in the upper scope             no-shadow
+  41:3   error    Assignment to function parameter 'yields'                   no-param-reassign
+  41:62  error    Missing radix parameter                                     radix
+  41:96  error    Expected '!==' and instead saw '!='                         eqeqeq
+  42:3   warning  Unexpected console statement                                no-console
+  45:38  error    Unary operator '++' used                                    no-plusplus
+  47:1   error    This line has a length of 104. Maximum allowed is 100       max-len
+  49:11  error    Expected '===' and instead saw '=='                         eqeqeq
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\login.js
+   6:3  error  'Button' is defined but never used             no-unused-vars
+  10:3  error  Useless constructor                            no-useless-constructor
+  16:7  error  JSX not allowed in files with extension '.js'  react/jsx-filename-extension
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\watch.js
+   3:1  error  Component should be written as a pure function  react/prefer-stateless-function
+   4:3  error  Useless constructor                             no-useless-constructor
+  10:7  error  JSX not allowed in files with extension '.js'   react/jsx-filename-extension
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\app.js
+    5:7   error    'env' is assigned a value but never used                                                                                                                                   no-unused-vars
+    8:20  error    'body-parser' should be listed in the project's dependencies. Run 'npm i -S body-parser' to add it                                                                         import/no-extraneous-dependencies
+   17:20  error    `express-fileupload` import should occur before import of `./js/realTimeData.js`                                                                                           import/order
+   35:1   error    iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+   41:26  error    'res' is defined but never used                                                                                                                                            no-unused-vars
+   93:32  error    'res' is defined but never used                                                                                                                                            no-unused-vars
+  103:27  error    'next' is defined but never used                                                                                                                                           no-unused-vars
+  107:24  warning  Unexpected console statement                                                                                                                                               no-console
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\realTimeData.js
+   17:41  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+   18:9   error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
+   20:11  error  'price' is not defined                                                                                                                                                     no-undef
+   21:11  error  'change' is not defined                                                                                                                                                    no-undef
+   22:11  error  Unexpected use of 'name'                                                                                                                                                   no-restricted-globals
+   22:11  error  Read-only global 'name' should not be modified                                                                                                                             no-global-assign
+   23:11  error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
+   23:20  error  'price' is not defined                                                                                                                                                     no-undef
+   23:27  error  'change' is not defined                                                                                                                                                    no-undef
+   23:35  error  Unexpected use of 'name'                                                                                                                                                   no-restricted-globals
+   26:11  error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
+   50:41  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+   51:9   error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
+   52:39  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+   53:11  error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
+   54:11  error  'bodyLen' is not defined                                                                                                                                                   no-undef
+   56:11  error  'index' is not defined                                                                                                                                                     no-undef
+   57:11  error  Move function declaration to function body root                                                                                                                            no-inner-declarations
+   58:34  error  'index' is not defined                                                                                                                                                     no-undef
+   59:13  error  Unary operator '++' used                                                                                                                                                   no-plusplus
+   59:13  error  'index' is not defined                                                                                                                                                     no-undef
+   60:17  error  'index' is not defined                                                                                                                                                     no-undef
+   60:26  error  'bodyLen' is not defined                                                                                                                                                   no-undef
+   63:61  error  'index' is not defined                                                                                                                                                     no-undef
+   67:57  error  'index' is not defined                                                                                                                                                     no-undef
+   91:41  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+   92:9   error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
+  119:25  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  120:11  error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
+  132:9   error  'newData' is not defined                                                                                                                                                   no-undef
+  133:9   error  'strikes' is not defined                                                                                                                                                   no-undef
+  134:9   error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+  134:14  error  'option' is not defined                                                                                                                                                    no-undef
+  135:16  error  'strikes' is not defined                                                                                                                                                   no-undef
+  135:33  error  'option' is not defined                                                                                                                                                    no-undef
+  136:13  error  'strikes' is not defined                                                                                                                                                   no-undef
+  136:26  error  'option' is not defined                                                                                                                                                    no-undef
+  137:13  error  'newData' is not defined                                                                                                                                                   no-undef
+  138:23  error  'option' is not defined                                                                                                                                                    no-undef
+  139:19  error  'option' is not defined                                                                                                                                                    no-undef
+  139:38  error  'option' is not defined                                                                                                                                                    no-undef
+  140:16  error  'option' is not defined                                                                                                                                                    no-undef
+  140:32  error  'option' is not defined                                                                                                                                                    no-undef
+  140:45  error  'option' is not defined                                                                                                                                                    no-undef
+  141:19  error  'option' is not defined                                                                                                                                                    no-undef
+  141:38  error  'option' is not defined                                                                                                                                                    no-undef
+  142:19  error  'option' is not defined                                                                                                                                                    no-undef
+  142:38  error  'option' is not defined                                                                                                                                                    no-undef
+  144:19  error  'option' is not defined                                                                                                                                                    no-undef
+  144:37  error  'option' is not defined                                                                                                                                                    no-undef
+  145:40  error  'option' is not defined                                                                                                                                                    no-undef
+  148:13  error  'newData' is not defined                                                                                                                                                   no-undef
+  148:26  error  Function declared in a loop contains unsafe references to variable(s) 'option'                                                                                             no-loop-func
+  148:46  error  'option' is not defined                                                                                                                                                    no-undef
+  148:64  error  'option' is not defined                                                                                                                                                    no-undef
+  148:84  error  'option' is not defined                                                                                                                                                    no-undef
+  149:1   error  This line has a length of 118. Maximum allowed is 100                                                                                                                      max-len
+  149:13  error  'newData' is not defined                                                                                                                                                   no-undef
+  149:26  error  Function declared in a loop contains unsafe references to variable(s) 'option'                                                                                             no-loop-func
+  149:46  error  'option' is not defined                                                                                                                                                    no-undef
+  149:61  error  'option' is not defined                                                                                                                                                    no-undef
+  149:78  error  'option' is not defined                                                                                                                                                    no-undef
+  149:91  error  'option' is not defined                                                                                                                                                    no-undef
+  150:13  error  'newData' is not defined                                                                                                                                                   no-undef
+  150:26  error  Function declared in a loop contains unsafe references to variable(s) 'option'                                                                                             no-loop-func
+  150:46  error  'option' is not defined                                                                                                                                                    no-undef
+  150:64  error  'option' is not defined                                                                                                                                                    no-undef
+  150:84  error  'option' is not defined                                                                                                                                                    no-undef
+  151:13  error  'newData' is not defined                                                                                                                                                   no-undef
+  151:26  error  Function declared in a loop contains unsafe references to variable(s) 'option'                                                                                             no-loop-func
+  151:46  error  'option' is not defined                                                                                                                                                    no-undef
+  151:64  error  'option' is not defined                                                                                                                                                    no-undef
+  151:84  error  'option' is not defined                                                                                                                                                    no-undef
+  153:13  error  'newData' is not defined                                                                                                                                                   no-undef
+  153:26  error  Function declared in a loop contains unsafe references to variable(s) 'option'                                                                                             no-loop-func
+  153:46  error  'option' is not defined                                                                                                                                                    no-undef
+  153:64  error  'option' is not defined                                                                                                                                                    no-undef
+  153:83  error  'option' is not defined                                                                                                                                                    no-undef
+  157:18  error  'newData' is not defined                                                                                                                                                   no-undef
+  171:16  error  'getDateFromYearsAgo' is not defined                                                                                                                                       no-undef
+  172:14  error  'getDateFromYearsAgo' is not defined                                                                                                                                       no-undef
+  182:7   error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
+  183:16  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  183:45  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  207:7   error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
+  208:7   error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
+  209:7   error  'dividend' is not defined                                                                                                                                                  no-undef
+  214:7   error  'keys' is not defined                                                                                                                                                      no-undef
+  215:29  error  'keys' is not defined                                                                                                                                                      no-undef
+  215:51  error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  216:29  error  'keys' is not defined                                                                                                                                                      no-undef
+  216:61  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  217:11  error  'dividend' is not defined                                                                                                                                                  no-undef
+  217:56  error  'keys' is not defined                                                                                                                                                      no-undef
+  221:16  error  'dividend' is not defined                                                                                                                                                  no-undef
+  227:10  error  'zip' is defined but never used                                                                                                                                            no-unused-vars
+  228:10  error  Use the spread operator instead of '.apply()'                                                                                                                              prefer-spread
+  231:1   error  'getDateFromYearsAgo' is not defined                                                                                                                                       no-undef
+  232:3   error  'd' is not defined                                                                                                                                                         no-undef
+  233:13  error  'd' is not defined                                                                                                                                                         no-undef
+  233:41  error  'd' is not defined                                                                                                                                                         no-undef
+  233:79  error  'd' is not defined                                                                                                                                                         no-undef
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\reportBug.js
+  13:23  error  'body' is defined but never used                       no-unused-vars
+  32:11  error  'httpResponse' is defined but never used               no-unused-vars
+  32:25  error  'body' is defined but never used                       no-unused-vars
+  49:41  error  Expected '===' and instead saw '=='                    eqeqeq
+  50:9   error  Assignment to function parameter 'body'                no-param-reassign
+  57:1   error  This line has a length of 123. Maximum allowed is 100  max-len
+  61:14  error  Empty block statement                                  no-empty
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\treasuryXMLConvert.js
+   8:23  error  Expected '===' and instead saw '=='                    eqeqeq
+  10:30  error  Expected '===' and instead saw '=='                    eqeqeq
+  20:41  error  Expected '===' and instead saw '=='                    eqeqeq
+  22:9   error  'data' is not defined                                  no-undef
+  24:1   error  This line has a length of 172. Maximum allowed is 100  max-len
+  24:11  error  'data' is not defined                                  no-undef
+  24:29  error  'data' is not defined                                  no-undef
+  25:18  error  'error' is already declared in the upper scope         no-shadow
+  27:11  error  'data' is not defined                                  no-undef
+  29:18  error  'data' is not defined                                  no-undef
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\calc.test.js
+   1:1   error    'isomorphic-fetch' should be listed in the project's dependencies. Run 'npm i -S isomorphic-fetch' to add it  import/no-extraneous-dependencies
+   8:31  error    Unexpected use of file extension "js" for "../src/calc.js"                                                    import/extensions
+   8:31  error    Parse errors in imported module '../src/calc.js': Unexpected token = (56:23)                                  import/no-named-as-default
+   8:31  error    Parse errors in imported module '../src/calc.js': Unexpected token = (56:23)                                  import/no-named-as-default-member
+  13:3   warning  Test has no assertions                                                                                        jest/expect-expect
+  14:13  error    JSX not allowed in files with extension '.js'                                                                 react/jsx-filename-extension
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\optionsMath.test.js
+   1:23  error  Unexpected use of file extension "js" for "../src/jsLib/optionsMathLibrary.js"  import/extensions
+  17:1   error  This line has a length of 106. Maximum allowed is 100                           max-len
+  18:1   error  This line has a length of 108. Maximum allowed is 100                           max-len
+  20:1   error  This line has a length of 130. Maximum allowed is 100                           max-len
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\strategy-info.test.js
+  1:23  error  Unexpected use of file extension "js" for "../src/jsLib/optionsMathLibrary.js"  import/extensions
+
+c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\treasuryMath.test.js
+  1:23  error  Unexpected use of file extension "js" for "../src/jsLib/treasuryLibrary.js"  import/extensions
+
+✖ 552 problems (539 errors, 13 warnings)
+
