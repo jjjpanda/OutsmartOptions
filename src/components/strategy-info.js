@@ -39,9 +39,7 @@ const listRedux = (list) => {
 
 const StrategyInfo = ({optionsSelected, mergedOptions}) => {
     optionsSelected = optionsSelected.filter(o => !o.hide)
-
-    console.log([...optionsSelected])
-    console.log(optionsMath.extractStrategies(optionsSelected))
+    var analyzedStrategies = optionsMath.extractStrategies(optionsSelected)
     
     var state = {
         strategy: "Cost of Strategy",
@@ -50,7 +48,7 @@ const StrategyInfo = ({optionsSelected, mergedOptions}) => {
         nakedCalls: [],
         nakedPuts: [],
         assigmentRisk: [],
-        collateral: optionsMath.collateralAnalysis(optionsMath.extractStrategies(optionsSelected)) * 100,
+        collateral: optionsMath.collateralAnalysis(analyzedStrategies) * 100,
         cost: (mergedOptions.limitPrice * 100),
         severity: '#ff9900'
     }

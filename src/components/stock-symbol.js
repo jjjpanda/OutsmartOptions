@@ -2,7 +2,7 @@ import React from 'react'
 import {
     Input,
     Icon,
-    Menu, 
+    Card, 
     AutoComplete
 } from 'antd';
 const { Option, OptGroup } = AutoComplete;
@@ -20,6 +20,7 @@ class StockSymbol extends React.Component {
       super(props);
       this.state = {
         symbol:"",
+        description:"",
         exists: true,
         priceChange: 0, 
         price: 0,
@@ -64,7 +65,7 @@ class StockSymbol extends React.Component {
             this.notFound(e)
             this.setState(() => ({exists: false}), () => {this.props.updateCallback(this.state)});
           }
-          this.setState(() => ({symbol : e, price : data.price, priceChange : data.change, optionsChain: [['Empty', {}]]}), 
+          this.setState(() => ({symbol : e, price : data.price, priceChange : data.change, description: data.name, optionsChain: [['Empty', {}]]}), 
             () => {
                 post.fetchReq('/divYield', JSON.stringify({ticker: e}), (data) => {
                     this.setState(() => ({divYield : data.dividendAnnum/this.state.price}), () => {
@@ -146,6 +147,9 @@ class StockSymbol extends React.Component {
             </div>
             <div id="priceChangeBox"><Input placeholder={this.state.priceChange+"%"} disabled/></div>
           </div>
+          <Card>
+            {this.state.description}
+          </Card>
         </div>
       );
     }
