@@ -243,7 +243,9 @@ export function collateralAnalysis(stratsNamed){
     return collateral
 }
 
-export function extractStrategies(list) {
+export function extractStrategies(options) {
+
+    var list = [...options]
 
     //Spreads
     var searching = true;
