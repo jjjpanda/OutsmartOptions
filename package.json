@@ -43,6 +43,7 @@
     "reactour": "^1.15.5",
     "recharts": "^1.7.1",
     "request": "^2.88.0",
+    "selenium-webdriver": "^4.0.0-alpha.5",
     "styled-components": "^4.4.1",
     "url-loader": "^2.3.0",
     "xml-js": "^1.6.11"
@@ -77,13 +78,35 @@
     "webpack-cli": "^3.3.9"
   },
   "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest",
-      "^.+\\.jsx$": "babel-jest"
-    },
-    "moduleNameMapper": {
-      "\\.(css|less|sass|scss)$": "<rootDir>/test/styleMock.js",
-      "\\.(png|jpg|gif|svg)$": "<rootDir>/test/fileMock.js"
-    }
+    "projects":
+    [
+      {
+        "displayName":"React",
+        "transform": {
+          "^.+\\.js$": "babel-jest",
+          "^.+\\.jsx$": "babel-jest"
+        },
+        "moduleNameMapper": {
+          "\\.(css|less|sass|scss)$": "<rootDir>/test/styleMock.js",
+          "\\.(png|jpg|gif|svg)$": "<rootDir>/test/fileMock.js"
+        },
+        "coveragePathIgnorePatterns": [
+          "<rootDir>/node_modules/"
+        ],
+        "testPathIgnorePatterns" : [
+          "<rootDir>/test/nodeTests/"
+        ]
+      },
+      {
+        "displayName":"Node",
+        "testEnvironment": "node",
+        "coveragePathIgnorePatterns": [
+          "<rootDir>/node_modules/"
+        ],        
+        "testPathIgnorePatterns" : [
+          "<rootDir>/test/reactTests/"
+        ]
+      }
+    ]
   }
 }

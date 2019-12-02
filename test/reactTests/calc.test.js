@@ -5,7 +5,7 @@ import renderer from 'react-test-renderer';
 
 
 import Adapter from 'enzyme-adapter-react-16';
-import OptionsCalculator from '../src/calc.js';
+import OptionsCalculator from '../../src/calc.js';
 
 configure({ adapter: new Adapter() });
 

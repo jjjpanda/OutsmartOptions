@@ -1,4 +1,4 @@
-import * as math from '../src/jsLib/optionsMathLibrary.js';
+import * as math from '../../src/jsLib/optionsMathLibrary.js';
 
 describe('Options Math Test', () => {
   it('CNDF Math', () => {
