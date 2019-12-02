@@ -89,7 +89,7 @@ class Help extends React.Component{
                                <img alt ="outsmart" src = "https://www.thestreet.com/files/tsc/v2008/defaultImages/thestreet-picks-stockpickr.jpg" width = "100" height = "200"/>
                             }
                             actions = {[
-                                <Icon type = "youtube"/>,
+                                <a href = {"https://www.youtube.com/watch?v=A-tNkuYV4_Q&t=40s"} target="_blank"> <Icon type = "youtube" style={{ fontSize: '16px'}}/> </a>,
                                 <Icon type = "info-circle" onClick = {() => this.setModal1Visible(true)}/>,
                                 <Icon type = "book" />,
                             ]}
@@ -97,14 +97,21 @@ class Help extends React.Component{
                             The Beginning
                         </Card>
                         <Modal
-                            title = "Guide1"
+                            title = "Buying Stocks"
                             visible = {this.state.modal1Visible}
                             onOk = {() => this.setModal1Visible(false)}
                             onCancel = {() => this.setModal1Visible(false)}
                         >
                             <Carousel arrows padding = "50px" ref = "caros">
                                 <div>
-                                    <p>Ye Ye Ye</p>
+                                    <p>Buying a stock in a company gives you ownership of a <b>share</b> of that company.</p>
+                                    <p>The value of a share is a percentage of the company's profits. </p>
+                                    <p>So the more shares you own, the larger percentage of the company you own. </p>
+                                </div>
+                                <div>
+                                    <p>You want to buy stocks in companies that you believe will go up in value.</p>
+                                    <p>The more money the company makes, the more money your shares are worth.</p>
+                                    <p>The bigger the pie gets, the bigger your slice becomes.</p>
                                     <img src = "/img/b_1.gif" alt = "pie" height = "100" width = "200"></img>
                                 </div>
                                 <div>
@@ -114,10 +121,10 @@ class Help extends React.Component{
                             <Button.Group>
                                 <Button type="primary" onClick = {() => this.refs.caros.prev()}>
                                     <Icon type="left" />
-                                    Backward
+                                    Prev
                                 </Button>
                                 <Button type="primary" onClick = {() => this.refs.caros.next()}>
-                                    Forward
+                                    Next
                                     <Icon type="right" />
                                 </Button>
                             </Button.Group>
