@@ -1,5 +1,10 @@
 language: node_js
 node_js:
-  - "stable"
+- stable
 script:
-  - npm test
+- npm test
+addons: 
+  browserstack:
+      username: jjjpanda1
+      access_key: 
+        secure: tAewpEoVKWb6PSHQcmS1HSj3XC413BTd9oiTHtXEnEfDpHs163t5Gvda3MfcE9/YINKWAWehPU+mgrAkMHWeOyBpysWsc3geuBPlqI9L6a+ziQjsIYAiqxqe03jKQadYpZPCeQc0O+ggqQC7HXFKHrHbzs7iAvbdbdEbn6VFyyYEaAuduS6Gv3ZsBYZnK178V0hj+1mXwLqj+PdghS3rNFHBMIlwUqGcC+nYlXoNYP5l/zqYHSi4+GvuygS7l1vCjaQ7z5vpODCYx6gr6+2jqV1kBusMGQPZy3Nx3FXRE3X0+l99aziMwghpEIbc2LaEJc+6q70PcnhOKV18EtP8tGFTb1NLEi7iLdTNSYj0Znx7MN60Xf4N/kYaM6aDt4XJHakhvLnn33dV7GoqEqo9SECJIxzx6DpJxUU4zDtjHphV4cmShkLZn6geH69cpx/kalQ48V7aMVY+4L5m/kjE+1s2LQuZoLrDzfOB2nrQdJtUqAzRG59KteZpQV0cUnUU6bxztcXbK+9awdA1kIrUjdjVq2UMLaC+0ewMtbqgtRRnMFAX0+yvRr3oA/xMMrLI4OvdD5aoOB3JXf2G6Sr0CxMDiF+nFYqPBjnQgYxyfiFBfe5nOGxTB5WidkHCdF3tWp+YvaNOH5y9ym4DFd4ATEcRx7LWZXWyy//upXrTbF8=
