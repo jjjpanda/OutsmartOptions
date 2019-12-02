@@ -1,4 +1,5 @@
 var webdriver = require('selenium-webdriver');
+const path = require('path');
 
 // Input capabilities
 var capabilities = {
@@ -7,27 +8,34 @@ var capabilities = {
   'os' : 'Windows',
   'os_version' : '10',
   'resolution' : '1024x768',
- 'browserstack.user' : 'jjjpanda1',
- 'browserstack.key' : process.env.BROWSERSTACK,
- 'name' : 'Chrome Test'
+  'app' : process.env.BROWSERSTACK_APP_ID,
+  'browserstack.user' : 'jjjpanda1',
+  'browserstack.key' : process.env.BROWSERSTACK,
+  'name' : 'Chrome Test'
 }
 
-var driver = new webdriver.Builder().
-  usingServer('http://hub-cloud.browserstack.com/wd/hub').
-  withCapabilities(capabilities).
-  build();
+const getElementById = async (driver, id, timeout = 2000) => {
+  const el = await driver.wait(until.elementLocated(By.id(id)), timeout);
+  return await driver.wait(until.elementIsVisible(el), timeout);
+};
 
 describe('Chrome Test', () => {
-  it('Test Chrome Browser', () => {
-    driver.get('http://www.google.com').then(function(){
-      driver.findElement(webdriver.By.name('q')).sendKeys('BrowserStack\n').then(function(){
-        driver.getTitle().then(function(title) {
-          console.log(title);
-          driver.quit();
-        });
-      });
-    });
-    expect(true).toBe(true);
+  beforeAll(async () => {
+    var driver = new webdriver.Builder()
+    .usingServer('http://hub-cloud.browserstack.com/wd/hub')
+    .withCapabilities(capabilities)
+    .build();
 
+    await driver.get( "http://"+capabilities["browserstack.user"]+".browserstack.com/app.html" );
+  });
+
+  afterAll(async () => {
+    await driver.quit();
+  });
+
+  it('Chrome Test', () => {
+    const root = await getElementById(driver, "root");
+
+    expect(root).toBeDefined();
   })
 })
