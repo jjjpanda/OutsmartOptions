@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "build": "npx webpack",
     "start": "npx webpack && node server/app.js",
     "startContinuous": "npm-run-all -p createDistContinuous nodemonStart",
     "createDistContinuous": "npx webpack --watch",
