@@ -155,7 +155,7 @@ class StockSymbol extends React.Component {
                 {this.state.description != null ? this.state.description : "Please Enter a Stock Symbol"}
               </Card>
             </div>
-            <div style={{width:'1000px'}}/>
+            <div style={{width:'800px'}}/>
           </div>
         </div>
       );
