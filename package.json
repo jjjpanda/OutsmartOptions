@@ -4,9 +4,8 @@
   "description": "Y'all ever wanted to make money?",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "testNode": "jest test/nodeTests --setupFiles dotenv/config",
-    "testReact": "jest test/reactTests",
+    "test": "jest test/reactTests",
+    "testCrossBrowser": "jest test/nodeTests --setupFiles dotenv/config",
     "start": "npx webpack && node server/app.js",
     "startContinuous": "npm-run-all -p createDistContinuous nodemonStart",
     "createDistContinuous": "npx webpack --watch",
