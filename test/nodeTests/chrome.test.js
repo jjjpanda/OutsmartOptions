@@ -14,12 +14,12 @@ var capabilities = {
   'name' : 'Chrome Test'
 }
 
-const getElementById = async (driver, id, timeout = 2000) => {
+const getElementById = async (driver, id, timeout = 10000) => {
   const el = await driver.wait(webdriver.until.elementLocated(webdriver.By.id(id)), timeout);
   return await driver.wait(webdriver.until.elementIsVisible(el), timeout);
 };
 
-const getElementByName = async (drive, name, timeout = 2000) => {
+const getElementByName = async (drive, name, timeout = 10000) => {
   const el = await driver.wait(webdriver.until.elementLocated(webdriver.By.name(name)), timeout);
   return await driver.wait(webdriver.until.elementIsVisible(el), timeout);
 }
@@ -41,12 +41,14 @@ describe('Chrome Test', () => {
     await driver.quit();
   });
 
-  it('Basic Reality', () => {
+  it('Basic Reality', (done) => {
     expect(true).toBe(true);
-  })
+    done()
+  }, 10000)
 
-  it('Chrome Test', async () => {
+  it('Chrome Test', async (done) => {
     const root = await getElementById(driver, "root");
     expect(root).toBeDefined();
-  })
+    done()
+  }, 10000)
 })
