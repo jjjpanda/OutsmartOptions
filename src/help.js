@@ -26,16 +26,9 @@ class Help extends React.Component{
         Modal.info({
             title:"Lesson 1: Buying Stocks",
             content: (
-                <Carousel arrows>
-                    <div>
-                        <p></p>
-                        <img src = "/img/b_1.gif" alt = "pie" height = "150" width = "300"></img>
-                    </div>
-                    <div>
-                        <p>End lesson</p>
-                    </div>
-                 </Carousel>
-            )
+                <iframe width="500" height="300" src="https://www.youtube.com/embed/JrGp4ofULzQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            ),
+            width: 600
         });
     }
 
@@ -55,7 +48,7 @@ class Help extends React.Component{
                     </div>
                 </Carousel>
                     
-            )
+            ),
         });
     }
 
@@ -89,7 +82,7 @@ class Help extends React.Component{
                                <img alt ="outsmart" src = "https://www.thestreet.com/files/tsc/v2008/defaultImages/thestreet-picks-stockpickr.jpg" width = "100" height = "200"/>
                             }
                             actions = {[
-                                <a href = {"https://www.youtube.com/watch?v=A-tNkuYV4_Q&t=40s"} target="_blank"> <Icon type = "youtube" style={{ fontSize: '16px'}}/> </a>,
+                                <Icon type = "youtube" onClick = {() => this.guide1()}/>, 
                                 <Icon type = "info-circle" onClick = {() => this.setModal1Visible(true)}/>,
                                 <Icon type = "book" />,
                             ]}
@@ -174,7 +167,7 @@ class Help extends React.Component{
                             } 
                             actions = {[
                                 <Icon type = "youtube"/>,
-                                <Icon type = "info-circle" onClick = {() => this.guide1()}/>,
+                                <Icon type = "info-circle" onClick = {() => this.guide2()}/>,
                                 <Icon type = "book" />,
                             ]}
                         > 
@@ -223,7 +216,7 @@ class Help extends React.Component{
                             } 
                             actions = {[
                                 <Icon type = "youtube"/>,
-                                <Icon type = "info-circle" onClick = {() => this.guide1()}/>,
+                                <Icon type = "info-circle" onClick = {() => this.guide2()}/>,
                                 <Icon type = "book" />,
                             ]}
                         > 
