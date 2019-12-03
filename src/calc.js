@@ -913,7 +913,7 @@ class OptionsCalculator extends React.Component{
         disableKeyboardNavigation = {true}
         maskSpace={3}
         startAt = {0}
-        update = {'this.state'}
+        update = {JSON.stringify(this.state)}
         onAfterOpen={target => disableBodyScroll(target)}
         onBeforeClose={target => enableBodyScroll(target)}
         isOpen={this.state.isTourOpen}
