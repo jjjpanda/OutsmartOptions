@@ -15,13 +15,13 @@ var capabilities = {
 }
 
 const getElementById = async (driver, id, timeout = 2000) => {
-  const el = await driver.wait(until.elementLocated(By.id(id)), timeout);
-  return await driver.wait(until.elementIsVisible(el), timeout);
+  const el = await driver.wait(webdriver.until.elementLocated(webdriver.By.id(id)), timeout);
+  return await driver.wait(webdriver.until.elementIsVisible(el), timeout);
 };
 
 const getElementByName = async (drive, name, timeout = 2000) => {
-  const el = await driver.wait(until.elementLocated(By.name(name)), timeout);
-  return await driver.wait(until.elementIsVisible(el), timeout);
+  const el = await driver.wait(webdriver.until.elementLocated(webdriver.By.name(name)), timeout);
+  return await driver.wait(webdriver.until.elementIsVisible(el), timeout);
 }
 
 var driver;
