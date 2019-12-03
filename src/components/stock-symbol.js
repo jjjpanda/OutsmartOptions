@@ -120,7 +120,7 @@ class StockSymbol extends React.Component {
           <div className = "stockSymbol" step-name = "stock-symbol-input">
             <div id= "stockSymbolHeading">
               Stock Symbol:&nbsp;
-              <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
+              <HelpTooltip hide = {false} title = {"Stonks"} content = {"🙂 Pick a stonk, any stonk."} />
             </div>
             <div id="stockSymbolInput">
                 <div id="searchWrapper">
@@ -135,7 +135,7 @@ class StockSymbol extends React.Component {
           <div className="stockPrice" step-name = "stock-price" >
             <div id= "stockPriceHeading">
               Stock Price:&nbsp;
-              <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
+              <HelpTooltip hide = {false} title = {"Price"} content = {"Here's the stock price. United States Dollars, of course."} />
             </div> 
             <div id="stockPriceBox"><Input placeholder={"$"+this.state.price} disabled/></div>
           </div>
@@ -143,7 +143,7 @@ class StockSymbol extends React.Component {
           <div className="stockPriceChange" step-name="stock-percent-change">
             <div id= "priceChangeHeading">
               Stock Price Change:&nbsp;
-              <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
+              <HelpTooltip hide = {false} title = {"%"} content = {"Here's the percent change for the day. This begins to update at 9:30 AM EST."} />
             </div>
             <div id="priceChangeBox"><Input placeholder={this.state.priceChange+"%"} disabled/></div>
           </div>
