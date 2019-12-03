@@ -59,6 +59,7 @@
 }
 .symbol{
     display: inline-block;
+    width: 76%;
 }
 #testimony1{
     text-align: left;
