@@ -35,49 +35,42 @@ class HomePage extends React.Component{
         return (
         <body>
         <h1 class = 'text' id = 'title'>Outsmart Options</h1>
-        <div class = 'symbol'>
-            <StockSymbol updateCallback = {this.updateSearchResults} options={false} historical = {true}/>
+        <div>
+            <div class = 'symbol' >
+                <StockSymbol updateCallback = {this.updateSearchResults} options={false} historical = {true}/>
+                <br/>
+                {this.state.historical != [] && this.state.historical.length > 1 ? <NoAxisGraph data = {this.state.historical} xKey = {'date'} dataKey = {'close'}></NoAxisGraph> : null}
 
-            {this.state.historical != [] && this.state.historical.length > 1 ? <NoAxisGraph data = {this.state.historical} xKey = {'date'} dataKey = {'close'}></NoAxisGraph> : null}
-
+            </div>
+            <div id = 'twitter'>
+                <TwitterTimelineEmbed
+                    sourceType="profile"
+                    screenName="Outsmart Options"
+                    options={{height: 100}}
+                    />
+                    <a class="twitter-timeline" href="https://twitter.com/OutsmartO">Outsmart Options on Twitter</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+            <div class = 'instagram' id = 'insta1'>
+                    <InstagramEmbed
+                        url='https://www.instagram.com/p/B5S-8Tshp51/'
+                        maxWidth={320}
+                        hideCaption={false}
+                        containerTagName='div'
+                        protocol=''
+                        injectScript
+                        onLoading={() => {}}
+                        onSuccess={() => {}}
+                        onAfterRender={() => {}}
+                        onFailure={() => {}}
+                    />
+                </div>
         </div>
-        
-        
-        <h2 class = 'text' id = 'firstText'>Welcome to the future of options trading</h2>
-        <h2 class = 'text' id = 'testimony1'>This is the platform that puts the power of trading in your hands</h2>
-        <h2 class = 'text' id = 'testimony2'>"Big nut" - Warren Buffett</h2>   
-        
-
-        <div class = 'instagram' id = 'insta1'>
-            <InstagramEmbed
-                url='https://www.instagram.com/p/B5S-8Tshp51/'
-                maxWidth={320}
-                hideCaption={false}
-                containerTagName='div'
-                protocol=''
-                injectScript
-                onLoading={() => {}}
-                onSuccess={() => {}}
-                onAfterRender={() => {}}
-                onFailure={() => {}}
-            />
+        <div>
         </div>
-        
-        <div id = 'twitter'>
-             <TwitterTimelineEmbed
-                sourceType="profile"
-                screenName="Outsmart Options"
-                options={{height: 200}}
-                />
-                <a class="twitter-timeline" href="https://twitter.com/OutsmartO">Outsmart Options on Twitter</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        </div>
-
-        <img class = 'backgrounds' id = 'wavesBackground' src = {waves}></img>
-        <img class = 'backgrounds' id = 'chartBackground' src = {chart}></img>
-        <img class = 'backgrounds' id = 'profitBackground' src = {profit}></img>
-    
     </body>
     )}
 }
+
+
 
 export default HomePage
