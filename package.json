@@ -51,6 +51,7 @@
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
     "babel-jest": "^24.9.0",
@@ -78,10 +79,9 @@
     "webpack-cli": "^3.3.9"
   },
   "jest": {
-    "projects":
-    [
+    "projects": [
       {
-        "displayName":"React",
+        "displayName": "React",
         "transform": {
           "^.+\\.js$": "babel-jest",
           "^.+\\.jsx$": "babel-jest"
@@ -93,17 +93,17 @@
         "coveragePathIgnorePatterns": [
           "<rootDir>/node_modules/"
         ],
-        "testPathIgnorePatterns" : [
+        "testPathIgnorePatterns": [
           "<rootDir>/test/nodeTests/"
         ]
       },
       {
-        "displayName":"Node",
+        "displayName": "Node",
         "testEnvironment": "node",
         "coveragePathIgnorePatterns": [
           "<rootDir>/node_modules/"
-        ],        
-        "testPathIgnorePatterns" : [
+        ],
+        "testPathIgnorePatterns": [
           "<rootDir>/test/reactTests/"
         ]
       }
