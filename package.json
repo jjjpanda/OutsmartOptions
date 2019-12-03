@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest test/reactTests",
-    "testCrossBrowser": "jest test/nodeTests --setupFiles dotenv/config",
+    "testCrossBrowser": "jest test/nodeTests --setupFiles dotenv/config --runInBand",
     "start": "npx webpack && node server/app.js",
     "startContinuous": "npm-run-all -p createDistContinuous nodemonStart",
     "createDistContinuous": "npx webpack --watch",
