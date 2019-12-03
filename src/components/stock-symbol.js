@@ -106,6 +106,7 @@ class StockSymbol extends React.Component {
         if(this.props.historical){
             post.fetchReq('/historical', JSON.stringify({ticker: e}), (data) => {
                 this.setState(() => ({historical : data}), () => {
+                    console.log(this.state)
                     this.props.updateCallback(this.state)
                 })
             })

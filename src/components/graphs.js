@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend, Label, ResponsiveContainer} from 'recharts';
+import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, ComposedChart, Line, Legend, Label, ResponsiveContainer, Bar} from 'recharts';
 
 import * as timeMath from '../jsLib/timeLibrary.js'
 
@@ -25,6 +25,33 @@ class NoAxisGraph extends React.Component{
       )
     }
   
+}
+
+class BarLineComboGraph extends React.Component{
+  constructor(props){
+    super(props)
+  }
+
+  render() {
+    return (
+        <ResponsiveContainer height= {300} width='100%'>
+          <ComposedChart
+            data={this.props.data}
+            margin={{top: 10, right: 10, left: 10, bottom: 10}}
+          >
+            <XAxis dataKey={this.props.xKey} allowDecimals = {false} ></XAxis>
+
+            <YAxis yAxisId="right" dataKey={this.props.lineKey} orientation={'right'}/>
+            <YAxis yAxisId="left" dataKey={this.props.barKey} orientation={'left'}/>
+
+            <Line yAxisId="right" name = {this.props.lineKey} type="monotone" dot={false} dataKey={this.props.lineKey} stroke={'#000000'} />
+            <Bar yAxisId="left" name = {this.props.barKey} dataKey={this.props.barKey} fill={"#99ee99"}/>
+
+          </ComposedChart>
+        </ResponsiveContainer>
+    )
+  }
+
 }
 
 class ProfitGraph extends React.Component{
@@ -187,5 +214,5 @@ class ProfitGraph extends React.Component{
     }
 }
 
-export {NoAxisGraph, ProfitGraph}
+export {NoAxisGraph, BarLineComboGraph ,ProfitGraph}
   

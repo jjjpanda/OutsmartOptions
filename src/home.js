@@ -6,7 +6,7 @@ import chart from './img/graphBackground.png'
 import waves from'./img/coolWaves.png'
 import profit from'./img/profitGraph.png'
 
-import {NoAxisGraph} from './components/graphs.js'
+import {BarLineComboGraph} from './components/graphs.js'
 import {StockSymbol} from './components/stock-symbol.js'
 
 class HomePage extends React.Component{
@@ -39,7 +39,7 @@ class HomePage extends React.Component{
             <div class = 'symbol' >
                 <StockSymbol updateCallback = {this.updateSearchResults} options={false} historical = {true}/>
                 <br/>
-                {this.state.historical != [] && this.state.historical.length > 1 ? <NoAxisGraph data = {this.state.historical} xKey = {'date'} dataKey = {'close'}></NoAxisGraph> : null}
+                {this.state.historical != [] && this.state.historical.length > 1 ? <BarLineComboGraph data = {this.state.historical} xKey = {'date'} lineKey = {'close'} barKey = {'volume'} ></BarLineComboGraph> : null}
 
             </div>
             <div id = 'twitter'>
