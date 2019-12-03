@@ -5,7 +5,8 @@ module.exports = (api) => {
     ]
     const plugins =  [
         ["import", {"libraryName": "antd", "style": true} ],
-        "@babel/plugin-proposal-class-properties"
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-transform-runtime"
     ]
     return {
         presets,
