@@ -147,6 +147,7 @@ class StockSymbol extends React.Component {
               <HelpTooltip hide = {false} title = {"%"} content = {"Here's the percent change for the day. This begins to update at 9:30 AM EST."} />
             </div>
             <div id="priceChangeBox"><Input placeholder={this.state.priceChange+"%"} disabled/></div>
+            
           </div>
           <div>
             <br/>
@@ -156,7 +157,7 @@ class StockSymbol extends React.Component {
                 {this.state.description != null ? this.state.description : "Please Enter a Stock Symbol"}
               </Card>
             </div>
-            <div style={{width:'800px'}}/>
+            <div style={{width:'600px'}}/>
           </div>
         </div>
       );
