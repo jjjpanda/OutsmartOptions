@@ -20,7 +20,7 @@ class StockSymbol extends React.Component {
       super(props);
       this.state = {
         symbol:"",
-        description:"",
+        description:"Please Enter a Stock Symbol",
         exists: true,
         priceChange: 0, 
         price: 0,
@@ -147,9 +147,16 @@ class StockSymbol extends React.Component {
             </div>
             <div id="priceChangeBox"><Input placeholder={this.state.priceChange+"%"} disabled/></div>
           </div>
-          <Card>
-            {this.state.description}
-          </Card>
+          <div>
+            <br/>
+            <div style={{width:'60px', display: 'inline-block'}}/>
+            <div style={{width: '410px', display: 'inline-block'}}>
+              <Card>
+                {this.state.description != null ? this.state.description : "Please Enter a Stock Symbol"}
+              </Card>
+            </div>
+            <div style={{width:'1200px'}}/>
+          </div>
         </div>
       );
     }
