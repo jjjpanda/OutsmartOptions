@@ -876,6 +876,7 @@ class OptionsCalculator extends React.Component{
           </div>
           <div style={{width:'43px', display: 'inline-block'}}/>
           <div id= "strategyButton" ><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
+          <div style={{width:'43px', display: 'inline-block'}}/>
           <div id= "calculateButton" step-name="calculate-button"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
           <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
@@ -967,7 +968,8 @@ class OptionsLeg extends React.Component {
   render() { 
     return (
       <div className="Options Editor">
-        <div className="optionsHeadings"> 
+        <div className="optionsHeadings">
+          <div style={{width:'60px', display: 'inline-block'}}/>
           <div className= "buyWrite"  step-name = {this.props.isFirst ? "buy-or-write" : ""}>
             Buy or Write:&nbsp;{this.props.isFirst ?  (
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
@@ -976,6 +978,7 @@ class OptionsLeg extends React.Component {
               <Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange}/>
             </div>
           </div>
+          <div style={{width:'60px', display: 'inline-block'}}/>
           <div className= "contract"  step-name = {this.props.isFirst ? "contract-name" : ""}>
             Contract:&nbsp;{this.props.isFirst ?  (
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
@@ -986,12 +989,14 @@ class OptionsLeg extends React.Component {
             </div>
           </div>
           <div id= "xHeading">x</div>
+          <div style={{width:'30px', display: 'inline-block'}}/>
           <div className= "quantity"  step-name = {this.props.isFirst ? "option-quantity" : ""}>
             Quantity:&nbsp;{this.props.isFirst ?  (
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
             ) : null}
             <div id= "quantityInput"><Input id="quantity" placeholder={this.state.quantity} onChange={this.handleChange}/></div>
           </div>
+          <div style={{width:'63px', display: 'inline-block'}}/>
           <div className= "atPrice"  step-name = {this.props.isFirst ? "limit-price" : ""}>
             At Price:&nbsp;{this.props.isFirst ?  (
             <HelpTooltip hide = {false} title = {"Title"} content = {"Bruv"} />
