@@ -5,12 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-<<<<<<< HEAD
-    "build": "npx webpack",
-=======
-    "testNode" : "jest test/nodeTests",
-    "testReact" : "jest test/reactTests",
->>>>>>> 18033d76b633587a7f3ce1da61e6360baa70f6f0
+    "testNode": "jest test/nodeTests --setupFiles dotenv/config",
+    "testReact": "jest test/reactTests",
     "start": "npx webpack && node server/app.js",
     "startContinuous": "npm-run-all -p createDistContinuous nodemonStart",
     "createDistContinuous": "npx webpack --watch",
@@ -63,6 +59,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.2",
+    "browserstack-local": "^1.4.2",
     "css-loader": "^3.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
