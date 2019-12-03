@@ -7,9 +7,7 @@ const env = require('dotenv').config();
 
 var driver;
 var bs_local = new browserstack.Local();
-var bs_local_args = { 'key': capabilities.credentials["browserstack.key"], onlyAutomate: true };
-
-console.log(bs_local_args)
+var bs_local_args = { 'key': capabilities.credentials["browserstack.key"], onlyAutomate: true, logFile : 'test/nodeTests/log.txt' };
 
 const start = async () =>
   new Promise((resolve, reject) => {
@@ -45,22 +43,26 @@ for(var capability of capabilities.capabilities){
 
   describe(capability.name, () => {
 
-    beforeAll(async () => {
+    beforeAll(async (done) => {
       driver = new webdriver.Builder()
       .usingServer("http://"+capabilities.credentials["browserstack.user"]+":"+capabilities.credentials["browserstack.key"]+"@hub-cloud.browserstack.com/wd/hub")
       .withCapabilities(capability)
       .build();
     
-      await driver.get("https://outsmart.herokuapp.com");
+      await driver.get("https://outsmart.herokuapp.com").then(() => {
+        done()
+      });
+    }, 50000)
+
+    afterAll(async (done) => {
+      await driver.quit();
+      done()
     }, 10000)
 
-    afterAll(async () => {
-      await driver.close();
-    }, 10000)
-
-    it(capability.name, async () => {
+    it(capability.name, async (done) => {
       const root = await eleManip.getElementById(webdriver, driver, "root");
       expect(root).toBeDefined();
+      done()
     }, 10000)
 
   })
