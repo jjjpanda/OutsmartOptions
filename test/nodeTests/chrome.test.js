@@ -24,10 +24,12 @@ const getElementByName = async (drive, name, timeout = 2000) => {
   return await driver.wait(until.elementIsVisible(el), timeout);
 }
 
+var driver;
+
 describe('Chrome Test', () => {
 
   beforeAll(async () => {
-    var driver = new webdriver.Builder()
+    driver = new webdriver.Builder()
     .usingServer('http://hub-cloud.browserstack.com/wd/hub')
     .withCapabilities(capabilities)
     .build();
