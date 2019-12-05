@@ -51,7 +51,6 @@
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "@ant-design/dark-theme": "^1.0.3",
     "@babel/core": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.7.4",

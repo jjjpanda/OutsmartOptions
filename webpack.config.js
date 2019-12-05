@@ -28,6 +28,7 @@ module.exports = {
           options: {
             javascriptEnabled: true,
             modifyVars: {
+              "hack":`true; @import "`+ path.resolve(__dirname, 'src/css/dark-theme.less') +`";`,
               "@primary-color": "#6FaFcF"
             }
           }
