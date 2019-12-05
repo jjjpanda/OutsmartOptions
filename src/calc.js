@@ -8,6 +8,8 @@ import {
   Collapse,
   Checkbox,
   Icon,
+  Menu,
+  Dropdown,
 } from 'antd';
 const { Panel } = Collapse
 
@@ -35,6 +37,28 @@ post.fetchReq('/treasury', '', (data) => {
   yields = data;
 })
 
+function handleMenuClick(e) {
+  message.info('Click on menu item.');
+  console.log('click', e);
+}
+
+const calculateMenu = (
+  <Menu onClick={handleMenuClick}>
+    <Menu.Item key="1">
+      <Icon type="percentage" />
+      Percent Interval
+      <br/>
+      <Input />
+    </Menu.Item>
+    <Menu.Item key="2">
+      <Icon type="number" />
+      Number of Intervals
+      <br/>
+      <Input />
+    </Menu.Item>
+  </Menu>
+);
+
 class OptionsCalculator extends React.Component{
   constructor(props){
     super(props);
@@ -52,6 +76,7 @@ class OptionsCalculator extends React.Component{
       activeOptionExpiry: ""
     };
   }
+  
 
   updateSearchResults = (state) => {
     this.setState(() => ({
@@ -877,7 +902,7 @@ class OptionsCalculator extends React.Component{
           <div style={{width:'43px', display: 'inline-block'}}/>
           <div id= "strategyButton" ><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
           <div style={{width:'43px', display: 'inline-block'}}/>
-          <div id= "calculateButton" step-name="calculate-button"><Button onClick={this.calculateProfits} type="primary">Calculate</Button></div>
+          <div id= "calculateButton" step-name="calculate-button"><Dropdown.Button onClick={this.calculateProfits} type="primary" overlay={calculateMenu}>Calculate</Dropdown.Button></div>
           <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
           <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
         </div>
