@@ -11,10 +11,10 @@ module.exports = {
         create(context) {
           return {
             Identifier(node) {
-              console.log(node.parent.parent.type)
-                if(node.name == 'setState' && node.parent.parent.arguments.type != "ArrowFunctionExpression" ){
-                    context.report(node, 'setState is not function', function(fixer) {
-                      return fixer.insertTextAfter(node, "");
+                if(node.name == 'setState' && node.parent.parent.arguments[0].type != "ArrowFunctionExpression" ){
+                  //console.log(node.parent.parent.arguments[0])
+                  context.report(node, 'setState is not function', function(fixer) {  
+                    //return fixer.replaceText(node.parent.parent.arguments[0], "");
                   });
                 }
             },
