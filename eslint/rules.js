@@ -11,7 +11,7 @@ module.exports = {
         create(context) {
           return {
             Identifier(node) {
-              console.log(nsode.parent.parent.arguments)
+              console.log(node.parent.parent.type)
                 if(node.name == 'setState' && node.parent.parent.arguments.type != "ArrowFunctionExpression" ){
                     context.report(node, 'setState is not function', function(fixer) {
                       return fixer.insertTextAfter(node, "");
