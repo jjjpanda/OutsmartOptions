@@ -7,15 +7,15 @@ module.exports = {
           recommended: true,
         },
         fixable: 'code',
-        fix: function(fixer) {
-          console.log(fixer)
-        },
         schema: [],
         create(context) {
           return {
             Identifier(node) {
-                if(node.name == 'setState'){
-                    context.report(node, 'This is unexpected!');
+              console.log(nsode.parent.parent.arguments)
+                if(node.name == 'setState' && node.parent.parent.arguments.type != "ArrowFunctionExpression" ){
+                    context.report(node, 'setState is not function', function(fixer) {
+                      return fixer.insertTextAfter(node, "");
+                  });
                 }
             },
           };
