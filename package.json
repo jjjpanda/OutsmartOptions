@@ -10,8 +10,8 @@
     "startContinuous": "npm-run-all -p createDistContinuous nodemonStart",
     "createDistContinuous": "npx webpack --watch",
     "nodemonStart": "npx nodemon ./server/app.js",
-    "lint": "eslint src/**/*.js server/**/*.js test/**/*.js > lintOutput.txt",
-    "lintRemover": "eslint src/**/*.js server/**/*.js test/**/*.js --fix > lintOutput.txt"
+    "lint": "eslint src/**/*.js server/**/*.js test/**/*.js > eslint/lintOutput.txt",
+    "lintRemover": "eslint src/**/*.js server/**/*.js test/**/*.js --fix > eslint/lintOutput.txt"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "body-scroll-lock": "^2.6.4",
     "core-js": "^3.2.1",
     "dotenv": "^8.2.0",
+    "eslint-plugin-custom-rules": "file:eslint",
     "eslint-plugin-jest": "^23.1.1",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6-alpha.6",
@@ -55,6 +56,7 @@
     "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
+    "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.2",

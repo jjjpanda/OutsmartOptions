@@ -20,10 +20,13 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
+  parser: "babel-eslint",
   plugins: [
     'react',
-    'jest'
+    'jest',
+    'custom-rules'
   ],
   rules: {
+    'custom-rules/custom1' : 1
   },
 };
