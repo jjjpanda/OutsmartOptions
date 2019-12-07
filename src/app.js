@@ -35,10 +35,10 @@ fetch('https://api.ipify.org?format=jsoniuhb',
     }
   }
 )
-.then(res => res.json())
+.then(res => res.text())
 .then((data) => {
   console.log(data)
-  post.fetchReq('/track', JSON.stringify({ip : data.ip}), "")
+  post.fetchReq('/track', JSON.stringify({ip : data}), "")
   }
 );
 
