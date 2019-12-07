@@ -36,6 +36,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6-alpha.6",
     "js-cookie": "^2.2.1",
+    "mongoose": "^5.7.14",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-instagram-embed": "^1.5.0",
