@@ -10,6 +10,14 @@ const realTimeData = require('./js/realTimeData.js');
 const treasuryXML = require('./js/treasuryXMLConvert.js');
 const reportBugs = require('./js/reportBug.js');
 
+const mongoose = require('mongoose');
+
+mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, { useNewUrlParser: true })
+  .catch(error => console.log(error));
+const connection = mongoose.connection;
+connection.once('open', function() {
+    console.log("MongoDB database connection established successfully");
+})
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
