@@ -11,6 +11,11 @@ const treasuryXML = require('./js/treasuryXMLConvert.js');
 const reportBugs = require('./js/reportBug.js');
 
 const mongoose = require('mongoose');
+const passport = require("passport");
+
+const users = require("./db/users.js");
+app.use(passport.initialize());
+require("./db/passport.js")(passport);
 
 mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, { useNewUrlParser: true })
   .catch(error => console.log(error));
@@ -45,6 +50,8 @@ for (const webPath of knownPaths) {
     index: 'app.html',
   }));
 }
+
+app.use("/api/users", users);
 
 app.post('/track', (req, res) => {
   reportBugs.getIP(iptrackkey, ipUrl, req.body.ip);
