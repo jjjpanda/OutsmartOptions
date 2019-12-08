@@ -28,6 +28,7 @@
   "homepage": "https://github.com/jjjpanda/OutsmartOptions#readme",
   "dependencies": {
     "antd": "^3.23.4",
+    "bcryptjs": "^2.4.3",
     "body-scroll-lock": "^2.6.4",
     "core-js": "^3.2.1",
     "dotenv": "^8.2.0",
@@ -37,7 +38,10 @@
     "express-fileupload": "^1.1.6-alpha.6",
     "is-empty": "^1.2.0",
     "js-cookie": "^2.2.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.14",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-instagram-embed": "^1.5.0",
