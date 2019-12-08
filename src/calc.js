@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Input,
+  InputNumber,
   Button,
   Switch,
   Modal,
@@ -9,7 +10,7 @@ import {
   Checkbox,
   Icon,
   Menu,
-  Dropdown,
+  Popover,
 } from 'antd';
 const { Panel } = Collapse
 
@@ -30,6 +31,7 @@ import * as percentageColor from './jsLib/colorLibrary.js'
 import * as structure from './jsLib/structuresEditingLibrary.js'
 import * as post from './jsLib/fetchLibrary.js'
 import * as treasury from './jsLib/treasuryLibrary.js'
+import ButtonGroup from 'antd/lib/button/button-group';
 
 //Treasury Yields
 var yields;
@@ -41,23 +43,6 @@ function handleMenuClick(e) {
   message.info('Click on menu item.');
   console.log('click', e);
 }
-
-const calculateMenu = (
-  <Menu onClick={handleMenuClick}>
-    <Menu.Item key="1">
-      <Icon type="percentage" />
-      Percent Interval
-      <br/>
-      <Input />
-    </Menu.Item>
-    <Menu.Item key="2">
-      <Icon type="number" />
-      Number of Intervals
-      <br/>
-      <Input />
-    </Menu.Item>
-  </Menu>
-);
 
 class OptionsCalculator extends React.Component{
   constructor(props){
@@ -73,7 +58,9 @@ class OptionsCalculator extends React.Component{
       isTourOpen: false,
       optionsChain: [['Empty',{}]],
       optionsSelected: [],
-      activeOptionExpiry: ""
+      activeOptionExpiry: "",
+      numberIntervals : 15,
+      percentInterval : 1
     };
   }
   
@@ -284,7 +271,7 @@ class OptionsCalculator extends React.Component{
     if(selectedOptions.filter(o => !o.hide).length <= 0){
       return;
     }
-    var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
+    var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, this.state.percentInterval, this.state.numberIntervals, 0)
     for(var option of selectedOptions){
       var rfir = treasury.getRightYield(yields || [], timeMath.timeBetweenDates(timeMath.stringToDate(option.date),timeMath.getCurrentDate())) / 100
       option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong,rfir,this.state.divYield, option.iv)  
@@ -363,7 +350,7 @@ class OptionsCalculator extends React.Component{
   mergeProfits = (optionsProfits, expiry) => {
     var profitMap = []
     var d = timeMath.getCurrentDate()
-    var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, 1, 15, 0)
+    var rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, this.state.percentInterval, this.state.numberIntervals, 0)
     while(timeMath.timeBetweenDates(timeMath.stringToDate(expiry), d) > -1){
         profitMap.push([timeMath.dateToString(d),rangeOfPrices.map(function(arr) {return arr.slice();})])
         for(var price of profitMap[profitMap.length-1][1]){
@@ -836,114 +823,137 @@ class OptionsCalculator extends React.Component{
     }
 ]
 
-  render() {
-    return (
-    <div>
-      <div style={{width:'60px', paddingBottom:'20px'}}/>
-      <div style={{width:'60px', display: 'inline-block'}}/>
-      <h1 key = "mainTitle" step-name="title" style={{ width:'135px', display: 'inline-block'}}>Outsmart Options</h1>
-      <StockSymbol updateCallback = {this.updateSearchResults} yieldCurve = {yields} options={true} historical = {false}/>
-      
-      <hr id="hr" align='left'/>
+renderCalculateMenu = () => (
+  <Menu>
+    <Menu.Item key="1">
+      <InputNumber placeholder={'Percent Interval'} onPressEnter= {this.calculateProfits} onChange = {(e) => {this.setState(() => ({percentInterval : e}))}} suffix = {(
+        <Icon type="percentage" />
+      )}></InputNumber>
+    </Menu.Item>
+    <Menu.Item key="2">
+      <InputNumber placeholder = {'Number of Intervals'} onPressEnter= {this.calculateProfits} onChange = {(e) => {this.setState(() => ({numberIntervals : e}))}} suffix = {(
+        <Icon type="number" />
+      )}>
+      </InputNumber>
+    </Menu.Item>
+  </Menu>
+);
 
-      <div className="optionsList" step-name = "example-contract">{this.renderLegs()}</div>
+render() {
+  return (
+  <div>
+    <div style={{width:'60px', paddingBottom:'20px'}}/>
+    <div style={{width:'60px', display: 'inline-block'}}/>
+    <h1 key = "mainTitle" step-name="title" style={{ width:'135px', display: 'inline-block'}}>Outsmart Options</h1>
+    <StockSymbol updateCallback = {this.updateSearchResults} yieldCurve = {yields} options={true} historical = {false}/>
+    
+    <hr id="hr" align='left'/>
 
-      <div className="optionsButtons">
-          <div style={{width:'60px', display: 'inline-block'}}/>
-          <div id= "addLegButton" step-name = 'edit-leg'>
-            <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={this.openOptionsChainModal}>Edit Legs</Button>
-            <div className="addLegButtonWrapper">
-              <div>
-                <Modal
-                  title="Add Leg"
-                  centered
-                  width = {"50%"}
-                  visible={this.state.addLegModalVisible}
-                  footer = {(
-                    <Button key="ok" step-name="ok-button-modal" type="primary" onClick = {this.closeOptionsChainModal}>
-                      Ok
-                    </Button>
-                  )}
-                  onCancel = {this.closeOptionsChainModal}
-                >
-                  <div step-name = 'edit-leg-modal'>
-                    <Collapse onChange={(e) => {this.setState(() => ({activeOptionExpiry: e}))}} accordion>
-                      {this.renderOptionsChain()}
-                    </Collapse>
-                  </div>
+    <div className="optionsList" step-name = "example-contract">{this.renderLegs()}</div>
 
-                </Modal>
-              </div>
-            </div>
-          </div>
-          <div style={{width:'43px', display: 'inline-block'}}/>
-          <div id= "ivSkewButton" >
-            <Button icon="profile" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] 
-              == "Empty" ? true : false)} onClick={() => this.setIVSkewModalVisible(true)}>IV Skew</Button>
-            <div className="addLegButtonWrapper">
+    <div className="optionsButtons">
+        <div style={{width:'60px', display: 'inline-block'}}/>
+        <div id= "addLegButton" step-name = 'edit-leg'>
+          <Button icon="edit" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == "Empty" ? true : false)} onClick={this.openOptionsChainModal}>Edit Legs</Button>
+          <div className="addLegButtonWrapper">
+            <div>
               <Modal
-                title="IV Skew"
+                title="Add Leg"
                 centered
                 width = {"50%"}
-                visible={this.state.ivSkewModalVisible}
+                visible={this.state.addLegModalVisible}
                 footer = {(
-                  <Button key="ok" type="primary" onClick = {() => this.setIVSkewModalVisible(false)}>
+                  <Button key="ok" step-name="ok-button-modal" type="primary" onClick = {this.closeOptionsChainModal}>
                     Ok
                   </Button>
                 )}
-                onCancel = {() => this.setIVSkewModalVisible(false)}
+                onCancel = {this.closeOptionsChainModal}
               >
-                <Collapse accordion>
-                  {this.renderIVSkew()}
-                </Collapse>
+                <div step-name = 'edit-leg-modal'>
+                  <Collapse onChange={(e) => {this.setState(() => ({activeOptionExpiry: e}))}} accordion>
+                    {this.renderOptionsChain()}
+                  </Collapse>
+                </div>
+
               </Modal>
             </div>
           </div>
-          <div style={{width:'43px', display: 'inline-block'}}/>
-          <div id= "strategyButton" ><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
-          <div style={{width:'43px', display: 'inline-block'}}/>
-          <div id= "calculateButton" step-name="calculate-button"><Dropdown.Button onClick={this.calculateProfits} type="primary" overlay={calculateMenu}>Calculate</Dropdown.Button></div>
-          <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
-          <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
         </div>
-        <br />
-        <div>{
-          this.state.mergedOptions != undefined ?
-          (
-            <div>
-              <div className="costStrategy">
-                <StrategyInfo optionsSelected = {this.state.optionsSelected} mergedOptions = {this.state.mergedOptions}/>
-              </div>
-
-              <div className="profitGraphWrapper" step-name="profit-graph">
-                <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
-              </div>
-
-              <hr id="hr2"/>
-              <h3 style={{marginLeft:"60px"}}>Profit Table:</h3>
-              <div className="profitTableWrapper" step-name="profit-table">
-                <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{x:500}} size="small" />
-              </div>
-              <Button onClick = {this.sendCalcError}>Report Calculation Error</Button>
+        <div style={{width:'43px', display: 'inline-block'}}/>
+        <div id= "ivSkewButton" >
+          <Button icon="profile" disabled = {this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] 
+            == "Empty" ? true : false)} onClick={() => this.setIVSkewModalVisible(true)}>IV Skew</Button>
+          <div className="addLegButtonWrapper">
+            <Modal
+              title="IV Skew"
+              centered
+              width = {"50%"}
+              visible={this.state.ivSkewModalVisible}
+              footer = {(
+                <Button key="ok" type="primary" onClick = {() => this.setIVSkewModalVisible(false)}>
+                  Ok
+                </Button>
+              )}
+              onCancel = {() => this.setIVSkewModalVisible(false)}
+            >
+              <Collapse accordion>
+                {this.renderIVSkew()}
+              </Collapse>
+            </Modal>
+          </div>
+        </div>
+        <div style={{width:'43px', display: 'inline-block'}}/>
+        <div id= "strategyButton" ><Button icon="fund" onClick = {this.startTutorial}>Strategy</Button></div>
+        <div style={{width:'43px', display: 'inline-block'}}/>
+        <div id= "calculateButton" step-name="calculate-button">
+          <ButtonGroup>
+            <Button onClick={this.calculateProfits} type="primary">Calculate</Button>
+            <Popover content={this.renderCalculateMenu()} trigger="click">
+              <Button type="primary" icon="cloud"></Button>
+            </Popover>
+          </ButtonGroup>
+        </div>
+        <div id= "saveButton"><Button shape="circle" icon="save" onClick = {this.saveStrategy}/></div>
+        <div id= "savedStrategyButton"><Button shape="circle" icon="download" onClick = {this.loadStrategy}/></div>
+      </div>
+      <br />
+      <div>{
+        this.state.mergedOptions != undefined ?
+        (
+          <div>
+            <div className="costStrategy">
+              <StrategyInfo optionsSelected = {this.state.optionsSelected} mergedOptions = {this.state.mergedOptions}/>
             </div>
-          ): 
-          null
-        }</div>
-      <Tour
-        steps={this.tutorialSteps(this.state)}
-        showNavigation = {false}
-        showNumber = {false}
-        showButtons = {false}
-        showCloseButton = {false}
-        disableKeyboardNavigation = {true}
-        maskSpace={3}
-        startAt = {0}
-        update = {JSON.stringify(this.state)}
-        onAfterOpen={target => disableBodyScroll(target)}
-        onBeforeClose={target => enableBodyScroll(target)}
-        isOpen={this.state.isTourOpen}
-        onRequestClose={this.closeTutorial}
-      />
+
+            <div className="profitGraphWrapper" step-name="profit-graph">
+              <ProfitGraph data={this.state.profitGraphData} legAddition ={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter(o => o!="x")}/>
+            </div>
+
+            <hr id="hr2"/>
+            <h3 style={{marginLeft:"60px"}}>Profit Table:</h3>
+            <div className="profitTableWrapper" step-name="profit-table">
+              <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{x:500}} size="small" />
+            </div>
+            <Button onClick = {this.sendCalcError}>Report Calculation Error</Button>
+          </div>
+        ): 
+        null
+      }</div>
+    <Tour
+      steps={this.tutorialSteps(this.state)}
+      showNavigation = {false}
+      showNumber = {false}
+      showButtons = {false}
+      showCloseButton = {false}
+      disableKeyboardNavigation = {true}
+      maskSpace={3}
+      startAt = {0}
+      update = {JSON.stringify(this.state)}
+      onAfterOpen={target => disableBodyScroll(target)}
+      onBeforeClose={target => enableBodyScroll(target)}
+      isOpen={this.state.isTourOpen}
+      onRequestClose={this.closeTutorial}
+    />
     </div>);
   }
 }
