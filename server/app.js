@@ -13,15 +13,18 @@ const reportBugs = require('./js/reportBug.js');
 const mongoose = require('mongoose');
 const passport = require("passport");
 
-const users = require("./db/users.js");
+const users = require("./routes/users.js");
 app.use(passport.initialize());
 require("./db/passport.js")(passport);
 
-mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, { useNewUrlParser: true })
-  .catch(error => console.log(error));
+mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, { useNewUrlParser: true, useUnifiedTopology: true })
+  .catch(error => {
+    console.log(error)
+    console.log('MongoDB Database Did Not Connect')
+  });
 const connection = mongoose.connection;
 connection.once('open', function() {
-    console.log("MongoDB database connection established successfully");
+    console.log("MongoDB Database Connected");
 })
 
 app.use(bodyParser.urlencoded({ extended: false }));

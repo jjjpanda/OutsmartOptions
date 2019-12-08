@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken");
 const env = require('dotenv').config();
 secretOrKey = process.env.SECRETKEY
 
-const validate = require('./loginValidation.js')
+const validate = require('../db/loginValidation.js')
 
-const User = require("./models/User");
+const User = require("../db/models/User");
 
 router.post("/register", (req, res) => {
     // Form validation
