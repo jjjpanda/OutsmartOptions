@@ -1,46 +1,14 @@
 const express = require('express');
-
 const app = express();
-
 const env = require('dotenv').config();
 const path = require('path');
 
 const bodyParser = require('body-parser');
-const realTimeData = require('./js/realTimeData.js');
-const treasuryXML = require('./js/treasuryXMLConvert.js');
-const reportBugs = require('./js/reportBug.js');
-
-const mongoose = require('mongoose');
-const passport = require("passport");
-
-const users = require("./routes/users.js");
-app.use(passport.initialize());
-require("./db/passport.js")(passport);
-
-mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, { useNewUrlParser: true, useUnifiedTopology: true })
-  .catch(error => {
-    console.log(error)
-    console.log('MongoDB Database Did Not Connect')
-  });
-const connection = mongoose.connection;
-connection.once('open', function() {
-    console.log("MongoDB Database Connected");
-})
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const fileUpload = require('express-fileupload');
-
 app.use(fileUpload());
-
-const port = process.env.PORT; // change to 8181 or whatever when localhosting
-const tradikey = process.env.tradier;
-const alphakey = process.env.alpha;
-const iptrackkey = process.env.iptrack;
-
-const { bugUrl } = process.env;
-const { ipUrl } = process.env;
 
 // NECESSARY FOR CALLS IN HTML
 app.use('/css', express.static(path.join(__dirname, '../src/css')));
@@ -54,63 +22,17 @@ for (const webPath of knownPaths) {
   }));
 }
 
+const users = require("./routes/users.js");
 app.use("/api/users", users);
 
-app.post('/track', (req, res) => {
-  reportBugs.getIP(iptrackkey, ipUrl, req.body.ip);
-});
+const marketData = require("./routes/marketData.js");
+app.use("/", marketData);
 
-app.post('/price', (req, res) => {
-  const { ticker } = req.body;
-  // res.json({"test": "test"});
-  realTimeData.getData(tradikey, ticker, (data) => {
-    res.json(data);
-  });
-});
+const bugsAndReports = require('./routes/bugsAndReports.js')
+app.use("/", bugsAndReports)
 
-app.post('/chain', (req, res) => {
-  const { ticker } = req.body;
-  realTimeData.getExpiries(tradikey, ticker, (data) => {
-    res.json(data);
-  });
-});
-
-app.post('/historical', (req, res) => {
-  const { ticker } = req.body;
-  realTimeData.getStockHistoricalData(tradikey, ticker, (data) => {
-    res.json(data);
-  });
-});
-
-app.post('/guessSymbol', (req, res) => {
-  const { text } = req.body;
-  realTimeData.guessSymbol(alphakey, text, (data) => {
-    res.json(data);
-  });
-});
-
-app.post('/divYield', (req, res) => {
-  const { ticker } = req.body;
-  realTimeData.getDividend(alphakey, ticker, (data) => {
-    res.json(data);
-  });
-});
-
-app.post('/treasury', (req, res) => {
-  treasuryXML.getYield((data) => {
-    res.json(data);
-  });
-});
-
-app.post('/report', (req, res) => {
-  reportBugs.sendCalcError(bugUrl, req.body.options, (data) => {
-    res.json(data);
-  });
-});
-
-app.post('/imageReport', (req, res) => {
-  reportBugs.sendImg(bugUrl, req.files.file.data);
-});
+const treasury = require('./routes/treasury.js')
+app.use("/", treasury)
 
 // Handle 404
 app.use((req, res) => {
@@ -122,4 +44,20 @@ app.use((error, req, res, next) => {
   res.status(500).send('500: Internal Server Error');
 });
 
+const port = process.env.PORT; // change to 8181 or whatever when localhosting
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+const mongoose = require('mongoose');
+mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, { useNewUrlParser: true, useUnifiedTopology: true })
+  .catch(error => {
+    console.log(error)
+    console.log('MongoDB Database Did Not Connect')
+  });
+const connection = mongoose.connection;
+connection.once('open', function() {
+    console.log("MongoDB Database Connected");
+})
+
+const passport = require("passport");
+app.use(passport.initialize());
+require("./db/passport.js")(passport);
