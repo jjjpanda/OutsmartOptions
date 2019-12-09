@@ -37,7 +37,7 @@ const listRedux = (list) => {
   return arr;
 };
 
-const StrategyInfo = ({ optionsSelected, mergedOptions }) => {
+const StrategyInfo = ({ stockPrice, optionsSelected, mergedOptions }) => {
   optionsSelected = optionsSelected.filter((o) => !o.hide);
   const analyzedStrategies = optionsMath.extractStrategies(optionsSelected);
   console.log(analyzedStrategies);
@@ -47,7 +47,7 @@ const StrategyInfo = ({ optionsSelected, mergedOptions }) => {
     ivRisk: [],
     nakedCalls: [],
     nakedPuts: [],
-    assigmentRisk: [],
+    assigmentRisk: optionsMath.assignmentRiskAnalysis(stockPrice, optionsSelected),
     collateral: optionsMath.collateralAnalysis(analyzedStrategies) * 100,
     cost: (mergedOptions.limitPrice * 100),
     severity: '#ff9900',

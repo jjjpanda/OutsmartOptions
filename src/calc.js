@@ -922,7 +922,7 @@ render() {
         (
           <div>
             <div className="costStrategy">
-              <StrategyInfo optionsSelected = {this.state.optionsSelected} mergedOptions = {this.state.mergedOptions}/>
+              <StrategyInfo stockPrice = {this.state.price} optionsSelected = {this.state.optionsSelected} mergedOptions = {this.state.mergedOptions}/>
             </div>
 
             <div className="profitGraphWrapper" step-name="profit-graph">

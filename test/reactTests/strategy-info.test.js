@@ -535,4 +535,46 @@ describe('Options Math Test', () => {
         },
       ]);
   });
+  it('Assignment Risk', () => {
+    expect(math.assignmentRiskAnalysis(100, [
+      {
+        isCall: true, isLong: true, date: '2020-12-20', strike: 100
+      },
+      {
+        isCall: true, isLong: false, date: '2020-12-20', strike: 85
+      },
+      {
+        isCall: false, isLong: false, date: '2020-12-20', strike: 115 
+      }
+    ])).toMatchObject([
+      {
+        isCall: true, isLong: false, date: '2020-12-20', strike: 85
+      },
+      {
+        isCall: false, isLong: false, date: '2020-12-20', strike: 115 
+      }
+    ]);
+  })
+  it('Naked Calls and Puts', () => {
+    expect(math.nakedLegsAnalysis([
+      {
+        date: '2019-12-20', a: 55, b: 53, c: 53, d: 52.5, isLong: true, isCall: true, dir: 'Pin', type: 'Call Fly',
+      },
+      {
+        isLong: true, isCall: false, strike: 54, date: '2019-12-20', type: 'Put', dir: 'Bear',
+      }
+    ])).toMatchObject([])
+    expect(math.nakedLegsAnalysis([
+      {
+        date: '2019-12-20', a: 55, b: 53, c: 53, d: 52.5, isLong: true, isCall: true, dir: 'Pin', type: 'Call Fly',
+      },
+      {
+        isLong: false, isCall: false, strike: 54, date: '2019-12-20', type: 'Put', dir: 'Bull',
+      }
+    ])).toMatchObject([
+      {
+        isLong: false, isCall: false, strike: 54, date: '2019-12-20', type: 'Put', dir: 'Bull',
+      }
+    ])
+  })
 });

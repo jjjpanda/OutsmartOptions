@@ -559,3 +559,30 @@ export function extractStrategies(options) {
 
   return list;
 }
+
+export function assignmentRiskAnalysis(stockPrice, optionsSelected) {
+  var assignmentRisks = []
+  for( var option of optionsSelected ){
+    if( !option.isLong ){
+      if( option.strike < stockPrice * .92 && option.isCall ){
+        assignmentRisks.push(option)
+      }
+      else if( option.strike > stockPrice * 1.08 && !option.isCall ){
+        assignmentRisks.push(option)
+      }
+    }
+  }
+  return assignmentRisks
+}
+
+export function nakedLegsAnalysis(stratsNamed){
+  var nakedLegs = []
+  for( var strat of stratsNamed ){
+    if (strat.type == 'Put' || strat.type == 'Call'){
+      if (!strat.isLong){
+        nakedLegs.push(strat)
+      }
+    }
+  }
+  return nakedLegs
+}
