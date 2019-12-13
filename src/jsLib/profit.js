@@ -1,3 +1,4 @@
+import * as prob from './outliersLibrary.js' 
 function NormSInv(p) {
     var a1 = -39.6968302866538, a2 = 220.946098424521, a3 = -275.928510446969;
     var a4 = 138.357751867269, a5 = -30.6647980661472, a6 = 2.50662827745924;
@@ -35,36 +36,54 @@ function NormSInv(p) {
     return retVal;
 }
 
-var price = 100, move = 1.005, stdev = 0.05
-var days = 100, trials = 500
-var max, min
-var intervals = 25
+function monteCarlo(price, move, stdev, days, trials, intervals){
+    var max, min
 
-var monteCarlo = new Array(days) 
-var probabilites = new Array(days)
+    var monteCarloResults = new Array(days) 
+    var probabilites = new Array(days)
+    var averagePrice = new Array(days)
+    var stdevPrice = new Array(days)
 
-monteCarlo[0] = []
-for (var j = 0; j< trials; j++){
-    monteCarlo[0][j] = price
-    probabilites[0] = {}
-}
-
-for(var i = 1; i < days; i++){
-    monteCarlo[i] = []
+    monteCarloResults[0] = []
     for (var j = 0; j< trials; j++){
-        monteCarlo[i][j] = (move + NormSInv(Math.random())*stdev) * monteCarlo[i-1][j] 
+        monteCarloResults[0][j] = price
+        probabilites[0] = {}
     }
 
-    max = Math.max(...monteCarlo[i])
-    min = Math.min(...monteCarlo[i])
-    probabilites[i] = {}
-    for(var k = min; k <= max; k+=(max-min)/intervals){
-        probabilites[i][k] = 0
+    averagePrice[0] = price
+    for(var i = 1; i < days; i++){
+        monteCarloResults[i] = []
         for (var j = 0; j< trials; j++){
-            if(monteCarlo[i][j] > k - (max-min)/(2*intervals) && monteCarlo[i][j] < k + (max-min)/(2*intervals)){
-                probabilites[i][k]++;
-            }
+            monteCarloResults[i][j] = (move + NormSInv(Math.random())*stdev) * monteCarloResults[i-1][j] 
         }
-        probabilites[i][k] /= trials
+
+        averagePrice[i] = prob.getMean([...monteCarloResults[i]])
+        stdevPrice[i] = prob.getSD([...monteCarloResults[i]], averagePrice[i])
+
+        max = Math.max(...monteCarloResults[i])
+        min = Math.min(...monteCarloResults[i])
+        
+        max -= (max-min)/(2*intervals)
+        min += (max-min)/(2*intervals)
+        
+        probabilites[i] = {}
+        for(var k = min; k <= max; k+=(max-min)/intervals){
+            probabilites[i][k] = 0
+            for (var j = 0; j< trials; j++){
+                if(monteCarloResults[i][j] > k - (max-min)/(2*intervals) && monteCarloResults[i][j] < k + (max-min)/(2*intervals)){
+                    probabilites[i][k]++;
+                }
+            }
+            probabilites[i][k] /= trials
+        }
+    }
+
+    return {
+        monteCarlo: monteCarloResults,
+        probabilites : probabilites,
+        averagePrice : averagePrice,
+        stdevPrice : stdevPrice
     }
 }
+
+console.log(monteCarlo)
