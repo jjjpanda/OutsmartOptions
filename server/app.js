@@ -45,19 +45,23 @@ app.use((error, req, res, next) => {
 });
 
 const port = process.env.PORT; // change to 8181 or whatever when localhosting
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Mr. Outsmart is watching port ${port}!`));
+
+require('./js/serverWarmer.js')();
 
 const mongoose = require('mongoose');
 mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch(error => {
     console.log(error)
-    console.log('MongoDB Database Did Not Connect')
+    console.log('~MongoDB Database Did Not Connect~')
   });
 const connection = mongoose.connection;
 connection.once('open', function() {
-    console.log("MongoDB Database Connected");
+    console.log("~MongoDB Database Connected~");
 })
 
 const passport = require("passport");
 app.use(passport.initialize());
 require("./db/passport.js")(passport);
+
+require('./db/earningsDaemon.js')()
