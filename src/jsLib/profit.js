@@ -36,8 +36,12 @@ function NormSInv(p) {
     return retVal;
 }
 
-function monteCarlo(price, move, stdev, days, trials, intervals){
+function monteCarlo(price, move, stdev, pastSampleSize, days, trials, intervals){
     var max, min
+    var lastMove, prevMove
+
+    move = new Array(trials).fill(move)
+    stdev = new Array(trials).fill(stdev)
 
     var monteCarloResults = new Array(days) 
     var probabilites = new Array(days)
@@ -54,8 +58,13 @@ function monteCarlo(price, move, stdev, days, trials, intervals){
     for(var i = 1; i < days; i++){
         monteCarloResults[i] = []
         for (var j = 0; j< trials; j++){
-            monteCarloResults[i][j] = (move + NormSInv(Math.random())*stdev) * monteCarloResults[i-1][j] 
+            monteCarloResults[i][j] = (move[j] + NormSInv(Math.random())*stdev[j]) * monteCarloResults[i-1][j] 
+            lastMove = monteCarloResults[i][j]/monteCarloResults[i-1][j]
+            prevMove = move[j]
+            move[j] = (prevMove * pastSampleSize + lastMove) / (pastSampleSize + 1)
+            stdev[j] = Math.sqrt((Math.pow(stdev[j], 2) * pastSampleSize + (lastMove - move[j])*(lastMove - prevMove))/(pastSampleSize + 1))
         }
+        pastSampleSize++ 
 
         averagePrice[i] = prob.getMean([...monteCarloResults[i]])
         stdevPrice[i] = prob.getSD([...monteCarloResults[i]], averagePrice[i])
@@ -76,6 +85,7 @@ function monteCarlo(price, move, stdev, days, trials, intervals){
             }
             probabilites[i][k] /= trials
         }
+
     }
 
     return {

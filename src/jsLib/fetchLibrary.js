@@ -8,6 +8,9 @@ export function fetchReq(req, body, callback) {
       },
       body,
     })
+    .catch((error) => {
+        console.log(error);
+    })
     .then((res) => res.json())
     .then(
       (data) => callback(data),
@@ -16,8 +19,11 @@ export function fetchReq(req, body, callback) {
 
 export function fileReq(req, fd) {
   fetch(req,
-    {
-      method: 'post',
-      body: fd,
-    });
+  {
+    method: 'post',
+    body: fd,
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 }
