@@ -57,11 +57,11 @@ mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+proce
   });
 const connection = mongoose.connection;
 connection.once('open', function() {
-    console.log("~MongoDB Database Connected~");
+    console.log("~MongoDB Database Connected~");  
+    
+    require('./db/earningsDaemon.js')()
+
+    const passport = require("passport");
+    app.use(passport.initialize());
+    require("./db/passport.js")(passport);
 })
-
-const passport = require("passport");
-app.use(passport.initialize());
-require("./db/passport.js")(passport);
-
-require('./db/earningsDaemon.js')()
