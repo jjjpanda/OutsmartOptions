@@ -11,5 +11,5 @@ module.exports = () => {
                 console.log("~Server Cooled Down; Oops~")
             }
         })
-    }, 300000)
+    }, 150000)
 }
