@@ -1,3 +1,4 @@
+var request = require('request')
 var cron = require('node-cron')
 
 module.exports = () => {
@@ -7,13 +8,29 @@ module.exports = () => {
         /*
 
         Do what must be done.
-        https://api.earningscalendar.net/?date=20200110
         Summon him.
+        Example Below
 
         */
-
+        getERCalendar(new Date(), () => {});
     },  {
         scheduled: true,
         timezone: "America/New_York"
     })
 };
+
+getERCalendar = (date, callback) => {
+    request({
+      method: 'get',
+      url: `https://api.earningscalendar.net/?date=`+date.getFullYear()+""+(date.getMonth()+1)+""+date.getDate(),
+    },
+    (error, response, body) => {
+      if(!error && response.statusCode == 200){
+        console.log(body)
+        callback();
+      }
+      else{
+        //Error
+      }
+    });
+}
