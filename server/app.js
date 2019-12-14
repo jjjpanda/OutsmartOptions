@@ -28,6 +28,9 @@ app.use("/api/users", users);
 const marketData = require("./routes/marketData.js");
 app.use("/", marketData);
 
+const earnings = require('./routes/earnings.js');
+app.use('/', earnings);
+
 const bugsAndReports = require('./routes/bugsAndReports.js')
 app.use("/", bugsAndReports)
 
