@@ -6,8 +6,8 @@ const EarningsSchema = new Schema({
     type: Date,
     required: true
   },
-  companies: [{
+  company: {
     type: String
-  }]
+  }
 });
 module.exports = mongoose.model("earnings", EarningsSchema);
