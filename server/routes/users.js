@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const auth = require("./auth")(jwt)
 const env = require('dotenv').config();
 secretOrKey = process.env.SECRETKEY
 
@@ -40,7 +41,6 @@ router.post("/register", (req, res) => {
     });
 });
 
-
 router.post("/login", (req, res) => {
     // Form validation
     const { errors, isValid } = validate.validateLoginInput(req.body);
@@ -75,6 +75,7 @@ router.post("/login", (req, res) => {
             (err, token) => {
                 res.json({
                 success: true,
+                id: user.id,
                 token: "Bearer " + token
                 });
             }
@@ -85,6 +86,20 @@ router.post("/login", (req, res) => {
             .json({ passwordincorrect: "Password incorrect" });
         }
         });
+    });
+});
+
+router.post('/current', auth, (req, res, next) => {
+    const { body: { id } } = req;
+    User.findById(id).then((user) => {
+        if(!user) {
+            return res.sendStatus(400);
+        }
+        else{
+            return res.json({ user: user.name, email: user.email });
+        }
+    }).catch(error => {
+        res.json({error: error})
     });
 });
 
