@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const auth = require("./auth")(jwt)
+const auth = require("../js/authorizeUser")(jwt)
 const env = require('dotenv').config();
 secretOrKey = process.env.SECRETKEY
 
