@@ -22,20 +22,30 @@ for (const webPath of knownPaths) {
   }));
 }
 
-const users = require("./routes/users.js");
-app.use("/api/users", users);
-
 const marketData = require("./routes/marketData.js");
 app.use("/", marketData);
-
-const earnings = require('./routes/earnings.js');
-app.use('/', earnings);
 
 const bugsAndReports = require('./routes/bugsAndReports.js')
 app.use("/", bugsAndReports)
 
 const treasury = require('./routes/treasury.js')
 app.use("/", treasury)
+
+const users = require("./routes/users.js");
+app.use("/api", users);
+
+const earnings = require('./routes/earnings.js');
+app.use('/', earnings);
+
+const watchlist = require('./routes/watchlist.js');
+app.use('/api/watch', watchlist);
+
+const strategy = require('./routes/strategy.js');
+app.use('/api/strategy', strategy)
+
+const passport = require("passport");
+app.use(passport.initialize());
+require("./db/passport.js")(passport);
 
 // Handle 404
 app.use((req, res) => {
@@ -57,14 +67,10 @@ mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+proce
   .catch(error => {
     console.log(error)
     console.log('~MongoDB Database Did Not Connect~')
-  });
+  })
 const connection = mongoose.connection;
-connection.once('open', function() {
+connection.once('open', () => {
     console.log("~MongoDB Database Connected~");  
     
     require('./db/earningsDaemon.js')()
-
-    const passport = require("passport");
-    app.use(passport.initialize());
-    require("./db/passport.js")(passport);
 })
