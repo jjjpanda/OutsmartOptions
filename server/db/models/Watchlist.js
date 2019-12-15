@@ -6,9 +6,7 @@ const WatchlistSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user"
   },
-  stocks : [{
-    type: String
-  }]
+  stocks : [String]
 });
 
 module.exports = mongoose.model("watchlist", WatchlistSchema);
