@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const env = require('dotenv').config();
 const path = require('path');
 
 const bodyParser = require('body-parser');
@@ -57,20 +56,4 @@ app.use((error, req, res, next) => {
   res.status(500).send('500: Internal Server Error');
 });
 
-const port = process.env.PORT; // change to 8181 or whatever when localhosting
-app.listen(port, () => console.log(`Mr. Outsmart is watching port ${port}!`));
-
-require('./js/serverWarmer.js')();
-
-const mongoose = require('mongoose');
-mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, { useNewUrlParser: true, useUnifiedTopology: true })
-  .catch(error => {
-    console.log(error)
-    console.log('~MongoDB Database Did Not Connect~')
-  })
-const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log("~MongoDB Database Connected~");  
-    
-    require('./db/earningsDaemon.js')()
-})
+module.exports = app
