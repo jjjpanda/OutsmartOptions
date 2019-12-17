@@ -21,5 +21,23 @@ export var capabilities = [{
   'resolution' : '1024x768',
   ...credentials,
   'name' : 'Firefox Test'
+},
+{
+  'browserName' : 'Safari',
+  'browser_version' : '13.0',
+  'os' : 'OS X',
+  'os_version' : 'Catalina',
+  'resolution' : '1024x768',
+  ...credentials,
+  'name' : 'Safari Test'
+},
+{
+  'browserName' : 'IE',
+  'browser_version' : '11.0',
+  'os' : 'Windows',
+  'os_version' : '10',
+  'resolution' : '1024x768',
+  ...credentials,
+  'name' : 'Edge Test'
 }
 ]
