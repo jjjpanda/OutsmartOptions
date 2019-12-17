@@ -8,7 +8,7 @@
     "startContinuous": "npm-run-all -p createDistContinuous nodemonStart",
     "test": "jest test/reactTests --runInBand",
     "testEndpoints": "jest test/nodeTests --runInBand",
-    "testCrossBrowser": "jest test/browserTests --setupFiles dotenv/config --runInBand",
+    "testCrossBrowser": "jest test/browserTests --runInBand --setupFiles dotenv/config",
     "testAll": "jest --setupFiles dotenv/config --runInBand",
     "lint": "eslint src/**/*.js server/**/*.js test/**/*.js > eslint/lintOutput.txt",
     "lintRemover": "eslint src/**/*.js server/**/*.js test/**/*.js --fix > eslint/lintOutput.txt",
@@ -112,7 +112,7 @@
         ]
       },
       {
-        "displayName": "Node",
+        "displayName": "Server",
         "testEnvironment": "node",
         "coveragePathIgnorePatterns": [
           "<rootDir>/node_modules/"
