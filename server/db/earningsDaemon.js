@@ -42,7 +42,7 @@ var daemon = cron.schedule('0 0-3 * * *',  //'*/30 * * * * *'
     }
   }
 },  {
-    scheduled: true,
+    scheduled: false,
     timezone: "America/New_York"
 })
 

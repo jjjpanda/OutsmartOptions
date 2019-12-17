@@ -14,12 +14,12 @@ module.exports = {
         Accept: 'application/json',
       },
     }, (error, response, body) => {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode === 200) {
         body = JSON.parse(body).quotes;
         if (body != null && 'quote' in body) {
-          price = body.quote.last;
-          change = body.quote.change_percentage;
-          name = body.quote.description;
+          const price = body.quote.last;
+          const change = body.quote.change_percentage;
+          const name = body.quote.description;
           body = { price, change, name };
         }
         if (body === undefined) {
@@ -51,9 +51,9 @@ module.exports = {
         body = JSON.parse(body).expirations;
         if (body != null && body.date != undefined) {
           body = body.date;
-          bodyLen = body.length;
+          const bodyLen = body.length;
           const fullChain = [];
-          index = 0;
+          let index = 0;
           function clback(data) {
             fullChain.push([body[index], data]);
             index++;
@@ -129,9 +129,9 @@ module.exports = {
           }));
         }
         // REFACTOR
-        newData = [];
-        strikes = [];
-        for (option of data) {
+        const newData = [];
+        const strikes = [];
+        for (const option of data) {
           if (!strikes.includes(option.strike)) {
             strikes.push(option.strike);
             newData.push({
@@ -177,11 +177,17 @@ module.exports = {
       },
     },
     (error, response, body) => {
-      // console.log(response.statusCode);
-      // console.log(body);
-      body = JSON.parse(body);
-      if (body != undefined && body.history != undefined && body.history != null) {
-        callback(body.history.day);
+      if(error){
+        callback({error: error})
+      }
+      else {
+        body = JSON.parse(body);
+        if (body != undefined && body.history != undefined && body.history != null) {
+          callback(body.history.day);
+        }
+        else {
+          callback(body)
+        }
       }
     });
   },
@@ -206,12 +212,12 @@ module.exports = {
     (error, response, body) => {
       body = JSON.parse(body);
       body = body['Monthly Adjusted Time Series'];
-      dividend = { dividendAnnum: 0 };
+      const dividend = { dividendAnnum: 0 };
       if (body === undefined || body === null) {
         callback({ yield: false });
         return;
       }
-      keys = Object.keys(body);
+      const keys = Object.keys(body);
       for (let i = 0, end = keys.length; i < end; i++) {
         if (parseFloat(body[keys[i]]['7. dividend amount']) != 0) {
           dividend.dividendAnnum = 4 * parseFloat(body[keys[i]]['7. dividend amount']);
@@ -224,11 +230,13 @@ module.exports = {
 
 };
 
+/*
 function zip(arrays) {
   return Array.apply(null, Array(arrays[0].length)).map((_, i) => arrays.map((array) => array[i]));
 }
+*/
 
-var getDateFromYearsAgo = (n) => {
-  d = new Date();
+const getDateFromYearsAgo = (n) => {
+  const d = new Date();
   return `${d.getFullYear() - n}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`;
 };
