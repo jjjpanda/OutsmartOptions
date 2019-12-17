@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const auth = require("../js/authorizeUser")(jwt)
 const env = require('dotenv').config();
-secretOrKey = process.env.SECRETKEY
+const secretOrKey = process.env.SECRETKEY
 
 const validate = require('../db/loginValidation.js')
 
