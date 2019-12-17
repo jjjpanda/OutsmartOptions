@@ -36,7 +36,7 @@ module.exports = {
 
   connect : (callback) => {
     globalCallback = callback
-    mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+"2:"+process.env.dbPORT, 
+    mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, 
     { useNewUrlParser: true, useUnifiedTopology: true })
   },
 
