@@ -17,6 +17,6 @@ describe('Login Tests', () => {
             expect(response.statusCode).toBe(200)
             done()
         })
-    }, 10000)
+    })
 
 })

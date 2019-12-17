@@ -3,50 +3,48 @@ var cron = require('node-cron')
 
 const Earnings = require("./models/Earnings");
 
-module.exports = () => {
-    //cron.schedule('*/30 * * * * *', () => {
-    cron.schedule('0 0-3 * * *', () => {
-        console.log("---DB REQUESTED CRON JOB---");
-        console.log("UPDATE EARNINGS")
-        var date = new Date();
-        var iterations = 0;
-        var loop = setInterval( () => {
-          getERCalendar(date, (company, d) => {
-            Earnings.findOne({ company : company }).then( earnings => {
-              if(earnings){
-                if(d.getFullYear() == earnings.date.getFullYear() 
-                    && d.getMonth() == earnings.date.getMonth() 
-                    && d.getDate() == earnings.date.getDate()){
-                      return;
-                }
-                else{
-                  earnings.date = new Date(d);
-                  earnings.save()
-                }
-              }
-              else{
-                const NewEarnings = new Earnings({
-                  date: new Date(d),
-                  company: company
-                });
-                NewEarnings.save()
-              }
-            })
-          });
-          iterate()
-        }, 1500)
-        var iterate = () => {
-          date = new Date(date.setDate(date.getDate() + 1));
-          iterations++
-          if(iterations >= 14){
-            clearInterval(loop)
+var daemon = cron.schedule('0 0-3 * * *',  //'*/30 * * * * *'
+() => {
+  console.log("---DB REQUESTED CRON JOB---");
+  console.log("UPDATE EARNINGS")
+  var date = new Date();
+  var iterations = 0;
+  var loop = setInterval( () => {
+    getERCalendar(date, (company, d) => {
+      Earnings.findOne({ company : company }).then( earnings => {
+        if(earnings){
+          if(d.getFullYear() == earnings.date.getFullYear() 
+              && d.getMonth() == earnings.date.getMonth() 
+              && d.getDate() == earnings.date.getDate()){
+                return;
+          }
+          else{
+            earnings.date = new Date(d);
+            earnings.save()
           }
         }
-    },  {
-        scheduled: true,
-        timezone: "America/New_York"
-    })
-};
+        else{
+          const NewEarnings = new Earnings({
+            date: new Date(d),
+            company: company
+          });
+          NewEarnings.save()
+        }
+      })
+    });
+    iterate()
+  }, 1500)
+  var iterate = () => {
+    date = new Date(date.setDate(date.getDate() + 1));
+    iterations++
+    if(iterations >= 14){
+      clearInterval(loop)
+    }
+  }
+},  {
+    scheduled: true,
+    timezone: "America/New_York"
+})
 
 var getERCalendar = (date, callback) => {
     //console.log(`https://api.earningscalendar.net/?date=`+date.getFullYear()+""+(date.getMonth()+1)+""+date.getDate()+'/')
@@ -68,3 +66,9 @@ var getERCalendar = (date, callback) => {
       }
     });
 }
+
+module.exports = {
+  start : daemon.start,
+  stop: daemon.stop,
+  destroy: daemon.destroy
+};
