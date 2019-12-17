@@ -228,7 +228,7 @@ function zip(arrays) {
   return Array.apply(null, Array(arrays[0].length)).map((_, i) => arrays.map((array) => array[i]));
 }
 
-getDateFromYearsAgo = (n) => {
+var getDateFromYearsAgo = (n) => {
   d = new Date();
   return `${d.getFullYear() - n}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`;
 };

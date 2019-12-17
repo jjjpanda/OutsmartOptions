@@ -48,7 +48,7 @@ module.exports = () => {
     })
 };
 
-getERCalendar = (date, callback) => {
+var getERCalendar = (date, callback) => {
     //console.log(`https://api.earningscalendar.net/?date=`+date.getFullYear()+""+(date.getMonth()+1)+""+date.getDate()+'/')
     request({
       method: 'get',
