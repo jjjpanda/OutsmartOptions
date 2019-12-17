@@ -4,25 +4,25 @@ const mongoDB = require('../../server/database')
 
 var id, token;
 
-beforeAll(async (done) => {
-    mongoDB.connect(done);
-}, 50000);
-
-afterAll(async (done) => {
-    mongoDB.disconnect(done);
-}, 50000);
-
 describe('Login Tests', () => {
+
+    beforeAll(async (done) => {
+        mongoDB.connect(done);
+    }, 50000);
+    
+    afterAll(async (done) => {
+        mongoDB.disconnect(done);
+    }, 50000);
 
     it('Registers a New User', async (done) => {
         request(app).post("/api/register")
         .send({name: 'Bruh', email: 'email@email.email', password: "password", password2:"password"})
         .expect('Content-Type', /json/)
         .then(response => {
-            expect(response.statusCode).toBe(200)
+            expect(response.body._id).toBeDefined()
             done()
         })
-    })
+    }, 30000)
 
     it('Registers a New User', async (done) => {
         request(app).post("/api/register")
@@ -32,7 +32,7 @@ describe('Login Tests', () => {
             expect(response.statusCode).toBe(400)
             done()
         })
-    })
+    }, 30000)
 
     it('Login Validate', async (done) => {
         request(app).post("/api/login")
@@ -41,10 +41,10 @@ describe('Login Tests', () => {
         .then(response => {
             id = response.body.id
             token = response.body.token
-            expect(response.statusCode).toBe(200)
+            expect(response.body.success).toBe(true)
             done()
         })
-    })
+    }, 30000)
 
     it('False Login', async (done) => {
         request(app).post("/api/login")
@@ -54,7 +54,7 @@ describe('Login Tests', () => {
             expect(response.statusCode).toBe(400)
             done()
         })
-    })
+    }, 30000)
 
     it('Authentication Validation', async (done) => {
         request(app).post("/api/current")
@@ -65,7 +65,7 @@ describe('Login Tests', () => {
             expect(response.body.email).toBe('email@email.email')
             done()
         })
-    })
+    }, 30000)
 
     it('Delete User', async (done) => {
         request(app).post("/api/delete")
@@ -76,6 +76,6 @@ describe('Login Tests', () => {
             expect(response.body.deleted).toBe(true)
             done()
         })
-    })
+    }, 30000)
 
 })

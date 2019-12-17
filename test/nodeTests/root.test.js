@@ -8,12 +8,12 @@ describe('GET Website Paths', () => {
             expect(response.statusCode).toBe(200)
             done()
         })
-    })
+    }, 30000)
 
     it('Confirms 404', async (done) => {
         request(app).get("/thisIsNotARealRoute").then(response => {
             expect(response.statusCode).toBe(404)
             done()
         })
-    })
+    }, 30000)
 })
