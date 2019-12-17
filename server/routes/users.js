@@ -68,7 +68,7 @@ router.post("/login", (req, res) => {
     // Sign token
             jwt.sign(
             payload,
-            secretOrKey,
+            secretOrKey+user.id,
             {
                 expiresIn: 31556926 // 1 year in seconds
             },
@@ -89,8 +89,8 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.post('/current', auth, (req, res, next) => {
-    const { body: { id } } = req;
+router.post("/current", auth, (req, res) => {
+    const id = req.body.id
     User.findById(id).then((user) => {
         if(!user) {
             return res.sendStatus(400);
@@ -102,5 +102,17 @@ router.post('/current', auth, (req, res, next) => {
         res.json({error: error})
     });
 });
+
+router.post('/delete', auth, (req, res, next) => {
+    const id = req.body.id
+    User.findByIdAndDelete(id).then((err, user) => {
+        if(!err){
+            return res.sendStatus(400)
+        }
+        else {
+            return res.json({ deleted: true })
+        }
+    })
+})
 
 module.exports = router;

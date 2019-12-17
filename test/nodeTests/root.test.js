@@ -2,6 +2,7 @@ const app = require('../../server/app.js')
 const request = require('supertest');
 
 describe('GET Website Paths', () => {
+    
     it('Gets /', async (done) => {
         request(app).get("/").then(response => {
             expect(response.statusCode).toBe(200)
