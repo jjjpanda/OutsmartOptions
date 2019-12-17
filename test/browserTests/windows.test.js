@@ -7,7 +7,7 @@ const env = require('dotenv').config();
 
 var driver;
 var bs_local = new browserstack.Local();
-var bs_local_args = { 'key': capabilities.credentials["browserstack.key"], onlyAutomate: true, logFile : 'test/nodeTests/log.txt' };
+var bs_local_args = { 'key': capabilities.credentials["browserstack.key"], onlyAutomate: true, logFile : 'test/browserTests/log.txt' };
 
 const start = async () =>
   new Promise((resolve, reject) => {
