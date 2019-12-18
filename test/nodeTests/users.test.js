@@ -4,15 +4,15 @@ const mongoDB = require('../../server/database')
 
 var id, token;
 
-describe('Login Tests', () => {
+beforeAll(async (done) => {
+    return mongoDB.connect(done);
+}, 50000);
 
-    beforeAll(async (done) => {
-        mongoDB.connect(done);
-    }, 50000);
-    
-    afterAll(async (done) => {
-        mongoDB.disconnect(done);
-    }, 50000);
+afterAll(async (done) => {
+    return mongoDB.disconnect(done);
+}, 50000);
+
+describe('Login Tests', () => {
 
     it('Registers a New User', async (done) => {
         request(app).post("/api/register")

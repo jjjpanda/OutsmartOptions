@@ -3,47 +3,49 @@ const daemon = require('./db/earningsDaemon.js')
 
 const mongoose = require('mongoose');
 mongoose.connection.once('connected', () => {
-  callbackReset(() => {
-    console.log("~MongoDB Database Connected~");  
-    daemon.start()
-  })
+  console.log("~MongoDB Database Connected~");  
+  daemon.start()
 })
 mongoose.connection.once('error', () => {
-  callbackReset(() => {
-    console.log('~MongoDB Database Did Not Connect~');
-    console.log('~Daemon Not Started~')
-  })
+  console.log('~MongoDB Database Error~');
+  daemon.stop()
 })
 mongoose.connection.once('disconnected', () => {
-  callbackReset(() => {
-    console.log("~MongoDB Database Disconnected~");  
-    daemon.stop()
-  })
+  console.log("~MongoDB Database Disconnected~");  
+  daemon.stop()
 })
-
-var globalCallback = () => {}
-var callbackReset = (toDo) => {
-  return new Promise((resolve, reject) => {
-    toDo()
-    globalCallback()
-    resolve()
-  }).then(() => {
-    globalCallback = () => {}
-  })
-}
 
 module.exports = {
 
   connect : (callback) => {
-    globalCallback = callback
-    mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, 
+    return mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, 
     { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(
+      () => { 
+        console.log('Database Connect Callback Received')
+        callback()
+      },
+      error => {  
+        console.log(error)
+        try{callback.fail(new Error('Database Connect Error'))}
+        catch(error){ console.log( error )}
+      }
+    );
   },
 
   disconnect: (callback) => {
-    globalCallback = callback
-    mongoose.disconnect()
+    return mongoose.disconnect()
+    .then(
+      () => { 
+        console.log('Database Disconnect Callback Received')
+        callback()
+      },
+      error => {  
+        console.log(error)
+        try{callback.fail(new Error('Database Disconnect Error'))}
+        catch(error){ console.log( error )}
+      }
+    );
   }
 
 }
-
