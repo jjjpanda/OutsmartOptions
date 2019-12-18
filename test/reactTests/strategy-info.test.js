@@ -577,4 +577,15 @@ describe('Options Math Test', () => {
       }
     ])
   })
+  it('Names Strategies', () => {
+    expect(math.nameStrategy([
+      {
+        type: 'Call Fly', dir: 'Pin', quantity: 1
+      },
+      {
+        type: 'Put', dir: 'Bear', quantity: 1
+      }
+    ]).toBe(""))
+
+  })
 });

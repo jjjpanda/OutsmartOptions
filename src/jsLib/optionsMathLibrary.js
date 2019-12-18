@@ -586,3 +586,44 @@ export function nakedLegsAnalysis(stratsNamed){
   }
   return nakedLegs
 }
+
+export function nameStrategy(strategies){
+  var strats = strategies.map((s) => {return {type: s.type, quantity: s.quantity, dir: s.dir}})
+  var quantity = strats.reduce((a, b) => a + b.quantity, 0)
+  if(strats.length > 1){
+    if(strats.every(strat => strat.dir === strats[0].dir)){
+      if(strats.every(strat => strat.type === strats[0].type)){
+        if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
+          return strats[0].dir + 'ish ' + strats[0].type + 's' 
+        }
+        else{
+          return strats[0].type + 's'
+        }
+      }
+      else{
+        return strats[0].dir + 'ish ' + quantity + ' Legged Strategy'
+      }
+    }
+    else{
+      return quantity + ' Legged Strategy'
+    }
+  }
+  else{
+    if(quantity > 1){
+      if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
+        return strats[0].dir + 'ish ' + strats[0].type + 's' 
+      }
+      else{
+        return strats[0].type + 's'
+      }
+    }
+    else{
+      if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
+        return strats[0].dir + 'ish ' + strats[0].type 
+      }
+      else{
+        return strats[0].type
+      }
+    }
+  }
+}
