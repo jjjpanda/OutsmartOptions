@@ -10,7 +10,9 @@ const { ipUrl } = process.env;
 const reportBugs = require('../js/reportBug.js');
 
 router.post('/track', (req, res) => {
-  reportBugs.getIP(iptrackkey, ipUrl, req.body.ip);
+  reportBugs.getIP(iptrackkey, ipUrl, req.body.ip, (data) => {
+    res.json(data)
+  });
 });
 
 router.post('/report', (req, res) => {
@@ -20,7 +22,9 @@ router.post('/report', (req, res) => {
 });
 
 router.post('/imageReport', (req, res) => {
-  reportBugs.sendImg(bugUrl, req.files.file.data);
+  reportBugs.sendImg(bugUrl, req.files.file.data, (data) => {
+    res.json(data)
+  });
 });
 
 module.exports = router
