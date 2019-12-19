@@ -11,11 +11,16 @@ module.exports = {
       body: JSON.stringify({ content: JSON.stringify({ report: msg }) }),
     },
     (error, response, body) => {
-      callback({ error, response: response.statusCode });
+      if(!error && response.statusCode == 200){
+        callback(body);
+      }
+      else{
+        callback({error: true, details: 'Details Not Sent to URL'})
+      }
     });
   },
 
-  sendImg(url, img) {
+  sendImg(url, img, callback) {
     request({
       method: 'POST',
       url,
@@ -29,15 +34,17 @@ module.exports = {
         },
       },
     },
-    (err, httpResponse, body) => {
-      if (err) {
-        // return console.error('upload failed:', err);
+    (err, response, body) => {
+      if (!err && response.statusCode == 200) {
+        callback(body)
       }
-      // console.log('Upload successful!  Server responded with:', body);
+      else {
+        callback({error: true, details: 'Image Not Sent to URL'})
+      }
     });
   },
 
-  getIP(key, url, ip) {
+  getIP(key, url, ip, callback) {
     request({
       method: 'GET',
       url: `https://api.ipdata.co/${ip}?api-key=${key}`,
@@ -57,9 +64,16 @@ module.exports = {
               ip: body.ip, lat: body.latitude, long: body.longitude, city: body.city, asn: body.asn, flag: body.emoji_flag,
             }),
           }),
+        }, (e, r, b) => {
+          if(!e && r.statusCode == 200){
+            callback(b)
+          }
+          else{
+            callback({error:true, details: 'IP Data Not Sent To Url'})
+          }
         });
       } else {
-
+        callback({error: true, details: 'IP Data Not Found'})
       }
     });
   },
