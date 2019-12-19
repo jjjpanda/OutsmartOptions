@@ -626,7 +626,7 @@ export function nameStrategy(strategies){
       return quantity + ' Legged Strategy'
     }
   }
-  else{
+  else if(strats.length == 1){
     if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
       return strats[0].dir + 'ish ' + strats[0].type 
     }
@@ -637,4 +637,5 @@ export function nameStrategy(strategies){
       return 'Short Volatility ' + strats[0].type
     }
   }
+  return 'Cost of Strategy'
 }
