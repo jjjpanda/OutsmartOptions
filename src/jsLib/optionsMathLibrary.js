@@ -603,12 +603,23 @@ export function nameStrategy(strategies){
         if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
           return strats[0].dir + 'ish ' + strats[0].type + 's' 
         }
-        else{
-          return strats[0].type + 's'
+        else if(strats[0].dir == 'Neu'){
+          return 'Long Volatility ' + strats[0].type + 's'
+        }
+        else if(strats[0].dir == 'Pin'){
+          return 'Short Volatility ' + strats[0].type + 's'
         }
       }
       else{
-        return strats[0].dir + 'ish ' + quantity + ' Legged Strategy'
+        if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
+          return strats[0].dir + 'ish ' + quantity + ' Legged Strategy'
+        }
+        else if(strats[0].dir == 'Neu'){
+          return 'Long Volatility ' + quantity + ' Legged Strategy'
+        }
+        else if(strats[0].dir == 'Pin'){
+          return 'Short Volatility ' + quantity + ' Legged Strategy'
+        }
       }
     }
     else{
@@ -616,21 +627,14 @@ export function nameStrategy(strategies){
     }
   }
   else{
-    if(quantity > 1){
-      if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
-        return strats[0].dir + 'ish ' + strats[0].type + 's' 
-      }
-      else{
-        return strats[0].type + 's'
-      }
+    if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
+      return strats[0].dir + 'ish ' + strats[0].type 
     }
-    else{
-      if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
-        return strats[0].dir + 'ish ' + strats[0].type 
-      }
-      else{
-        return strats[0].type
-      }
+    else if(strats[0].dir == 'Neu'){
+      return 'Long Volatility ' + strats[0].type
+    }
+    else if(strats[0].dir == 'Pin'){
+      return 'Short Volatility ' + strats[0].type
     }
   }
 }
