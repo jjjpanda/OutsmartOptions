@@ -119,13 +119,7 @@ describe('Options Math Test', () => {
         isCall: true, isLong: true, date: '2020-12-20', upper: 101, lower: 100, dir: 'Bull', type: 'Call Spread',
       }]);
     expect(math.extractStrategies([{
-      isCall: true, isLong: false, date: '2020-12-20', strike: 101,
-    },
-    {
-      isCall: true, isLong: false, date: '2020-12-20', strike: 101,
-    },
-    {
-      isCall: true, isLong: false, date: '2020-12-20', strike: 101,
+      isCall: true, isLong: false, date: '2020-12-20', strike: 101, quantity: 3
     },
     {
       isCall: true, isLong: true, date: '2020-12-20', strike: 100,
