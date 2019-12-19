@@ -236,7 +236,14 @@ export function collateralAnalysis(stratsNamed) {
 }
 
 export function extractStrategies(options) {
-  const list = [...options];
+  const pureList = [...options];
+  var list = []
+
+  for(var pureEle of pureList){
+    for(var a = 0; a < (pureEle.quantity != undefined ? pureEle.quantity : 1) ; a++){
+      list.push(pureEle)
+    }
+  }
 
   // Spreads
   let searching = true;
