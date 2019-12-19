@@ -42,7 +42,7 @@ const StrategyInfo = ({ stockPrice, optionsSelected, mergedOptions }) => {
   const analyzedStrategies = optionsMath.extractStrategies(optionsSelected);
   console.log(analyzedStrategies);
   const state = {
-    strategy: 'Cost of Strategy',
+    strategy: optionsMath.nameStrategy(analyzedStrategies),
     risks: 0,
     ivRisk: [],
     nakedCalls: [],
