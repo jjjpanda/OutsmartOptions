@@ -1,7 +1,7 @@
 const app = require('../../server/app.js')
 const request = require('supertest');
 
-describe.only('GET Website Paths /', () => {
+describe('GET Website Paths /', () => {
     
     it('Gets /', async (done) => {
         request(app).get("/").then(response => {
@@ -41,8 +41,13 @@ describe('POST Market Data /api/market/', () => {
     }, 30000)
 
     it('Tests /chain', async (done) => {
-        // /api/market/chain
-        done()
+        request(app).post("/api/market/chain")
+        .send({ticker: 'SPY'})
+        .expect('Content-Type', /json/)
+        .then(response => {
+            expect(response.body).toBeInstanceOf(Array)
+            done()
+        })
     }, 30000)
 
     it('Test Historical Data', async (done) => {
@@ -78,18 +83,38 @@ describe('POST Market Data /api/market/', () => {
     }, 30000)
 
     it('Tests /api/market/guessSymbol', async (done) => {
-        // /api/market/guessSymbol
-        done()
+        request(app).post("/api/market/guessSymbol")
+        .send({text: 'Google'})
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+            console.log(response)
+            expect(response).toBe(true)
+            done()
+        })
     }, 30000)
 
     it('Tests /divYield', async (done) => {
-        // /api/market/divYield
-        done()
+        request(app).post("/api/market/divYield")
+        .send({text: 'Apple'})
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+            console.log(response)
+            expect(response).toBe(true)
+            done()
+        })
     }, 30000)
 
     it('Tests /treasury', async (done) => {
-        // /api/market/treasury
-        done()
+        request(app).post("/api/market/treasury")
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+            console.log(response)
+            expect(response).toBe(true)
+            done()
+        })
     }, 30000)
 
 })
@@ -98,17 +123,39 @@ describe('POST Bug Reports /api/bug/', () => {
 
     it('Tests /track', async (done) => {
         // /api/bug/track
-        done()
+        request(app).post("/api/bug/track")
+        .send({ip: '127.0.0.1'})
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+            console.log(response)
+            expect(response).toBe(true)
+            done()
+        })
     }, 30000)
 
     it('Tests /report', async (done) => {
-        // /api/bug/report
-        done()
+        request(app).post("/api/bug/report")
+        .send({options: ['TEST MSG']})
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+            console.log(response)
+            expect(response).toBe(true)
+            done()
+        })
     }, 30000)
 
     it('Tests /imageReport', async (done) => {
-        // /api/bug/imageReport
-        done()
+        request(app).post("/api/bug/imageReport")
+        .attach('data', '../../src/img/logo.png')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+            console.log(response)
+            expect(response).toBe(true)
+            done()
+        })
     }, 30000)
 
 })
