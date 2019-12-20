@@ -198,8 +198,11 @@ module.exports = {
       url: `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${data}&apikey=${apikey}`,
     },
     (error, response, body) => {
-      if (!error) {
+      if (!error && response.statusCode == 200) {
         callback(body);
+      }
+      else{
+        callback({error: true})
       }
     });
   },

