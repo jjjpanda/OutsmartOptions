@@ -22,22 +22,22 @@ for (const webPath of knownPaths) {
 }
 
 const marketData = require("./routes/marketData.js");
-app.use("/", marketData);
+app.use("/api/market", marketData);
 
 const bugsAndReports = require('./routes/bugsAndReports.js')
-app.use("/", bugsAndReports)
+app.use("/api/bug", bugsAndReports)
 
 const treasury = require('./routes/treasury.js')
-app.use("/", treasury)
+app.use("/api/market", treasury)
 
 const users = require("./routes/users.js");
-app.use("/api", users);
+app.use("/api/users", users);
 
 const earnings = require('./routes/earnings.js');
-app.use('/', earnings);
+app.use('/api/market', earnings);
 
 const watchlist = require('./routes/watchlist.js');
-app.use('/api/watch', watchlist);
+app.use('/api/watchlist', watchlist);
 
 const strategy = require('./routes/strategy.js');
 app.use('/api/strategy', strategy)

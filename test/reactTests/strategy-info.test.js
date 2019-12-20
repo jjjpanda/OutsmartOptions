@@ -574,6 +574,11 @@ describe('Options Math Test', () => {
   it('Names Strategies', () => {
     expect(math.nameStrategy([
       {
+        type: 'Call', dir: 'Bear', quantity: 1
+      }
+    ])).toBe('Bearish Call')
+    expect(math.nameStrategy([
+      {
         type: 'Call Spread', dir: 'Bear', quantity: 2
       }
     ])).toBe('Bearish Call Spread')
@@ -582,14 +587,6 @@ describe('Options Math Test', () => {
         type: 'Iron Condor', dir: 'Neu', quantity: 4
       }
     ])).toBe('Long Volatility Iron Condor')
-    expect(math.nameStrategy([
-      {
-        type: 'Call Fly', dir: 'Pin', quantity: 4
-      },
-      {
-        type: 'Put', dir: 'Bear', quantity: 1
-      }
-    ])).toBe('5 Legged Strategy')
     expect(math.nameStrategy([
       {
         type: 'Call Spread', dir: 'Bear', quantity: 2
@@ -622,6 +619,29 @@ describe('Options Math Test', () => {
         type: 'Put Condor', dir: 'Pin', quantity: 2
       }
     ])).toBe('Short Volatility 4 Legged Strategy')
-
+    expect(math.nameStrategy([
+      {
+        type: 'Call', dir: 'Bear', quantity: 1
+      },
+      {
+        type: 'Put Spread', dir: 'Bear', quantity: 2
+      },
+      {
+        type: 'Call Spread', dir: 'Bear', quantity: 2
+      }
+    ])).toBe('Bearish 5 Legged Strategy')
+    expect(math.nameStrategy([
+      {
+        type: 'Call Fly', dir: 'Pin', quantity: 4
+      },
+      {
+        type: 'Put', dir: 'Bear', quantity: 1
+      }
+    ])).toBe('5 Legged Strategy')
+    expect(math.nameStrategy([
+      {
+        quantity: 3
+      }
+    ])).toBe('Cost of Strategy')
   })
 });

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npx webpack && node server/server.js",
     "startContinuous": "npm-run-all -p createDistContinuous nodemonStart",
-    "test": "jest test/reactTests --runInBand",
+    "test": "npm-run-all -s testReact testEndpoints",
+    "testReact": "jest test/reactTests --runInBand",
     "testEndpoints": "jest test/nodeTests --runInBand",
     "testCrossBrowser": "jest test/browserTests --runInBand --setupFiles dotenv/config",
     "testAll": "jest --setupFiles dotenv/config --runInBand",
