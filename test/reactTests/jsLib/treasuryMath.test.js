@@ -1,4 +1,4 @@
-import * as math from '../../src/jsLib/treasuryLibrary.js';
+import * as math from '../../../src/jsLib/treasuryLibrary.js';
 
 const yields = [
   { name: 'd:BC_1MONTH', val: 0.30 },

@@ -101,6 +101,9 @@
     "projects": [
       {
         "displayName": "React",
+        "setupFilesAfterEnv" : [
+          "<rootDir>/test/reactTests/setup.js"
+        ],
         "transform": {
           "^.+\\.js$": "babel-jest",
           "^.+\\.jsx$": "babel-jest"
