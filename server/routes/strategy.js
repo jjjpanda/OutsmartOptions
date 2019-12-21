@@ -8,11 +8,24 @@ const secretOrKey = process.env.SECRETKEY
 const Strategy = require("../db/models/Strategy");
 const User = require('../db/models/User')
 
+const strategyFormatCheck = (req, res, next) => {
+    if(!(req.body.strategy instanceof Array)){
+        res.json({error: true, details: 'Badly Formatted Strategies, Not Array'})
+        return
+    }
+    for(let strat of req.body.strategy){
+        if(!(strat instanceof Object)){
+            res.json({error: true, details: 'Badly Formatted Strategies, Not Array of Objects'})
+            return
+        }
+    }
+    next()
+}
+
 router.post('/load', auth, (req, res) => {
     User.findById(req.body.id).then(user => {
         if(user){
             Strategy.find({user: user, stock: req.body.ticker}).then(strategies => {
-                console.log(strategies)
                 if(strategies){
                     res.json({strategies: strategies})
                 }
@@ -27,15 +40,25 @@ router.post('/load', auth, (req, res) => {
     })
 })
 
-router.post('/delete', auth, (req, res) => {
+router.post('/delete', auth, strategyFormatCheck, (req, res) => {
+    var searchQuery = {}
+    for(let i = 0; i< req.body.strategy.length; i++){
+        searchQuery['legs.'+i+'.date'] = req.body.strategy[i].date
+        searchQuery['legs.'+i+'.strike'] = req.body.strategy[i].strike
+        searchQuery['legs.'+i+'.price'] = req.body.strategy[i].price
+        searchQuery['legs.'+i+'.isCall'] = req.body.strategy[i].isCall
+        searchQuery['legs.'+i+'.isLong'] = req.body.strategy[i].isLong
+        searchQuery['legs.'+i+'.quantity'] = req.body.strategy[i].quantity
+    }
     User.findById(req.body.id).then(user => {
         if(user){
-            Strategy.deleteOne({user: user, stock: req.body.ticker, legs: req.body.strategy}).then(e => {
-                if(e){
-                    res.json({error:true, details: e})
+            Strategy.deleteOne({user: user, stock: req.body.ticker, ...searchQuery}).then(e => {
+                console.log(e)
+                if(e.deletedCount == 1){
+                    res.json({error: false, details: e})
                 }
                 else{
-                    res.json({error: false, details: e})
+                    res.json({error: true, details: e})
                 }
             })
         }
@@ -45,17 +68,7 @@ router.post('/delete', auth, (req, res) => {
     })
 })
 
-router.post('/save', auth, (req, res) => {
-    if(!(req.body.strategy instanceof Array)){
-        res.json({error: true, details: 'Badly Formatted Strategies'})
-        return
-    }
-    for(let strat of req.body.strategy){
-        if(!(strat instanceof Object)){
-            res.json({error: true, details: 'Badly Formatted Strategies'})
-            return
-        }
-    }
+router.post('/save', auth, strategyFormatCheck, (req, res) => {
     User.findById(req.body.id).then(user => {
         if(user){
             Strategy.findOne({user: user, legs: req.body.strategy}).then(strategy => {
@@ -64,8 +77,9 @@ router.post('/save', auth, (req, res) => {
                 }
                 else{
                     var newStrat = new Strategy({user: user, stock: req.body.ticker, legs: req.body.strategy})
-                    newStrat.save()
-                    res.json({strategy: true})
+                    newStrat.save().then(() => {
+                        res.json({strategy: true})
+                    })
                 }
             })
         }

@@ -83,7 +83,7 @@ describe('Protected Routes', () => {
 
         it('Tests /save', async (done) => {
             request(app).post("/api/strategy/save")
-            .send({ id: id, ticker: 'SPY' , strategy: [{},{},{}]}) //Array of Objects should pass
+            .send({ id: id, ticker: 'SPY' , strategy: [{strike: 30},{price: 2},{quantity: 4}]}) //Array of Objects should pass
             .set('Authorization', token)
             .expect('Content-Type', /json/)
             .expect(200)
@@ -99,7 +99,7 @@ describe('Protected Routes', () => {
             .set('Authorization', token)
             .expect('Content-Type', /json/)
             .then(response => {
-                expect(response.body.details).toBe('Badly Formatted Strategies')
+                expect(response.body.details).toBe('Badly Formatted Strategies, Not Array of Objects')
                 done()
             })
         }, 30000)
@@ -110,7 +110,7 @@ describe('Protected Routes', () => {
             .set('Authorization', token)
             .expect('Content-Type', /json/)
             .then(response => {
-                expect(response.body.details).toBe('Badly Formatted Strategies')
+                expect(response.body.details).toBe('Badly Formatted Strategies, Not Array')
                 done()
             })
         }, 30000)
@@ -122,20 +122,20 @@ describe('Protected Routes', () => {
             .expect('Content-Type', /json/)
             .expect(200)
             .then(response => {
-                console.log(response.body.strategies)
-                expect(response.body.strategies[0].legs).toMatchObject([{},{},{}])
+                expect(response.body.strategies[0].legs).toMatchObject([{strike: 30},{price: 2},{quantity: 4}])
                 done()
             })
         }, 30000)
 
         it('Tests /delete', async (done) => {
             request(app).post("/api/strategy/delete")
-            .send({ id: id, ticker: 'SPY', legs: [{},{},{}]}) 
+            .send({ id: id, ticker: 'SPY', strategy: [{strike: 30},{price: 2},{quantity: 4}]}) 
             .set('Authorization', token)
             .expect('Content-Type', /json/)
             .expect(200)
             .then(response => {
-                expect(response.body.error).toBe(true)
+                console.log(response.body)
+                expect(response.body.details.deletedCount).toBe(1)
                 done()
             })
         }, 30000)
@@ -168,7 +168,7 @@ describe('Protected Routes', () => {
             })
         }, 30000)
     
-        it.skip('Tests /edit to delete', async (done) => {
+        it('Tests /edit to delete', async (done) => {
             request(app).post("/api/watchlist/edit")
             .send({ id: id, ticker: 'SPY'}) 
             .set('Authorization', token)
