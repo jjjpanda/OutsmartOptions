@@ -17,8 +17,9 @@ router.post('/view', auth, (req, res) => {
                 }
                 else{
                     const newWatchlist = new Watchlist({user: user, stocks: []}) 
-                    newWatchlist.save()
-                    res.json({list: []})
+                    newWatchlist.save().then(() => {
+                        res.json({list: []})
+                    })
                 }
             })
         }
@@ -40,13 +41,15 @@ router.post('/edit', auth, (req, res) => {
                     else{
                         watchlist.stocks.push(req.body.ticker)
                     }
-                    watchlist.save()
-                    res.json({list: watchlist.stocks})
+                    watchlist.save().then(() => {
+                        res.json({list: watchlist.stocks})
+                    })
                 }
                 else{
                     const newWatchlist = new Watchlist({user: user, stocks: [req.body.ticker]}) 
-                    newWatchlist.save()
-                    res.json({list: newWatchlist.stocks})
+                    newWatchlist.save().then(() => {
+                        res.json({list: newWatchlist.stocks})
+                    })
                 }
             })
         }
