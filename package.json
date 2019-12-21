@@ -7,10 +7,10 @@
     "start": "npx webpack && node server/server.js",
     "startContinuous": "npm-run-all -p createDistContinuous nodemonStart",
     "test": "npm-run-all -s testReact",
-    "testReact": "jest test/reactTests --runInBand --collectCoverage --verbose",
-    "testEndpoints": "jest test/nodeTests --runInBand --collectCoverage --verbose",
-    "testCrossBrowser": "jest test/browserTests --runInBand --setupFiles dotenv/config --collectCoverage --verbose",
-    "testAll": "jest --setupFiles dotenv/config --runInBand --collectCoverage --verbose",
+    "testReact": "jest test/reactTests --runInBand",
+    "testEndpoints": "jest test/nodeTests --runInBand",
+    "testCrossBrowser": "jest test/browserTests --runInBand --setupFiles dotenv/config",
+    "testAll": "jest --setupFiles dotenv/config --runInBand",
     "lint": "eslint src/**/*.js server/**/*.js test/**/*.js > eslint/lintOutput.txt",
     "lintRemover": "eslint src/**/*.js server/**/*.js test/**/*.js --fix > eslint/lintOutput.txt",
     "createDistContinuous": "npx webpack --watch",
@@ -65,7 +65,7 @@
     "@babel/core": "^7.6.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.7.4",
-    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
@@ -96,6 +96,8 @@
     "webpack-cli": "^3.3.9"
   },
   "jest": {
+    "collectCoverage": true,
+    "verbose": true,
     "projects": [
       {
         "displayName": "React",

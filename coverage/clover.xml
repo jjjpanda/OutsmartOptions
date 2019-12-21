@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1576916643962" clover="3.2.0">
-  <project timestamp="1576916643963" name="All files">
+<coverage generated="1576955559269" clover="3.2.0">
+  <project timestamp="1576955559269" name="All files">
     <metrics statements="342" coveredstatements="291" conditionals="375" coveredconditionals="294" methods="30" coveredmethods="27" elements="747" coveredelements="612" complexity="0" loc="342" ncloc="342" packages="1" files="2" classes="2"/>
     <file name="optionsMathLibrary.js" path="C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\optionsMathLibrary.js">
       <metrics statements="323" coveredstatements="274" conditionals="356" coveredconditionals="279" methods="25" coveredmethods="22"/>
