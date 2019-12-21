@@ -10,7 +10,7 @@ router.post("/earningsDate", (req, res) => {
             res.json({date: earnings.date, erSoon: true})
         }
         else{
-            res.json({erSoon:false})
+            res.json({erSoon: false})
         }
     })
 })

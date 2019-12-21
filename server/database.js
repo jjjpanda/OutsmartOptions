@@ -17,9 +17,13 @@ mongoose.connection.once('disconnected', () => {
 
 module.exports = {
 
-  connect : (callback) => {
-    return mongoose.connect("mongodb://"+process.env.dbNAME+":"+process.env.dbPWD+"@"+process.env.dbIP+":"+process.env.dbPORT, 
-    { useNewUrlParser: true, useUnifiedTopology: true })
+  connect : (url, callback) => {
+    return mongoose.connect("mongodb://"+process.env.dbIP+":"+process.env.dbPORT+"/"+url, 
+    { useNewUrlParser: true, useUnifiedTopology: true, auth: {
+      authSource: "admin",
+      user: process.env.dbNAME,
+      password : process.env.dbPWD
+    }})
     .then(
       () => { 
         console.log('Database Connect Callback Received')
