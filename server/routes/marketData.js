@@ -24,8 +24,8 @@ router.post('/chain', (req, res) => {
 });
 
 router.post('/historical', (req, res) => {
-  const { ticker } = req.body;
-  realTimeData.getStockHistoricalData(tradikey, ticker, (data) => {
+  const { ticker, days } = req.body;
+  realTimeData.getStockHistoricalData(tradikey, ticker, (days === undefined ? 720 : days), (data) => {
     res.json(data);
   });
 });

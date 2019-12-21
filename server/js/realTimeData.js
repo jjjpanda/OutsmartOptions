@@ -90,31 +90,6 @@ module.exports = {
       // console.log(response.statusCode);
       if (!error && response.statusCode == 200) {
         body = JSON.parse(body).options;
-        /*
-            if(body.option != undefined){
-                body = body.option;
-                //console.log(body)
-                bid = body.map(a => a.bid)
-                ask = body.map(a => a.ask)
-                strike = body.map(a => a.strike)
-                vol = body.map(a => a.volume)
-                avol = body.map(a => a.average_volume)
-                oi = body.map(a => a.open_interest)
-                type = body.map(a => a.option_type)
-                data = zip([type, strike, bid, ask, vol, avol, oi])
-            }
-            data = data.map(function(x){
-                return {
-                    type: x[0],
-                    strike: x[1],
-                    bid: x[2],
-                    ask: x[3],
-                    vol: x[4],
-                    avol: x[5],
-                    oi: x[6]
-                };
-            });
-            */
         let data;
         if (body.option != undefined) {
           body = body.option;
@@ -126,6 +101,7 @@ module.exports = {
             vol: a.volume,
             // avol: a.average_volume,
             oi: a.open_interest,
+            symbol: a.symbol
           }));
         }
         // REFACTOR
@@ -142,7 +118,8 @@ module.exports = {
               [`${option.type}Vol`]: option.vol,
               // [option.type+"AvgVol"]:option.avol,
               [`${option.type}OI`]: option.oi,
-              key: expiration[index] + option.strike,
+              [`${option.type}Symbol`]: option.symbol,
+              key: expiration[index] + option.strike
             });
           } else {
             newData.find((x) => x.strike === option.strike)[`${option.type}Bid`] = option.bid;
@@ -151,6 +128,8 @@ module.exports = {
             newData.find((x) => x.strike === option.strike)[`${option.type}Vol`] = option.vol;
             // newData.find(x => x.strike === option.strike)[option.type+"AvgVol"] = option.avol
             newData.find((x) => x.strike === option.strike)[`${option.type}OI`] = option.oi;
+            newData.find((x) => x.strike === option.strike)[`${option.type}Symbol`] = option.symbol
+
           }
         }
         // CHANGED DATA TO NEWDATA
@@ -161,15 +140,15 @@ module.exports = {
     });
   },
 
-  getStockHistoricalData(apikey, ticker, callback) {
+  getStockHistoricalData(apikey, ticker, days, callback) {
     request({
       method: 'get',
       url: 'https://sandbox.tradier.com/v1/markets/history',
       qs: {
         symbol: ticker,
         interval: 'daily',
-        start: getDateFromYearsAgo(3),
-        end: getDateFromYearsAgo(0),
+        start: getDateFromDaysAgo(days),
+        end: getDateFromDaysAgo(0),
       },
       headers: {
         Authorization: `Bearer ${apikey}`,
@@ -233,13 +212,8 @@ module.exports = {
 
 };
 
-/*
-function zip(arrays) {
-  return Array.apply(null, Array(arrays[0].length)).map((_, i) => arrays.map((array) => array[i]));
-}
-*/
-
-const getDateFromYearsAgo = (n) => {
-  const d = new Date();
-  return `${d.getFullYear() - n}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`;
+const getDateFromDaysAgo = (n) => {
+  let d = new Date()
+  d = new Date(d.setDate((new Date()).getDate() - n))
+  return `${d.getFullYear()}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`;
 };

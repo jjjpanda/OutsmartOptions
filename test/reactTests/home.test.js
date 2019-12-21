@@ -2,15 +2,15 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { shallow, mount } from 'enzyme';
 
-import OptionsCalculator from '../../src/calc.js';
+import HomePage from '../../src/home.js';
 
-describe('Calculator Test', () => {
-  it('Calculator Render', () => {
-    shallow(<OptionsCalculator />);
+describe('Home Test', () => {
+  it('Home Render', () => {
+    shallow(<HomePage />);
   });
-  test('Calculator', () => {
+  test('Home', () => {
     const component = renderer.create(
-      <OptionsCalculator />,
+      <HomePage />,
     );
     const tree = component.toJSON();
     expect(tree).not.toBe('');

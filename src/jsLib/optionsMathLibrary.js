@@ -639,3 +639,5 @@ export function nameStrategy(strategies){
   }
   return 'Cost of Strategy'
 }
+
+
