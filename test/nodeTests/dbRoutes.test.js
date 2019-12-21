@@ -5,7 +5,7 @@ const mongoDB = require('../../server/database')
 var id, token;
 
 beforeAll(async (done) => {
-    return mongoDB.connect(done);
+    return mongoDB.connect('tests', done);
 }, 50000);
 
 afterAll(async (done) => {
@@ -56,63 +56,156 @@ describe('POST /api/users/', () => {
         })
     }, 30000)
 
-    it('Authentication Validation', async (done) => {
-        request(app).post("/api/users/current")
-        .send({ id: id })
-        .set('Authorization', token)
-        .expect('Content-Type', /json/)
-        .then(response => {
-            expect(response.body.email).toBe('email@email.email')
-            done()
-        })
-    }, 30000)
+})
 
-    it('Delete User', async (done) => {
-        request(app).post("/api/users/delete")
-        .send({ id: id })
-        .set('Authorization', token)
-        .expect('Content-Type', /json/)
-        .then(response => {
-            expect(response.body.deleted).toBe(true)
-            done()
-        })
-    }, 30000)
+describe('Public Routes', () => {
+
+    describe('POST Earnings /api/market/', () => {
+
+        it('Tests /earningsDate', async (done) => {
+            request(app).post("/api/market/earningsDate")
+            .send({ ticker: 'SPY' }) //The infamous SP500 Earnings
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body.erSoon).toBe(false)
+                done()
+            })
+        }, 30000)
+
+    })
 
 })
 
-describe('POST Earnings /api/market/', () => {
+describe('Protected Routes', () => {
 
-    it('Tests /earningsDate', async (done) => {
-        // /api/market/earningsDate
-        done()
-    }, 30000)
+    describe('POST Strategy /api/strategy/', () => {
 
-})
+        it('Tests /save', async (done) => {
+            request(app).post("/api/strategy/save")
+            .send({ id: id, ticker: 'SPY' , strategy: [{},{},{}]}) //Array of Objects should pass
+            .set('Authorization', token)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body.strategy).toBe(true)
+                done()
+            })
+        }, 30000)
 
-describe('POST Strategy /api/strategy/', () => {
+        it('Tests badly formatted /save', async (done) => {
+            request(app).post("/api/strategy/save")
+            .send({ id: id, ticker: 'SPY' , strategy: [7,7,7]}) //Array with anything other than Objects should fail
+            .set('Authorization', token)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                expect(response.body.details).toBe('Badly Formatted Strategies')
+                done()
+            })
+        }, 30000)
 
-    it('Tests /load', async (done) => {
-        // /api/strategy/load
-        done()
-    }, 30000)
+        it('Tests badly formatted /save', async (done) => {
+            request(app).post("/api/strategy/save")
+            .send({ id: id, ticker: 'SPY' , strategy: 14}) //No Array, No pass
+            .set('Authorization', token)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                expect(response.body.details).toBe('Badly Formatted Strategies')
+                done()
+            })
+        }, 30000)
+        
+        it('Tests /load', async (done) => {
+            request(app).post("/api/strategy/load")
+            .send({ id: id, ticker: 'SPY'}) 
+            .set('Authorization', token)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(response => {
+                console.log(response.body.strategies)
+                expect(response.body.strategies[0].legs).toMatchObject([{},{},{}])
+                done()
+            })
+        }, 30000)
 
-    it('Tests /save', async (done) => {
-        // /api/strategy/save
-        done()
-    }, 30000)
+        it('Tests /delete', async (done) => {
+            request(app).post("/api/strategy/delete")
+            .send({ id: id, ticker: 'SPY', legs: [{},{},{}]}) 
+            .set('Authorization', token)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body.error).toBe(true)
+                done()
+            })
+        }, 30000)
+    
+    })
+    
+    describe('POST Watchlist /api/watchlist/', () => {
 
-})
+        it('Tests /edit to add', async (done) => {
+            request(app).post("/api/watchlist/edit")
+            .send({ id: id, ticker: 'SPY'}) 
+            .set('Authorization', token)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body.list).toMatchObject(['SPY'])
+                done()
+            })
+        }, 30000)
+    
+        it('Tests /view', async (done) => {
+            request(app).post("/api/watchlist/view")
+            .send({ id: id}) 
+            .set('Authorization', token)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body.list).toMatchObject(['SPY'])
+                done()
+            })
+        }, 30000)
+    
+        it.skip('Tests /edit to delete', async (done) => {
+            request(app).post("/api/watchlist/edit")
+            .send({ id: id, ticker: 'SPY'}) 
+            .set('Authorization', token)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(response => {
+                expect(response.body.list).toMatchObject([])
+                done()
+            })
+        }, 30000)
+    
+    })
 
-describe('POST Watchlist /api/watchlist/', () => {
+    describe('User Related Routes', () => {
+        
+        it('Authentication Validation', async (done) => {
+            request(app).post("/api/users/current")
+            .send({ id: id })
+            .set('Authorization', token)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                expect(response.body.email).toBe('email@email.email')
+                done()
+            })
+        }, 30000)
+    
+        it('Delete User', async (done) => {
+            request(app).post("/api/users/delete")
+            .send({ id: id })
+            .set('Authorization', token)
+            .expect('Content-Type', /json/)
+            .then(response => {
+                expect(response.body.deleted).toBe(true)
+                done()
+            })
+        }, 30000)
 
-    it('Tests /view', async (done) => {
-        // /api/watchlist/view
-        done()
-    }, 30000)
-
-    it('Tests /edit', async (done) => {
-        // /api/watchlist/edit
-        done()
-    }, 30000)
+    })
 
 })

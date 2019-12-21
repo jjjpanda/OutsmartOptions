@@ -7,7 +7,7 @@ const StratSchema = new Schema({
         ref: "user"
     },
     stock: String,
-    strategy : [{
+    legs : [{
         date: Date,
         strike: Number,
         price: Number,
