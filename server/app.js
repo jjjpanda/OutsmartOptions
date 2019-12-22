@@ -1,12 +1,15 @@
 const express = require('express');
+
 const app = express();
 const path = require('path');
 
 const bodyParser = require('body-parser');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const fileUpload = require('express-fileupload');
+
 app.use(fileUpload());
 
 // NECESSARY FOR CALLS IN HTML
@@ -21,30 +24,38 @@ for (const webPath of knownPaths) {
   }));
 }
 
-const marketData = require("./routes/marketData.js");
-app.use("/api/market", marketData);
+const marketData = require('./routes/marketData.js');
 
-const bugsAndReports = require('./routes/bugsAndReports.js')
-app.use("/api/bug", bugsAndReports)
+app.use('/api/market', marketData);
 
-const treasury = require('./routes/treasury.js')
-app.use("/api/market", treasury)
+const bugsAndReports = require('./routes/bugsAndReports.js');
 
-const users = require("./routes/users.js");
-app.use("/api/users", users);
+app.use('/api/bug', bugsAndReports);
+
+const treasury = require('./routes/treasury.js');
+
+app.use('/api/market', treasury);
+
+const users = require('./routes/users.js');
+
+app.use('/api/users', users);
 
 const earnings = require('./routes/earnings.js');
+
 app.use('/api/market', earnings);
 
 const watchlist = require('./routes/watchlist.js');
+
 app.use('/api/watchlist', watchlist);
 
 const strategy = require('./routes/strategy.js');
-app.use('/api/strategy', strategy)
 
-const passport = require("passport");
+app.use('/api/strategy', strategy);
+
+const passport = require('passport');
+
 app.use(passport.initialize());
-require("./db/passport.js")(passport);
+require('./db/passport.js')(passport);
 
 // Handle 404
 app.use((req, res) => {
@@ -56,4 +67,4 @@ app.use((error, req, res, next) => {
   res.status(500).send('500: Internal Server Error');
 });
 
-module.exports = app
+module.exports = app;

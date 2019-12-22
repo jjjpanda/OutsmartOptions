@@ -16,8 +16,8 @@ export function fetchReq(req, body, callback) {
 
 export function fileReq(req, fd) {
   fetch(req,
-  {
-    method: 'post',
-    body: fd,
-  })
+    {
+      method: 'post',
+      body: fd,
+    });
 }

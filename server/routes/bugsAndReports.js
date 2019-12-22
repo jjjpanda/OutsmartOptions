@@ -1,4 +1,5 @@
-const express = require("express");
+const express = require('express');
+
 const router = express.Router();
 
 const env = require('dotenv').config();
@@ -11,7 +12,7 @@ const reportBugs = require('../js/reportBug.js');
 
 router.post('/track', (req, res) => {
   reportBugs.getIP(iptrackkey, ipUrl, req.body.ip, (data) => {
-    res.json(data)
+    res.json(data);
   });
 });
 
@@ -23,8 +24,8 @@ router.post('/report', (req, res) => {
 
 router.post('/imageReport', (req, res) => {
   reportBugs.sendImg(bugUrl, req.files.file.data, (data) => {
-    res.json(data)
+    res.json(data);
   });
 });
 
-module.exports = router
+module.exports = router;

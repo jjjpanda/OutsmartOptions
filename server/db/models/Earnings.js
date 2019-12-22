@@ -1,11 +1,12 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
 
 const EarningsSchema = new Schema({
   date: {
     type: Date,
-    required: true
+    required: true,
   },
-  company: String
+  company: String,
 });
-module.exports = mongoose.model("earnings", EarningsSchema);
+module.exports = mongoose.model('earnings', EarningsSchema);

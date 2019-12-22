@@ -119,7 +119,7 @@ describe('Options Math Test', () => {
         isCall: true, isLong: true, date: '2020-12-20', upper: 101, lower: 100, dir: 'Bull', type: 'Call Spread',
       }]);
     expect(math.extractStrategies([{
-      isCall: true, isLong: false, date: '2020-12-20', strike: 101, quantity: 3
+      isCall: true, isLong: false, date: '2020-12-20', strike: 101, quantity: 3,
     },
     {
       isCall: true, isLong: true, date: '2020-12-20', strike: 100,
@@ -532,23 +532,23 @@ describe('Options Math Test', () => {
   it('Assignment Risk', () => {
     expect(math.assignmentRiskAnalysis(100, [
       {
-        isCall: true, isLong: true, date: '2020-12-20', strike: 100
+        isCall: true, isLong: true, date: '2020-12-20', strike: 100,
       },
       {
-        isCall: true, isLong: false, date: '2020-12-20', strike: 85
+        isCall: true, isLong: false, date: '2020-12-20', strike: 85,
       },
       {
-        isCall: false, isLong: false, date: '2020-12-20', strike: 115 
-      }
+        isCall: false, isLong: false, date: '2020-12-20', strike: 115,
+      },
     ])).toMatchObject([
       {
-        isCall: true, isLong: false, date: '2020-12-20', strike: 85
+        isCall: true, isLong: false, date: '2020-12-20', strike: 85,
       },
       {
-        isCall: false, isLong: false, date: '2020-12-20', strike: 115 
-      }
+        isCall: false, isLong: false, date: '2020-12-20', strike: 115,
+      },
     ]);
-  })
+  });
   it('Naked Calls and Puts', () => {
     expect(math.nakedLegsAnalysis([
       {
@@ -556,92 +556,92 @@ describe('Options Math Test', () => {
       },
       {
         isLong: true, isCall: false, strike: 54, date: '2019-12-20', type: 'Put', dir: 'Bear',
-      }
-    ])).toMatchObject([])
+      },
+    ])).toMatchObject([]);
     expect(math.nakedLegsAnalysis([
       {
         date: '2019-12-20', a: 55, b: 53, c: 53, d: 52.5, isLong: true, isCall: true, dir: 'Pin', type: 'Call Fly',
       },
       {
         isLong: false, isCall: false, strike: 54, date: '2019-12-20', type: 'Put', dir: 'Bull',
-      }
+      },
     ])).toMatchObject([
       {
         isLong: false, isCall: false, strike: 54, date: '2019-12-20', type: 'Put', dir: 'Bull',
-      }
-    ])
-  })
+      },
+    ]);
+  });
   it('Names Strategies', () => {
     expect(math.nameStrategy([
       {
-        type: 'Call', dir: 'Bear', quantity: 1
-      }
-    ])).toBe('Bearish Call')
+        type: 'Call', dir: 'Bear', quantity: 1,
+      },
+    ])).toBe('Bearish Call');
     expect(math.nameStrategy([
       {
-        type: 'Call Spread', dir: 'Bear', quantity: 2
-      }
-    ])).toBe('Bearish Call Spread')
+        type: 'Call Spread', dir: 'Bear', quantity: 2,
+      },
+    ])).toBe('Bearish Call Spread');
     expect(math.nameStrategy([
       {
-        type: 'Iron Condor', dir: 'Neu', quantity: 4
-      }
-    ])).toBe('Long Volatility Iron Condor')
+        type: 'Iron Condor', dir: 'Neu', quantity: 4,
+      },
+    ])).toBe('Long Volatility Iron Condor');
     expect(math.nameStrategy([
       {
-        type: 'Call Spread', dir: 'Bear', quantity: 2
+        type: 'Call Spread', dir: 'Bear', quantity: 2,
       },
       {
-        type: 'Put', dir: 'Bear', quantity: 1
-      }
-    ])).toBe('Bearish 3 Legged Strategy')
+        type: 'Put', dir: 'Bear', quantity: 1,
+      },
+    ])).toBe('Bearish 3 Legged Strategy');
     expect(math.nameStrategy([
       {
-        type: 'Call Spread', dir: 'Bear', quantity: 2
+        type: 'Call Spread', dir: 'Bear', quantity: 2,
       },
       {
-        type: 'Call Spread', dir: 'Bear', quantity: 2
-      }
-    ])).toBe('Bearish Call Spreads')
+        type: 'Call Spread', dir: 'Bear', quantity: 2,
+      },
+    ])).toBe('Bearish Call Spreads');
     expect(math.nameStrategy([
       {
-        type: 'Call Fly', dir: 'Neu', quantity: 2
+        type: 'Call Fly', dir: 'Neu', quantity: 2,
       },
       {
-        type: 'Call Fly', dir: 'Neu', quantity: 2
-      }
-    ])).toBe('Long Volatility Call Flys')
+        type: 'Call Fly', dir: 'Neu', quantity: 2,
+      },
+    ])).toBe('Long Volatility Call Flys');
     expect(math.nameStrategy([
       {
-        type: 'Call Condor', dir: 'Pin', quantity: 2
+        type: 'Call Condor', dir: 'Pin', quantity: 2,
       },
       {
-        type: 'Put Condor', dir: 'Pin', quantity: 2
-      }
-    ])).toBe('Short Volatility 4 Legged Strategy')
+        type: 'Put Condor', dir: 'Pin', quantity: 2,
+      },
+    ])).toBe('Short Volatility 4 Legged Strategy');
     expect(math.nameStrategy([
       {
-        type: 'Call', dir: 'Bear', quantity: 1
+        type: 'Call', dir: 'Bear', quantity: 1,
       },
       {
-        type: 'Put Spread', dir: 'Bear', quantity: 2
+        type: 'Put Spread', dir: 'Bear', quantity: 2,
       },
       {
-        type: 'Call Spread', dir: 'Bear', quantity: 2
-      }
-    ])).toBe('Bearish 5 Legged Strategy')
+        type: 'Call Spread', dir: 'Bear', quantity: 2,
+      },
+    ])).toBe('Bearish 5 Legged Strategy');
     expect(math.nameStrategy([
       {
-        type: 'Call Fly', dir: 'Pin', quantity: 4
+        type: 'Call Fly', dir: 'Pin', quantity: 4,
       },
       {
-        type: 'Put', dir: 'Bear', quantity: 1
-      }
-    ])).toBe('5 Legged Strategy')
+        type: 'Put', dir: 'Bear', quantity: 1,
+      },
+    ])).toBe('5 Legged Strategy');
     expect(math.nameStrategy([
       {
-        quantity: 3
-      }
-    ])).toBe('Cost of Strategy')
-  })
+        quantity: 3,
+      },
+    ])).toBe('Cost of Strategy');
+  });
 });

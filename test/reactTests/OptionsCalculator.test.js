@@ -1,4 +1,4 @@
-import 'isomorphic-fetch'
+import 'isomorphic-fetch';
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { shallow, mount } from 'enzyme';
@@ -16,7 +16,4 @@ describe('Calculator Test', () => {
     const tree = component.toJSON();
     expect(tree).not.toBe('');
   });
-  it('Fails', () => {
-    expect(true).toBe(false);
-  })
 });
