@@ -3,7 +3,7 @@ import {
   Input,
   Button,
   Switch,
-  Icon
+  Icon,
 } from 'antd';
 
 import HelpTooltip from './HelpTooltip';

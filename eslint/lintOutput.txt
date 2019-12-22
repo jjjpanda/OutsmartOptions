@@ -127,76 +127,61 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\HelpTooltip.j
   15:65  error  'title' is missing in props validation                    react/prop-types
 
 c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\OptionsLeg.js
-    4:3    error  'InputNumber' is defined but never used                    no-unused-vars
-    7:3    error  'Modal' is defined but never used                          no-unused-vars
-    8:3    error  'Table' is defined but never used                          no-unused-vars
-   10:3    error  'Checkbox' is defined but never used                       no-unused-vars
-   12:3    error  'Menu' is defined but never used                           no-unused-vars
-   13:3    error  'Popover' is defined but never used                        no-unused-vars
-   16:8    error  'Tour' is defined but never used                           no-unused-vars
-   17:8    error  'Cookies' is defined but never used                        no-unused-vars
-   18:10   error  'disableBodyScroll' is defined but never used              no-unused-vars
-   18:29   error  'enableBodyScroll' is defined but never used               no-unused-vars
-   19:10   error  'NoAxisGraph' is defined but never used                    no-unused-vars
-   19:23   error  'ProfitGraph' is defined but never used                    no-unused-vars
-   21:8    error  'StockSymbol' is defined but never used                    no-unused-vars
-   22:8    error  'StrategyInfo' is defined but never used                   no-unused-vars
-   25:9    error  'Panel' is assigned a value but never used                 no-unused-vars
-   31:22   error  'isFirst' is missing in props validation                   react/prop-types
-   32:18   error  'optionRepresented' is missing in props validation         react/prop-types
-   32:36   error  'optionRepresented.date' is missing in props validation    react/prop-types
-   32:49   error  'optionRepresented' is missing in props validation         react/prop-types
-   32:67   error  'optionRepresented.strike' is missing in props validation  react/prop-types
-   32:83   error  'optionRepresented' is missing in props validation         react/prop-types
-   32:101  error  'optionRepresented.isCall' is missing in props validation  react/prop-types
-   33:21   error  'optionRepresented' is missing in props validation         react/prop-types
-   33:39   error  'optionRepresented.isCall' is missing in props validation  react/prop-types
-   34:19   error  'optionRepresented' is missing in props validation         react/prop-types
-   34:37   error  'optionRepresented.date' is missing in props validation    react/prop-types
-   35:21   error  'optionRepresented' is missing in props validation         react/prop-types
-   35:39   error  'optionRepresented.strike' is missing in props validation  react/prop-types
-   36:20   error  'optionRepresented' is missing in props validation         react/prop-types
-   36:38   error  'optionRepresented.price' is missing in props validation   react/prop-types
-   37:17   error  'optionRepresented' is missing in props validation         react/prop-types
-   37:35   error  'optionRepresented.iv' is missing in props validation      react/prop-types
-   40:25   error  'optionRepresented' is missing in props validation         react/prop-types
-   40:43   error  'optionRepresented.price' is missing in props validation   react/prop-types
-   43:5    error  Must use destructuring props assignment                    react/destructuring-assignment
-   43:16   error  'callback' is missing in props validation                  react/prop-types
-   49:17   error  Must use destructuring props assignment                    react/destructuring-assignment
-   49:28   error  'callback' is missing in props validation                  react/prop-types
-   55:17   error  Must use destructuring props assignment                    react/destructuring-assignment
-   55:28   error  'callback' is missing in props validation                  react/prop-types
-   62:17   error  Must use destructuring props assignment                    react/destructuring-assignment
-   62:28   error  'callback' is missing in props validation                  react/prop-types
-   67:9    error  JSX not allowed in files with extension '.js'              react/jsx-filename-extension
-   70:50   error  Must use destructuring props assignment                    react/destructuring-assignment
-   70:61   error  'isFirst' is missing in props validation                   react/prop-types
-   72:16   error  Must use destructuring props assignment                    react/destructuring-assignment
-   72:27   error  'isFirst' is missing in props validation                   react/prop-types
-   80:50   error  Must use destructuring props assignment                    react/destructuring-assignment
-   80:61   error  'isFirst' is missing in props validation                   react/prop-types
-   82:16   error  Must use destructuring props assignment                    react/destructuring-assignment
-   82:27   error  'isFirst' is missing in props validation                   react/prop-types
-   86:57   error  Must use destructuring state assignment                    react/destructuring-assignment
-   86:76   error  Must use destructuring state assignment                    react/destructuring-assignment
-   86:97   error  Must use destructuring state assignment                    react/destructuring-assignment
-   87:18   error  Must use destructuring state assignment                    react/destructuring-assignment
-   92:50   error  Must use destructuring props assignment                    react/destructuring-assignment
-   92:61   error  'isFirst' is missing in props validation                   react/prop-types
-   94:16   error  Must use destructuring props assignment                    react/destructuring-assignment
-   94:27   error  'isFirst' is missing in props validation                   react/prop-types
-   97:73   error  Must use destructuring state assignment                    react/destructuring-assignment
-  100:49   error  Must use destructuring props assignment                    react/destructuring-assignment
-  100:60   error  'isFirst' is missing in props validation                   react/prop-types
-  102:16   error  Must use destructuring props assignment                    react/destructuring-assignment
-  102:27   error  'isFirst' is missing in props validation                   react/prop-types
-  105:74   error  Must use destructuring state assignment                    react/destructuring-assignment
-  108:92   error  Must use destructuring props assignment                    react/destructuring-assignment
-  108:103  error  'deleteSelf' is missing in props validation                react/prop-types
-  108:114  error  Must use destructuring state assignment                    react/destructuring-assignment
-  108:133  error  Must use destructuring state assignment                    react/destructuring-assignment
-  108:152  error  Must use destructuring state assignment                    react/destructuring-assignment
+  15:22   error  'isFirst' is missing in props validation                   react/prop-types
+  16:18   error  'optionRepresented' is missing in props validation         react/prop-types
+  16:36   error  'optionRepresented.date' is missing in props validation    react/prop-types
+  16:49   error  'optionRepresented' is missing in props validation         react/prop-types
+  16:67   error  'optionRepresented.strike' is missing in props validation  react/prop-types
+  16:83   error  'optionRepresented' is missing in props validation         react/prop-types
+  16:101  error  'optionRepresented.isCall' is missing in props validation  react/prop-types
+  17:21   error  'optionRepresented' is missing in props validation         react/prop-types
+  17:39   error  'optionRepresented.isCall' is missing in props validation  react/prop-types
+  18:19   error  'optionRepresented' is missing in props validation         react/prop-types
+  18:37   error  'optionRepresented.date' is missing in props validation    react/prop-types
+  19:21   error  'optionRepresented' is missing in props validation         react/prop-types
+  19:39   error  'optionRepresented.strike' is missing in props validation  react/prop-types
+  20:20   error  'optionRepresented' is missing in props validation         react/prop-types
+  20:38   error  'optionRepresented.price' is missing in props validation   react/prop-types
+  21:17   error  'optionRepresented' is missing in props validation         react/prop-types
+  21:35   error  'optionRepresented.iv' is missing in props validation      react/prop-types
+  24:25   error  'optionRepresented' is missing in props validation         react/prop-types
+  24:43   error  'optionRepresented.price' is missing in props validation   react/prop-types
+  27:5    error  Must use destructuring props assignment                    react/destructuring-assignment
+  27:16   error  'callback' is missing in props validation                  react/prop-types
+  33:17   error  Must use destructuring props assignment                    react/destructuring-assignment
+  33:28   error  'callback' is missing in props validation                  react/prop-types
+  39:17   error  Must use destructuring props assignment                    react/destructuring-assignment
+  39:28   error  'callback' is missing in props validation                  react/prop-types
+  46:17   error  Must use destructuring props assignment                    react/destructuring-assignment
+  46:28   error  'callback' is missing in props validation                  react/prop-types
+  51:9    error  JSX not allowed in files with extension '.js'              react/jsx-filename-extension
+  54:50   error  Must use destructuring props assignment                    react/destructuring-assignment
+  54:61   error  'isFirst' is missing in props validation                   react/prop-types
+  56:16   error  Must use destructuring props assignment                    react/destructuring-assignment
+  56:27   error  'isFirst' is missing in props validation                   react/prop-types
+  64:50   error  Must use destructuring props assignment                    react/destructuring-assignment
+  64:61   error  'isFirst' is missing in props validation                   react/prop-types
+  66:16   error  Must use destructuring props assignment                    react/destructuring-assignment
+  66:27   error  'isFirst' is missing in props validation                   react/prop-types
+  70:57   error  Must use destructuring state assignment                    react/destructuring-assignment
+  70:76   error  Must use destructuring state assignment                    react/destructuring-assignment
+  70:97   error  Must use destructuring state assignment                    react/destructuring-assignment
+  71:18   error  Must use destructuring state assignment                    react/destructuring-assignment
+  76:50   error  Must use destructuring props assignment                    react/destructuring-assignment
+  76:61   error  'isFirst' is missing in props validation                   react/prop-types
+  78:16   error  Must use destructuring props assignment                    react/destructuring-assignment
+  78:27   error  'isFirst' is missing in props validation                   react/prop-types
+  81:73   error  Must use destructuring state assignment                    react/destructuring-assignment
+  84:49   error  Must use destructuring props assignment                    react/destructuring-assignment
+  84:60   error  'isFirst' is missing in props validation                   react/prop-types
+  86:16   error  Must use destructuring props assignment                    react/destructuring-assignment
+  86:27   error  'isFirst' is missing in props validation                   react/prop-types
+  89:74   error  Must use destructuring state assignment                    react/destructuring-assignment
+  92:92   error  Must use destructuring props assignment                    react/destructuring-assignment
+  92:103  error  'deleteSelf' is missing in props validation                react/prop-types
+  92:114  error  Must use destructuring state assignment                    react/destructuring-assignment
+  92:133  error  Must use destructuring state assignment                    react/destructuring-assignment
+  92:152  error  Must use destructuring state assignment                    react/destructuring-assignment
 
 c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\StockSymbol.js
    11:30   error    Unexpected use of file extension "js" for "../jsLib/optionsMathLibrary.js"  import/extensions
@@ -990,17 +975,17 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\OptionsCalculator.js
   514:15   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   534:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
   536:44   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                               react/no-unescaped-entities
+  538:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   538:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   538:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
-  538:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
-  540:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   540:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   540:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  540:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   554:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
   556:1    error    This line has a length of 150. Maximum allowed is 100                                                                                                                                                         max-len
   556:63   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                               react/no-unescaped-entities
-  558:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   558:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
+  558:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   558:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   560:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   560:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
@@ -1010,19 +995,19 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\OptionsCalculator.js
   582:41   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                               react/no-unescaped-entities
   584:38   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                               react/no-unescaped-entities
   584:73   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                               react/no-unescaped-entities
-  587:13   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   587:13   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
+  587:13   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   587:13   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   596:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
   596:40   error    Expected to return a value at the end of arrow function 'content'                                                                                                                                             consistent-return
   597:38   error    Expected '!==' and instead saw '!='                                                                                                                                                                           eqeqeq
   602:13   error    Emojis should be wrapped in <span>, have role="img", and have an accessible description with aria-label or aria-labelledby                                                                                    jsx-a11y/accessible-emoji
+  607:15   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   607:15   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   607:15   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
-  607:15   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
-  609:15   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
-  609:15   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   609:15   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  609:15   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
+  609:15   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   627:40   error    Expected to return a value at the end of arrow function 'content'                                                                                                                                             consistent-return
   628:75   error    Expected '!==' and instead saw '!='                                                                                                                                                                           eqeqeq
   628:116  error    Expected '!==' and instead saw '!='                                                                                                                                                                           eqeqeq
@@ -1031,11 +1016,11 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\OptionsCalculator.js
   634:1    error    This line has a length of 108. Maximum allowed is 100                                                                                                                                                         max-len
   636:1    error    This line has a length of 133. Maximum allowed is 100                                                                                                                                                         max-len
   636:25   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                               react/no-unescaped-entities
-  638:15   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
-  638:15   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   638:15   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
-  640:15   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
+  638:15   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
+  638:15   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   640:15   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
+  640:15   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   640:15   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   658:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
   658:40   error    Expected to return a value at the end of arrow function 'content'                                                                                                                                             consistent-return
@@ -1045,19 +1030,19 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\OptionsCalculator.js
   682:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   682:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   682:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
-  684:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
-  684:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   684:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  684:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
+  684:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   692:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
-  696:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
-  696:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   696:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
+  696:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
+  696:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   698:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   698:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   698:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   706:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
-  710:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   710:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
+  710:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   710:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   712:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   712:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
@@ -1066,63 +1051,58 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\OptionsCalculator.js
   721:9    error    Emojis should be wrapped in <span>, have role="img", and have an accessible description with aria-label or aria-labelledby                                                                                    jsx-a11y/accessible-emoji
   722:1    error    This line has a length of 101. Maximum allowed is 100                                                                                                                                                         max-len
   722:21   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                               react/no-unescaped-entities
+  725:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   725:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   725:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
-  725:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
-  727:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   727:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   727:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
+  727:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   735:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
   736:9    error    Emojis should be wrapped in <span>, have role="img", and have an accessible description with aria-label or aria-labelledby                                                                                    jsx-a11y/accessible-emoji
   737:1    error    This line has a length of 109. Maximum allowed is 100                                                                                                                                                         max-len
   738:76   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                               react/no-unescaped-entities
-  741:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   741:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  741:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   741:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
-  743:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   743:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   743:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
+  743:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   751:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
   752:33   error    Expected '!==' and instead saw '!='                                                                                                                                                                           eqeqeq
   756:11   error    Emojis should be wrapped in <span>, have role="img", and have an accessible description with aria-label or aria-labelledby                                                                                    jsx-a11y/accessible-emoji
   757:1    error    This line has a length of 118. Maximum allowed is 100                                                                                                                                                         max-len
   757:95   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                               react/no-unescaped-entities
-  759:13   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   759:13   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  759:13   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   759:13   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   768:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
-  772:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   772:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   772:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
+  772:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   774:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   774:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   774:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   788:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
-  792:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   792:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   792:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
+  792:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+  794:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   794:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   794:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
-  794:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   802:25   error    'inDOM' is defined but never used                                                                                                                                                                             no-unused-vars
-  806:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
-  806:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
   806:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
-  808:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
-  808:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
+  806:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
+  806:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
   808:11   error    Visible, non-interactive elements with click handlers must have at least one keyboard listener                                                                                                                jsx-a11y/click-events-have-key-events
+  808:11   error    Static HTML elements with event handlers require a role                                                                                                                                                       jsx-a11y/no-static-element-interactions
+  808:11   error    Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead. Learn more: https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
   845:1    error    This line has a length of 110. Maximum allowed is 100                                                                                                                                                         max-len
   854:41   error    Must use destructuring state assignment                                                                                                                                                                       react/destructuring-assignment
   854:68   error    Expected '===' and instead saw '=='                                                                                                                                                                           eqeqeq
   854:91   error    Must use destructuring state assignment                                                                                                                                                                       react/destructuring-assignment
   854:121  error    Expected '===' and instead saw '=='                                                                                                                                                                           eqeqeq
   861:26   error    Must use destructuring state assignment                                                                                                                                                                       react/destructuring-assignment
-  865:17   error    Expected closing tag to match indentation of opening                                                                                                                                                          react/jsx-closing-tag-location
-  865:17   error    Expected indentation of 18 space characters but found 16                                                                                                                                                      react/jsx-indent
   870:1    error    This line has a length of 110. Maximum allowed is 100                                                                                                                                                         max-len
-  871:19   error    Expected indentation of 20 space characters but found 18                                                                                                                                                      react/jsx-indent
-  872:17   error    Expected indentation of 18 space characters but found 16                                                                                                                                                      react/jsx-indent
-  872:17   error    Expected closing tag to match indentation of opening                                                                                                                                                          react/jsx-closing-tag-location
   883:1    error    This line has a length of 101. Maximum allowed is 100                                                                                                                                                         max-len
   883:23   error    Must use destructuring state assignment                                                                                                                                                                       react/destructuring-assignment
   883:50   error    Expected '===' and instead saw '=='                                                                                                                                                                           eqeqeq
@@ -1381,6 +1361,6 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\Watchlist.te
   8:3   warning  Test has no assertions                         jest/expect-expect
   9:13  error    JSX not allowed in files with extension '.js'  react/jsx-filename-extension
 
-✖ 1276 problems (1213 errors, 63 warnings)
-  6 errors and 0 warnings potentially fixable with the `--fix` option.
+✖ 1256 problems (1193 errors, 63 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
 
