@@ -12,7 +12,7 @@ import {
   Menu,
   Popover,
 } from 'antd';
-const { Panel } = Collapse
+const Panel = Collapse.Panel
 
 import {NoAxisGraph, ProfitGraph} from './components/graphs.js'
 import {HelpTooltip} from "./components/help-tooltip.js"
