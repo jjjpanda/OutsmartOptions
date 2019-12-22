@@ -1,7 +1,11 @@
 //Dependencies
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom' 
+import { 
+  BrowserRouter as Router, 
+  Link, 
+  Route 
+} from 'react-router-dom' 
 import {
   Icon,
   Layout,
@@ -9,7 +13,9 @@ import {
   Switch,
   Anchor,
 } from 'antd';
-const { Footer, Sider, Content } = Layout;
+const Footer = Layout.Footer
+const Sider = Layout.Sider
+const Content = Layout.Content
 
 //Files
 import logo from './img/logo.png'
@@ -18,12 +24,12 @@ import logo from './img/logo.png'
 import "./css/logo.css";
 import "./css/calculator.less";
 
-import HomePage from "./home.js"
-import OptionsCalculator from './calc.js'
-import Watchlist from './watch.js'
-import About from './about.js'
-import Login from './login.js'
-import Help from './help.js'
+import HomePage from "./HomePage"
+import OptionsCalculator from './OptionsCalculator'
+import Watchlist from './Watchlist'
+import AboutPage from './AboutPage'
+import LoginPage from './LoginPage'
+import HelpPage from './HelpPage'
 
 import * as post from './jsLib/fetchLibrary.js'
 
@@ -38,7 +44,7 @@ fetch('https://api.ipify.org?format=jsoniuhb',
 .then(res => res.text())
 .then((data) => {
   console.log(data)
-  post.fetchReq('/track', JSON.stringify({ip : data}), "")
+  post.fetchReq('/api/bug/track', JSON.stringify({ip : data}), "")
   }
 );
 
@@ -113,12 +119,12 @@ class SideMenu extends React.Component {
 
             <Menu.Item key="darkmode">
               <Icon type="bulb" theme="filled" />
-              <Link>Toggle Darkmode</Link>
+              <Link to="/home" >Toggle Darkmode</Link>
             </Menu.Item>
 
             <Menu.Item key="tooltip" onClick= {() => this.toggleTooltips()}>
               <Icon type="tool" theme="filled" />
-              <Link>Toggle Tooltips</Link>
+              <Link to="/home" >Toggle Tooltips</Link>
             </Menu.Item>
 
           </Menu>
@@ -138,9 +144,9 @@ ReactDOM.render(
               <Route exact path = "/" component = {HomePage}/>
               <Route exact path = "/calc" component = {OptionsCalculator}/> 
               <Route exact path = "/watch" component = {Watchlist} />
-              <Route exact path = "/login" component = {Login} />
-              <Route exact path = "/about" component = {About} />
-              <Route exact path = "/help" component = {Help} />
+              <Route exact path = "/login" component = {LoginPage} />
+              <Route exact path = "/about" component = {AboutPage} />
+              <Route exact path = "/help" component = {HelpPage} />
             </div>
  
           </Content>

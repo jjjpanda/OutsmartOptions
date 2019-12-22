@@ -2,15 +2,15 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { shallow, mount } from 'enzyme';
 
-import Watch from '../../src/watch.js';
+import Watchlist from '../../src/Watchlist';
 
 describe('Watch Test', () => {
   it('Watchlist Render', () => {
-    shallow(<Watch />);
+    shallow(<Watchlist />);
   });
   test('Watch', () => {
     const component = renderer.create(
-      <Watch />,
+      <Watchlist />,
     );
     const tree = component.toJSON();
     expect(tree).not.toBe('');

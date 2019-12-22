@@ -67,7 +67,7 @@ function monteCarlo(price, move, stdev, pastSampleSize, days, trials, intervals)
         pastSampleSize++ 
 
         averagePrice[i] = prob.getMean([...monteCarloResults[i]])
-        stdevPrice[i] = prob.getSD([...monteCarloResults[i]], averagePrice[i])
+        stdevPrice[i] = prob.getSD([...monteCarloResults[i]])
 
         max = Math.max(...monteCarloResults[i])
         min = Math.min(...monteCarloResults[i])
