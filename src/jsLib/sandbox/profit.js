@@ -1,4 +1,4 @@
-import * as prob from './outliersLibrary.js' 
+import * as prob from '../outliersLibrary.js' 
 function NormSInv(p) {
     var a1 = -39.6968302866538, a2 = 220.946098424521, a3 = -275.928510446969;
     var a4 = 138.357751867269, a5 = -30.6647980661472, a6 = 2.50662827745924;
