@@ -1,9 +1,20 @@
 import React from 'react'
 
-import {XAxis, YAxis, CartesianGrid, Tooltip, LineChart, ComposedChart, Line, Legend, Label, ResponsiveContainer, Bar} from 'recharts';
+import {
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  LineChart, 
+  ComposedChart, 
+  Line, 
+  Legend, 
+  Label, 
+  ResponsiveContainer, 
+  Bar 
+} from 'recharts';
 
 import * as timeMath from '../jsLib/timeLibrary.js'
-
 
 class NoAxisGraph extends React.Component{
     constructor(props){

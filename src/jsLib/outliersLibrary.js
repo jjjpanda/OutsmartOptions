@@ -9,10 +9,11 @@ export function getMean(dist) {
   return (sum / dist.length);
 }
 
-export function getSD(dist, mean) {
+export function getSD(dist) {
 // returns standard devitation given set
 
   let sum = 0;
+  let mean = getMean(dist)
 
   for (const v of dist) {
     sum += Math.pow(v - mean, 2);
