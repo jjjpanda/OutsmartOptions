@@ -862,14 +862,14 @@ render() {
                 footer={(
                   <Button key="ok" step-name="ok-button-modal" type="primary" onClick={this.closeOptionsChainModal}>
                     Ok
-                </Button>
+                  </Button>
                 )}
                 onCancel={this.closeOptionsChainModal}
               >
                 <div step-name="edit-leg-modal">
                   <Collapse onChange={(e) => { this.setState(() => ({ activeOptionExpiry: e })); }} accordion>
-                  {this.renderOptionsChain()}
-                </Collapse>
+                    {this.renderOptionsChain()}
+                  </Collapse>
                 </div>
 
               </Modal>
