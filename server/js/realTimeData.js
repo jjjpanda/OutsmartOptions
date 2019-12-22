@@ -101,7 +101,7 @@ module.exports = {
             vol: a.volume,
             // avol: a.average_volume,
             oi: a.open_interest,
-            symbol: a.symbol
+            symbol: a.symbol,
           }));
         }
         // REFACTOR
@@ -119,7 +119,7 @@ module.exports = {
               // [option.type+"AvgVol"]:option.avol,
               [`${option.type}OI`]: option.oi,
               [`${option.type}Symbol`]: option.symbol,
-              key: expiration[index] + option.strike
+              key: expiration[index] + option.strike,
             });
           } else {
             newData.find((x) => x.strike === option.strike)[`${option.type}Bid`] = option.bid;
@@ -128,8 +128,7 @@ module.exports = {
             newData.find((x) => x.strike === option.strike)[`${option.type}Vol`] = option.vol;
             // newData.find(x => x.strike === option.strike)[option.type+"AvgVol"] = option.avol
             newData.find((x) => x.strike === option.strike)[`${option.type}OI`] = option.oi;
-            newData.find((x) => x.strike === option.strike)[`${option.type}Symbol`] = option.symbol
-
+            newData.find((x) => x.strike === option.strike)[`${option.type}Symbol`] = option.symbol;
           }
         }
         // CHANGED DATA TO NEWDATA
@@ -156,16 +155,14 @@ module.exports = {
       },
     },
     (error, response, body) => {
-      if(error){
-        callback({error: error})
-      }
-      else {
+      if (error) {
+        callback({ error });
+      } else {
         body = JSON.parse(body);
         if (body != undefined && body.history != undefined && body.history != null) {
           callback(body.history.day);
-        }
-        else {
-          callback(body)
+        } else {
+          callback(body);
         }
       }
     });
@@ -179,9 +176,8 @@ module.exports = {
     (error, response, body) => {
       if (!error && response.statusCode == 200) {
         callback(body);
-      }
-      else{
-        callback({error: true})
+      } else {
+        callback({ error: true });
       }
     });
   },
@@ -213,7 +209,7 @@ module.exports = {
 };
 
 const getDateFromDaysAgo = (n) => {
-  let d = new Date()
-  d = new Date(d.setDate((new Date()).getDate() - n))
+  let d = new Date();
+  d = new Date(d.setDate((new Date()).getDate() - n));
   return `${d.getFullYear()}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`;
 };

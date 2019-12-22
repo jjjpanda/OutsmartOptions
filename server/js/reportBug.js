@@ -11,12 +11,11 @@ module.exports = {
       body: JSON.stringify({ content: JSON.stringify({ report: msg }) }),
     },
     (error, response, body) => {
-      //console.log(response.statusCode)
-      if(!error){
-        callback({error: false, details: 'Details Sent to URL'});
-      }
-      else{
-        callback({error: true, details: 'Details Not Sent to URL'})
+      // console.log(response.statusCode)
+      if (!error) {
+        callback({ error: false, details: 'Details Sent to URL' });
+      } else {
+        callback({ error: true, details: 'Details Not Sent to URL' });
       }
     });
   },
@@ -37,10 +36,9 @@ module.exports = {
     },
     (err, response, body) => {
       if (!err) {
-        callback({error: true, details: 'Image Sent to URL'})
-      }
-      else {
-        callback({error: true, details: 'Image Not Sent to URL'})
+        callback({ error: true, details: 'Image Sent to URL' });
+      } else {
+        callback({ error: true, details: 'Image Not Sent to URL' });
       }
     });
   },
@@ -65,16 +63,15 @@ module.exports = {
             }),
           }),
         }, (e, r, b) => {
-          //console.log(r.statusCode)
-          if(!e){
-            callback({error:false, details: 'IP Data Sent To Url'})
-          }
-          else{
-            callback({error:true, details: 'IP Data Not Sent To Url'})
+          // console.log(r.statusCode)
+          if (!e) {
+            callback({ error: false, details: 'IP Data Sent To Url' });
+          } else {
+            callback({ error: true, details: 'IP Data Not Sent To Url' });
           }
         });
       } else {
-        callback({error: true, details: 'IP Data Not Found'})
+        callback({ error: true, details: 'IP Data Not Found' });
       }
     });
   },

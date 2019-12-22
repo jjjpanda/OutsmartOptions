@@ -216,7 +216,7 @@ export function collateralAnalysis(stratsNamed) {
   const collateral = 0;
   for (const strategy of stratsNamed) {
     // Analysis
-    //console.log(strategy);
+    // console.log(strategy);
     if (strategy.price < 0) {
       if (strategy.quantity == 4 || strategy.quantity == 3) {
         return Math.max(strategy.a - strategy.b, strategy.c - strategy.d);
@@ -230,18 +230,18 @@ export function collateralAnalysis(stratsNamed) {
         }
       }
     }
-    //console.log(collateral);
+    // console.log(collateral);
   }
   return collateral;
 }
 
 export function extractStrategies(options) {
   const pureList = [...options];
-  var list = []
+  const list = [];
 
-  for(var pureEle of pureList){
-    for(var a = 0; a < (pureEle.quantity != undefined ? pureEle.quantity : 1) ; a++){
-      list.push(pureEle)
+  for (const pureEle of pureList) {
+    for (let a = 0; a < (pureEle.quantity != undefined ? pureEle.quantity : 1); a++) {
+      list.push(pureEle);
     }
   }
 
@@ -568,76 +568,70 @@ export function extractStrategies(options) {
 }
 
 export function assignmentRiskAnalysis(stockPrice, optionsSelected) {
-  var assignmentRisks = []
-  for( var option of optionsSelected ){
-    if( !option.isLong ){
-      if( option.strike < stockPrice * .92 && option.isCall ){
-        assignmentRisks.push(option)
-      }
-      else if( option.strike > stockPrice * 1.08 && !option.isCall ){
-        assignmentRisks.push(option)
+  const assignmentRisks = [];
+  for (const option of optionsSelected) {
+    if (!option.isLong) {
+      if (option.strike < stockPrice * 0.92 && option.isCall) {
+        assignmentRisks.push(option);
+      } else if (option.strike > stockPrice * 1.08 && !option.isCall) {
+        assignmentRisks.push(option);
       }
     }
   }
-  return assignmentRisks
+  return assignmentRisks;
 }
 
-export function nakedLegsAnalysis(stratsNamed){
-  var nakedLegs = []
-  for( var strat of stratsNamed ){
-    if (strat.type == 'Put' || strat.type == 'Call'){
-      if (!strat.isLong){
-        nakedLegs.push(strat)
+export function nakedLegsAnalysis(stratsNamed) {
+  const nakedLegs = [];
+  for (const strat of stratsNamed) {
+    if (strat.type == 'Put' || strat.type == 'Call') {
+      if (!strat.isLong) {
+        nakedLegs.push(strat);
       }
     }
   }
-  return nakedLegs
+  return nakedLegs;
 }
 
-export function nameStrategy(strategies){
-  var strats = strategies.map((s) => {return {type: s.type, quantity: s.quantity, dir: s.dir}})
-  var quantity = strats.reduce((a, b) => a + b.quantity, 0)
-  if(strats.length > 1){
-    if(strats.every(strat => strat.dir === strats[0].dir)){
-      if(strats.every(strat => strat.type === strats[0].type)){
-        if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
-          return strats[0].dir + 'ish ' + strats[0].type + 's' 
+export function nameStrategy(strategies) {
+  const strats = strategies.map((s) => ({ type: s.type, quantity: s.quantity, dir: s.dir }));
+  const quantity = strats.reduce((a, b) => a + b.quantity, 0);
+  if (strats.length > 1) {
+    if (strats.every((strat) => strat.dir === strats[0].dir)) {
+      if (strats.every((strat) => strat.type === strats[0].type)) {
+        if (strats[0].dir == 'Bull' || strats[0].dir == 'Bear') {
+          return `${strats[0].dir}ish ${strats[0].type}s`;
         }
-        else if(strats[0].dir == 'Neu'){
-          return 'Long Volatility ' + strats[0].type + 's'
+        if (strats[0].dir == 'Neu') {
+          return `Long Volatility ${strats[0].type}s`;
         }
-        else if(strats[0].dir == 'Pin'){
-          return 'Short Volatility ' + strats[0].type + 's'
+        if (strats[0].dir == 'Pin') {
+          return `Short Volatility ${strats[0].type}s`;
+        }
+      } else {
+        if (strats[0].dir == 'Bull' || strats[0].dir == 'Bear') {
+          return `${strats[0].dir}ish ${quantity} Legged Strategy`;
+        }
+        if (strats[0].dir == 'Neu') {
+          return `Long Volatility ${quantity} Legged Strategy`;
+        }
+        if (strats[0].dir == 'Pin') {
+          return `Short Volatility ${quantity} Legged Strategy`;
         }
       }
-      else{
-        if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
-          return strats[0].dir + 'ish ' + quantity + ' Legged Strategy'
-        }
-        else if(strats[0].dir == 'Neu'){
-          return 'Long Volatility ' + quantity + ' Legged Strategy'
-        }
-        else if(strats[0].dir == 'Pin'){
-          return 'Short Volatility ' + quantity + ' Legged Strategy'
-        }
-      }
+    } else {
+      return `${quantity} Legged Strategy`;
     }
-    else{
-      return quantity + ' Legged Strategy'
+  } else if (strats.length == 1) {
+    if (strats[0].dir == 'Bull' || strats[0].dir == 'Bear') {
+      return `${strats[0].dir}ish ${strats[0].type}`;
+    }
+    if (strats[0].dir == 'Neu') {
+      return `Long Volatility ${strats[0].type}`;
+    }
+    if (strats[0].dir == 'Pin') {
+      return `Short Volatility ${strats[0].type}`;
     }
   }
-  else if(strats.length == 1){
-    if(strats[0].dir == 'Bull' || strats[0].dir == 'Bear'){
-      return strats[0].dir + 'ish ' + strats[0].type 
-    }
-    else if(strats[0].dir == 'Neu'){
-      return 'Long Volatility ' + strats[0].type
-    }
-    else if(strats[0].dir == 'Pin'){
-      return 'Short Volatility ' + strats[0].type
-    }
-  }
-  return 'Cost of Strategy'
+  return 'Cost of Strategy';
 }
-
-

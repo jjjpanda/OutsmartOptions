@@ -13,7 +13,7 @@ export function getSD(dist) {
 // returns standard devitation given set
 
   let sum = 0;
-  let mean = getMean(dist)
+  const mean = getMean(dist);
 
   for (const v of dist) {
     sum += Math.pow(v - mean, 2);
