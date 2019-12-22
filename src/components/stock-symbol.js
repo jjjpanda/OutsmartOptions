@@ -5,8 +5,9 @@ import {
     Card, 
     AutoComplete
 } from 'antd';
-const { Option, OptGroup } = AutoComplete;
-const { Search } = Input
+const Option = AutoComplete.Option
+const OptGroup = AutoComplete.OptGroup;
+const Search = Input.Search
 import {HelpTooltip} from "./help-tooltip.js"
 
 import * as optionsMath from '../jsLib/optionsMathLibrary.js'
