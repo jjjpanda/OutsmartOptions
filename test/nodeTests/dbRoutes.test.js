@@ -5,9 +5,23 @@ const mongoDB = require('../../server/database');
 let id; let
   token;
 
-beforeAll(async (done) => mongoDB.connect('tests', done), 50000);
+beforeAll(async (done) => mongoDB.connect('tests', (success) => {
+  if(success){
+    done()
+  }
+  else{
+    done.fail(new Error('Database Connect Error'))
+  }
+}), 50000);
 
-afterAll(async (done) => mongoDB.disconnect(done), 50000);
+afterAll(async (done) => mongoDB.disconnect((success) => {
+  if(success){
+    done()
+  }
+  else{
+    done.fail(new Error('Database Connect Error'))
+  }
+}), 50000);
 
 describe('POST /api/users/', () => {
   it('Registers a New User', async (done) => {
