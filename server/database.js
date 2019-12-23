@@ -31,11 +31,11 @@ module.exports = {
     .then(
       () => {
         console.log('Database Connect Callback Received');
-        callback();
+        callback(true);
       },
       (error) => {
         console.log(error);
-        try { callback.fail(new Error('Database Connect Error')); } catch (error) { console.log(error); }
+        try { callback(false) } catch (error) { console.log(error); }
       },
     ),
 
@@ -43,11 +43,11 @@ module.exports = {
     .then(
       () => {
         console.log('Database Disconnect Callback Received');
-        callback();
+        callback(true);
       },
       (error) => {
         console.log(error);
-        try { callback.fail(new Error('Database Disconnect Error')); } catch (error) { console.log(error); }
+        try { callback(false) } catch (error) { console.log(error); }
       },
     ),
 
