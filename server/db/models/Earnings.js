@@ -8,5 +8,5 @@ const EarningsSchema = new Schema({
     required: true,
   },
   company: String,
-});
+}, { collection: 'earnings' });
 module.exports = mongoose.model('earnings', EarningsSchema);

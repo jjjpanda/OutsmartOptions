@@ -8,6 +8,6 @@ const WatchlistSchema = new Schema({
     ref: 'user',
   },
   stocks: [String],
-});
+}, { collection: 'watchlist' });
 
 module.exports = mongoose.model('watchlist', WatchlistSchema);

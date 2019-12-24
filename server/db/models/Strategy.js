@@ -16,6 +16,6 @@ const StratSchema = new Schema({
     isLong: Boolean,
     quantity: Number,
   }],
-});
+}, { collection: 'strategy' });
 
 module.exports = mongoose.model('strategy', StratSchema);
