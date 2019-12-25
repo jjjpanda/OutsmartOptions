@@ -98,6 +98,10 @@
   "jest": {
     "collectCoverage": true,
     "verbose": true,
+    "modulePaths":[
+      "src",
+      "test"
+    ],
     "projects": [
       {
         "displayName": "React",
