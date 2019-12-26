@@ -142,19 +142,20 @@ export function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, d
 }
 
 // IV and Price
-export function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r, divYield) {
+export function calculateIV(t, pO, priceUnderlying, strike, isCall, r, divYield) {
+  let priceOfOption = isCall ? (pO + strike > priceUnderlying || strike > priceUnderlying ? (pO) : (priceUnderlying-strike)) : (strike - pO < priceUnderlying || strike < priceUnderlying ? (pO) : (strike-priceUnderlying));
   let iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption / priceUnderlying;
   let priceOfOptionTheoretical; let
     vega;
   priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv);
   let stopTrying = 0;
-  while (loss(priceOfOption, priceOfOptionTheoretical) > 0.000005 || loss(priceOfOption, priceOfOptionTheoretical) < -0.000005) {
-    if (loss(priceOfOption, priceOfOptionTheoretical) > priceOfOption / 10) {
+  while (loss(priceOfOption, priceOfOptionTheoretical) > 0.000003 || loss(priceOfOption, priceOfOptionTheoretical) < -0.000003) {
+    if (Math.abs(loss(priceOfOption, priceOfOptionTheoretical)) > priceOfOption / 10) {
       if (priceOfOption > priceOfOptionTheoretical) {
-        iv += 0.075 + Math.random() / 15;
+        iv *= (1 + Math.random());
       }
       if (priceOfOption < priceOfOptionTheoretical) {
-        iv -= 0.075 + Math.random() / 15;
+        iv /= (1 + Math.random());
       }
     } else {
       vega = priceUnderlying * Math.exp(-1 * divYield * t) * Math.sqrt(t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv));
@@ -162,7 +163,8 @@ export function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r
     }
     priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv);
     stopTrying++;
-    if (stopTrying > 100) {
+    if (stopTrying > 50) {
+      /*
       iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption / priceUnderlying;
       if ((isCall ? priceOfOption + strike < priceUnderlying : priceOfOption - strike > priceUnderlying) && (isCall ? strike / priceUnderlying < 0.80 : strike / priceUnderlying > 1.25)) {
         if (isCall) {
@@ -173,10 +175,12 @@ export function calculateIV(t, priceOfOption, priceUnderlying, strike, isCall, r
         return Math.abs((Math.sqrt(t * (2 * Math.log(priceUnderlying / priceOfOption) + Math.pow(d, 2) - 2 * divYield * t + 2 * r * t)) - d * Math.sqrt(t)) / t);
       }
       break;
+      */
+      return NaN
     }
   }
   if (iv < 0) {
-    return 0.01; // INVALID ID
+    return NaN; // INVALID ID
   }
   return iv;
 }
