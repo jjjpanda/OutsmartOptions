@@ -552,24 +552,67 @@ describe('Options Math Test', () => {
   it('Naked Calls and Puts', () => {
     expect(math.nakedLegsAnalysis([
       {
-        date: '2019-12-20', a: 55, b: 53, c: 53, d: 52.5, isLong: true, isCall: true, dir: 'Pin', type: 'Call Fly',
+        isCall: true, isLong: true, date: '2020-12-20', strike: 105,
       },
       {
-        isLong: true, isCall: false, strike: 54, date: '2019-12-20', type: 'Put', dir: 'Bear',
+        isCall: true, isLong: false, date: '2020-12-20', strike: 100,
       },
     ])).toMatchObject([]);
     expect(math.nakedLegsAnalysis([
       {
-        date: '2019-12-20', a: 55, b: 53, c: 53, d: 52.5, isLong: true, isCall: true, dir: 'Pin', type: 'Call Fly',
+        isCall: true, isLong: true, date: '2020-12-20', strike: 105,
       },
       {
-        isLong: false, isCall: false, strike: 54, date: '2019-12-20', type: 'Put', dir: 'Bull',
+        isCall: true, isLong: false, date: '2020-12-20', strike: 100,
+      },
+      {
+        isCall: true, isLong: false, date: '2020-12-20', strike: 95,
       },
     ])).toMatchObject([
       {
-        isLong: false, isCall: false, strike: 54, date: '2019-12-20', type: 'Put', dir: 'Bull',
+        isCall: true, isLong: false, date: '2020-12-20', strike: 95,
       },
     ]);
+    expect(math.nakedLegsAnalysis([
+      {
+        isCall: true, isLong: true, date: '2020-12-20', strike: 105,
+      },
+      {
+        isCall: false, isLong: false, date: '2020-12-20', strike: 100,
+      },
+      {
+        isCall: true, isLong: false, date: '2020-12-20', strike: 95,
+      },
+    ])).toMatchObject([
+      {
+        isCall: false, isLong: false, date: '2020-12-20', strike: 100,
+      },
+    ]);
+    expect(math.nakedLegsAnalysis([
+      {
+        isCall: true, isLong: true, date: '2020-12-20', strike: 105,
+      },
+    ])).toMatchObject([]);
+    expect(math.nakedLegsAnalysis([
+      {
+        isCall: true, isLong: true, date: '2020-12-20', strike: 105,
+      },
+      {
+        isCall: true, isLong: false, date: '2020-12-27', strike: 100,
+      },
+    ])).toMatchObject([
+      {
+        isCall: true, isLong: false, date: '2020-12-27', strike: 100,
+      },
+    ]);
+    expect(math.nakedLegsAnalysis([
+      {
+        isCall: true, isLong: false, date: '2020-12-20', strike: 105,
+      },
+      {
+        isCall: true, isLong: true, date: '2020-12-27', strike: 100,
+      },
+    ])).toMatchObject([]);
   });
   it('Names Strategies', () => {
     expect(math.nameStrategy([

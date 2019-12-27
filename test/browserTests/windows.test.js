@@ -36,7 +36,7 @@ afterAll(async () => {
   await stop();
 }, 10000);
 
-for (let capability of capabilities.capabilities) {
+for (const capability of capabilities.capabilities) {
   describe(capability.name, () => {
     let driver;
 
@@ -49,7 +49,7 @@ for (let capability of capabilities.capabilities) {
       await driver.get('https://outsmart.herokuapp.com').then(() => {
         done();
       }, () => {
-        done.fail(new Error("Website Didn't Load."))
+        done.fail(new Error("Website Didn't Load."));
       });
     }, 50000);
 
@@ -57,7 +57,7 @@ for (let capability of capabilities.capabilities) {
       await driver.quit().then(() => {
         done();
       }, () => {
-        done.fail(new Error("Issue with disconnecting."))
+        done.fail(new Error('Issue with disconnecting.'));
       });
     }, 10000);
 
@@ -71,33 +71,32 @@ for (let capability of capabilities.capabilities) {
       await driver.get('https://outsmart.herokuapp.com/calc').then(() => {
         done();
       }, () => {
-        done.fail(new Error("Website Didn't Load."))
+        done.fail(new Error("Website Didn't Load."));
       });
-    }, 10000)
+    }, 10000);
 
     it('Go to Watchlist', async (done) => {
       await driver.get('https://outsmart.herokuapp.com/watch').then(() => {
         done();
       }, () => {
-        done.fail(new Error("Website Didn't Load."))
+        done.fail(new Error("Website Didn't Load."));
       });
-    }, 10000)
+    }, 10000);
 
     it('Go to HelpPage', async (done) => {
       await driver.get('https://outsmart.herokuapp.com/help').then(() => {
         done();
       }, () => {
-        done.fail(new Error("Website Didn't Load."))
+        done.fail(new Error("Website Didn't Load."));
       });
-    }, 10000)
+    }, 10000);
 
     it('Go to AboutPage', async (done) => {
       await driver.get('https://outsmart.herokuapp.com/about').then(() => {
         done();
       }, () => {
-        done.fail(new Error("Website Didn't Load."))
+        done.fail(new Error("Website Didn't Load."));
       });
-    }, 10000)
-    
+    }, 10000);
   });
 }

@@ -143,7 +143,7 @@ export function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, d
 
 // IV and Price
 export function calculateIV(t, pO, priceUnderlying, strike, isCall, r, divYield) {
-  let priceOfOption = isCall ? (pO + strike > priceUnderlying || strike > priceUnderlying ? (pO) : (priceUnderlying-strike)) : (strike - pO < priceUnderlying || strike < priceUnderlying ? (pO) : (strike-priceUnderlying));
+  const priceOfOption = isCall ? (pO + strike > priceUnderlying || strike > priceUnderlying ? (pO) : (priceUnderlying - strike)) : (strike - pO < priceUnderlying || strike < priceUnderlying ? (pO) : (strike - priceUnderlying));
   let iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption / priceUnderlying;
   let priceOfOptionTheoretical; let
     vega;
@@ -176,7 +176,7 @@ export function calculateIV(t, pO, priceUnderlying, strike, isCall, r, divYield)
       }
       break;
       */
-      return NaN
+      return NaN;
     }
   }
   if (iv < 0) {
@@ -585,15 +585,37 @@ export function assignmentRiskAnalysis(stockPrice, optionsSelected) {
   return assignmentRisks;
 }
 
-export function nakedLegsAnalysis(stratsNamed) {
-  const nakedLegs = [];
-  for (const strat of stratsNamed) {
-    if (strat.type == 'Put' || strat.type == 'Call') {
-      if (!strat.isLong) {
-        nakedLegs.push(strat);
+export function nakedLegsAnalysis(optionsSelected) {
+  const nakedLegs = [...optionsSelected];
+
+  for (let i = 0; i < nakedLegs.length; i++) {
+    const option = nakedLegs[i];
+    for (let j = i + 1; j < nakedLegs.length; j++) {
+      const otherOption = nakedLegs[j];
+
+      if (((otherOption.date == option.date) || otherOption.isLong) && option.isCall == otherOption.isCall) {
+        if (option.isLong ? !otherOption.isLong : otherOption.isLong) {
+          nakedLegs.splice(nakedLegs.findIndex((o) => o.date == option.date
+            && o.strike == option.strike
+            && o.isCall == option.isCall), 1);
+          nakedLegs.splice(nakedLegs.findIndex((o) => o.date == otherOption.date
+            && o.strike == otherOption.strike
+            && o.isCall == otherOption.isCall), 1);
+          break;
+        }
+      }
+    }
+
+    for (let i = 0; i < nakedLegs.length; i++) {
+      const option = nakedLegs[i];
+      if (option.isLong) {
+        nakedLegs.splice(nakedLegs.findIndex((o) => o.date == option.date
+          && o.strike == option.strike
+          && o.isCall == option.isCall), 1);
       }
     }
   }
+
   return nakedLegs;
 }
 
