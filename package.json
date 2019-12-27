@@ -102,9 +102,6 @@
       "src",
       "test"
     ],
-    "moduleFileExtensions": [
-      "js", "json", "jsx", "", "node"
-    ],
     "projects": [
       {
         "displayName": "React",
@@ -119,6 +116,9 @@
           "\\.(css|less|sass|scss)$": "<rootDir>/test/styleMock.js",
           "\\.(png|jpg|gif|svg)$": "<rootDir>/test/fileMock.js"
         },
+        "moduleFileExtensions": [
+          "js", "json", "jsx", "", "node"
+        ],
         "coveragePathIgnorePatterns": [
           "<rootDir>/node_modules/"
         ],
