@@ -12,6 +12,9 @@ export var capabilities = [{
   resolution: '1024x768',
   ...credentials,
   name: 'Chrome Test',
+  build: "Chrome",
+  project: "OutsmartOptions",
+  name: "Chrome",
 },
 {
   browserName: 'Firefox',
@@ -21,6 +24,9 @@ export var capabilities = [{
   resolution: '1024x768',
   ...credentials,
   name: 'Firefox Test',
+  build: "Firefox",
+  project: "OutsmartOptions",
+  name: "Firefox",
 },
 {
   browserName: 'Safari',
@@ -30,6 +36,9 @@ export var capabilities = [{
   resolution: '1024x768',
   ...credentials,
   name: 'Safari Test',
+  build: "Safari",
+  project: "OutsmartOptions",
+  name: "Safari",
 },
 {
   browserName: 'IE',
@@ -39,5 +48,8 @@ export var capabilities = [{
   resolution: '1024x768',
   ...credentials,
   name: 'Edge Test',
+  build: "Edge",
+  project: "OutsmartOptions",
+  name: "Edge",
 },
 ];
