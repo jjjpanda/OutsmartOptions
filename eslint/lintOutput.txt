@@ -1,5 +1,5 @@
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\AboutPage.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\AboutPage.js
    4:1  error  Component should be written as a pure function         react/prefer-stateless-function
    5:3  error  Useless constructor                                    no-useless-constructor
   12:7  error  JSX not allowed in files with extension '.js'          react/jsx-filename-extension
@@ -12,7 +12,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\AboutPage.js
   67:1  error  This line has a length of 134. Maximum allowed is 100  max-len
   68:1  error  This line has a length of 134. Maximum allowed is 100  max-len
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\App.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\App.js
   13:3   error    'Switch' is defined but never used                                                                         no-unused-vars
   14:3   error    'Anchor' is defined but never used                                                                         no-unused-vars
   31:23  error    Unexpected use of file extension "js" for "./jsLib/fetchLibrary.js"                                        import/extensions
@@ -34,7 +34,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\App.js
   81:20  error    Must use destructuring state assignment                                                                    react/destructuring-assignment
   85:31  error    img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\Graphs.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\Graphs.js
     1:1    error  File has too many classes (3). Maximum allowed is 1                                                                                                                        max-classes-per-file
    17:27   error  Unexpected use of file extension "js" for "../jsLib/timeLibrary.js"                                                                                                        import/extensions
    19:1    error  Component should be written as a pure function                                                                                                                             react/prefer-stateless-function
@@ -114,7 +114,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\Graphs.js
   206:144  error  Must use destructuring state assignment                                                                                                                                    react/destructuring-assignment
   216:19   error  Must use destructuring state assignment                                                                                                                                    react/destructuring-assignment
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\HelpTooltip.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\HelpTooltip.js
    7:1   error  Component should be written as a pure function            react/prefer-stateless-function
    8:3   error  Useless constructor                                       no-useless-constructor
   12:3   error  Expected to return a value at the end of method 'render'  consistent-return
@@ -126,7 +126,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\HelpTooltip.j
   15:54  error  Must use destructuring props assignment                   react/destructuring-assignment
   15:65  error  'title' is missing in props validation                    react/prop-types
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\OptionsLeg.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\OptionsLeg.js
   15:22   error  'isFirst' is missing in props validation                   react/prop-types
   16:18   error  'optionRepresented' is missing in props validation         react/prop-types
   16:36   error  'optionRepresented.date' is missing in props validation    react/prop-types
@@ -183,7 +183,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\OptionsLeg.js
   92:133  error  Must use destructuring state assignment                    react/destructuring-assignment
   92:152  error  Must use destructuring state assignment                    react/destructuring-assignment
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\StockSymbol.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\StockSymbol.js
    11:30   error    Unexpected use of file extension "js" for "../jsLib/optionsMathLibrary.js"  import/extensions
    12:27   error    Unexpected use of file extension "js" for "../jsLib/timeLibrary.js"         import/extensions
    13:23   error    Unexpected use of file extension "js" for "../jsLib/fetchLibrary.js"        import/extensions
@@ -253,7 +253,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\StockSymbol.j
   161:18   error    Must use destructuring state assignment                                     react/destructuring-assignment
   161:51   error    Must use destructuring state assignment                                     react/destructuring-assignment
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\StrategyInfo.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\StrategyInfo.js
    8:30  error    Unexpected use of file extension "js" for "../jsLib/optionsMathLibrary.js"                                                                                                 import/extensions
   10:30  error    Expected to return a value at the end of arrow function                                                                                                                    consistent-return
   25:7   error    'listRedux' is assigned a value but never used                                                                                                                             no-unused-vars
@@ -266,13 +266,14 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\components\StrategyInfo.
   41:3   error    Assignment to function parameter 'optionsSelected'                                                                                                                         no-param-reassign
   41:37  error    'optionsSelected.filter' is missing in props validation                                                                                                                    react/prop-types
   43:3   warning  Unexpected console statement                                                                                                                                               no-console
-  52:26  error    'mergedOptions.limitPrice' is missing in props validation                                                                                                                  react/prop-types
-  57:5   error    JSX not allowed in files with extension '.js'                                                                                                                              react/jsx-filename-extension
-  67:31  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                            react/no-unescaped-entities
-  76:31  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  82:7   error    Emojis should be wrapped in <span>, have role="img", and have an accessible description with aria-label or aria-labelledby                                                 jsx-a11y/accessible-emoji
+  44:3   warning  Unexpected console statement                                                                                                                                               no-console
+  53:26  error    'mergedOptions.limitPrice' is missing in props validation                                                                                                                  react/prop-types
+  58:5   error    JSX not allowed in files with extension '.js'                                                                                                                              react/jsx-filename-extension
+  68:31  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                            react/no-unescaped-entities
+  77:31  error    Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  83:7   error    Emojis should be wrapped in <span>, have role="img", and have an accessible description with aria-label or aria-labelledby                                                 jsx-a11y/accessible-emoji
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\HelpPage.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\HelpPage.js
    13:3   error    Useless constructor                                              no-useless-constructor
    17:5   error    State initialization should be in a constructor                  react/state-in-constructor
    20:12  warning  setState is not function                                         custom-rules/custom1
@@ -289,7 +290,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\HelpPage.js
   123:57  error    Using this.refs is deprecated                                    react/no-string-refs
   257:39  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\HomePage.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\HomePage.js
    3:1    error  This line has a length of 203. Maximum allowed is 100                         max-len
    3:25   error  'TwitterShareButton' is defined but never used                                no-unused-vars
    3:45   error  'TwitterFollowButton' is defined but never used                               no-unused-vars
@@ -320,7 +321,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\HomePage.js
   45:47   error  Must use destructuring state assignment                                       react/destructuring-assignment
   45:107  error  Must use destructuring state assignment                                       react/destructuring-assignment
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\colorLibrary.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\colorLibrary.js
    1:1   error  Prefer default export                                                    import/prefer-default-export
    1:17  error  Expected to return a value at the end of function 'hexColorFromPercent'  consistent-return
    3:12  error  'colorToHex' was used before it was defined                              no-use-before-define
@@ -332,7 +333,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\colorLibrary.js
   12:12  error  'colorToHex' was used before it was defined                              no-use-before-define
   15:12  error  'colorToHex' was used before it was defined                              no-use-before-define
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\optionsMathLibrary.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\optionsMathLibrary.js
    19:3    error  Assignment to function parameter 'x'                                                                                                                                       no-param-reassign
    40:5    error  'd1' is already declared in the upper scope                                                                                                                                no-shadow
    41:9    error  'd2' is already declared in the upper scope                                                                                                                                no-shadow
@@ -388,206 +389,206 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\optionsMathLibrary
   127:40   error  Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
   130:1    error  This line has a length of 133. Maximum allowed is 100                                                                                                                      max-len
   130:30   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
-  130:34   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
   130:34   error  Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
+  130:34   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
   130:41   error  Unexpected mix of '/' and '*'                                                                                                                                              no-mixed-operators
-  146:30   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
-  146:34   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
-  146:39   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
-  146:55   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
-  148:5    error  'vega' is already declared in the upper scope                                                                                                                              no-shadow
-  149:1    error  This line has a length of 110. Maximum allowed is 100                                                                                                                      max-len
-  149:30   error  'calculateOptionsPrice' was used before it was defined                                                                                                                     no-use-before-define
-  151:1    error  This line has a length of 129. Maximum allowed is 100                                                                                                                      max-len
-  160:1    error  This line has a length of 129. Maximum allowed is 100                                                                                                                      max-len
-  163:1    error  This line has a length of 112. Maximum allowed is 100                                                                                                                      max-len
-  163:32   error  'calculateOptionsPrice' was used before it was defined                                                                                                                     no-use-before-define
-  164:5    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  166:30   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
-  166:34   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
-  166:39   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
-  166:55   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
-  167:1    error  This line has a length of 187. Maximum allowed is 100                                                                                                                      max-len
-  169:11   error  All 'var' declarations must be at the top of the function scope                                                                                                            vars-on-top
-  169:11   error  Unexpected var, use let or const instead                                                                                                                                   no-var
-  169:15   error  'd' used outside of binding context                                                                                                                                        block-scoped-var
-  171:11   error  All 'var' declarations must be at the top of the function scope                                                                                                            vars-on-top
-  171:11   error  Unexpected var, use let or const instead                                                                                                                                   no-var
-  171:15   error  'd' used outside of binding context                                                                                                                                        block-scoped-var
-  171:15   error  'd' is already defined                                                                                                                                                     no-redeclare
-  173:1    error  This line has a length of 161. Maximum allowed is 100                                                                                                                      max-len
-  173:89   error  'Math.pow' is restricted from being used. Use the exponentiation operator (**) instead                                                                                     no-restricted-properties
-  173:98   error  'd' used outside of binding context                                                                                                                                        block-scoped-var
-  173:98   error  'd' used outside of binding context                                                                                                                                        block-scoped-var
-  173:139  error  'd' used outside of binding context                                                                                                                                        block-scoped-var
-  173:139  error  'd' used outside of binding context                                                                                                                                        block-scoped-var
-  187:1    error  This line has a length of 221. Maximum allowed is 100                                                                                                                      max-len
-  189:1    error  This line has a length of 236. Maximum allowed is 100                                                                                                                      max-len
-  197:17   error  Expected to return a value at the end of function 'calculateProfitAtExpiry'                                                                                                consistent-return
-  217:3    error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
-  221:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  221:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  224:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  227:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  242:3    error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
-  243:43   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  243:81   error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  253:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  254:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  254:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  256:1    error  This line has a length of 184. Maximum allowed is 100                                                                                                                      max-len
-  256:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  256:58   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  256:129  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  256:165  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  265:1    error  This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
-  270:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  274:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  275:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  278:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  284:3    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  284:8    error  Unexpected use of comma operator                                                                                                                                           no-sequences
-  286:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  287:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  287:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  289:29   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  289:61   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  289:90   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  289:154  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  289:185  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  290:25   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  290:59   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  298:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  298:57   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  299:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  299:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  306:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  309:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  309:66   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  315:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  315:57   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  316:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  316:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  323:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  326:32   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  326:66   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  334:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  334:57   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  335:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  335:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  342:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  346:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  346:61   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  346:125  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  346:156  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  347:25   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  347:59   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  355:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  355:57   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  357:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  357:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  364:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  367:32   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  367:66   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  375:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  375:57   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  377:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  377:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  384:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  389:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  390:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  393:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  399:3    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  399:8    error  Unexpected use of comma operator                                                                                                                                           no-sequences
-  401:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  402:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  402:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  404:1    error  This line has a length of 181. Maximum allowed is 100                                                                                                                      max-len
-  404:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  404:58   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  404:126  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  404:162  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  411:15   error  Do not nest ternary expressions                                                                                                                                            no-nested-ternary
-  413:1    error  This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
-  418:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  422:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  423:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  426:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  432:3    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  432:8    error  Unexpected use of comma operator                                                                                                                                           no-sequences
-  434:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  435:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  435:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  437:1    error  This line has a length of 213. Maximum allowed is 100                                                                                                                      max-len
-  437:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  437:58   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  437:87   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  437:158  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  437:194  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  445:1    error  This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
-  450:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  454:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  455:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  458:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  464:3    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  464:8    error  Unexpected use of comma operator                                                                                                                                           no-sequences
-  466:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  467:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  467:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  469:1    error  This line has a length of 176. Maximum allowed is 100                                                                                                                      max-len
-  469:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  469:58   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  469:87   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  469:121  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  469:157  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  478:1    error  This line has a length of 113. Maximum allowed is 100                                                                                                                      max-len
-  483:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  495:1    error  This line has a length of 113. Maximum allowed is 100                                                                                                                      max-len
-  500:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  505:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  506:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  509:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  515:3    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  515:8    error  Unexpected use of comma operator                                                                                                                                           no-sequences
-  517:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  518:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  518:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  520:1    error  This line has a length of 144. Maximum allowed is 100                                                                                                                      max-len
-  520:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  520:58   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  520:89   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  520:125  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
-  526:15   error  Do not nest ternary expressions                                                                                                                                            no-nested-ternary
-  528:1    error  This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
-  533:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  537:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  538:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  541:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  549:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  550:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
-  550:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  552:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  555:15   error  Do not nest ternary expressions                                                                                                                                            no-nested-ternary
-  564:5    error  Unary operator '++' used                                                                                                                                                   no-plusplus
-  572:3    error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
-  586:3    error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
-  587:20   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  587:43   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  602:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  602:54   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  605:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  608:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  612:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  612:54   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  615:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  618:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  625:28   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  626:23   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  626:50   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  629:23   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
-  632:23   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  146:1    error  This line has a length of 227. Maximum allowed is 100                                                                                                                      max-len
+  146:25   error  Do not nest ternary expressions                                                                                                                                            no-nested-ternary
+  147:30   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  147:34   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  147:39   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  147:55   error  Unexpected mix of '*' and '/'                                                                                                                                              no-mixed-operators
+  149:5    error  'vega' is already declared in the upper scope                                                                                                                              no-shadow
+  150:1    error  This line has a length of 110. Maximum allowed is 100                                                                                                                      max-len
+  150:30   error  'calculateOptionsPrice' was used before it was defined                                                                                                                     no-use-before-define
+  152:1    error  This line has a length of 129. Maximum allowed is 100                                                                                                                      max-len
+  161:1    error  This line has a length of 129. Maximum allowed is 100                                                                                                                      max-len
+  164:1    error  This line has a length of 112. Maximum allowed is 100                                                                                                                      max-len
+  164:32   error  'calculateOptionsPrice' was used before it was defined                                                                                                                     no-use-before-define
+  165:5    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  169:1    error  This line has a length of 187. Maximum allowed is 100                                                                                                                      max-len
+  175:1    error  This line has a length of 161. Maximum allowed is 100                                                                                                                      max-len
+  191:1    error  This line has a length of 221. Maximum allowed is 100                                                                                                                      max-len
+  193:1    error  This line has a length of 236. Maximum allowed is 100                                                                                                                      max-len
+  201:17   error  Expected to return a value at the end of function 'calculateProfitAtExpiry'                                                                                                consistent-return
+  221:3    error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+  225:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  225:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  228:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  231:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  246:3    error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+  247:43   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  247:81   error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  257:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  258:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  258:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  260:1    error  This line has a length of 184. Maximum allowed is 100                                                                                                                      max-len
+  260:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  260:58   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  260:129  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  260:165  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  269:1    error  This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
+  274:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  278:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  279:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  282:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  288:3    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  288:8    error  Unexpected use of comma operator                                                                                                                                           no-sequences
+  290:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  291:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  291:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  293:29   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  293:61   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  293:90   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  293:154  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  293:185  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  294:25   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  294:59   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  302:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  302:57   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  303:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  303:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  310:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  313:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  313:66   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  319:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  319:57   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  320:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  320:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  327:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  330:32   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  330:66   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  338:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  338:57   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  339:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  339:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  346:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  350:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  350:61   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  350:125  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  350:156  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  351:25   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  351:59   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  359:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  359:57   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  361:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  361:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  368:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  371:32   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  371:66   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  379:32   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  379:57   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  381:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  381:55   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  388:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  393:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  394:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  397:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  403:3    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  403:8    error  Unexpected use of comma operator                                                                                                                                           no-sequences
+  405:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  406:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  406:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  408:1    error  This line has a length of 181. Maximum allowed is 100                                                                                                                      max-len
+  408:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  408:58   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  408:126  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  408:162  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  415:15   error  Do not nest ternary expressions                                                                                                                                            no-nested-ternary
+  417:1    error  This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
+  422:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  426:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  427:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  430:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  436:3    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  436:8    error  Unexpected use of comma operator                                                                                                                                           no-sequences
+  438:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  439:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  439:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  441:1    error  This line has a length of 213. Maximum allowed is 100                                                                                                                      max-len
+  441:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  441:58   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  441:87   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  441:158  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  441:194  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  449:1    error  This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
+  454:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  458:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  459:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  462:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  468:3    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  468:8    error  Unexpected use of comma operator                                                                                                                                           no-sequences
+  470:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  471:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  471:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  473:1    error  This line has a length of 176. Maximum allowed is 100                                                                                                                      max-len
+  473:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  473:58   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  473:87   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  473:121  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  473:157  error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  482:1    error  This line has a length of 113. Maximum allowed is 100                                                                                                                      max-len
+  487:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  499:1    error  This line has a length of 113. Maximum allowed is 100                                                                                                                      max-len
+  504:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  509:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  510:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  513:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  519:3    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  519:8    error  Unexpected use of comma operator                                                                                                                                           no-sequences
+  521:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  522:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  522:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  524:1    error  This line has a length of 144. Maximum allowed is 100                                                                                                                      max-len
+  524:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  524:58   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  524:89   error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  524:125  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
+  530:15   error  Do not nest ternary expressions                                                                                                                                            no-nested-ternary
+  532:1    error  This line has a length of 111. Maximum allowed is 100                                                                                                                      max-len
+  537:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  541:13   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  542:9    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  545:7    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  553:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  554:7    error  Expected an assignment or function call and instead saw an expression                                                                                                      no-unused-expressions
+  554:17   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  556:29   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  559:15   error  Do not nest ternary expressions                                                                                                                                            no-nested-ternary
+  568:5    error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  576:3    error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+  591:41   error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  593:47   error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  596:1    error  This line has a length of 109. Maximum allowed is 100                                                                                                                      max-len
+  596:30   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  596:86   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  598:62   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  599:25   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  600:25   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  601:62   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  602:25   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  603:25   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  609:14   error  'i' is already declared in the upper scope                                                                                                                                 no-shadow
+  609:43   error  Unary operator '++' used                                                                                                                                                   no-plusplus
+  610:13   error  'option' is already declared in the upper scope                                                                                                                            no-shadow
+  612:60   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  613:23   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  614:23   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  628:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  628:54   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  631:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  634:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  638:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  638:54   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  641:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  644:27   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  651:28   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  652:23   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  652:50   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  655:23   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
+  658:23   error  Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\outliersLibrary.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\outliersLibrary.js
    5:3   error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
   18:3   error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
   19:12  error  'Math.pow' is restricted from being used. Use the exponentiation operator (**) instead                                                                                     no-restricted-properties
@@ -595,7 +596,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\outliersLibrary.js
   52:39  error  Unary operator '++' used                                                                                                                                                   no-plusplus
   53:34  error  Unary operator '++' used                                                                                                                                                   no-plusplus
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\sandbox\outliers.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\sandbox\outliers.js
     9:3   error    iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
    19:3   error    iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
    20:12  error    'Math.pow' is restricted from being used. Use the exponentiation operator (**) instead                                                                                     no-restricted-properties
@@ -674,7 +675,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\sandbox\outliers.j
   116:2   error    Mixed spaces and tabs                                                                                                                                                      no-mixed-spaces-and-tabs
   116:5   error    Unexpected tab character                                                                                                                                                   no-tabs
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\sandbox\profit.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\sandbox\profit.js
     1:23   error    Unexpected use of file extension "js" for "../outliersLibrary.js"                       import/extensions
    18:9    error    Identifier 'p_low' is not in camel case                                                 camelcase
    19:5    error    Identifier 'p_high' is not in camel case                                                camelcase
@@ -758,7 +759,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\sandbox\profit.js
    88:11   error    Unary operator '++' used                                                                no-plusplus
   103:1    warning  Unexpected console statement                                                            no-console
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\sandbox\treasuryOutputs.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\sandbox\treasuryOutputs.js
    1:7   error    'yields' is assigned a value but never used                 no-unused-vars
   14:1   error    'expireTime' is not defined                                 no-undef
   15:1   error    'rightYield' is not defined                                 no-undef
@@ -778,18 +779,18 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\sandbox\treasuryOu
   47:1   error    This line has a length of 104. Maximum allowed is 100       max-len
   49:11  error    Expected '===' and instead saw '=='                         eqeqeq
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\structuresEditingLibrary.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\structuresEditingLibrary.js
    3:3   error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
   11:3   error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
   32:42  error  Unary operator '++' used                                                                                                                                                   no-plusplus
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\timeLibrary.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\timeLibrary.js
    1:7   error  Identifier 'ms_per_day' is not in camel case  camelcase
   10:38  error  Identifier 'ms_per_day' is not in camel case  camelcase
   32:3   error  Assignment to function parameter 'strDate'    no-param-reassign
   37:3   error  Assignment to function parameter 'strDate'    no-param-reassign
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\treasuryLibrary.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\treasuryLibrary.js
    3:1   error  This line has a length of 119. Maximum allowed is 100  max-len
   18:28  error  Expected '!==' and instead saw '!='                    eqeqeq
   19:45  error  Unexpected mix of '*' and '/'                          no-mixed-operators
@@ -802,12 +803,12 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\jsLib\treasuryLibrary.js
   39:42  error  Unary operator '++' used                               no-plusplus
   41:1   error  This line has a length of 104. Maximum allowed is 100  max-len
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\LoginPage.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\LoginPage.js
    6:3  error  'Button' is defined but never used             no-unused-vars
   10:3  error  Useless constructor                            no-useless-constructor
   16:7  error  JSX not allowed in files with extension '.js'  react/jsx-filename-extension
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\OptionsCalculator.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\OptionsCalculator.js
     3:3    error    'Input' is defined but never used                                                                                                                                                                             no-unused-vars
     6:3    error    'Switch' is defined but never used                                                                                                                                                                            no-unused-vars
    26:30   error    Unexpected use of file extension "js" for "./jsLib/optionsMathLibrary.js"                                                                                                                                     import/extensions
@@ -1122,32 +1123,32 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\OptionsCalculator.js
   939:73   error    Must use destructuring state assignment                                                                                                                                                                       react/destructuring-assignment
   959:17   error    Must use destructuring state assignment                                                                                                                                                                       react/destructuring-assignment
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\Watchlist.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\src\Watchlist.js
    3:1  error  Component should be written as a pure function  react/prefer-stateless-function
    4:3  error  Useless constructor                             no-useless-constructor
   10:7  error  JSX not allowed in files with extension '.js'   react/jsx-filename-extension
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\app.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\app.js
    6:20  error  'body-parser' should be listed in the project's dependencies. Run 'npm i -S body-parser' to add it                                                                         import/no-extraneous-dependencies
   21:1   error  iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
   55:18  error  `passport` import should occur before import of `./routes/marketData.js`                                                                                                   import/order
   66:27  error  'next' is defined but never used                                                                                                                                           no-unused-vars
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\database.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\database.js
    1:7   error    'env' is assigned a value but never used        no-unused-vars
    7:3   warning  Unexpected console statement                    no-console
   11:3   warning  Unexpected console statement                    no-console
   15:3   warning  Unexpected console statement                    no-console
   33:9   warning  Unexpected console statement                    no-console
   37:9   warning  Unexpected console statement                    no-console
-  38:76  error    'error' is already declared in the upper scope  no-shadow
-  38:85  warning  Unexpected console statement                    no-console
+  38:41  error    'error' is already declared in the upper scope  no-shadow
+  38:50  warning  Unexpected console statement                    no-console
   45:9   warning  Unexpected console statement                    no-console
   49:9   warning  Unexpected console statement                    no-console
-  50:79  error    'error' is already declared in the upper scope  no-shadow
-  50:88  warning  Unexpected console statement                    no-console
+  50:41  error    'error' is already declared in the upper scope  no-shadow
+  50:50  warning  Unexpected console statement                    no-console
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\db\earningsDaemon.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\db\earningsDaemon.js
    9:5   warning  Unexpected console statement                                     no-console
   10:5   warning  Unexpected console statement                                     no-console
   19:33  error    Expected '===' and instead saw '=='                              eqeqeq
@@ -1161,7 +1162,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\db\earningsDaemon.js
   40:7   error    Unary operator '++' used                                         no-plusplus
   49:11  warning  Unexpected console statement                                     no-console
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\db\loginValidation.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\db\loginValidation.js
    9:5  error  Assignment to property of function parameter 'data'  no-param-reassign
   10:5  error  Assignment to property of function parameter 'data'  no-param-reassign
   11:5  error  Assignment to property of function parameter 'data'  no-param-reassign
@@ -1169,18 +1170,18 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\db\loginValidation.js
   45:5  error  Assignment to property of function parameter 'data'  no-param-reassign
   46:5  error  Assignment to property of function parameter 'data'  no-param-reassign
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\db\passport.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\db\passport.js
    7:7   error    'env' is assigned a value but never used       no-unused-vars
   15:28  error    Identifier 'jwt_payload' is not in camel case  camelcase
   23:25  warning  Unexpected console statement                   no-console
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\authorizeUser.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\authorizeUser.js
   1:7   error  'env' is assigned a value but never used  no-unused-vars
   6:35  error  Expected '!==' and instead saw '!='       eqeqeq
   6:93  error  Expected '===' and instead saw '=='       eqeqeq
   7:92  error  'decoded' is defined but never used       no-unused-vars
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\earningsProcessing.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\earningsProcessing.js
   13:1   error    This line has a length of 120. Maximum allowed is 100                                                                                                                      max-len
   13:57  error    Missing radix parameter                                                                                                                                                    radix
   14:41  error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
@@ -1189,7 +1190,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\earningsProcessing
   16:47  error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
   20:9   warning  Unexpected console statement                                                                                                                                               no-console
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\realTimeData.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\realTimeData.js
    18:9   error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
    23:11  error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
    26:11  error  Assignment to function parameter 'body'                                                                                                                                    no-param-reassign
@@ -1216,7 +1217,7 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\realTimeData.js
   199:51  error  Unary operator '++' used                                                                                                                                                   no-plusplus
   200:61  error  Expected '!==' and instead saw '!='                                                                                                                                        eqeqeq
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\reportBug.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\reportBug.js
   13:13  error  'response' is defined but never used                   no-unused-vars
   13:23  error  'body' is defined but never used                       no-unused-vars
   37:11  error  'response' is defined but never used                   no-unused-vars
@@ -1227,27 +1228,27 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\reportBug.js
   65:16  error  'r' is defined but never used                          no-unused-vars
   65:19  error  'b' is defined but never used                          no-unused-vars
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\serverWarmer.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\serverWarmer.js
    2:7   error    'env' is assigned a value but never used  no-unused-vars
    7:40  error    Expected '===' and instead saw '=='       eqeqeq
    8:9   warning  Unexpected console statement              no-console
   10:9   warning  Unexpected console statement              no-console
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\treasuryXMLConvert.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\js\treasuryXMLConvert.js
    8:23  error  Expected '===' and instead saw '=='                    eqeqeq
   10:30  error  Expected '===' and instead saw '=='                    eqeqeq
   20:41  error  Expected '===' and instead saw '=='                    eqeqeq
   24:1   error  This line has a length of 172. Maximum allowed is 100  max-len
   25:18  error  'error' is already declared in the upper scope         no-shadow
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\bugsAndReports.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\bugsAndReports.js
   5:7  error  'env' is assigned a value but never used  no-unused-vars
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\marketData.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\marketData.js
    5:7  error  'env' is assigned a value but never used               no-unused-vars
   29:1  error  This line has a length of 102. Maximum allowed is 100  max-len
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\strategy.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\strategy.js
    6:7   error    'env' is assigned a value but never used                                                                                                                                   no-unused-vars
    6:13  error    `dotenv` import should occur before import of `../js/authorizeUser`                                                                                                        import/order
    8:7   error    'secretOrKey' is assigned a value but never used                                                                                                                           no-unused-vars
@@ -1256,10 +1257,10 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\strategy.js
   56:9   warning  Unexpected console statement                                                                                                                                               no-console
   57:28  error    Expected '===' and instead saw '=='                                                                                                                                        eqeqeq
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\treasury.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\treasury.js
   5:7  error  'env' is assigned a value but never used  no-unused-vars
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\users.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\users.js
     7:7   error    'env' is assigned a value but never used                             no-unused-vars
     7:13  error    `dotenv` import should occur before import of `../js/authorizeUser`  import/order
    15:37  error    Expected to return a value at the end of arrow function              consistent-return
@@ -1274,93 +1275,102 @@ c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\users.js
   106:41  error    'next' is defined but never used                                     no-unused-vars
   108:41  error    'user' is defined but never used                                     no-unused-vars
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\watchlist.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\routes\watchlist.js
   6:7   error  'env' is assigned a value but never used                             no-unused-vars
   6:13  error  `dotenv` import should occur before import of `../js/authorizeUser`  import/order
   8:7   error  'secretOrKey' is assigned a value but never used                     no-unused-vars
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\server.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\server\server.js
   2:7   error    'env' is assigned a value but never used               no-unused-vars
   2:13  error    `dotenv` import should occur before import of `./app`  import/order
   5:24  warning  Unexpected console statement                           no-console
+  8:39  error    'success' is defined but never used                    no-unused-vars
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\browserTests\elementManipulation.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\browserTests\browsers.js
+   1:8  error  Exporting mutable 'var' binding, use 'const' instead  import/no-mutable-exports
+   1:8  error  Unexpected var, use let or const instead              no-var
+   7:8  error  Exporting mutable 'var' binding, use 'const' instead  import/no-mutable-exports
+   7:8  error  Unexpected var, use let or const instead              no-var
+  17:3  error  Duplicate key 'name'                                  no-dupe-keys
+  29:3  error  Duplicate key 'name'                                  no-dupe-keys
+  41:3  error  Duplicate key 'name'                                  no-dupe-keys
+  53:3  error  Duplicate key 'name'                                  no-dupe-keys
+
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\browserTests\elementManipulation.js
   3:10  error  Redundant use of `await` on a return value  no-return-await
   7:20  error  'driver' is not defined                     no-undef
   8:10  error  Redundant use of `await` on a return value  no-return-await
   8:16  error  'driver' is not defined                     no-undef
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\browserTests\windows.test.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\browserTests\windows.test.js
    1:27  error    Unexpected use of file extension "js" for "./elementManipulation.js"                                                                                                       import/extensions
-   2:31  error    Unexpected use of file extension "js" for "./windowsBrowsers.js"                                                                                                           import/extensions
+   2:31  error    Unexpected use of file extension "js" for "./browsers.js"                                                                                                                  import/extensions
    6:7   error    'env' is assigned a value but never used                                                                                                                                   no-unused-vars
-   9:7   error    Identifier 'bs_local' is not in camel case                                                                                                                                 camelcase
-  10:7   error    Identifier 'bs_local_args' is not in camel case                                                                                                                            camelcase
-  17:5   warning  Unexpected console statement                                                                                                                                               no-console
-  27:5   warning  Unexpected console statement                                                                                                                                               no-console
-  40:1   error    iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
-  40:6   error    Unexpected var, use let or const instead                                                                                                                                   no-var
-  40:6   error    All 'var' declarations must be at the top of the function scope                                                                                                            vars-on-top
-  41:29  error    Function declared in a loop contains unsafe references to variable(s) 'driver', 'capability', 'driver', 'driver', 'capability', 'driver'                                   no-loop-func
+   8:7   error    Identifier 'bs_local' is not in camel case                                                                                                                                 camelcase
+   9:7   error    Identifier 'bs_local_args' is not in camel case                                                                                                                            camelcase
+  16:5   warning  Unexpected console statement                                                                                                                                               no-console
+  26:5   warning  Unexpected console statement                                                                                                                                               no-console
+  39:1   error    iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations  no-restricted-syntax
+  70:5   warning  Test has no assertions                                                                                                                                                     jest/expect-expect
+  78:5   warning  Test has no assertions                                                                                                                                                     jest/expect-expect
+  86:5   warning  Test has no assertions                                                                                                                                                     jest/expect-expect
+  94:5   warning  Test has no assertions                                                                                                                                                     jest/expect-expect
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\browserTests\windowsBrowsers.js
-  1:8  error  Exporting mutable 'var' binding, use 'const' instead  import/no-mutable-exports
-  1:8  error  Unexpected var, use let or const instead              no-var
-  7:8  error  Exporting mutable 'var' binding, use 'const' instead  import/no-mutable-exports
-  7:8  error  Unexpected var, use let or const instead              no-var
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\nodeTests\dbRoutes.test.js
+   32:16  error    Unexpected dangling '_' in '_id'                              no-underscore-dangle
+   37:6   error    Test title is used multiple times in the same describe block  jest/no-identical-title
+  112:8   error    Test title is used multiple times in the same describe block  jest/no-identical-title
+  130:1   error    This line has a length of 114. Maximum allowed is 100         max-len
+  142:11  warning  Unexpected console statement                                  no-console
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\nodeTests\dbRoutes.test.js
-   20:16  error    Unexpected dangling '_' in '_id'                              no-underscore-dangle
-   25:6   error    Test title is used multiple times in the same describe block  jest/no-identical-title
-  100:8   error    Test title is used multiple times in the same describe block  jest/no-identical-title
-  118:1   error    This line has a length of 114. Maximum allowed is 100         max-len
-  130:11  warning  Unexpected console statement                                  no-console
-
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\nodeTests\routes.test.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\nodeTests\routes.test.js
   62:6  error    Test title is used multiple times in the same describe block  jest/no-identical-title
   67:9  warning  Unexpected console statement                                  no-console
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\components\strategy-info.test.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\components\StrategyInfo.test.js
   1:23  error  Unexpected use of file extension "js" for "../../../src/jsLib/optionsMathLibrary.js"  import/extensions
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\HelpPage.test.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\HelpPage.test.js
   3:19  error    'mount' is defined but never used              no-unused-vars
   8:3   warning  Test has no assertions                         jest/expect-expect
   9:13  error    JSX not allowed in files with extension '.js'  react/jsx-filename-extension
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\HomePage.test.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\HomePage.test.js
   3:19  error    'mount' is defined but never used              no-unused-vars
   8:3   warning  Test has no assertions                         jest/expect-expect
   9:13  error    JSX not allowed in files with extension '.js'  react/jsx-filename-extension
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\jsLib\optionsMath.test.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\jsLib\optionsMath.test.js
    1:23  error  Unexpected use of file extension "js" for "../../../src/jsLib/optionsMathLibrary.js"  import/extensions
-  17:1   error  This line has a length of 106. Maximum allowed is 100                                 max-len
-  18:1   error  This line has a length of 108. Maximum allowed is 100                                 max-len
-  20:1   error  This line has a length of 130. Maximum allowed is 100                                 max-len
+  20:1   error  This line has a length of 129. Maximum allowed is 100                                 max-len
+  21:1   error  This line has a length of 124. Maximum allowed is 100                                 max-len
+  22:1   error  This line has a length of 124. Maximum allowed is 100                                 max-len
+  23:1   error  This line has a length of 122. Maximum allowed is 100                                 max-len
+  24:1   error  This line has a length of 121. Maximum allowed is 100                                 max-len
+  25:1   error  This line has a length of 121. Maximum allowed is 100                                 max-len
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\jsLib\treasuryMath.test.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\jsLib\treasuryMath.test.js
   1:23  error  Unexpected use of file extension "js" for "../../../src/jsLib/treasuryLibrary.js"  import/extensions
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\LoginPage.test.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\LoginPage.test.js
   3:19  error    'mount' is defined but never used              no-unused-vars
   8:3   warning  Test has no assertions                         jest/expect-expect
   9:13  error    JSX not allowed in files with extension '.js'  react/jsx-filename-extension
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\OptionsCalculator.test.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\OptionsCalculator.test.js
    1:1   error    'isomorphic-fetch' should be listed in the project's dependencies. Run 'npm i -S isomorphic-fetch' to add it  import/no-extraneous-dependencies
    4:19  error    'mount' is defined but never used                                                                             no-unused-vars
    9:3   warning  Test has no assertions                                                                                        jest/expect-expect
   10:13  error    JSX not allowed in files with extension '.js'                                                                 react/jsx-filename-extension
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\setup.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\setup.js
   1:8  error  'React' is defined but never used  no-unused-vars
 
-c:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\Watchlist.test.js
+C:\Users\jawpa\Desktop\res\doc\code\OutsmartOptions\test\reactTests\Watchlist.test.js
   3:19  error    'mount' is defined but never used              no-unused-vars
   8:3   warning  Test has no assertions                         jest/expect-expect
   9:13  error    JSX not allowed in files with extension '.js'  react/jsx-filename-extension
 
-✖ 1256 problems (1193 errors, 63 warnings)
+✖ 1266 problems (1198 errors, 68 warnings)
   1 error and 0 warnings potentially fixable with the `--fix` option.
 

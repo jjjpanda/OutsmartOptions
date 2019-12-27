@@ -41,6 +41,7 @@ export const StrategyInfo = ({ stockPrice, optionsSelected, mergedOptions }) => 
   optionsSelected = optionsSelected.filter((o) => !o.hide);
   const analyzedStrategies = optionsMath.extractStrategies(optionsSelected);
   console.log(analyzedStrategies);
+  console.log(optionsMath.nakedLegsAnalysis([...optionsSelected]));
   const state = {
     strategy: optionsMath.nameStrategy(analyzedStrategies),
     risks: 0,

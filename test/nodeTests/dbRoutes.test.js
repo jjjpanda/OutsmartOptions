@@ -6,20 +6,18 @@ let id; let
   token;
 
 beforeAll(async (done) => mongoDB.connect('tests', (success) => {
-  if(success){
-    done()
-  }
-  else{
-    done.fail(new Error('Database Connect Error'))
+  if (success) {
+    done();
+  } else {
+    done.fail(new Error('Database Connect Error'));
   }
 }), 50000);
 
 afterAll(async (done) => mongoDB.disconnect((success) => {
-  if(success){
-    done()
-  }
-  else{
-    done.fail(new Error('Database Connect Error'))
+  if (success) {
+    done();
+  } else {
+    done.fail(new Error('Database Connect Error'));
   }
 }), 50000);
 

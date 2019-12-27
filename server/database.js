@@ -35,7 +35,7 @@ module.exports = {
       },
       (error) => {
         console.log(error);
-        try { callback(false) } catch (error) { console.log(error); }
+        try { callback(false); } catch (error) { console.log(error); }
       },
     ),
 
@@ -47,7 +47,7 @@ module.exports = {
       },
       (error) => {
         console.log(error);
-        try { callback(false) } catch (error) { console.log(error); }
+        try { callback(false); } catch (error) { console.log(error); }
       },
     ),
 
