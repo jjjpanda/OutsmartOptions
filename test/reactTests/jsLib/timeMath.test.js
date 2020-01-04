@@ -32,7 +32,7 @@ describe('Increment Test', () => {
 
 describe('String Date Conversion Test', () => {
   it('Date to String', () => {
-    expect(math.dateToString(new Date(2000, 4, 13))).toBe('2000-5-13');
+    expect(math.dateToString(new Date(2000, 4, 13))).toBe('2000-05-13');
     expect(math.dateToFormattedString('2000-4-12')).toBe('4/12/2000');
     expect(math.dateToFormattedString('2000-04-12')).toBe('04/12/2000');
   });
