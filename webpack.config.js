@@ -4,16 +4,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   mode: 'development',
   entry: {
-    app: './src/App.js',
+    app: './src/App.jsx',
   },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist')
   },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: "babel-loader"
       },
@@ -43,13 +46,11 @@ module.exports = {
         test: /\.(png|svg|jpg|gif)$/,
         exclude: /node_modules/,
         use: ['file-loader']
-       },
-       {
+      },
+      {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-        'file-loader',
-        ],
-        },
+        use: ['file-loader'],
+      },
     ]
   },
   plugins: [
