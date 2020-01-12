@@ -12,6 +12,18 @@ if (process.env.NODE_ENV === 'development') {
   router.use('/lint', express.static('./eslint', {
     index: 'lintOutput.html',
   }));
+
+  router.use('/jest', express.static('./test/report', {
+    index: 'index.html',
+  }));
+}
+
+else{
+  router.use('/coverage', (req, res) => res.status(404).send("You're a dev?"));
+
+  router.use('/lint', (req, res) => res.status(404).send("You're a dev?"));
+  
+  router.use('/jest', (req, res) => res.status(404).send("You're a dev?"));
 }
 
 module.exports = router;
