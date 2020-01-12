@@ -1,6 +1,6 @@
 module.exports = {
     rules: {
-      custom1: {
+      setStateParameterNotFunction: {
         docs: {
           description: 'setState should be a function',
           category: 'J Being Picky',
@@ -20,6 +20,6 @@ module.exports = {
             },
           };
         },
-      },
+      }
     },
 };

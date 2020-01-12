@@ -24,6 +24,10 @@ for (const webPath of knownPaths) {
   }));
 }
 
+const devRoutes = require('./routes/devRoutes.js');
+
+app.use('/dev', devRoutes);
+
 const marketData = require('./routes/marketData.js');
 
 app.use('/api/market', marketData);

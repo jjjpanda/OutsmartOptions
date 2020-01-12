@@ -27,6 +27,7 @@ module.exports = {
     'custom-rules'
   ],
   rules: {
-    'custom-rules/custom1' : 1
+    'custom-rules/setStateParameterNotFunction' : 1,
+    "import/extensions": ["error", "ignorePackages"]
   },
 };

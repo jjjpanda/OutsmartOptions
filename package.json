@@ -11,8 +11,8 @@
     "testEndpoints": "jest test/nodeTests --runInBand",
     "testCrossBrowser": "jest test/browserTests --runInBand --setupFiles dotenv/config",
     "testAll": "jest --setupFiles dotenv/config --runInBand",
-    "lint": "eslint src/**/*.js server/**/*.js test/**/*.js > eslint/lintOutput.txt",
-    "lintRemover": "eslint src/**/*.js server/**/*.js test/**/*.js --fix > eslint/lintOutput.txt",
+    "lint": "eslint --ext .jsx --ext .js \"src/\" \"server/\" \"test/\" -o eslint/lintOutput.html -f html",
+    "lintRemover": "eslint --ext .jsx --ext .js \"src/\" \"server/\" \"test/\" -o eslint/lintOutput.html -f html --fix",
     "createDistContinuous": "npx webpack --watch",
     "nodemonStart": "npx nodemon ./server/server.js"
   },
@@ -106,7 +106,7 @@
       {
         "displayName": "React",
         "setupFilesAfterEnv": [
-          "<rootDir>/test/reactTests/setup.js"
+          "<rootDir>/test/reactTests/setup.jsx"
         ],
         "transform": {
           "^.+\\.js$": "babel-jest",
