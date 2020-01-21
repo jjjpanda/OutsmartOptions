@@ -22,7 +22,7 @@ class StockSymbol extends React.Component {
     super(props);
     this.state = {
       symbol: '',
-      description: 'Please Enter a Stock Symbol',
+      description: '',
       exists: true,
       priceChange: 0,
       price: 0,
