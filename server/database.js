@@ -2,18 +2,17 @@ const env = require('dotenv').config();
 const mongoose = require('mongoose');
 const daemon = require('./db/earningsDaemon.js');
 
-
 mongoose.connection.once('connected', () => {
   console.log('~MongoDB Database Connected~');
-  daemon.start();
+  //daemon.start();
 });
 mongoose.connection.once('error', () => {
   console.log('~MongoDB Database Error~');
-  daemon.stop();
+  //daemon.stop();
 });
 mongoose.connection.once('disconnected', () => {
   console.log('~MongoDB Database Disconnected~');
-  daemon.stop();
+  //daemon.stop();
 });
 
 module.exports = {
