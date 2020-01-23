@@ -4,6 +4,7 @@ import {
   Form,
   Checkbox,
   Button,
+  Icon
 } from 'antd';
 import { 
   UserOutlined,
@@ -13,10 +14,11 @@ import {
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
-    onFinish = values => {
-      console.log('Received values of form: ', values);
-    };
   }
+
+  onFinish = values => {
+   console.log('Received values of form: ', values);
+  };
 
   render() {
     return (
@@ -24,20 +26,20 @@ class LoginPage extends React.Component {
         name="login"
         className="login-form"
         initialValues={{ remember: true }}
-        onFinish={onFinish}
+        onFinish={this.onFinish}
       >
       <Form.Item
         name="username"
         rules={[{ required: true, message: 'Enter your username' }]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input prefix={<Icon type="right"/>} placeholder="Username" />
       </Form.Item>
       <Form.Item
         name="password"
         rules={[{ required: true, message: 'Enter your password' }]}
       >
       <Input
-        prefix={<LockOutlined className="site-form-item-icon" />}
+        prefix={<Icon type="right"/>}
         type="password"
         placeholder="Password"
       />
