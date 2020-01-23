@@ -72,7 +72,7 @@ class Help extends React.Component {
     render() {
       return (
 
-        <div style={{ background: '#ECECEC', padding: '30px' }}>
+        <div style={{ padding: '30px' }}>
           <Row gutter={16}>
             <Col span={8}>
               <Card
