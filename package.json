@@ -105,13 +105,16 @@
     ],
     "reporters": [
       "default",
-      ["jest-html-reporters", {
-        "publicPath": "./test/report",
-        "filename": "index.html",
-        "expand": true,
-        "pageTitle": "Test Report",
-        "logoImgPath": "./src/img/logo.png"
-      }]
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "./test/report",
+          "filename": "index.html",
+          "expand": true,
+          "pageTitle": "Test Report",
+          "logoImgPath": "./src/img/logo.png"
+        }
+      ]
     ],
     "projects": [
       {
