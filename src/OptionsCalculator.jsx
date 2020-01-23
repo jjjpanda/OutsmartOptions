@@ -912,7 +912,7 @@ IV Skew
           <ButtonGroup>
             <Button onClick={this.calculateProfits} type="primary">Calculate</Button>
             <Popover content={this.renderCalculateMenu()} trigger="click">
-              <Button type="primary" icon="cloud" />
+              <Button type="primary" icon="cloud" style={{ paddingBottom: '1px' }} />
             </Popover>
           </ButtonGroup>
         </div>
