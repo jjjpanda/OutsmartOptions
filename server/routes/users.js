@@ -103,6 +103,27 @@ router.post('/current', auth, (req, res) => {
   });
 });
 
+router.post('/change', auth, (req, res) => {
+  const { id, oldPassword, newPassword } = req.body 
+  User.findById(id).then((user) => {
+    if(!user) {
+      return res.sendStatus(400)
+    }
+
+    bcrypt.compare(oldPassword, user.password).then((isMatch) => {
+      if (isMatch) {
+        user.password = newPassword
+        user.save()
+        .then((user) => res.json({'changed': true}))
+        .catch((err) => res.json({'changed': false}));
+      } else {
+        res.json({'changed': false})
+      }
+    });
+
+  })
+})
+
 router.post('/delete', auth, (req, res, next) => {
   const { id } = req.body;
   User.findByIdAndDelete(id).then((err, user) => {

@@ -196,6 +196,28 @@ describe('Protected Routes', () => {
         });
     }, 30000);
 
+    it('Password Changing', async (done) => {
+      request(app).post('/api/users/change')
+      .send({ id, oldPassword: 'password', newPassword: 'password2' })
+      .set('Authorization', token)
+      .expect('Content-Type', /json/)
+      .then((response) => {
+        expect(response.body.changed).toBe(true);
+        done();
+      });
+    }, 30000);
+
+    it('Incorrect Password Changing', async (done) => {
+      request(app).post('/api/users/change')
+      .send({ id, oldPassword: 'passwordThatsWrong', newPassword: 'shouldntReallyMatter' })
+      .set('Authorization', token)
+      .expect('Content-Type', /json/)
+      .then((response) => {
+        expect(response.body.changed).toBe(false);
+        done();
+      });
+    }, 30000);
+
     it('Delete User', async (done) => {
       request(app).post('/api/users/delete')
         .send({ id })
