@@ -4,6 +4,7 @@ import {
   Icon,
   Card,
   AutoComplete,
+  Button,
 } from 'antd';
 
 import HelpTooltip from './HelpTooltip.jsx';
@@ -151,6 +152,7 @@ class StockSymbol extends React.Component {
               <HelpTooltip hide={false} title="%" content={"Here's the percent change for the day. This begins to update at 9:30 AM EST."} />
             </div>
             <div id="priceChangeBox"><Input placeholder={`${this.state.priceChange}%`} disabled /></div>
+            <Button shape="circle" icon="star" style={{ marginLeft: '5%' }} />
 
           </div>
           <div>
