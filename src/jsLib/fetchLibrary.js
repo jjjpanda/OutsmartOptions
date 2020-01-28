@@ -14,6 +14,23 @@ export function fetchReq(req, body, callback) {
     );
 }
 
+export function fetchReqAuth(req, body, callback) {
+  fetch(req,
+    {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': auth
+      },
+      body,
+    })
+    .then((res) => res.json())
+    .then(
+      (data) => callback(data),
+    );
+}
+
 export function fileReq(req, fd) {
   fetch(req,
     {
