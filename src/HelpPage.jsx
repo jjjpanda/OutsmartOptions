@@ -35,6 +35,7 @@ class Help2 extends React.Component{
       });
     }
 
+
     renderRow(content){
         return content.map((index) => (
             <Col span = {8}>
@@ -46,7 +47,7 @@ class Help2 extends React.Component{
                     actions = {[
                         <Icon type = "youtube" onClick = {() => this.renderVid(index[2], index[0])}/>, 
                         <Icon type = "info-circle" onClick = {() => this.renderCarousel(index[0],index[5])}/>,
-                        <Icon type = "book" />,
+                        <Icon type = "book"/>,
                     ]}
                 > 
                 {index[3]}
@@ -79,6 +80,8 @@ class Help2 extends React.Component{
             <p>End lesson</p>
           </div>
         </Carousel>
+        <br></br>
+        <br></br>
         <ButtonGroup>
             <Button type="primary" onClick={() => this.refs.caros1.prev()}>
                   <Icon type="left" />
@@ -93,45 +96,30 @@ class Help2 extends React.Component{
         )
     }
 
-    createCarousel2(){
-        return(
-          <div>
-          <Carousel  padding="50px" ref="caros2">
-          <div>
-            Slide 1 Carousel 2
-          </div>
-          <div>
-            Hey  
-          </div>
-          <div>
-            <p>End lesson</p>
-          </div>
-        </Carousel>
-        <ButtonGroup>
-            <Button type="primary" onClick={() => this.refs.caros2.prev()}>
-                  <Icon type="left" />
-                  Prev
-            </Button>
-            <Button type="primary" onClick={() => this.refs.caros2.next()}>
-                  Next
-                  <Icon type="right" />
-            </Button>
-        </ButtonGroup>
-        </div>
-        )
-    }
 
-    createCarousel3(){
+    createCarousel2(){
         return(
           <div>
             <Carousel  padding="50px" ref="caros3">
               <div>
-                Carousel 3
+                <p>An option contract facilitates the transaction of a security at a predetermined price, before a predetermined date.</p>
+                <p>The predetermined price is known as the <b>strike price</b>.</p>
+                <p>The predetermined date is known as the <b>expiration date</b>.</p>
+                <p>The standard options contract covers 100 shares of the underlying security.</p>
               </div>
               <div>
-                <p>End lesson</p>
+                <p>The contract buyer has the right, but not the obligation, to buy or sell shares to the option writer before the expiration date.</p>
+                <p>Options contracts are available in two forms: calls and puts.</p>
+                <p>A call option gives the buyer the right to sell the shares, and a put option gives the buyer the right to buy the shares.</p>
+                <p>We will go more in depth with calls and puts in their own lessons.</p>
               </div>
+              <div>
+                End Lesson
+              </div>
+
             </Carousel>
+            <br></br>
+            <br></br>
             <ButtonGroup>
               <Button type="primary" onClick={() => this.refs.caros3.prev()}>
                   <Icon type="left" />
@@ -145,6 +133,34 @@ class Help2 extends React.Component{
         </div>
         )
     }
+
+    createCarousel3(){
+      return(
+        <div>
+        <Carousel  padding="50px" ref="caros2">
+        <div>
+          Carousel 3
+        </div>
+        <div>
+          Hey  
+        </div>
+        <div>
+          <p>End lesson</p>
+        </div>
+      </Carousel>
+      <ButtonGroup>
+          <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+                <Icon type="left" />
+                Prev
+          </Button>
+          <Button type="primary" onClick={() => this.refs.caros2.next()}>
+                Next
+                <Icon type="right" />
+          </Button>
+      </ButtonGroup>
+      </div>
+      )
+  }
 
     render(){
         //Fill in the following info for each card variable in this order: title, image, video link, sub text, modal title
@@ -160,46 +176,47 @@ class Help2 extends React.Component{
                     "Buying Stocks",
                     caro1];
 
-        var card2 = ["Short Selling",
-                    "https://i.udemycdn.com/course/750x422/2471182_20ec_4.jpg",
-                    "https://www.youtube.com/embed/xX_9ud6B9Nw",
-                    "Bear Gang",
-                    "Short Selling",
-                    caro2];
-
-        var card3 = ["Options Contracts",
+        var card2 = ["Options Contracts",
                     "https://s3.amazonaws.com/multistate.us/shared/hubspot/export/AdobeStock_67425246-1200px.jpeg",
                     "https://www.youtube.com/embed/GzkKFRx1Dhk",
                     "Welcome to r/WallStreetBets",
                     "Options Contracts", 
-                    caro3];
+                    caro2];
 
-        var card4 = ["Excercise and Expiry",
+
+        var card3 = ["Excercise and Expiry",
                       "https://is2-ssl.mzstatic.com/image/thumb/Purple4/v4/90/37/b5/9037b5ac-701d-6e15-a56e-b13bff7c1602/Icon.png/1200x630bb.png",
                       "https://www.youtube.com/embed/zRi8bCfGhBo",
                       "When you work out and Die",
                       "Excercise and Expiry",
                       caro3];
 
-        var card5 = ["Call Options Buyers",
+        var card4 = ["Call Options Buyers",
                       "https://images.unsplash.com/photo-1516055619834-586f8c75d1de?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
                       "https://www.youtube.com/embed/fUNk8TjrZOA",
                       "1800-Call-NOW",
                       "Calls",
                       caro3]; 
 
-        var card6 = ["Put Options Buyers",
+        var card5 = ["Put Options Buyers",
                       "https://tinyurl.com/wxmkb9g",
                       "https://www.youtube.com/embed/z6lu992JvCk",
                       "Put it there",
                       "Puts",
                       caro3];
 
-        var card7 = ["Puts vs Calls: Rights and Obligations",
+        var card6 = ["Puts vs Calls: Rights and Obligations",
                     "https://keydifferences.com/wp-content/uploads/2015/12/call-option-vs-put-option1.jpg",
                     "https://www.youtube.com/embed/uQLMSU2NNlk",
                     "Ups and Downs",
                     "Puts vs Calls: Rights and Obligations",
+                    caro3];
+        
+        var card7 = ["Short Selling",
+                    "https://i.udemycdn.com/course/750x422/2471182_20ec_4.jpg",
+                    "https://www.youtube.com/embed/xX_9ud6B9Nw",
+                    "Bear Gang",
+                    "Short Selling",
                     caro3];
 
         var card8 = ["Futures",

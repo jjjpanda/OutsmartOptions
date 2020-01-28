@@ -206,6 +206,19 @@ module.exports = {
     });
   },
 
+  getEarnings(ticker, callback) {
+    request({
+      method: 'get',
+      url: `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${ticker}`
+    },
+    (error, response, body) => {
+      body = JSON.parse(body)
+      const earnings = new Date(body['quoteResponse']['result'][0]['earningsTimestamp'] * 1000)
+      //console.log(body['quoteResponse']['result'][0]['earningsTimestamp'])
+      callback({earningsDate: earnings})
+    })
+  }
+
 };
 
 const getDateFromDaysAgo = (n) => {
