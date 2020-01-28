@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
+import './css/watchlist.less';
 
 
 const columns = [
@@ -42,20 +43,6 @@ const columns = [
 ];
 
 const data = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    ticker: `Ticker ${i}`,
-    putOI: 32,
-    putVolume: 32,
-    putIV: 32,
-    callOI: 33,
-    callVolume: 33,
-    callIV: 33,
-    pcRatio: 0.5,
-    percentChange: '50%',
-  });
-}
 
 
 class Watchlist extends React.Component {
@@ -114,7 +101,7 @@ class Watchlist extends React.Component {
       ],
     };
     return (
-      <div>
+      <div className='tableWrapper'>
         <div>
           <h1 className="title">Username's Watchlist</h1>
         </div>
