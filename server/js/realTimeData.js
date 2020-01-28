@@ -214,7 +214,7 @@ module.exports = {
     (error, response, body) => {
       body = JSON.parse(body)
       const earnings = new Date(body['quoteResponse']['result'][0]['earningsTimestamp'] * 1000)
-      //console.log(body['quoteResponse']['result'][0]['earningsTimestamp'])
+      //console.log(earnings)
       callback({earningsDate: earnings})
     })
   }

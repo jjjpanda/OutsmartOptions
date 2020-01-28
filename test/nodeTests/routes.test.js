@@ -111,7 +111,7 @@ describe('POST Market Data /api/market/', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
-        // console.log(response.body)
+        //console.log(response.body)
         expect(response.body).toBeDefined();
         done();
       });
