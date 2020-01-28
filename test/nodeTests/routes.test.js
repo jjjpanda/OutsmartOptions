@@ -105,6 +105,18 @@ describe('POST Market Data /api/market/', () => {
       });
   }, 30000);
 
+  it('Tests /earningsDate', async (done) => {
+    request(app).post('/api/market/earningsDate')
+      .send({ ticker: 'AAPL' })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        // console.log(response.body)
+        expect(response.body).toBeDefined();
+        done();
+      });
+  }, 30000)
+
   it('Tests /treasury', async (done) => {
     request(app).post('/api/market/treasury')
       .expect('Content-Type', /json/)
