@@ -57,6 +57,7 @@ class Help2 extends React.Component{
     }
 
     createCarousel1(){
+      //Buying stocks
         return(
           <div>
           <Carousel  padding="50px" ref="caros1" dots="false">
@@ -72,9 +73,9 @@ class Help2 extends React.Component{
           </div>
           <div>
             <p>You want to buy stocks in companies that you believe will go up in value.</p>
-            <p>The more money the company makes, the more money your shares are worth.</p>
+            <p>The more money the company makes, the more money your shares are worth 🤑.</p>
             <p>The bigger the pie gets, the bigger your slice becomes.</p>
-            <img src="/img/b_1.gif" alt="pie" height="100" width="200" />
+            <img src="/img/helpPageImages/stocks.gif" alt="pie" height="100" width="200" />
           </div>
           <div>
             <p>End lesson</p>
@@ -98,25 +99,29 @@ class Help2 extends React.Component{
 
 
     createCarousel2(){
+      //Options Contracts
         return(
           <div>
-            <Carousel  padding="50px" ref="caros3">
+            <Carousel  padding="50px" ref="caros3" dots="false">
               <div>
                 <p>An option contract facilitates the transaction of a security at a predetermined price, before a predetermined date.</p>
                 <p>The predetermined price is known as the <b>strike price</b>.</p>
                 <p>The predetermined date is known as the <b>expiration date</b>.</p>
+                <p>The buyer must pay a premium to the writer of the contract, which is charged per share of the contract.</p>
                 <p>The standard options contract covers 100 shares of the underlying security.</p>
               </div>
               <div>
-                <p>The contract buyer has the right, but not the obligation, to buy or sell shares to the option writer before the expiration date.</p>
                 <p>Options contracts are available in two forms: calls and puts.</p>
                 <p>A call option gives the buyer the right to sell the shares, and a put option gives the buyer the right to buy the shares.</p>
                 <p>We will go more in depth with calls and puts in their own lessons.</p>
               </div>
               <div>
+                <p>In summary, the contract buyer has the right, but not the obligation, to buy shares from or sell shares to the option writer before the expiration date.</p>
+                <img src="/img/helpPageImages/options.gif" alt="pie" height="250" width="450" />
+              </div>
+              <div>
                 End Lesson
               </div>
-
             </Carousel>
             <br></br>
             <br></br>
@@ -135,14 +140,27 @@ class Help2 extends React.Component{
     }
 
     createCarousel3(){
+      //Excercise and Expiry
       return(
         <div>
-        <Carousel  padding="50px" ref="caros2">
+        <Carousel  padding="50px" ref="caros2" dots = "false">
         <div>
-          Carousel 3
+          <p>Deciding to buy or sell an option contract's underlying security is known as <b>excercising</b> the option.</p>
+          <p>European style options must be excercised on the contract's expiration date, whereas American options can be excercised at any point on or before the expiration date.</p>
         </div>
         <div>
-          Hey  
+          <p>Now you are probably thinking, what if the buyer never excercises the option?</p>
+          <p>The answer is simple, if the contract expires without being excercised, it is deemed worthless.</p>
+          <p>The buyer walks away with nothing, in addition to losing the money they paid for the contract's premium.</p>
+        </div>
+        <div>
+          <img src="/img/helpPageImages/expiry.gif" alt="pie" height="250" width="450" /> 
+        </div>
+        <div>
+          <p>Now why would someone allow their contract to expire?</p>
+          <p>If the option is not <b>in the money</b> at expiry, the buyer would lose money by excercising the option.</p>
+          <p>A call option is in the money if the underlying security's price goes below strike price, allowing the buyer to buy the security for less than market price.</p>
+          <p>A put option is in the money if the underlying security's price goes above strike price, allowing the buyer to sell the security for greater than market price.</p>
         </div>
         <div>
           <p>End lesson</p>
@@ -232,11 +250,41 @@ class Help2 extends React.Component{
                     "Whats the difference?",
                     "Intrinsic and Extrinsic Value",
                     caro3];
+        
+        var card10 = ["Reading Profit Graphs",
+                    "/img/profitGraph.PNG",
+                    "https://www.youtube.com/embed/m2LOJRxYkRg",
+                    "When, where, and how to get the bag",
+                    "Profit Graphs",
+                    caro3];
+
+        var card11 = ["Delta, Gamma, and Leverage",
+                    "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
+                    "https://www.youtube.com/embed/FDCrfsYg0GU",
+                    "Greeks",
+                    "Delta, Gamma, and Leverage",
+                    caro3];
+
+        var card12 = ["Theta",
+                    "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
+                    "https://www.youtube.com/embed/4X3HBFntkds",
+                    "More Greek",
+                    "Theta",
+                    caro3];
+        
+        var card13 = ["IV, Vega, and IV Crush",
+                    "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
+                    "https://www.youtube.com/embed/Q3XAlfAyMGI",
+                    "Lets get volatile",
+                    "IV, Vega, and IV Crush",
+                    caro3];
                      
 
         var row1 = [card1, card2, card3];
         var row2 = [card4, card5, card6];
         var row3 = [card7, card8, card9];
+        var row4 = [card10, card11, card12];
+        var row5 = [card13];
         
 
         return(
@@ -251,6 +299,14 @@ class Help2 extends React.Component{
                 <br></br>
                 <Row gutter = {16}>
                   {this.renderRow(row3)}
+                </Row>
+                <br></br>
+                <Row gutter = {16}>
+                  {this.renderRow(row4)}
+                </Row>
+                <br></br>
+                <Row gutter = {16}>
+                  {this.renderRow(row5)}
                 </Row>
             </div>
         )
