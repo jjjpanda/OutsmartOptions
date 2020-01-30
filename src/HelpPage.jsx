@@ -15,6 +15,7 @@ class Help2 extends React.Component{
         super(props)
     }
 
+    //renders a modal containing youtube video for a card
     renderVid(url, header) {
         Modal.info({
           title: header,
@@ -25,6 +26,7 @@ class Help2 extends React.Component{
         });
       }
 
+    //Code for a basic modal containing a carousel
     renderCarousel(header, caro){
       Modal.info({
         title: header,
@@ -35,7 +37,7 @@ class Help2 extends React.Component{
       });
     }
 
-
+    //Code to render a row of cards
     renderRow(content){
         return content.map((index) => (
             <Col span = {8}>
@@ -56,6 +58,7 @@ class Help2 extends React.Component{
           ));
     }
 
+    //Write card carousels here 
     createCarousel1(){
       //Buying stocks
         return(
@@ -180,12 +183,306 @@ class Help2 extends React.Component{
       )
   }
 
+  createCarousel4(){
+    //Call Option Buyers
+    return(
+      <div>
+        <Carousel  padding="50px" ref="caros2" dots = "false">
+        <div>
+          <p>We have mentioned the two types of options: calls and puts.</p>
+          <p>Now we will go more in depth into buying calls.</p>
+          <p>Remember, a call buyer pays a premium to the writer for a contract that gives them the right to buy the security.</p>
+        </div>
+        <div>
+          <p>We will walk you through the process of buying calls, from purchase to expiration. Click <b>next</b> to traverse through the graphical lesson.</p>
+          <img src="/img/helpPageImages/callBuyers/Slide1.jpeg" alt="pie" height="250" width="450" />
+          <br></br>
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callBuyers/Slide2.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callBuyers/Slide3.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callBuyers/Slide4.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callBuyers/Slide5.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callBuyers/Slide6.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callBuyers/Slide7.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+         <br></br>
+          <img src="/img/helpPageImages/callBuyers/Slide8.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          End Lesson.
+        </div>
+      </Carousel>
+      <ButtonGroup>
+        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+              <Icon type="left" />
+              Prev
+        </Button>
+        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+              Next
+              <Icon type="right" />
+        </Button>
+      </ButtonGroup>
+    </div>
+    )
+}
+
+createCarousel5(){
+  //Call Option Writers
+  return(
+    <div>
+      <Carousel  padding="50px" ref="caros2" dots = "false">
+        <div>
+          <p>Now its time to walk you through writing calls.</p>
+          <p>Remember, a call writer sells a contract, for a premium, giving the buyer the right to buy a security from them.</p>
+          <p>This can also be interpreted as the obligation to sell the securities to the buyer, should the buyer excercise the contract.</p>
+        </div>
+        <div>
+          <p>Click <b>next</b> to traverse through the graphical lesson.</p>
+          <img src="/img/helpPageImages/callWriters/Slide1.jpeg" alt="pie" height="250" width="450" />
+          <br></br>
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callWriters/Slide2.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callWriters/Slide3.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callWriters/Slide4.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callWriters/Slide5.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callWriters/Slide6.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callWriters/Slide7.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callWriters/Slide8.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/callWriters/Slide9.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          End Lesson.
+        </div>
+      </Carousel>
+      <ButtonGroup>
+        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+            <Icon type="left" />
+            Prev
+        </Button>
+        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+            Next
+            <Icon type="right" />
+        </Button>
+      </ButtonGroup>
+  </div>
+  )
+}
+
+createCarousel6(){
+  //Put Option Buyers
+  return(
+    <div>
+      <Carousel  padding="50px" ref="caros2" dots = "false">
+      <div>
+        <p>Now we will go more in depth into buying puts.</p>
+        <p>Remember, a put buyer pays a premium to the writer for a contract that gives them the right to sell the security.</p>
+      </div>
+      <div>
+        <p>We will walk you through the process of buying puts, from purchase to expiration. Click <b>next</b> to traverse through the graphical lesson.</p>
+        <img src="/img/helpPageImages/putBuyers/Slide1.jpeg" alt="pie" height="250" width="450" />
+        <br></br>
+      </div>
+      <div>
+        <br></br>
+        <img src="/img/helpPageImages/putBuyers/Slide2.jpeg" alt="pie" height="250" width="450" />
+      </div>
+      <div>
+        <br></br>
+        <img src="/img/helpPageImages/putBuyers/Slide3.jpeg" alt="pie" height="250" width="450" />
+      </div>
+      <div>
+        <br></br>
+        <img src="/img/helpPageImages/putBuyers/Slide4.jpeg" alt="pie" height="250" width="450" />
+      </div>
+      <div>
+        <br></br>
+        <img src="/img/helpPageImages/putBuyers/Slide5.jpeg" alt="pie" height="250" width="450" />
+      </div>
+      <div>
+        <br></br>
+        <img src="/img/helpPageImages/putBuyers/Slide6.jpeg" alt="pie" height="250" width="450" />
+      </div>
+      <div>
+        <br></br>
+        <img src="/img/helpPageImages/putBuyers/Slide7.jpeg" alt="pie" height="250" width="450" />
+      </div>
+      <div>
+       <br></br>
+        <img src="/img/helpPageImages/putBuyers/Slide8.jpeg" alt="pie" height="250" width="450" />
+      </div>
+      <div>
+        End Lesson.
+      </div>
+    </Carousel>
+    <ButtonGroup>
+      <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+            <Icon type="left" />
+            Prev
+      </Button>
+      <Button type="primary" onClick={() => this.refs.caros2.next()}>
+            Next
+            <Icon type="right" />
+      </Button>
+    </ButtonGroup>
+  </div>
+  )
+}
+
+createCarousel7(){
+  //Put Option Writers
+  return(
+    <div>
+      <Carousel  padding="50px" ref="caros2" dots = "false">
+        <div>
+          <p>Now its time to walk you through writing puts.</p>
+          <p>Remember, a put writer sells a contract, for a premium, giving the buyer the right to sell a security to them.</p>
+          <p>This can also be interpreted as the obligation to buy the securities from the contract buyer, should the buyer excercise the contract.</p>
+        </div>
+        <div>
+          <p>Click <b>next</b> to traverse through the graphical lesson.</p>
+          <img src="/img/helpPageImages/putWriters/Slide1.jpeg" alt="pie" height="250" width="450" />
+          <br></br>
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/putWriters/Slide2.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/putWriters/Slide3.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/putWriters/Slide4.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/putWriters/Slide5.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/putWriters/Slide6.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/putWriters/Slide7.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/putWriters/Slide8.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <br></br>
+          <img src="/img/helpPageImages/putWriters/Slide9.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          End Lesson.
+        </div>
+      </Carousel>
+      <ButtonGroup>
+        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+            <Icon type="left" />
+            Prev
+        </Button>
+        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+            Next
+            <Icon type="right" />
+        </Button>
+      </ButtonGroup>
+  </div>
+  )
+}
+
+createCarousel8(){
+  //Rights and Obligations
+  return(
+    <div>
+      <Carousel  padding="50px" ref="caros2" dots = "false">
+        <div>
+          <p>We know, that was a lot of information.</p>
+          <p>So we will summarize puts and calls and buyers and writers by breaking down the rights and obligations associated with each.</p>
+          <p>In short, call writers and put buyers  make money if the stock price goes down, and call buyers and put writers make money if the stock price goes up.</p>
+          <p>Click <b>next</b> to traverse through the graphical lesson.</p>
+        </div>
+        <div>
+          <img src="/img/helpPageImages/rightsAndObligations/Slide1.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <img src="/img/helpPageImages/rightsAndObligations/Slide2.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <img src="/img/helpPageImages/rightsAndObligations/Slide3.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          End Lesson.
+        </div>
+      </Carousel>
+      <ButtonGroup>
+        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+          <Icon type="left" />
+          Prev
+        </Button>
+        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+          Next
+          <Icon type="right" />
+        </Button>
+      </ButtonGroup>
+    </div>
+  )
+}
+
     render(){
         //Fill in the following info for each card variable in this order: title, image, video link, sub text, modal title
         //Fill out the corresponding create# function above to populate that card's info carousel
         var caro1 =  this.createCarousel1();
         var caro2 = this.createCarousel2();      
         var caro3 = this.createCarousel3();
+        var caro4 = this.createCarousel4();
+        var caro5 = this.createCarousel5();
+        var caro6 = this.createCarousel6();
+        var caro7 = this.createCarousel7();
+        var caro8 = this.createCarousel8();
 
         var card1 = ["Buying Stocks",
                     "https://www.thestreet.com/files/tsc/v2008/defaultImages/thestreet-picks-stockpickr.jpg",
@@ -213,66 +510,80 @@ class Help2 extends React.Component{
                       "https://images.unsplash.com/photo-1516055619834-586f8c75d1de?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
                       "https://www.youtube.com/embed/fUNk8TjrZOA",
                       "1800-Call-NOW",
-                      "Calls",
-                      caro3]; 
+                      "Buying Calls",
+                      caro4];
+        
+        var card5 = ["Call Options Writers",
+                      "https://images.unsplash.com/photo-1516055619834-586f8c75d1de?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+                      "https://www.youtube.com/embed/fUNk8TjrZOA",
+                      "Write it up",
+                      "Writing Calls",
+                      caro5]; 
 
-        var card5 = ["Put Options Buyers",
+        var card6 = ["Put Options Buyers",
                       "https://tinyurl.com/wxmkb9g",
                       "https://www.youtube.com/embed/z6lu992JvCk",
                       "Put it there",
-                      "Puts",
-                      caro3];
+                      "Buying Puts",
+                      caro6];
 
-        var card6 = ["Puts vs Calls: Rights and Obligations",
+        var card7 = ["Put Options Writers",
+                      "https://tinyurl.com/wxmkb9g",
+                      "https://www.youtube.com/embed/z6lu992JvCk",
+                      "Put Put Pass",
+                      "Writing Puts",
+                      caro7];
+
+        var card8 = ["Puts vs Calls: Rights and Obligations",
                     "https://keydifferences.com/wp-content/uploads/2015/12/call-option-vs-put-option1.jpg",
                     "https://www.youtube.com/embed/uQLMSU2NNlk",
                     "Ups and Downs",
                     "Puts vs Calls: Rights and Obligations",
-                    caro3];
+                    caro8];
         
-        var card7 = ["Short Selling",
+        var card9 = ["Short Selling",
                     "https://i.udemycdn.com/course/750x422/2471182_20ec_4.jpg",
                     "https://www.youtube.com/embed/xX_9ud6B9Nw",
                     "Bear Gang",
                     "Short Selling",
                     caro3];
 
-        var card8 = ["Futures",
+        var card10 = ["Futures",
                     "https://cdn.wegow.com/media/artists/future/future-1502361050.03.2560x1440.jpg",
                     "https://www.youtube.com/embed/Cj0fHhLVrv8",
                     "Freebandz",
                     "Futures",
                     caro3];
           
-        var card9 = ["Intrinsic and Extrinsic Value",
+        var card11 = ["Intrinsic and Extrinsic Value",
                     "https://www.wrike.com/blog/content/uploads/2019/07/Intrinsic-vs.-Extrinsic-Motivation-How-to-Drive-People-to-Do-Amazing-Work-896x518.jpg",
                     "https://www.youtube.com/embed/r382h59p13M",
                     "Whats the difference?",
                     "Intrinsic and Extrinsic Value",
                     caro3];
         
-        var card10 = ["Reading Profit Graphs",
+        var card12 = ["Reading Profit Graphs",
                     "/img/profitGraph.PNG",
                     "https://www.youtube.com/embed/m2LOJRxYkRg",
                     "When, where, and how to get the bag",
                     "Profit Graphs",
                     caro3];
 
-        var card11 = ["Delta, Gamma, and Leverage",
+        var card13 = ["Delta, Gamma, and Leverage",
                     "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
                     "https://www.youtube.com/embed/FDCrfsYg0GU",
                     "Greeks",
                     "Delta, Gamma, and Leverage",
                     caro3];
 
-        var card12 = ["Theta",
+        var card14 = ["Theta",
                     "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
                     "https://www.youtube.com/embed/4X3HBFntkds",
                     "More Greek",
                     "Theta",
                     caro3];
         
-        var card13 = ["IV, Vega, and IV Crush",
+        var card15 = ["IV, Vega, and IV Crush",
                     "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
                     "https://www.youtube.com/embed/Q3XAlfAyMGI",
                     "Lets get volatile",
@@ -284,7 +595,7 @@ class Help2 extends React.Component{
         var row2 = [card4, card5, card6];
         var row3 = [card7, card8, card9];
         var row4 = [card10, card11, card12];
-        var row5 = [card13];
+        var row5 = [card13, card14, card15];
         
 
         return(
