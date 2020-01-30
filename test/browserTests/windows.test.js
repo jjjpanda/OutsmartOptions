@@ -5,6 +5,8 @@ const webdriver = require('selenium-webdriver');
 const browserstack = require('browserstack-local');
 const env = require('dotenv').config();
 
+const port = process.env.PORT;
+
 const bs_local = new browserstack.Local();
 const bs_local_args = { key: capabilities.credentials['browserstack.key'], onlyAutomate: true, logFile: 'test/browserTests/log.txt' };
 
@@ -46,7 +48,7 @@ for (const capability of capabilities.capabilities) {
         .withCapabilities(capability)
         .build();
 
-      await driver.get('https://outsmart.herokuapp.com').then(() => {
+      await driver.get(`https://localhost:${port}`).then(() => {
         done();
       }, () => {
         done.fail(new Error("Website Didn't Load."));
@@ -68,7 +70,7 @@ for (const capability of capabilities.capabilities) {
     }, 10000);
 
     it('Go to Calculator', async (done) => {
-      await driver.get('https://outsmart.herokuapp.com/calc').then(() => {
+      await driver.get(`https://localhost:${port}/calc`).then(() => {
         done();
       }, () => {
         done.fail(new Error("Website Didn't Load."));
@@ -76,7 +78,7 @@ for (const capability of capabilities.capabilities) {
     }, 10000);
 
     it('Go to Watchlist', async (done) => {
-      await driver.get('https://outsmart.herokuapp.com/watch').then(() => {
+      await driver.get(`https://localhost:${port}/watch`).then(() => {
         done();
       }, () => {
         done.fail(new Error("Website Didn't Load."));
@@ -84,7 +86,7 @@ for (const capability of capabilities.capabilities) {
     }, 10000);
 
     it('Go to HelpPage', async (done) => {
-      await driver.get('https://outsmart.herokuapp.com/help').then(() => {
+      await driver.get(`https://localhost:${port}/help`).then(() => {
         done();
       }, () => {
         done.fail(new Error("Website Didn't Load."));
@@ -92,7 +94,7 @@ for (const capability of capabilities.capabilities) {
     }, 10000);
 
     it('Go to AboutPage', async (done) => {
-      await driver.get('https://outsmart.herokuapp.com/about').then(() => {
+      await driver.get(`https://localhost:${port}/about`).then(() => {
         done();
       }, () => {
         done.fail(new Error("Website Didn't Load."));
