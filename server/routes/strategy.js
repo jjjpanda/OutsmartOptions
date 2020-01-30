@@ -27,13 +27,24 @@ const strategyFormatCheck = (req, res, next) => {
 router.post('/load', auth, (req, res) => {
   User.findById(req.body.id).then((user) => {
     if (user) {
-      Strategy.find({ user, stock: req.body.ticker }).then((strategies) => {
-        if (strategies) {
-          res.json({ strategies });
-        } else {
-          res.json({ strategy: false });
-        }
-      });
+      if(req.body.ticker != undefined){
+        Strategy.find({ user, stock: req.body.ticker }).then((strategies) => {
+          if (strategies) {
+            res.json({ strategies });
+          } else {
+            res.json({ strategy: false });
+          }
+        });
+      }
+      else{
+        Strategy.find({ user}).then((strategies) => {
+          if (strategies) {
+            res.json({ strategies });
+          } else {
+            res.json({ strategy: false });
+          }
+        });
+      }
     } else {
       res.json({ user: 'not found' });
     }
