@@ -17,7 +17,7 @@ app.use('/css', express.static(path.join(__dirname, '../src/css')));
 app.use('/img', express.static(path.join(__dirname, '../src/img')));
 app.use('/jsLib', express.static(path.join(__dirname, '../src/jsLib')));
 
-const knownPaths = ['/', '/calc', '/help', '/login', '/watch', '/about'];
+const knownPaths = ['/', '/calc', '/help', '/login', '/watch', '/about', '/checkout'];
 for (const webPath of knownPaths) {
   app.use(webPath, express.static('./dist', {
     index: 'app.html',
