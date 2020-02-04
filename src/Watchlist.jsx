@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
+import Cookies from 'js-cookie';
 import './css/watchlist.less';
 
 
@@ -44,14 +45,15 @@ const columns = [
 
 const data = [];
 
-
 class Watchlist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedRowKeys: [], // Check here to configure the default column
+      login: false,
     };
   }
+
 
 
   render() {
@@ -105,7 +107,7 @@ class Watchlist extends React.Component {
         <div>
           <h1 className="title">Username's Watchlist</h1>
         </div>
-        <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+        <Table rowSelection={rowSelection} columns={columns} dataSource={data} locale={{ emptyText: 'No watched tickers or User not logged in' }} />
       </div>
     );
   }
