@@ -1,7 +1,10 @@
 import React from 'react';
 import { Table } from 'antd';
 import Cookies from 'js-cookie';
+import * as post from './jsLib/fetchLibrary.js';
 import './css/watchlist.less';
+
+
 
 
 const columns = [
@@ -43,20 +46,36 @@ const columns = [
   },
 ];
 
-const data = [];
 
 class Watchlist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedRowKeys: [], // Check here to configure the default column
-      login: false,
     };
   }
 
-
+  checkLogin = () => {
+    
+  }
 
   render() {
+
+    Cookies.set('token',
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzBhMDU5ZDdiOGRkMDlkY2VhZTMzZiIsIm5hbWUiOiJtYW5nbyIsImlhdCI6MTU4MDg1MDcyNywiZXhwIjoxNjEyNDA3NjUzfQ.C8Sjr7hZqpNYjO5F2wZ1cmOXeUPv-rUfX5wBWrdq5g8');
+Cookies.set('id',
+  '5e30a059d7b8dd09dceae33f');
+
+  console.log(Cookies.get('token'))
+    console.log(Cookies.get('id'))
+    post.fetchReqAuth('/api/users/current', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzBhMDU5ZDdiOGRkMDlkY2VhZTMzZiIsIm5hbWUiOiJtYW5nbyIsImlhdCI6MTU4MDg1MjgwNywiZXhwIjoxNjEyNDA5NzMzfQ.Ro3Ngp4tyoazSCOtUbGsTrb_hA86sMEkA2PpvEg9A4Q'
+    , { id: '5e30a059d7b8dd09dceae33f' }, (data) => {
+    console.log('burhoudnk')
+      console.log(data);
+    });
+
+
+
     const { selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -107,7 +126,7 @@ class Watchlist extends React.Component {
         <div>
           <h1 className="title">Username's Watchlist</h1>
         </div>
-        <Table rowSelection={rowSelection} columns={columns} dataSource={data} locale={{ emptyText: 'No watched tickers or User not logged in' }} />
+        <Table rowSelection={rowSelection} columns={columns} dataSource={[]} locale={{ emptyText: 'No watched tickers or User not logged in' }} />
       </div>
     );
   }
