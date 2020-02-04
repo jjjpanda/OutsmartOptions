@@ -14,14 +14,14 @@ export function fetchReq(req, body, callback) {
     );
 }
 
-export function fetchReqAuth(req, body, callback) {
+export function fetchReqAuth(req, auth, body, callback) {
   fetch(req,
     {
       method: 'post',
       headers: {
+        Authorization: auth,
         Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': auth
+        'Content-Type': 'application/json'
       },
       body,
     })
