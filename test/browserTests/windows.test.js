@@ -39,8 +39,11 @@ afterAll(async () => {
 }, 10000);
 
 for (const capability of capabilities.capabilities) {
+
   describe(capability.name, () => {
+
     let driver;
+    let domains = ['https://localhost:${port}','http://www.outsmartoptions.live']
 
     beforeAll(async (done) => {
       driver = new webdriver.Builder()
@@ -48,11 +51,11 @@ for (const capability of capabilities.capabilities) {
         .withCapabilities(capability)
         .build();
 
-      await driver.get(`https://localhost:${port}`).then(() => {
-        done();
-      }, () => {
-        done.fail(new Error("Website Didn't Load."));
-      });
+        await driver.get('http://www.outsmartoptions.live').then(() => {
+          done();
+        }, () => {
+          done.fail(new Error("Website Didn't Load."));
+        });
     }, 50000);
 
     afterAll(async (done) => {
@@ -63,42 +66,53 @@ for (const capability of capabilities.capabilities) {
       });
     }, 10000);
 
-    it('React Root Exists', async (done) => {
-      const root = await eleManip.getElementById(webdriver, driver, 'root');
-      expect(root).toBeDefined();
-      done();
-    }, 10000);
+    for(let website of domains){
 
-    it('Go to Calculator', async (done) => {
-      await driver.get(`https://localhost:${port}/calc`).then(() => {
-        done();
-      }, () => {
-        done.fail(new Error("Website Didn't Load."));
-      });
-    }, 10000);
+      it('Website Exists', async (done) => {
+        await driver.get(website).then(() => {
+          done();
+        }, () => {
+          done.fail(new Error("Website Didn't Load."));
+        });
+      }, 10000)
 
-    it('Go to Watchlist', async (done) => {
-      await driver.get(`https://localhost:${port}/watch`).then(() => {
+      it('React Root Exists', async (done) => {
+        const root = await eleManip.getElementById(webdriver, driver, 'root');
+        expect(root).toBeDefined();
         done();
-      }, () => {
-        done.fail(new Error("Website Didn't Load."));
-      });
-    }, 10000);
+      }, 10000);
 
-    it('Go to HelpPage', async (done) => {
-      await driver.get(`https://localhost:${port}/help`).then(() => {
-        done();
-      }, () => {
-        done.fail(new Error("Website Didn't Load."));
-      });
-    }, 10000);
+      it('Go to Calculator', async (done) => {
+        await driver.get(`${website}/calc`).then(() => {
+          done();
+        }, () => {
+          done.fail(new Error("Website Didn't Load."));
+        });
+      }, 10000);
 
-    it('Go to AboutPage', async (done) => {
-      await driver.get(`https://localhost:${port}/about`).then(() => {
-        done();
-      }, () => {
-        done.fail(new Error("Website Didn't Load."));
-      });
-    }, 10000);
+      it('Go to Watchlist', async (done) => {
+        await driver.get(`${website}/watch`).then(() => {
+          done();
+        }, () => {
+          done.fail(new Error("Website Didn't Load."));
+        });
+      }, 10000);
+
+      it('Go to HelpPage', async (done) => {
+        await driver.get(`${website}/help`).then(() => {
+          done();
+        }, () => {
+          done.fail(new Error("Website Didn't Load."));
+        });
+      }, 10000);
+
+      it('Go to AboutPage', async (done) => {
+        await driver.get(`${website}/about`).then(() => {
+          done();
+        }, () => {
+          done.fail(new Error("Website Didn't Load."));
+        });
+      }, 10000);
+    }
   });
 }
