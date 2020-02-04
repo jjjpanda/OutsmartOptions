@@ -66,10 +66,7 @@ class Help2 extends React.Component{
           <Carousel  padding="50px" ref="caros1" dots="false">
           <div>
             <p>
-              Buying a stock in a company gives you ownership of a
-              <b>share</b>
-              {' '}
-              of that company.
+              Buying a stock in a company gives you ownership of a <b>share</b> of that company.
             </p>
             <p>The value of a share is a percentage of the company's profits. </p>
             <p>So the more shares you own, the larger percentage of the company you own. </p>
@@ -472,6 +469,102 @@ createCarousel8(){
   )
 }
 
+createCarousel9(){
+  //Intrinsic and Extrinsic value
+  return(
+    <div>
+      <Carousel  padding="50px" ref="caros2" dots = "false">
+        <div>
+          <p>Options contracts have intrinsic and extrinsic value.</p>
+          <p>The <b>intrinsic</b> value of a contract is the difference between the strike price and the current market price.
+            Basically, the money you would take away from the contract should you excercise now. </p>
+          <p>The <b>extrinsic</b> value of a contract is governed by the time value and implied volatility of the option.
+            This can be explained as the potential for the stock to get in the money before expiration.</p>
+        </div>
+      </Carousel>
+      <ButtonGroup>
+        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+          <Icon type="left" />
+          Prev
+        </Button>
+        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+          Next
+          <Icon type="right" />
+        </Button>
+      </ButtonGroup>
+    </div>
+  )
+}
+
+createCarousel10(){
+  //Short Selling 
+  return(
+    <div>
+      <Carousel  padding="50px" ref="caros2" dots = "false">
+        <div>
+          <p>Traditionally, people buy stocks they think will go up in value, in order to make money.</p>
+          <p>But it is also possible to profit on stock that will lose value, in a strategy known as <b>short selling</b>.</p>
+          <p>A trader may short sell for speculative trading, or to hedge a long position.</p>
+          <p>Short sellers can make great profits on declining stocks, but they can also theoretically stand to lose an infinite amount of money 😬. </p>
+          <p>Lets show you how this works.</p>
+        </div>
+        <div>
+          In this scenario, the market price of the stock our trader wants to short is $100.
+          <img src="/img/helpPageImages/shortSelling/Slide1.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          First, our trader borrows the stocks from a broker with an assigned expiration date.
+          <img src="/img/helpPageImages/shortSelling/Slide2.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          Next, our trader sells the stocks on the market.
+          <img src="/img/helpPageImages/shortSelling/Slide3.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          Our trader now has $100 and needs the stock price to drop below $100 before expiration in order to make money.
+          <img src="/img/helpPageImages/shortSelling/Slide4.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          Look! The stock dropped to $80!  Our trader now buys the same stocks from the market for the new price of $80.
+          <img src="/img/helpPageImages/shortSelling/Slide5.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          Now, our trader uses these newly purchased stocks to replace the stocks they had borrowed.
+          <img src="/img/helpPageImages/shortSelling/Slide6.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          Our trader walks away with $20 per share!
+          <img src="/img/helpPageImages/shortSelling/Slide7.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          Finesse!
+          <img src="/img/helpPageImages/shortSelling.gif" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <p>Remember, short selling is risky business, so make sure you are educated on your position before you start the process.</p>
+          <p>The maximum you can make per share would occur if the stock price plummeted to $0; in our prior example you would make $100 per share.</p>
+          <p>But there is no limit to how much money you can lose! The price can theoretically go up infinitely, meaning you would lose an infinite amount of money per share.</p>
+          <p>There are other ways to go short on a stock, such as buying puts and writing calls, which we talked about in previous lessons.</p>
+        </div>
+        <div>
+          End Lesson.
+        </div>
+      </Carousel>
+      <ButtonGroup>
+        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+          <Icon type="left" />
+          Prev
+        </Button>
+        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+          Next
+          <Icon type="right" />
+        </Button>
+      </ButtonGroup>
+    </div>
+  )
+}
+
+
     render(){
         //Fill in the following info for each card variable in this order: title, image, video link, sub text, modal title
         //Fill out the corresponding create# function above to populate that card's info carousel
@@ -483,6 +576,8 @@ createCarousel8(){
         var caro6 = this.createCarousel6();
         var caro7 = this.createCarousel7();
         var caro8 = this.createCarousel8();
+        var caro9 = this.createCarousel9();
+        var caro10 = this.createCarousel10();
 
         var card1 = ["Buying Stocks",
                     "https://www.thestreet.com/files/tsc/v2008/defaultImages/thestreet-picks-stockpickr.jpg",
@@ -540,55 +635,55 @@ createCarousel8(){
                     "Ups and Downs",
                     "Puts vs Calls: Rights and Obligations",
                     caro8];
-        
-        var card9 = ["Short Selling",
-                    "https://i.udemycdn.com/course/750x422/2471182_20ec_4.jpg",
-                    "https://www.youtube.com/embed/xX_9ud6B9Nw",
-                    "Bear Gang",
-                    "Short Selling",
-                    caro3];
 
-        var card10 = ["Futures",
-                    "https://cdn.wegow.com/media/artists/future/future-1502361050.03.2560x1440.jpg",
-                    "https://www.youtube.com/embed/Cj0fHhLVrv8",
-                    "Freebandz",
-                    "Futures",
-                    caro3];
-          
-        var card11 = ["Intrinsic and Extrinsic Value",
+        var card9 = ["Intrinsic and Extrinsic Value",
                     "https://www.wrike.com/blog/content/uploads/2019/07/Intrinsic-vs.-Extrinsic-Motivation-How-to-Drive-People-to-Do-Amazing-Work-896x518.jpg",
                     "https://www.youtube.com/embed/r382h59p13M",
                     "Whats the difference?",
                     "Intrinsic and Extrinsic Value",
-                    caro3];
+                    caro9];
         
+        var card10 = ["Short Selling",
+                    "https://i.udemycdn.com/course/750x422/2471182_20ec_4.jpg",
+                    "https://www.youtube.com/embed/xX_9ud6B9Nw",
+                    "Bear Gang",
+                    "Short Selling",
+                    caro10];
+
+        var card11 = ["Futures",
+                    "https://cdn.wegow.com/media/artists/future/future-1502361050.03.2560x1440.jpg",
+                    "https://www.youtube.com/embed/Cj0fHhLVrv8",
+                    "Freebandz",
+                    "Futures",
+                    caro10];
+          
         var card12 = ["Reading Profit Graphs",
                     "/img/profitGraph.PNG",
                     "https://www.youtube.com/embed/m2LOJRxYkRg",
                     "When, where, and how to get the bag",
                     "Profit Graphs",
-                    caro3];
+                    caro10];
 
         var card13 = ["Delta, Gamma, and Leverage",
                     "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
                     "https://www.youtube.com/embed/FDCrfsYg0GU",
                     "Greeks",
                     "Delta, Gamma, and Leverage",
-                    caro3];
+                    caro10];
 
         var card14 = ["Theta",
                     "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
                     "https://www.youtube.com/embed/4X3HBFntkds",
                     "More Greek",
                     "Theta",
-                    caro3];
+                    caro10];
         
         var card15 = ["IV, Vega, and IV Crush",
                     "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
                     "https://www.youtube.com/embed/Q3XAlfAyMGI",
                     "Lets get volatile",
                     "IV, Vega, and IV Crush",
-                    caro3];
+                    caro10];
                      
 
         var row1 = [card1, card2, card3];
