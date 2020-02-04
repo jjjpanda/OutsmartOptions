@@ -4,12 +4,36 @@ import {
   Form,
   Checkbox,
   Button,
-  Icon
+  Icon,
+  BrowserRouter as Router,
+  Link,
+  Route,
+  withRouter,
+  Redirect
 } from 'antd';
-import { 
-  UserOutlined,
-  LockOutlined, 
-} from '@ant-design/icons';
+
+const fakeAuth = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    this.isAuthenticated = true
+    setTimeout(cb, 100)
+  },
+  signout(cb) {
+    this.isAuthenticated = false
+    setTimeout(cb, 100)
+  }
+}
+
+const Public = () => <h3>Public</h3>
+const Protected = () => <h3>Protected</h3>
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    fakeAuth.isAuthenticated === true
+      ? <Component {...props} />
+      : <Redirect to='/login' />
+  )} />
+)
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -20,7 +44,23 @@ class LoginPage extends React.Component {
    console.log('Received values of form: ', values);
   };
 
+  state = {
+    redirectToReferrer: false
+  }
+  login = () => {
+    fakeAuth.authenticate(() => {
+      this.setState(() => ({
+        redirectToReferrer: true
+      }))
+    })
+  }
+
   render() {
+    const { redirectToReferrer } = this.state
+
+    if (redirectToReferrer === true) {
+      return <Redirect to='/' />
+    }
     return (
       <Form
         name="login"
