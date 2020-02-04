@@ -27,6 +27,7 @@ import Watchlist from './Watchlist.jsx';
 import AboutPage from './AboutPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import HelpPage from './HelpPage.jsx';
+import checkoutPage from './checkout.jsx';
 
 import * as post from './jsLib/fetchLibrary.js';
 
@@ -124,6 +125,14 @@ class SideMenu extends React.Component {
             <Icon type="tool" theme="filled" />
             <Link to="/home">Toggle Tooltips</Link>
           </Menu.Item>
+
+          <Menu.Item key="checkout" onClick={() => this.checkout()}>
+            <Icon type="dollar" />
+            <Link to="/checkout">Checkout</Link>
+          </Menu.Item>
+
+
+
 
         </Menu>
       </Sider>
