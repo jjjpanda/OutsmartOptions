@@ -38,43 +38,36 @@ afterAll(async () => {
   await stop();
 }, 10000);
 
-for (const capability of capabilities.capabilities) {
+let domains = ['https://localhost:${port}','http://www.outsmartoptions.live']
 
-  describe(capability.name, () => {
+for(let website of domains){
+  
+  for (const capability of capabilities.capabilities) {
 
-    let driver;
-    let domains = ['https://localhost:${port}','http://www.outsmartoptions.live']
+    describe(capability.name, () => {
 
-    beforeAll(async (done) => {
-      driver = new webdriver.Builder()
-        .usingServer(`http://${capabilities.credentials['browserstack.user']}:${capabilities.credentials['browserstack.key']}@hub-cloud.browserstack.com/wd/hub`)
-        .withCapabilities(capability)
-        .build();
+      let driver;
 
-        await driver.get('http://www.outsmartoptions.live').then(() => {
+      beforeAll(async (done) => {
+        driver = new webdriver.Builder()
+          .usingServer(`http://${capabilities.credentials['browserstack.user']}:${capabilities.credentials['browserstack.key']}@hub-cloud.browserstack.com/wd/hub`)
+          .withCapabilities(capability)
+          .build();
+
+          await driver.get(website).then(() => {
+            done();
+          }, () => {
+            done.fail(new Error("Website Didn't Load."));
+          });
+      }, 50000);
+
+      afterAll(async (done) => {
+        await driver.quit().then(() => {
           done();
         }, () => {
-          done.fail(new Error("Website Didn't Load."));
+          done.fail(new Error('Issue with disconnecting.'));
         });
-    }, 50000);
-
-    afterAll(async (done) => {
-      await driver.quit().then(() => {
-        done();
-      }, () => {
-        done.fail(new Error('Issue with disconnecting.'));
-      });
-    }, 10000);
-
-    for(let website of domains){
-
-      it('Website Exists', async (done) => {
-        await driver.get(website).then(() => {
-          done();
-        }, () => {
-          done.fail(new Error("Website Didn't Load."));
-        });
-      }, 10000)
+      }, 10000);
 
       it('React Root Exists', async (done) => {
         const root = await eleManip.getElementById(webdriver, driver, 'root');
@@ -113,6 +106,6 @@ for (const capability of capabilities.capabilities) {
           done.fail(new Error("Website Didn't Load."));
         });
       }, 10000);
-    }
   });
+  }
 }
