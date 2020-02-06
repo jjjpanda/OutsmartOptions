@@ -1,18 +1,21 @@
 import React from 'react';
-import {CardElement} from 'react-stripe-elements';
-import { render } from 'enzyme';
 import './css/checkout.css';
 
-class checkout extends React.Component{
-    constructor(props){
-        super(props)
-    }
+class Checkout extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-    render() {
-        return(
-            <body>
-                <h1 style="color:blue;">checkout</h1>
-            </body>
-        )
-    }
+  render() {
+    return (
+
+      <div>
+          <h1 className = "text" id = "title">Checkout</h1>
+          <img src="/img/stripeExample.png" alt="stripe" height="250" width="450" /> 
+          
+      </div>
+    );
+  }
 }
+
+export default Checkout;
