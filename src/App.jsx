@@ -27,7 +27,7 @@ import Watchlist from './Watchlist.jsx';
 import AboutPage from './AboutPage.jsx';
 import LoginPage from './UserPage.jsx';
 import HelpPage from './HelpPage.jsx';
-import checkoutPage from './checkout.jsx';
+import Checkout from './Checkout.jsx';
 
 import * as post from './jsLib/fetchLibrary.js';
 
@@ -154,6 +154,7 @@ ReactDOM.render(
               <Route exact path="/login" component={LoginPage} />
               <Route exact path="/about" component={AboutPage} />
               <Route exact path="/help" component={HelpPage} />
+              <Route exact path="/checkout" component={Checkout} />
             </div>
 
           </Content>
