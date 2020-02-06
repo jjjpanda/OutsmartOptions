@@ -563,6 +563,30 @@ createCarousel10(){
     </div>
   )
 }
+createCarousel11(){
+  //Futures
+  return(
+    <div>
+      <Carousel  padding="50px" ref="caros2" dots = "false">
+        <div>
+
+        </div>
+      </Carousel>
+      <ButtonGroup>
+        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+          <Icon type="left" />
+          Prev
+        </Button>
+        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+          Next
+          <Icon type="right" />
+        </Button>
+      </ButtonGroup>
+    </div>
+  )
+}
+
+
 
 
     render(){
@@ -578,6 +602,7 @@ createCarousel10(){
         var caro8 = this.createCarousel8();
         var caro9 = this.createCarousel9();
         var caro10 = this.createCarousel10();
+        var caro11 = this.createCarousel11();
 
         var card1 = ["Buying Stocks",
                     "https://www.thestreet.com/files/tsc/v2008/defaultImages/thestreet-picks-stockpickr.jpg",
@@ -602,7 +627,7 @@ createCarousel10(){
                       caro3];
 
         var card4 = ["Call Options Buyers",
-                      "https://images.unsplash.com/photo-1516055619834-586f8c75d1de?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+                      "https://blog.abbyconnect.com/hubfs/How-to-Ask-a-Caller-to-Speak-Up-on-the-Phone%20.png",
                       "https://www.youtube.com/embed/fUNk8TjrZOA",
                       "1800-Call-NOW",
                       "Buying Calls",
@@ -651,39 +676,84 @@ createCarousel10(){
                     caro10];
 
         var card11 = ["Futures",
-                    "https://cdn.wegow.com/media/artists/future/future-1502361050.03.2560x1440.jpg",
+                    "https://pbs.twimg.com/media/D521o-mX4AA4G33.jpg:large",
                     "https://www.youtube.com/embed/Cj0fHhLVrv8",
                     "Freebandz",
                     "Futures",
-                    caro10];
+                    caro11];
           
         var card12 = ["Reading Profit Graphs",
                     "/img/profitGraph.PNG",
                     "https://www.youtube.com/embed/m2LOJRxYkRg",
                     "When, where, and how to get the bag",
                     "Profit Graphs",
-                    caro10];
+                    caro11];
 
         var card13 = ["Delta, Gamma, and Leverage",
                     "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
                     "https://www.youtube.com/embed/FDCrfsYg0GU",
-                    "Greeks",
+                    "Introducing the Greeks",
                     "Delta, Gamma, and Leverage",
-                    caro10];
+                    caro11];
 
         var card14 = ["Theta",
                     "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
                     "https://www.youtube.com/embed/4X3HBFntkds",
-                    "More Greek",
+                    "Greeks Pt 2",
                     "Theta",
-                    caro10];
+                    caro11];
         
         var card15 = ["IV, Vega, and IV Crush",
-                    "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
+                    "https://www.ally.com/do-it-right/images/2017/04/market-up-down-400x300.jpg",
                     "https://www.youtube.com/embed/Q3XAlfAyMGI",
                     "Lets get volatile",
                     "IV, Vega, and IV Crush",
-                    caro10];
+                    caro11];
+
+        var card16 = ["Rho",
+                    "https://epsilonoptions.com/wp-content/uploads/rho.jpg",
+                    "https://www.youtube.com/embed/Isy2i8dRAqU",
+                    "Stay Greecy",
+                    "Rho",
+                    caro11];
+
+        
+        var card17 = ["Multileg Strategies",
+                    "/img/helpPageImages/multileg.png",
+                    "https://www.youtube.com/embed/yX43RYerHhU",
+                    "Advanced Strats",
+                    "Multileg Strategies",
+                    caro11];
+        
+        var card18 = ["Straddles and Strangles",
+                    "https://i2-prod.mirror.co.uk/incoming/article3025296.ece/ALTERNATES/s615/Birds.jpg",
+                    "https://www.youtube.com/embed/p1zZOZgMhag",
+                    "Gettin Spicy",
+                    "Straddles and Strangles",
+                    caro11];
+
+        var card18 = ["Spreads",
+                    "https://thumbs.gfycat.com/PoorBonyAppaloosa-size_restricted.gif",
+                    "https://www.youtube.com/embed/sMAOFz0eoBk",
+                    "No Flockin",
+                    "Spreads",
+                    caro11];
+
+        var card19 = ["Condors and Flys",
+                    "https://www.nps.gov/grca/learn/news/images/CA-Condor-flying-Photo_Jim-Shuler-Utah-DWR.jpg",
+                    "https://www.youtube.com/embed/bqZvoLszVEo",
+                    "Gotta stay fly-y-y-y, y-y, y-y, y",
+                    "Condors and Flys",
+                    caro11];
+
+        var card20 = ["Calendar Spreads",
+                    "https://s3-us-west-1.amazonaws.com/hopegrown/blog-images/Hopegrown-April-Calendar-420.jpg?mtime=20160420160129",
+                    "https://www.youtube.com/embed/laxOmN3EJ3g",
+                    "Save the Date",
+                    "Calendar Spreads",
+                    caro11];
+        
+      
                      
 
         var row1 = [card1, card2, card3];
@@ -691,6 +761,8 @@ createCarousel10(){
         var row3 = [card7, card8, card9];
         var row4 = [card10, card11, card12];
         var row5 = [card13, card14, card15];
+        var row6 = [card16, card17, card18];
+        var row7 = [card19,card20];
         
 
         return(
@@ -713,6 +785,14 @@ createCarousel10(){
                 <br></br>
                 <Row gutter = {16}>
                   {this.renderRow(row5)}
+                </Row>
+                <br></br>
+                <Row gutter = {16}>
+                  {this.renderRow(row6)}
+                </Row>
+                <br></br>
+                <Row gutter = {16}>
+                  {this.renderRow(row7)}
                 </Row>
             </div>
         )
