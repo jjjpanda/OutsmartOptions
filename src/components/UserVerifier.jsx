@@ -10,9 +10,9 @@ class UserVerifier extends React.Component {
             key : props.key
         };
         post.fetchReqAuth('/api/users/current', Cookies.get('token'), JSON.stringify({ id: Cookies.get('id') }), (data) => {
-            console.log(data);
+            console.log(data != undefined && data.user != undefined);
             this.setState(() => ({
-                loggedIn : data.user != undefined
+                loggedIn : data != undefined && data.user != undefined
             }))
         });   
     }
@@ -21,7 +21,7 @@ class UserVerifier extends React.Component {
         if (props.key !== state.key) {
             post.fetchReqAuth('/api/users/current', Cookies.get('token'), JSON.stringify({ id: Cookies.get('id') }), (data) => {
                 this.setState(() => ({
-                    loggedIn : data.user != undefined
+                    loggedIn : data != undefined && data.user != undefined
                 }))
             }); 
             return {
