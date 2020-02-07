@@ -1,8 +1,9 @@
+import 'isomorphic-fetch';
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { shallow, mount } from 'enzyme';
 
-import LoginPage from '../../src/LoginPage';
+import LoginPage from '../../src/UserPage';
 
 describe('Login Test', () => {
   it('Login Render', () => {
