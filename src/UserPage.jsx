@@ -3,7 +3,8 @@ import {
   Input,
   Form,
   Button,
-  Icon
+  Icon,
+  Modal
 } from 'antd';
 
 import UserVerifier from './components/UserVerifier.jsx'
@@ -16,9 +17,25 @@ class LoginForm extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-          loggedIn : false
+          key : 1,
+          loggedIn : false,
+          visible: false,
+          confirmLoading: false,
       }
     }
+
+    showModal = () => {
+      this.setState(() => ({
+        visible: true,
+      }));
+    };
+  
+    handleCancel = () => {
+      console.log('Clicked cancel button');
+      this.setState(() => ({
+        visible: false,
+      }));
+    };
 
     componentDidMount() {
       // To disabled submit button at the beginning.
@@ -27,9 +44,16 @@ class LoginForm extends React.Component {
 
     handleSubmit = (e) => {
       e.preventDefault();
+      this.setState((state) => ({key: state.key+1, confirmLoading: true}));
       this.props.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values);
+          this.setState(() => ({
+            visible: false,
+            confirmLoading: false,
+          }), () => {
+            this.props.form.resetFields()
+          });
         }
       });
     }
@@ -47,38 +71,48 @@ class LoginForm extends React.Component {
       
       return (
         <div>
-          <UserVerifier callbackUpdate={this.onUserLogin} />
-          <Form layout="inline" onSubmit={this.handleSubmit}>
-            <Form.Item
-              validateStatus={userNameError ? 'error' : ''}
-              help={userNameError || ''}
-            >
-              {getFieldDecorator('userName', {
-                rules: [{ required: true, message: 'Please input your username!' }],
-              })(
-                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
-              )}
-            </Form.Item>
-            <Form.Item
-              validateStatus={passwordError ? 'error' : ''}
-              help={passwordError || ''}
-            >
-              {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your Password!' }],
-              })(
-                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={hasErrors(getFieldsError())}
+          <UserVerifier callbackUpdate={this.onUserLogin} key={this.state.key} />
+
+          <Button type="primary" onClick={this.showModal}>
+            Log in
+          </Button>
+          <Modal
+          title="Title"
+          visible={this.state.visible}
+          onOk={this.handleSubmit}
+          okText="Login"
+          okButtonProps = {{
+            type:"primary",
+            htmlType:"submit",
+            disabled:hasErrors(getFieldsError())
+          }}
+          confirmLoading={this.state.confirmLoading}
+          onCancel={this.handleCancel}
+          >
+            <Form layout="inline" onSubmit={this.handleSubmit}>
+              <Form.Item
+                validateStatus={userNameError ? 'error' : ''}
+                help={userNameError || ''}
               >
-                Log in
-              </Button>
-            </Form.Item>
-          </Form>
+                {getFieldDecorator('userName', {
+                  rules: [{ required: true, message: 'Please input your username!' }],
+                })(
+                  <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                )}
+              </Form.Item>
+              <Form.Item
+                validateStatus={passwordError ? 'error' : ''}
+                help={passwordError || ''}
+              >
+                {getFieldDecorator('password', {
+                  rules: [{ required: true, message: 'Please input your Password!' }],
+                })(
+                  <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" onPressEnter={this.handleSubmit} />
+                )}
+              </Form.Item>
+            </Form>
+          </Modal>
+        
         </div>
       );
     }
