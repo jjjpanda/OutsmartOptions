@@ -6,6 +6,7 @@ import Cookies from 'js-cookie'
 class UserVerifier extends React.Component {
     constructor(props){    
         super(props);
+        this.state = {};
         post.fetchReqAuth('/api/users/current', Cookies.get('token'), JSON.stringify({ id: Cookies.get('id') }), (data) => {
             console.log(data);
             this.setState(() => ({
@@ -14,14 +15,19 @@ class UserVerifier extends React.Component {
         });   
     }
 
-    onRequestUpdate = () => {
-        post.fetchReqAuth('/api/users/current', Cookies.get('token'), JSON.stringify({ id: Cookies.get('id') }), (data) => {
-            console.log(data);
-            this.setState(() => ({
-                loggedIn : data.user != undefined
-            }))
-        });   
-        this.props.callbackUpdate(this.state);
+    static getDerivedStateFromProps(props, state) {
+        if (props.keys !== state.keys) {
+            post.fetchReqAuth('/api/users/current', Cookies.get('token'), JSON.stringify({ id: Cookies.get('id') }), (data) => {
+                console.log(data);
+                this.setState(() => ({
+                    loggedIn : data.user != undefined
+                }))
+            }); 
+            return {
+                loggedIn : false
+            };
+        }
+        return null;
     }
 
     onCheck = () => {
