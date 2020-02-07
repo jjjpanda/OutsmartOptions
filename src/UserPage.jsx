@@ -2,90 +2,89 @@ import React from 'react';
 import {
   Input,
   Form,
-  Checkbox,
   Button,
-  Icon,
-  BrowserRouter as Router,
-  Link,
-  Route,
-  withRouter,
-  Redirect
+  Icon
 } from 'antd';
 
 import UserVerifier from './components/UserVerifier.jsx'
 
-class LoginPage extends React.Component {
+const hasErrors = (fieldsError) => {
+  return Object.keys(fieldsError).some(field => fieldsError[field]);
+}
+
+class LoginForm extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
           loggedIn : false
       }
     }
-  
-    onFinish = values => {
-        
-     console.log(values);
 
+    componentDidMount() {
+      // To disabled submit button at the beginning.
+      this.props.form.validateFields();
+    }
 
-    };
-
-    onFinishFailed = errorInfo => {
-        console.log('Failed:', errorInfo);
-      };
+    handleSubmit = (e) => {
+      e.preventDefault();
+      this.props.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values);
+        }
+      });
+    }
 
     onUserLogin = (state) => {
         this.setState(() => ({loggedIn : state.loggedIn}))
     }
   
     render() {
-      console.log(this.state)
+      const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+  
+      // Only show error after a field is touched.
+      const userNameError = isFieldTouched('userName') && getFieldError('userName');
+      const passwordError = isFieldTouched('password') && getFieldError('password');
+      
       return (
         <div>
-            <UserVerifier callbackUpdate={this.onUserLogin} />
-            <Form
-            name="login"
-            className="login-form"
-            initialValues={{ remember: true }}
-            onFinish={this.onFinish}
-            onFinishFailed={this.onFinishFailed}
-            >
+          <UserVerifier callbackUpdate={this.onUserLogin} />
+          <Form layout="inline" onSubmit={this.handleSubmit}>
             <Form.Item
-            name="username"
-            rules={[{ required: true, message: 'Enter your username' }]}
+              validateStatus={userNameError ? 'error' : ''}
+              help={userNameError || ''}
             >
-            <Input prefix={<Icon type="right"/>} placeholder="Username" />
+              {getFieldDecorator('userName', {
+                rules: [{ required: true, message: 'Please input your username!' }],
+              })(
+                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+              )}
             </Form.Item>
             <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'Enter your password' }]}
+              validateStatus={passwordError ? 'error' : ''}
+              help={passwordError || ''}
             >
-            <Input
-            prefix={<Icon type="right"/>}
-            type="password"
-            placeholder="Password"
-            />
+              {getFieldDecorator('password', {
+                rules: [{ required: true, message: 'Please input your Password!' }],
+              })(
+                <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+              )}
             </Form.Item>
             <Form.Item>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Remember Me</Checkbox>
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={hasErrors(getFieldsError())}
+              >
+                Log in
+              </Button>
             </Form.Item>
-    
-            <a className="login-form-forgot" href="">
-                Forgot Password
-            </a>
-            </Form.Item>
-    
-            <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
-                Log In
-            </Button>
-            Or <a href="">Register</a>
-            </Form.Item>
-        </Form>
-      </div>
+          </Form>
+        </div>
       );
     }
   }
+
+  const LoginPage = Form.create()(LoginForm);
   
   export default LoginPage;
   
