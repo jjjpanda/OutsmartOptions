@@ -104,7 +104,10 @@ router.post('/current', auth, (req, res) => {
 });
 
 router.post('/change', auth, (req, res) => {
-  const { id, oldPassword, newPassword } = req.body 
+  const { id, oldPassword, newPassword, newPassword2 } = req.body 
+  if(oldPassword == undefined || newPassword == undefined || newPassword2 == undefined){
+    return res.sendStatus(400)
+  }
   User.findById(id).then((user) => {
     if(!user) {
       return res.sendStatus(400)
@@ -112,12 +115,23 @@ router.post('/change', auth, (req, res) => {
 
     bcrypt.compare(oldPassword, user.password).then((isMatch) => {
       if (isMatch) {
-        user.password = newPassword
-        user.save()
-        .then((user) => res.json({'changed': true}))
-        .catch((err) => res.json({'changed': false}));
+        if(newPassword == newPassword2){
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newPassword, salt, (err, hash) => {
+              if (err) throw err;
+              user.password = hash;
+              user
+                .save()
+                .then((user) => res.json({'changed': true}))
+                .catch((err) => res.json({'changed': false}));
+            });
+          });
+        }
+        else{
+          res.json({'error': 'Passwords don\'t match'})
+        }
       } else {
-        res.json({'changed': false})
+        res.json({'error': 'Incorrect Password'})
       }
     });
 
