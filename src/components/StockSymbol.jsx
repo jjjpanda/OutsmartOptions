@@ -9,6 +9,9 @@ import {
 
 import HelpTooltip from './HelpTooltip.jsx';
 
+import verifyUser from './UserVerifier.jsx';
+import Cookie from 'js-cookie'
+
 import * as optionsMath from '../jsLib/optionsMathLibrary.js';
 import * as timeMath from '../jsLib/timeLibrary.js';
 import * as post from '../jsLib/fetchLibrary.js';
@@ -31,7 +34,11 @@ class StockSymbol extends React.Component {
       divYield: 0,
       historical: [],
       guess: [],
+      inWatchlist: false
     };
+    verifyUser((loggedIn) => {
+      this.setState(() => ({loggedIn : loggedIn}))
+    })
   }
 
     notFound = (e) => {
@@ -59,7 +66,7 @@ class StockSymbol extends React.Component {
     ))
 
     onSearch = (e) => {
-      this.setState(() => ({ exists: true, symbol: e, guess: [] }));
+      this.setState(() => ({ exists: true, symbol: e, guess: [], inWatchlist: false}));
 
       post.fetchReq('/api/market/price', JSON.stringify({ ticker: e }), (data) => {
         console.log(data);
@@ -73,6 +80,16 @@ class StockSymbol extends React.Component {
           symbol: e, price: data.price, priceChange: data.change, description: data.name, optionsChain: [['Empty', {}]],
         }),
         () => {
+          if(this.state.loggedIn){
+            post.fetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({id: Cookie.get('id')}), (data) => {
+              if(data.list.includes(e)){
+                this.setState(() => ({inWatchlist : true}))
+              }
+            })
+          }
+          else{
+            //Not Logged in, don't care
+          }
           post.fetchReq('/api/market/divYield', JSON.stringify({ ticker: e }), (data) => {
             this.setState(() => ({ divYield: data.dividendAnnum / this.state.price }), () => {
               this.props.updateCallback(this.state);
@@ -119,6 +136,17 @@ class StockSymbol extends React.Component {
       }
     };
 
+    onStarClick = () => {
+      if(this.state.loggedIn){
+        post.fetchReqAuth('/api/watchlist/edit', Cookie.get('token'), JSON.stringify({id: Cookie.get('id'), ticker: this.state.symbol}), (data) => {
+          this.setState(() => ({inWatchlist : data.list.includes(this.state.symbol)}))
+        })
+      }
+      else{
+        //Not Logged in, reroute the uesr to login
+      }
+    }
+
     render() {
       return (
         <div>
@@ -152,7 +180,7 @@ class StockSymbol extends React.Component {
               <HelpTooltip hide={false} title="%" content={"Here's the percent change for the day. This begins to update at 9:30 AM EST."} />
             </div>
             <div id="priceChangeBox"><Input placeholder={`${this.state.priceChange}%`} disabled /></div>
-            <Button shape="circle" icon="star" style={{ marginLeft: '5%' }} />
+            <Button shape="circle" icon={this.state.inWatchlist ? "minus" : "star"} onClick={this.onStarClick} style={{ marginLeft: '5%' }} />
 
           </div>
           <div>
