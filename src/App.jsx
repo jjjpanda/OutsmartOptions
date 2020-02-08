@@ -25,7 +25,7 @@ import HomePage from './HomePage.jsx';
 import OptionsCalculator from './OptionsCalculator.jsx';
 import Watchlist from './Watchlist.jsx';
 import AboutPage from './AboutPage.jsx';
-import LoginPage from './UserPage.jsx';
+import LoginPage from './LoginPageAfterMyPatienceHasHitLimit.jsx';
 import HelpPage from './HelpPage.jsx';
 import Checkout from './Checkout.jsx';
 

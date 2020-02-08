@@ -1,7 +1,7 @@
 import React from 'react';
 
 import verifyUser from './components/UserVerifier.jsx'
-import {LoginForm, RegisterForm, ChangePasswordForm} from './components/UserForms.jsx'
+import {LoginForm, RegisterForm, ChangePasswordForm, SignOut, DeleteAccount} from './components/UserForms.jsx'
 
 const hasErrors = (fieldsError) => {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -23,16 +23,27 @@ class LoginPage extends React.Component {
     }
   
     render() {
-
-      return (
-        <div>
+      if(this.state.loggedIn){
+        return (
+          <div>
+            
+            <ChangePasswordForm/>
+            <SignOut/>
+            <DeleteAccount/>
           
-          <LoginForm/>
-          <RegisterForm/>
-          <ChangePasswordForm/>
-        
-        </div>
-      );
+          </div>
+        )
+      }
+      else{
+        return (
+          <div>
+            
+            <LoginForm/>
+            <RegisterForm/>
+          
+          </div>
+        );
+      }
     }
   }
   

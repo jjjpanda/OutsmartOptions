@@ -3,7 +3,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { shallow, mount } from 'enzyme';
 
-import LoginPage from '../../src/UserPage';
+import LoginPage from '../../src/LoginPageAfterMyPatienceHasHitLimit';
 
 describe('Login Test', () => {
   it('Login Render', () => {

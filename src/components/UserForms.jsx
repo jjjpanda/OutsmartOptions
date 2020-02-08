@@ -32,6 +32,7 @@ class LoginModal extends React.Component{
     };
 
     handleCancel = () => {
+        this.props.form.resetFields()
         this.setState(() => ({
           visible: false
         }));
@@ -47,7 +48,7 @@ class LoginModal extends React.Component{
         this.setState(() => ({confirmLoading: true}));
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values);
+            //console.log('Received values of form: ', values);
             
             post.fetchReq('/api/users/login', JSON.stringify({email: values.email, password: values.password}), (data) => {
                 if(data.success){
@@ -58,6 +59,7 @@ class LoginModal extends React.Component{
                         Cookie.set('id', data.id)
                         Cookie.set('token', data.token)
                         this.props.form.resetFields()
+                        window.location = window.location
                     });
                 }
                 else{
@@ -142,6 +144,7 @@ class RegisterModal extends React.Component{
     }
 
     handleCancel = () => {
+        this.props.form.resetFields()
         this.setState(() => ({
           visible: false
         }));
@@ -157,7 +160,7 @@ class RegisterModal extends React.Component{
         this.setState(() => ({confirmLoading: true}));
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values);
+            //console.log('Received values of form: ', values);
             
             post.fetchReq('/api/users/register', JSON.stringify({name: values.userName, email: values.email, password: values.password, password2: values.password2}), (data) => {
                 if(data._id != undefined){
@@ -274,6 +277,7 @@ class ChangePasswordModal extends React.Component{
     }
 
     handleCancel = () => {
+        this.props.form.resetFields()
         this.setState(() => ({
           visible: false
         }));
@@ -289,7 +293,7 @@ class ChangePasswordModal extends React.Component{
         this.setState(() => ({confirmLoading: true}));
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values);
+            //console.log('Received values of form: ', values);
             
             post.fetchReqAuth('/api/users/change', Cookie.get('token'), JSON.stringify({id: Cookie.get('id'), oldPassword: values.oldPassword, newPassword: values.newPassword, newPassword2: values.newPassword2}), (data) => {
                 if(data.changed){
@@ -300,6 +304,7 @@ class ChangePasswordModal extends React.Component{
                         Cookie.set('id', '')
                         Cookie.set('token', '')
                         this.props.form.resetFields()
+                        window.location = window.location
                     });
                 }
                 else{
@@ -325,13 +330,13 @@ class ChangePasswordModal extends React.Component{
         return (
             <div>
                 <Button type="primary" onClick={this.showModal}>
-                    Register
+                    Change Password
                 </Button>
                 <Modal
-                title="Register"
+                title="Change Password"
                 visible={this.state.visible}
                 onOk={this.handleSubmit}
-                okText="Register"
+                okText="Change Password"
                 okButtonProps = {{
                     type:"primary",
                     htmlType:"submit",
@@ -368,7 +373,7 @@ class ChangePasswordModal extends React.Component{
                             {getFieldDecorator('newPassword2', {
                             rules: [{ required: true, message: 'Please input your Password!' }],
                             })(
-                            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Re-enter Password" />
+                            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Re-enter Password" onPressEnter={this.handleSubmit}/>
                             )}
                         </Form.Item>
                     </Form>
@@ -378,8 +383,57 @@ class ChangePasswordModal extends React.Component{
     }
 }
 
+class SignOut extends React.Component{
+
+    onClick = (e) => {
+        Cookie.set('id', '')
+        Cookie.set('token', '')
+        window.location = window.location
+    }
+  
+    render() {
+        return (
+            <Button type="primary" onClick={this.onClick}>
+                Sign Out
+            </Button>
+        )
+    }
+}
+
+class DeleteAccount extends React.Component{
+
+    onClick = (e) => {
+        post.fetchReqAuth('/api/users/delete', Cookie.get('token'), JSON.stringify({id: Cookie.get('id')}), (data) => {
+            if(data.deleted){
+                this.setState(() => ({
+                    visible: false,
+                    confirmLoading: false,
+                }), () => {
+                    Cookie.set('id', '')
+                    Cookie.set('token', '')
+                    window.location = window.location
+                });
+            }
+            else{
+                this.setState(() => ({
+                    visible: true,
+                    confirmLoading: false,
+                }));
+            }
+        })
+    }
+  
+    render() {
+        return (
+            <Button type="primary" onClick={this.onClick}>
+                Delete Account
+            </Button>
+        )
+    }
+}
+
 const LoginForm = Form.create()(LoginModal)
 const RegisterForm = Form.create()(RegisterModal)
 const ChangePasswordForm = Form.create()(ChangePasswordModal)
 
-export { LoginForm, RegisterForm, ChangePasswordForm };
+export { LoginForm, RegisterForm, ChangePasswordForm, SignOut, DeleteAccount };
