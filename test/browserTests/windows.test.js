@@ -38,7 +38,7 @@ afterAll(async () => {
   await stop();
 }, 10000);
 
-let domains = ['https://localhost:${port}','http://www.outsmartoptions.live']
+let domains = ['http://www.outsmartoptions.live']
 
 for(let website of domains){
   
