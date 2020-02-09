@@ -160,13 +160,15 @@ class OptionsCalculator extends React.Component {
 
         return -1;
       }),
-    }), () => console.log(this.state));
+    }), () => {
+      //console.log(this.state)
+    });
   }
 
-  addOption = (isCall, strike, price, date, iv) => {
+  addOption = (isCall, strike, price, date, iv, symbol) => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected, {
-        key: date + strike + (isCall ? 'C' : 'P'), isCall, date, strike, price, iv,
+        key: date + strike + (isCall ? 'C' : 'P'), isCall, date, strike, price, iv, symbol
       }],
     }), this.resortOptionsSelected);
   }
@@ -175,11 +177,11 @@ class OptionsCalculator extends React.Component {
     this.setState((state) => ({ optionsSelected: state.optionsSelected.filter((e) => !(e.key == date + strike + (isCall ? 'C' : 'P'))) }));
   }
 
-  onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv) => {
+  onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv, symbol) => {
     // console.log(needToAdd)
     // console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
     if (needToAdd) {
-      this.addOption(isCall, strike, price, date, iv);
+      this.addOption(isCall, strike, price, date, iv, symbol);
     } else {
       this.deleteOption(isCall, strike, date);
     }
@@ -402,7 +404,7 @@ class OptionsCalculator extends React.Component {
       title: '',
       dataIndex: 'callAction',
       width: '10%',
-      render: (text, row) => <Checkbox checked={this.state.optionsSelected.some((option) => option.key === `${expiry + row.strike}C`) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, true, row.strike, row.call, expiry, row.callIV); }} />,
+      render: (text, row) => <Checkbox checked={this.state.optionsSelected.some((option) => option.key === `${expiry + row.strike}C`) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, true, row.strike, row.call, expiry, row.callIV, row.callSymbol); }} />,
     },
     {
       title: 'Call',
@@ -440,7 +442,7 @@ class OptionsCalculator extends React.Component {
     {
       title: '',
       dataIndex: 'putAction',
-      render: (text, row) => <Checkbox checked={this.state.optionsSelected.some((option) => option.key === `${expiry + row.strike}P`) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, false, row.strike, row.put, expiry, row.putIV); }} />,
+      render: (text, row) => <Checkbox checked={this.state.optionsSelected.some((option) => option.key === `${expiry + row.strike}P`) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, false, row.strike, row.put, expiry, row.putIV, row.putSymbol); }} />,
     },
   ]
 

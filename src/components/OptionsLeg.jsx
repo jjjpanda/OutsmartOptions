@@ -4,14 +4,19 @@ import {
   Button,
   Switch,
   Icon,
+  Modal
 } from 'antd';
 
+import { BarLineComboGraph } from './Graphs.jsx';
 import HelpTooltip from './HelpTooltip.jsx';
+
+import * as post from '../jsLib/fetchLibrary.js';
 
 class OptionsLeg extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      symbol: props.optionRepresented.symbol,
       isFirst: props.isFirst,
       key: props.optionRepresented.date + props.optionRepresented.strike + (props.optionRepresented.isCall ? 'C' : 'P'),
       isCall: props.optionRepresented.isCall,
@@ -23,9 +28,25 @@ class OptionsLeg extends React.Component {
       quantity: 1,
       limitPrice: props.optionRepresented.price,
       hide: false,
+      visible: false
     };
+    post.fetchReq('/api/market/historical', JSON.stringify({ ticker: props.optionRepresented.symbol }), (data) => {
+      this.setState(() => ({ historical: data }))
+    });
     this.props.callback(this.state);
   }
+
+    handleClick = () => {
+      this.setState(() => ({visible: true}))
+    }
+
+    handleOk = () => {
+      this.setState(() => ({visible: false}))
+    }
+
+    handleCancel = () => {
+      this.setState(() => ({visible: false}))
+    }
 
     handleChange = (e) => {
       e.persist();
@@ -91,6 +112,19 @@ class OptionsLeg extends React.Component {
             <div className="removeDisable">
               <div id="removeButton"><Button shape="circle" icon="delete" onClick={() => { this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date); }} /></div>
               <div id="disableButton"><Button shape="circle" icon="stop" onClick={this.disableSelf} /></div>
+            </div>
+            <div>
+              <Button onClick={this.handleClick}>
+                BRUH
+              </Button>
+              <Modal
+              title="Bruh"
+              visible={this.state.visible}
+              onOk={this.handleOk}
+              onCancel={this.handleCancel}
+              >
+                <BarLineComboGraph data={this.state.historical} xKey="date" lineKey="close" barKey="volume" /> 
+              </Modal>
             </div>
           </div>
         </div>
