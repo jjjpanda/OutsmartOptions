@@ -14,13 +14,13 @@ import {
 } from 'antd';
 
 import Tour from 'reactour';
-import Cookies from 'js-cookie';
+import Cookie from 'js-cookie';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { NoAxisGraph, ProfitGraph } from './components/Graphs.jsx';
 import { StrategyInfo } from './components/StrategyInfo.jsx';
 import StockSymbol from './components/StockSymbol.jsx';
 import OptionsLeg from './components/OptionsLeg.jsx';
-
+import verifyUser from './components/UserVerifier.jsx';
 
 // JS Libraries
 import * as optionsMath from './jsLib/optionsMathLibrary.js';
@@ -62,6 +62,9 @@ class OptionsCalculator extends React.Component {
       numberIntervals: 15,
       percentInterval: 1,
     };
+    verifyUser((loggedIn) => {
+      this.setState(() => ({loggedIn : loggedIn}))
+    })
   }
 
   updateSearchResults = (state) => {
@@ -448,18 +451,27 @@ class OptionsCalculator extends React.Component {
 
   saveStrategy = () => {
     if (this.state.symbol != '' && this.state.optionsSelected.length > 0) {
-      if (Cookies.get(this.state.symbol.toUpperCase()) != undefined) {
-        Cookies.set(this.state.symbol.toUpperCase(),
-          [...Cookies.get(this.state.symbol.toUpperCase()), this.state.optionsSelected]);
+      if (Cookie.get(this.state.symbol.toUpperCase()) != undefined) {
+        Cookie.set(this.state.symbol.toUpperCase(),
+          [...Cookie.get(this.state.symbol.toUpperCase()), this.state.optionsSelected]);
       } else {
-        Cookies.set(this.state.symbol.toUpperCase(),
+        Cookie.set(this.state.symbol.toUpperCase(),
           [this.state.optionsSelected]);
       }
+    }
+
+    if(this.state.loggedIn){
+      post.fetchReqAuth('/api/strategy/save', Cookie.get('token'), JSON.stringify({id: Cookie.get('id'), ticker: this.state.symbol, strategy: this.state.optionsSelected}), (data) => {
+        console.log(data)
+      })
+    }
+    else{
+      //Not Logged in, reroute the uesr to login
     }
   }
 
   loadStrategy = () => {
-    console.log(Cookies.get());
+    console.log(Cookie.get());
   }
 
   startTutorial = () => {
