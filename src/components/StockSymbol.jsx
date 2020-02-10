@@ -138,8 +138,8 @@ class StockSymbol extends React.Component {
 
     onStarClick = () => {
       if(this.state.loggedIn){
-        post.fetchReqAuth('/api/watchlist/edit', Cookie.get('token'), JSON.stringify({id: Cookie.get('id'), ticker: this.state.symbol}), (data) => {
-          this.setState(() => ({inWatchlist : data.list.includes(this.state.symbol)}))
+        post.fetchReqAuth('/api/watchlist/edit', Cookie.get('token'), JSON.stringify({id: Cookie.get('id'), ticker: this.state.symbol.toUpperCase()}), (data) => {
+          this.setState(() => ({inWatchlist : data.list.includes(this.state.symbol.toUpperCase())}))
         })
       }
       else{
