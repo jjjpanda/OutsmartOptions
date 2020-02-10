@@ -161,7 +161,7 @@ module.exports = {
         body = JSON.parse(body);
         if (body != undefined && body.history != undefined && body.history != null) {
           let historical = body.history.day;
-          console.log(historical)
+          //console.log(historical)
           if(historical.length > 1){
             /*
             historical.forEach((day, index) => {
