@@ -634,7 +634,7 @@ createCarousel11(){
                       caro4];
         
         var card5 = ["Call Options Writers",
-                      "https://images.unsplash.com/photo-1516055619834-586f8c75d1de?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+                      "https://i.redd.it/oold5ygcwlcy.jpg",
                       "https://www.youtube.com/embed/fUNk8TjrZOA",
                       "Write it up",
                       "Writing Calls",
