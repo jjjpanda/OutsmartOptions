@@ -41,7 +41,8 @@ class StockSymbol extends React.Component {
     })
   }
 
-    notFound = (e) => {
+    notFound = (val) => {
+      let e = val.trim()
       post.fetchReq('/api/market/guessSymbol', JSON.stringify({ text: e }), (data) => {
         data = JSON.parse(data);
         data = data.bestMatches.filter((e) => e['4. region'] === 'United States').filter((e) => e['3. type'] === 'Equity');
@@ -65,7 +66,8 @@ class StockSymbol extends React.Component {
       </AutoCompleteOption>
     ))
 
-    onSearch = (e) => {
+    onSearch = (val) => {
+      let e = val.toUpperCase().trim()
       this.setState(() => ({ exists: true, symbol: e, guess: [], inWatchlist: false}));
 
       post.fetchReq('/api/market/price', JSON.stringify({ ticker: e }), (data) => {
@@ -138,8 +140,8 @@ class StockSymbol extends React.Component {
 
     onStarClick = () => {
       if(this.state.loggedIn){
-        post.fetchReqAuth('/api/watchlist/edit', Cookie.get('token'), JSON.stringify({id: Cookie.get('id'), ticker: this.state.symbol.toUpperCase()}), (data) => {
-          this.setState(() => ({inWatchlist : data.list.includes(this.state.symbol.toUpperCase())}))
+        post.fetchReqAuth('/api/watchlist/edit', Cookie.get('token'), JSON.stringify({id: Cookie.get('id'), ticker: this.state.symbol}), (data) => {
+          this.setState(() => ({inWatchlist : data.list.includes(this.state.symbol)}))
         })
       }
       else{

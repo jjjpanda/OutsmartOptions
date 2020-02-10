@@ -40,9 +40,9 @@ afterAll(async () => {
 
 let domains = ['http://www.outsmartoptions.live']
 
-for(let website of domains){
+for(const capability of capabilities.capabilities){
   
-  for (const capability of capabilities.capabilities) {
+  for (let website of domains) {
 
     describe(capability.name, () => {
 
