@@ -160,7 +160,23 @@ module.exports = {
       } else {
         body = JSON.parse(body);
         if (body != undefined && body.history != undefined && body.history != null) {
-          callback(body.history.day);
+          let historical = body.history.day;
+          console.log(historical)
+          if(historical.length > 1){
+            /*
+            historical.forEach((day, index) => {
+              if(index > 1 && timeBetweenDates(stringToDate(day.date), stringToDate(historical[index-1].date)) > 1){
+                for(let i = 0; i < timeBetweenDates(stringToDate(day.date), stringToDate(historical[index-1].date)); i++){
+                  
+                }
+              }
+              else{
+
+              }
+            }) 
+            */
+          }
+          callback(historical);
         } else {
           callback(body);
         }
@@ -226,3 +242,20 @@ const getDateFromDaysAgo = (n) => {
   d = new Date(d.setDate((new Date()).getDate() - n));
   return `${d.getFullYear()}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`;
 };
+
+const ms_per_day = 1000 * 60 * 60 * 24;
+
+const dateToString = (d) => {
+  return (`${d.getFullYear()}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`);
+}
+
+const stringToDate = (strDate) => {
+  strDate = strDate.split('-');
+  return new Date(strDate[0], (strDate[1] - 1), strDate[2]);
+}
+
+const timeBetweenDates = (a, b) => {
+  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+  return (Math.floor((utc1 - utc2) / ms_per_day));
+}

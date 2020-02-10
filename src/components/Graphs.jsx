@@ -53,7 +53,7 @@ class BarLineComboGraph extends React.Component {
             top: 10, right: 10, left: 10, bottom: 10,
           }}
         >
-          <XAxis dataKey={this.props.xKey} allowDecimals={false} />
+          <XAxis dataKey={this.props.xKey} allowDecimals={false}/>
 
           <YAxis yAxisId="right" dataKey={this.props.lineKey} orientation="right" />
           <YAxis yAxisId="left" dataKey={this.props.barKey} orientation="left" />
