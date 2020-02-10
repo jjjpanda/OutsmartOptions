@@ -627,7 +627,7 @@ createCarousel11(){
                       caro3];
 
         var card4 = ["Call Options Buyers",
-                      "https://blog.abbyconnect.com/hubfs/How-to-Ask-a-Caller-to-Speak-Up-on-the-Phone%20.png",
+                      "/img/helpPageImages/BOGGED.png",
                       "https://www.youtube.com/embed/fUNk8TjrZOA",
                       "1800-Call-NOW",
                       "Buying Calls",
