@@ -627,14 +627,14 @@ createCarousel11(){
                       caro3];
 
         var card4 = ["Call Options Buyers",
-                      "https://blog.abbyconnect.com/hubfs/How-to-Ask-a-Caller-to-Speak-Up-on-the-Phone%20.png",
+                      "/img/helpPageImages/BOGGED.png",
                       "https://www.youtube.com/embed/fUNk8TjrZOA",
                       "1800-Call-NOW",
                       "Buying Calls",
                       caro4];
         
         var card5 = ["Call Options Writers",
-                      "https://images.unsplash.com/photo-1516055619834-586f8c75d1de?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+                      "https://i.redd.it/oold5ygcwlcy.jpg",
                       "https://www.youtube.com/embed/fUNk8TjrZOA",
                       "Write it up",
                       "Writing Calls",
