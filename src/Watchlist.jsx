@@ -51,7 +51,7 @@ class Watchlist extends React.Component {
     this.state = {
       selectedRowKeys: [], // Check here to configure the default column
     };
-    verifyUser((loggedIn) => {
+    verifyUser(({loggedIn, user, email}) => {
       this.setState(() => ({loggedIn : loggedIn}))
     })
   }
