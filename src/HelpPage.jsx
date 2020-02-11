@@ -7,8 +7,10 @@ import {
     Col,
     Row,
     Icon,
+    Popover
 } from 'antd';
 import ButtonGroup from 'antd/lib/button/button-group';
+import HelpTooltip from './components/HelpTooltip.jsx';
 
 class Help2 extends React.Component{
     constructor(props){
@@ -49,7 +51,7 @@ class Help2 extends React.Component{
                     actions = {[
                         <Icon type = "youtube" onClick = {() => this.renderVid(index[2], index[0])}/>, 
                         <Icon type = "info-circle" onClick = {() => this.renderCarousel(index[0],index[5])}/>,
-                        <Icon type = "book"/>,
+                        //<Icon type = "book"/>,
                     ]}
                 > 
                 {index[3]}
@@ -569,7 +571,34 @@ createCarousel11(){
     <div>
       <Carousel  padding="50px" ref="caros2" dots = "false">
         <div>
-
+          <p>We have been going pretty in depth with options (it is our brand after all), but there some other derivatives you should be familiar with.</p>
+          <p>The most commonly used derivatives are futures, forwards, options 😎, warrants, and swaps (which we explained in the Short Selling lesson).</p>
+          <p>Like options, these other derivatives are typically used for hedging and speculation.</p>
+        </div>
+        <div>
+          <p>Options and Warrants are pretty similar, they both give the buyer the right to buy or sell, obligating the writer to buy or sell.</p>
+          <img src="/img/helpPageImages/forwardsFuturesOptionsAndWarrants/Slide1.jpeg" alt="pie" height="250" width="450" />
+          <br></br>
+        </div>
+        <div>
+          <p>The key differences lie in who writes the contracts, how they are exchanged, and their maturity.</p>
+          <img src="/img/helpPageImages/forwardsFuturesOptionsAndWarrants/Slide2.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <p>Futures and forwards are also very similar derivatives. They both give the owner the obligation to buy or sell the given securities by a given date.</p>
+          <img src="/img/helpPageImages/forwardsFuturesOptionsAndWarrants/Slide3.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <p>The main differences between futures and forwards are &nbsp;
+            <Popover content="The money borrowed from a brokerage firm to purchase an investment." title="Margin" trigger="hover">
+            <u>margin</u>
+            </Popover> 
+            &nbsp;requirements,&nbsp;
+            <Popover content="Probability that one of those involved in a transaction might default on its contractual obligation." title="Counter Party Risk" trigger="hover">
+              <u>counter party risk</u>
+            </Popover> 
+            &nbsp;, the exchange, and the settlement.</p>
+            <img src="/img/helpPageImages/forwardsFuturesOptionsAndWarrants/Slide4.jpeg" alt="pie" height="250" width="450" />
         </div>
       </Carousel>
       <ButtonGroup>
@@ -675,10 +704,10 @@ createCarousel11(){
                     "Short Selling",
                     caro10];
 
-        var card11 = ["Futures",
+        var card11 = ["Futures and Friends",
                     "https://pbs.twimg.com/media/D521o-mX4AA4G33.jpg:large",
                     "https://www.youtube.com/embed/Cj0fHhLVrv8",
-                    "Freebandz",
+                    "Futures, Forwards, Options, and Warrants",
                     "Futures",
                     caro11];
           
