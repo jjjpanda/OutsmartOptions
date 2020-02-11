@@ -75,6 +75,13 @@ class SideMenu extends React.Component {
     console.log('Toggled tooltip: ', +this.state.toggleTooltip);
   }
 
+  toggleDarkMode = () => {
+    this.setState({
+      toggleDarkMode: !this.state.toggleDarkMode,
+    });
+    console.log('Toggled darkmode: ', +this.state.toggleDarkMode);
+  }
+
   render() {
     return (
       <Sider
@@ -116,14 +123,12 @@ class SideMenu extends React.Component {
             <Link to="/help">Help</Link>
           </Menu.Item>
 
-          <Menu.Item key="darkmode">
+          <Menu.Item key="darkmode" onClick={() => this.toggleDarkMode()}>
             <Icon type="bulb" theme="filled" />
-            <Link to="/home">Toggle Darkmode</Link>
           </Menu.Item>
 
           <Menu.Item key="tooltip" onClick={() => this.toggleTooltips()}>
             <Icon type="tool" theme="filled" />
-            <Link to="/home">Toggle Tooltips</Link>
           </Menu.Item>
 
           <Menu.Item key="checkout" onClick={() => this.checkout()}>
