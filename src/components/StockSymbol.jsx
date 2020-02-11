@@ -36,7 +36,7 @@ class StockSymbol extends React.Component {
       guess: [],
       inWatchlist: false
     };
-    verifyUser((loggedIn) => {
+    verifyUser(({loggedIn, user, email}) => {
       this.setState(() => ({loggedIn : loggedIn}))
     })
   }
