@@ -17,7 +17,7 @@ class LoginPage extends React.Component {
           registerVisible: false,
           confirmLoading: false,
       }
-      verifyUser((loggedIn) => {
+      verifyUser(({loggedIn, username, email}) => {
         this.setState(() => ({loggedIn : loggedIn}))
       })
     }
