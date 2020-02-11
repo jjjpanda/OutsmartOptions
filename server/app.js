@@ -28,6 +28,10 @@ const devRoutes = require('./routes/devRoutes.js');
 
 app.use('/dev', devRoutes);
 
+const twitterSearch = require('./routes/twitterSearch.js');
+
+app.use('/api/twitter', twitterSearch)
+
 const marketData = require('./routes/marketData.js');
 
 app.use('/api/market', marketData);
