@@ -1,5 +1,5 @@
 import React from 'react';
-import {CardElement} from 'react-stripe-elements';
+//import {CardElement} from 'react-stripe-elements';
 import {
   TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton,
 } from 'react-twitter-embed';
