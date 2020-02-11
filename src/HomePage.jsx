@@ -34,7 +34,7 @@ class HomePage extends React.Component {
 
     render() {
       return (
-        <body>
+        <div>
           <h1 className="text" id="title">Outsmart Options</h1>
           <div>
             <div className="symbol">
@@ -69,7 +69,7 @@ class HomePage extends React.Component {
             </div>
           </div>
           <div />
-        </body>
+        </div>
       );
     }
 }
