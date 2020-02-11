@@ -62,7 +62,7 @@ class OptionsCalculator extends React.Component {
       numberIntervals: 15,
       percentInterval: 1,
     };
-    verifyUser((loggedIn) => {
+    verifyUser(({loggedIn, user, email}) => {
       this.setState(() => ({loggedIn : loggedIn}))
     })
   }
