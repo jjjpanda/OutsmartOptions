@@ -161,3 +161,19 @@ describe('POST Bug Reports /api/bug/', () => {
       });
   }, 30000);
 });
+
+describe('POST Market Data /api/twitter/', () => {
+
+  it('Tests /api/twitter/search', async (done) => {
+    request(app).post('/api/twitter/search')
+      .send({ q: 'bruh' })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        //console.log(response.body)
+        expect(response.body).toBeDefined();
+        done();
+      });
+  }, 30000);
+
+})
