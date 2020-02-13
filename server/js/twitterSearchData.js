@@ -12,7 +12,13 @@ module.exports = {
             },
           }, (error, response, body) => {
             if (!error && response.statusCode === 200) {
-              callback(JSON.parse(body));
+              let tweets = JSON.parse(body).statuses
+              if(tweets != undefined){
+                callback({tweets});
+              }
+              else{
+                callback({tweets: false})
+              }
             } else {
               callback({ error, response: response.statusCode });
             }
