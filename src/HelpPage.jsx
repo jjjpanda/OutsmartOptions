@@ -65,7 +65,7 @@ class Help2 extends React.Component{
       //Buying stocks
         return(
           <div>
-          <Carousel  padding="50px" ref="caros1" dots="false">
+          <Carousel  padding="50px" ref="caros" dots="false">
           <div>
             <p>
               Buying a stock in a company gives you ownership of a <b>share</b> of that company.
@@ -86,11 +86,11 @@ class Help2 extends React.Component{
         <br></br>
         <br></br>
         <ButtonGroup>
-            <Button type="primary" onClick={() => this.refs.caros1.prev()}>
+            <Button type="primary" onClick={() => this.refs.caros.prev()}>
                   <Icon type="left" />
                   Prev
             </Button>
-            <Button type="primary" onClick={() => this.refs.caros1.next()}>
+            <Button type="primary" onClick={() => this.refs.caros.next()}>
                   Next
                   <Icon type="right" />
             </Button>
@@ -104,7 +104,7 @@ class Help2 extends React.Component{
       //Options Contracts
         return(
           <div>
-            <Carousel  padding="50px" ref="caros3" dots="false">
+            <Carousel  padding="50px" ref="caros" dots="false">
               <div>
                 <p>An option contract facilitates the transaction of a security at a predetermined price, before a predetermined date.</p>
                 <p>The predetermined price is known as the <b>strike price</b>.</p>
@@ -128,11 +128,11 @@ class Help2 extends React.Component{
             <br></br>
             <br></br>
             <ButtonGroup>
-              <Button type="primary" onClick={() => this.refs.caros3.prev()}>
+              <Button type="primary" onClick={() => this.refs.caros.prev()}>
                   <Icon type="left" />
                   Prev
               </Button>
-              <Button type="primary" onClick={() => this.refs.caros3.next()}>
+              <Button type="primary" onClick={() => this.refs.caros.next()}>
                   Next
                   <Icon type="right" />
               </Button>
@@ -145,7 +145,7 @@ class Help2 extends React.Component{
       //Excercise and Expiry
       return(
         <div>
-        <Carousel  padding="50px" ref="caros2" dots = "false">
+        <Carousel  padding="50px" ref="caros" dots = "false">
         <div>
           <p>Deciding to buy or sell an option contract's underlying security is known as <b>excercising</b> the option.</p>
           <p>European style options must be excercised on the contract's expiration date, whereas American options can be excercised at any point on or before the expiration date.</p>
@@ -169,11 +169,11 @@ class Help2 extends React.Component{
         </div>
       </Carousel>
       <ButtonGroup>
-          <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+          <Button type="primary" onClick={() => this.refs.caros.prev()}>
                 <Icon type="left" />
                 Prev
           </Button>
-          <Button type="primary" onClick={() => this.refs.caros2.next()}>
+          <Button type="primary" onClick={() => this.refs.caros.next()}>
                 Next
                 <Icon type="right" />
           </Button>
@@ -186,7 +186,7 @@ class Help2 extends React.Component{
     //Call Option Buyers
     return(
       <div>
-        <Carousel  padding="50px" ref="caros2" dots = "false">
+        <Carousel  padding="50px" ref="caros" dots = "false">
         <div>
           <p>We have mentioned the two types of options: calls and puts.</p>
           <p>Now we will go more in depth into buying calls.</p>
@@ -230,11 +230,11 @@ class Help2 extends React.Component{
         </div>
       </Carousel>
       <ButtonGroup>
-        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+        <Button type="primary" onClick={() => this.refs.caros.prev()}>
               <Icon type="left" />
               Prev
         </Button>
-        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+        <Button type="primary" onClick={() => this.refs.caros.next()}>
               Next
               <Icon type="right" />
         </Button>
@@ -247,7 +247,7 @@ createCarousel5(){
   //Call Option Writers
   return(
     <div>
-      <Carousel  padding="50px" ref="caros2" dots = "false">
+      <Carousel  padding="50px" ref="caros" dots = "false">
         <div>
           <p>Now its time to walk you through writing calls.</p>
           <p>Remember, a call writer sells a contract, for a premium, giving the buyer the right to buy a security from them.</p>
@@ -295,11 +295,11 @@ createCarousel5(){
         </div>
       </Carousel>
       <ButtonGroup>
-        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+        <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
             Prev
         </Button>
-        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+        <Button type="primary" onClick={() => this.refs.caros.next()}>
             Next
             <Icon type="right" />
         </Button>
@@ -312,7 +312,7 @@ createCarousel6(){
   //Put Option Buyers
   return(
     <div>
-      <Carousel  padding="50px" ref="caros2" dots = "false">
+      <Carousel  padding="50px" ref="caros" dots = "false">
       <div>
         <p>Now we will go more in depth into buying puts.</p>
         <p>Remember, a put buyer pays a premium to the writer for a contract that gives them the right to sell the security.</p>
@@ -355,11 +355,11 @@ createCarousel6(){
       </div>
     </Carousel>
     <ButtonGroup>
-      <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+      <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
             Prev
       </Button>
-      <Button type="primary" onClick={() => this.refs.caros2.next()}>
+      <Button type="primary" onClick={() => this.refs.caros.next()}>
             Next
             <Icon type="right" />
       </Button>
@@ -372,7 +372,7 @@ createCarousel7(){
   //Put Option Writers
   return(
     <div>
-      <Carousel  padding="50px" ref="caros2" dots = "false">
+      <Carousel  padding="50px" ref="caros" dots = "false">
         <div>
           <p>Now its time to walk you through writing puts.</p>
           <p>Remember, a put writer sells a contract, for a premium, giving the buyer the right to sell a security to them.</p>
@@ -420,11 +420,11 @@ createCarousel7(){
         </div>
       </Carousel>
       <ButtonGroup>
-        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+        <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
             Prev
         </Button>
-        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+        <Button type="primary" onClick={() => this.refs.caros.next()}>
             Next
             <Icon type="right" />
         </Button>
@@ -437,7 +437,7 @@ createCarousel8(){
   //Rights and Obligations
   return(
     <div>
-      <Carousel  padding="50px" ref="caros2" dots = "false">
+      <Carousel  padding="50px" ref="caros" dots = "false">
         <div>
           <p>We know, that was a lot of information.</p>
           <p>So we will summarize puts and calls and buyers and writers by breaking down the rights and obligations associated with each.</p>
@@ -458,11 +458,11 @@ createCarousel8(){
         </div>
       </Carousel>
       <ButtonGroup>
-        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+        <Button type="primary" onClick={() => this.refs.caros.prev()}>
           <Icon type="left" />
           Prev
         </Button>
-        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+        <Button type="primary" onClick={() => this.refs.caros.next()}>
           Next
           <Icon type="right" />
         </Button>
@@ -475,7 +475,7 @@ createCarousel9(){
   //Intrinsic and Extrinsic value
   return(
     <div>
-      <Carousel  padding="50px" ref="caros2" dots = "false">
+      <Carousel  padding="50px" ref="caros" dots = "false">
         <div>
           <p>Options contracts have intrinsic and extrinsic value.</p>
           <p>The <b>intrinsic</b> value of a contract is the difference between the strike price and the current market price.
@@ -485,11 +485,11 @@ createCarousel9(){
         </div>
       </Carousel>
       <ButtonGroup>
-        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+        <Button type="primary" onClick={() => this.refs.caros.prev()}>
           <Icon type="left" />
           Prev
         </Button>
-        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+        <Button type="primary" onClick={() => this.refs.caros.next()}>
           Next
           <Icon type="right" />
         </Button>
@@ -502,7 +502,7 @@ createCarousel10(){
   //Short Selling 
   return(
     <div>
-      <Carousel  padding="50px" ref="caros2" dots = "false">
+      <Carousel  padding="50px" ref="caros" dots = "false">
         <div>
           <p>Traditionally, people buy stocks they think will go up in value, in order to make money.</p>
           <p>But it is also possible to profit on stock that will lose value, in a strategy known as <b>short selling</b>.</p>
@@ -553,11 +553,11 @@ createCarousel10(){
         </div>
       </Carousel>
       <ButtonGroup>
-        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+        <Button type="primary" onClick={() => this.refs.caros.prev()}>
           <Icon type="left" />
           Prev
         </Button>
-        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+        <Button type="primary" onClick={() => this.refs.caros.next()}>
           Next
           <Icon type="right" />
         </Button>
@@ -569,14 +569,14 @@ createCarousel11(){
   //Futures
   return(
     <div>
-      <Carousel  padding="50px" ref="caros2" dots = "false">
+      <Carousel  padding="50px" ref="caros" dots = "false">
         <div>
-          <p>We have been going pretty in depth with options (it is our brand after all), but there some other derivatives you should be familiar with.</p>
+          <p>We have been going pretty in depth into options (it is our brand after all), but there some other derivatives you should be familiar with.</p>
           <p>The most commonly used derivatives are futures, forwards, options 😎, warrants, and swaps (which we explained in the Short Selling lesson).</p>
           <p>Like options, these other derivatives are typically used for hedging and speculation.</p>
         </div>
         <div>
-          <p>Options and Warrants are pretty similar, they both give the buyer the right to buy or sell, obligating the writer to buy or sell.</p>
+          <p>Options and Warrants are pretty similar; they both give the buyer the right to buy or sell, in turn obligating the writer to buy or sell.</p>
           <img src="/img/helpPageImages/forwardsFuturesOptionsAndWarrants/Slide1.jpeg" alt="pie" height="250" width="450" />
           <br></br>
         </div>
@@ -602,11 +602,11 @@ createCarousel11(){
         </div>
       </Carousel>
       <ButtonGroup>
-        <Button type="primary" onClick={() => this.refs.caros2.prev()}>
+        <Button type="primary" onClick={() => this.refs.caros.prev()}>
           <Icon type="left" />
           Prev
         </Button>
-        <Button type="primary" onClick={() => this.refs.caros2.next()}>
+        <Button type="primary" onClick={() => this.refs.caros.next()}>
           Next
           <Icon type="right" />
         </Button>
@@ -615,8 +615,87 @@ createCarousel11(){
   )
 }
 
+createCarousel12(){
+  //Reading Profit Graphs
+  return(
+    <div>
+      <Carousel  padding="50px" ref="caros" dots = "false">
+        <div>
+          <p>Now that you know what options are, its time for you to learn the potential outcomes of your strategies.</p>
+          <p>One of the most important tools for outcome visualization is the <b>profit graph</b>.</p>
+        </div>
+        <div>
+          <div>They look like this:</div>
+          <img src="https://www.theoptionsguide.com/images/long-call.gif" alt="pie" height="250" width="450" />
+          <div>The x axis shows different stock prices at expiration, and the y axis shows the profits or losses, in USD or %. </div>
+          <div>This allows the options trader to see how much money they stand to gain or lose at different stock prices.</div>
+          <br></br>
+        </div>
+        <div>
+          <p>Lets say our options trader buys an ABC call for $.50 at a strike price of $30 that expires on 12/20.</p>
+          <img src="/img/helpPageImages/profitGraphs/Slide1.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <p>If the contract expires at $30, which is the strike price, then our trader will lose $50, which is what they paid for the premium.</p>
+          <img src="/img/helpPageImages/profitGraphs/Slide2.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <p>If the contract expires at anything lower than the strike price, our trader will still only lose what they paid for the premium.</p>
+          <img src="/img/helpPageImages/profitGraphs/Slide3.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <p>If our trader wants to make any money, they will need the stock price to rise above $30.</p>
+          <img src="/img/helpPageImages/profitGraphs/Slide4.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <p>The break even point can be seen where the line intersects the x axis.</p>
+          <img src="/img/helpPageImages/profitGraphs/Slide5.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <p>The same idea can be applied to writing calls...</p>
+          <img src="/img/helpPageImages/profitGraphs/Slide6.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <p>... buying puts...</p>
+          <img src="/img/helpPageImages/profitGraphs/Slide7.jpeg" alt="pie" height="250" width="450" />
+        </div>
+        <div>
+          <p>... and writing puts.</p>
+          <img src="/img/helpPageImages/profitGraphs/Slide8.jpeg" alt="pie" height="250" width="450" />
+        </div>
+      </Carousel>
+      <ButtonGroup>
+        <Button type="primary" onClick={() => this.refs.caros.prev()}>
+          <Icon type="left" />
+          Prev
+        </Button>
+        <Button type="primary" onClick={() => this.refs.caros.next()}>
+          Next
+          <Icon type="right" />
+        </Button>
+      </ButtonGroup>
+    </div>
+  )
+}
 
-
+createCarousel13(){
+  return(
+    <div>
+      <Carousel  padding="50px" ref="caros" dots = "false">
+      </Carousel>
+      <ButtonGroup>
+        <Button type="primary" onClick={() => this.refs.caros.prev()}>
+          <Icon type="left" />
+          Prev
+        </Button>
+        <Button type="primary" onClick={() => this.refs.caros.next()}>
+          Next
+          <Icon type="right" />
+        </Button>
+      </ButtonGroup>
+    </div>
+  )
+}
 
     render(){
         //Fill in the following info for each card variable in this order: title, image, video link, sub text, modal title
@@ -632,6 +711,8 @@ createCarousel11(){
         var caro9 = this.createCarousel9();
         var caro10 = this.createCarousel10();
         var caro11 = this.createCarousel11();
+        var caro12 = this.createCarousel12();
+        var caro13 = this.createCarousel13();
 
         var card1 = ["Buying Stocks",
                     "https://www.thestreet.com/files/tsc/v2008/defaultImages/thestreet-picks-stockpickr.jpg",
@@ -656,28 +737,28 @@ createCarousel11(){
                       caro3];
 
         var card4 = ["Call Options Buyers",
-                      "/img/helpPageImages/BOGGED.png",
+                      "https://i.insider.com/5dfb7ebf855cc232fc6669ac?width=1100&format=jpeg&auto=webp",
                       "https://www.youtube.com/embed/fUNk8TjrZOA",
                       "1800-Call-NOW",
                       "Buying Calls",
                       caro4];
         
         var card5 = ["Call Options Writers",
-                      "https://i.redd.it/oold5ygcwlcy.jpg",
+                      "https://www.horner.com.au/assets/uploads/2018/02/article-2542596-1AAA16E000000578-765_634x354-600x335.jpg",
                       "https://www.youtube.com/embed/fUNk8TjrZOA",
                       "Write it up",
                       "Writing Calls",
                       caro5]; 
 
         var card6 = ["Put Options Buyers",
-                      "https://tinyurl.com/wxmkb9g",
-                      "https://www.youtube.com/embed/z6lu992JvCk",
+                      "https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fjonhartley%2Ffiles%2F2015%2F11%2FThe-Big-Short-Ryan-Gosling-Forbes-Edit.jpg",
+                      "https://www.youtube.com/embed/fUNk8TjrZOA",
                       "Put it there",
                       "Buying Puts",
                       caro6];
 
         var card7 = ["Put Options Writers",
-                      "https://tinyurl.com/wxmkb9g",
+                      "/img/helpPageImages/BOGGED.png",
                       "https://www.youtube.com/embed/z6lu992JvCk",
                       "Put Put Pass",
                       "Writing Puts",
@@ -716,35 +797,35 @@ createCarousel11(){
                     "https://www.youtube.com/embed/m2LOJRxYkRg",
                     "When, where, and how to get the bag",
                     "Profit Graphs",
-                    caro11];
+                    caro12];
 
         var card13 = ["Delta, Gamma, and Leverage",
                     "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
                     "https://www.youtube.com/embed/FDCrfsYg0GU",
                     "Introducing the Greeks",
                     "Delta, Gamma, and Leverage",
-                    caro11];
+                    caro13];
 
         var card14 = ["Theta",
                     "https://www.optionsplaybook.com/media/images/graphics/meet_greeks.gif",
                     "https://www.youtube.com/embed/4X3HBFntkds",
                     "Greeks Pt 2",
                     "Theta",
-                    caro11];
+                    caro13];
         
         var card15 = ["IV, Vega, and IV Crush",
                     "https://www.ally.com/do-it-right/images/2017/04/market-up-down-400x300.jpg",
                     "https://www.youtube.com/embed/Q3XAlfAyMGI",
                     "Lets get volatile",
                     "IV, Vega, and IV Crush",
-                    caro11];
+                    caro13];
 
         var card16 = ["Rho",
                     "https://epsilonoptions.com/wp-content/uploads/rho.jpg",
                     "https://www.youtube.com/embed/Isy2i8dRAqU",
                     "Stay Greecy",
                     "Rho",
-                    caro11];
+                    caro13];
 
         
         var card17 = ["Multileg Strategies",
@@ -752,35 +833,35 @@ createCarousel11(){
                     "https://www.youtube.com/embed/yX43RYerHhU",
                     "Advanced Strats",
                     "Multileg Strategies",
-                    caro11];
+                    caro13];
         
         var card18 = ["Straddles and Strangles",
                     "https://i2-prod.mirror.co.uk/incoming/article3025296.ece/ALTERNATES/s615/Birds.jpg",
                     "https://www.youtube.com/embed/p1zZOZgMhag",
                     "Gettin Spicy",
                     "Straddles and Strangles",
-                    caro11];
+                    caro13];
 
         var card18 = ["Spreads",
                     "https://thumbs.gfycat.com/PoorBonyAppaloosa-size_restricted.gif",
                     "https://www.youtube.com/embed/sMAOFz0eoBk",
                     "No Flockin",
                     "Spreads",
-                    caro11];
+                    caro13];
 
         var card19 = ["Condors and Flys",
                     "https://www.nps.gov/grca/learn/news/images/CA-Condor-flying-Photo_Jim-Shuler-Utah-DWR.jpg",
                     "https://www.youtube.com/embed/bqZvoLszVEo",
                     "Gotta stay fly-y-y-y, y-y, y-y, y",
                     "Condors and Flys",
-                    caro11];
+                    caro13];
 
         var card20 = ["Calendar Spreads",
                     "https://s3-us-west-1.amazonaws.com/hopegrown/blog-images/Hopegrown-April-Calendar-420.jpg?mtime=20160420160129",
                     "https://www.youtube.com/embed/laxOmN3EJ3g",
                     "Save the Date",
                     "Calendar Spreads",
-                    caro11];
+                    caro13];
         
       
                      
