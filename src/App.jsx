@@ -80,6 +80,8 @@ class SideMenu extends React.Component {
       toggleDarkMode: !this.state.toggleDarkMode,
     });
     console.log('Toggled darkmode: ', +this.state.toggleDarkMode);
+
+    window.less.modifyVars({'@primary-color':"#f68783"})
   }
 
   render() {
