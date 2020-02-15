@@ -21,7 +21,7 @@ export function fetchReqAuth(req, auth, body, callback) {
       headers: {
         Authorization: auth,
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body,
     })

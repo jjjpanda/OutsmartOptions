@@ -81,7 +81,7 @@ class SideMenu extends React.Component {
     });
     console.log('Toggled darkmode: ', +this.state.toggleDarkMode);
 
-    window.less.modifyVars({'@primary-color':"#f68783"})
+    window.less.modifyVars({ '@primary-color': '#f68783' });
   }
 
   render() {
@@ -137,8 +137,6 @@ class SideMenu extends React.Component {
             <Icon type="dollar" />
             <Link to="/checkout">Checkout</Link>
           </Menu.Item>
-
-
 
 
         </Menu>

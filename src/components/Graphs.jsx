@@ -53,7 +53,7 @@ class BarLineComboGraph extends React.Component {
             top: 10, right: 10, left: 10, bottom: 10,
           }}
         >
-          <XAxis dataKey={this.props.xKey} allowDecimals={false}/>
+          <XAxis dataKey={this.props.xKey} allowDecimals={false} />
 
           <YAxis yAxisId="right" dataKey={this.props.lineKey} orientation="right" />
           <YAxis yAxisId="left" dataKey={this.props.barKey} orientation="left" />
@@ -200,7 +200,7 @@ $
             <stop offset={this.gradientOffset(this.state.data, date)} stopColor="#009900" stopOpacity={opacities[date]} />
             <stop stopColor="#ff0000" stopOpacity={opacities[date]} />
           </linearGradient>
-                  </defs>
+        </defs>
         ));
         arr.push((
           <Line name={date} type="monotone" dot={false} hide={this.state.disabledDates.includes(date)} dataKey={date} stroke={this.colorOfLine(this.state.data, date, opacities[date])} />

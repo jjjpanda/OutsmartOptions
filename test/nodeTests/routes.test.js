@@ -111,11 +111,11 @@ describe('POST Market Data /api/market/', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
-        //console.log(response.body)
+        // console.log(response.body)
         expect(response.body).toBeDefined();
         done();
       });
-  }, 30000)
+  }, 30000);
 
   it('Tests /treasury', async (done) => {
     request(app).post('/api/market/treasury')
@@ -163,17 +163,15 @@ describe('POST Bug Reports /api/bug/', () => {
 });
 
 describe('POST Market Data /api/twitter/', () => {
-
   it('Tests /api/twitter/search', async (done) => {
     request(app).post('/api/twitter/search')
       .send({ q: 'bruh' })
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
-        //console.log(response.body)
+        // console.log(response.body)
         expect(response.body).toBeDefined();
         done();
       });
   }, 30000);
-
-})
+});

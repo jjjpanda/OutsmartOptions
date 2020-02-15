@@ -198,24 +198,28 @@ describe('Protected Routes', () => {
 
     it('Password Changing', async (done) => {
       request(app).post('/api/users/change')
-      .send({ id, oldPassword: 'password', newPassword: 'password2', newPassword2: 'password2' })
-      .set('Authorization', token)
-      .expect('Content-Type', /json/)
-      .then((response) => {
-        expect(response.body.changed).toBe(true);
-        done();
-      });
+        .send({
+          id, oldPassword: 'password', newPassword: 'password2', newPassword2: 'password2',
+        })
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          expect(response.body.changed).toBe(true);
+          done();
+        });
     }, 30000);
 
     it('Incorrect Password Changing', async (done) => {
       request(app).post('/api/users/change')
-      .send({ id, oldPassword: 'passwordThatsWrong', newPassword: 'shouldntReallyMatter', newPassword2: 'shouldntReallyMatter' })
-      .set('Authorization', token)
-      .expect('Content-Type', /json/)
-      .then((response) => {
-        expect(response.body.error).toBeDefined();
-        done();
-      });
+        .send({
+          id, oldPassword: 'passwordThatsWrong', newPassword: 'shouldntReallyMatter', newPassword2: 'shouldntReallyMatter',
+        })
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          expect(response.body.error).toBeDefined();
+          done();
+        });
     }, 30000);
 
     it('Delete User', async (done) => {

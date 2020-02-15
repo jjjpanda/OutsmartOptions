@@ -4,7 +4,7 @@ import {
   Button,
   Switch,
   Icon,
-  Modal
+  Modal,
 } from 'antd';
 
 import { BarLineComboGraph } from './Graphs.jsx';
@@ -28,24 +28,24 @@ class OptionsLeg extends React.Component {
       quantity: 1,
       limitPrice: props.optionRepresented.price,
       hide: false,
-      visible: false
+      visible: false,
     };
     post.fetchReq('/api/market/historical', JSON.stringify({ ticker: props.optionRepresented.symbol }), (data) => {
-      this.setState(() => ({ historical: data }))
+      this.setState(() => ({ historical: data }));
     });
     this.props.callback(this.state);
   }
 
     handleClick = () => {
-      this.setState(() => ({visible: true}))
+      this.setState(() => ({ visible: true }));
     }
 
     handleOk = () => {
-      this.setState(() => ({visible: false}))
+      this.setState(() => ({ visible: false }));
     }
 
     handleCancel = () => {
-      this.setState(() => ({visible: false}))
+      this.setState(() => ({ visible: false }));
     }
 
     handleChange = (e) => {
@@ -118,12 +118,12 @@ class OptionsLeg extends React.Component {
                 BRUH
               </Button>
               <Modal
-              title="Bruh"
-              visible={this.state.visible}
-              onOk={this.handleOk}
-              onCancel={this.handleCancel}
+                title="Bruh"
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
               >
-                <BarLineComboGraph data={this.state.historical} xKey="date" lineKey="close" barKey="volume" /> 
+                <BarLineComboGraph data={this.state.historical} xKey="date" lineKey="close" barKey="volume" />
               </Modal>
             </div>
           </div>

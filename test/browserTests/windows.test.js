@@ -38,14 +38,11 @@ afterAll(async () => {
   await stop();
 }, 10000);
 
-let domains = ['http://www.outsmartoptions.live']
+const domains = ['http://www.outsmartoptions.live'];
 
-for(const capability of capabilities.capabilities){
-  
-  for (let website of domains) {
-
+for (const capability of capabilities.capabilities) {
+  for (const website of domains) {
     describe(capability.name, () => {
-
       let driver;
 
       beforeAll(async (done) => {
@@ -54,11 +51,11 @@ for(const capability of capabilities.capabilities){
           .withCapabilities(capability)
           .build();
 
-          await driver.get(website).then(() => {
-            done();
-          }, () => {
-            done.fail(new Error("Website Didn't Load."));
-          });
+        await driver.get(website).then(() => {
+          done();
+        }, () => {
+          done.fail(new Error("Website Didn't Load."));
+        });
       }, 50000);
 
       afterAll(async (done) => {
@@ -106,6 +103,6 @@ for(const capability of capabilities.capabilities){
           done.fail(new Error("Website Didn't Load."));
         });
       }, 10000);
-  });
+    });
   }
 }

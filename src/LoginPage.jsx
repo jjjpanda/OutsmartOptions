@@ -1,51 +1,49 @@
 import React from 'react';
 
-import verifyUser from './components/UserVerifier.jsx'
-import {LoginForm, RegisterForm, ChangePasswordForm, SignOut, DeleteAccount} from './components/UserForms.jsx'
+import verifyUser from './components/UserVerifier.jsx';
+import {
+  LoginForm, RegisterForm, ChangePasswordForm, SignOut, DeleteAccount,
+} from './components/UserForms.jsx';
 
-const hasErrors = (fieldsError) => {
-  return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
+const hasErrors = (fieldsError) => Object.keys(fieldsError).some((field) => fieldsError[field]);
 
 class LoginPage extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-          key : 1,
-          loggedIn : false,
-          loginVisible: false,
-          registerVisible: false,
-          confirmLoading: false,
-      }
-      verifyUser(({loggedIn, username, email}) => {
-        this.setState(() => ({loggedIn : loggedIn}))
-      })
-    }
-  
-    render() {
-      if(this.state.loggedIn){
-        return (
-          <div>
-            
-            <ChangePasswordForm/>
-            <SignOut/>
-            <DeleteAccount/>
-          
-          </div>
-        )
-      }
-      else{
-        return (
-          <div>
-            
-            <LoginForm/>
-            <RegisterForm/>
-          
-          </div>
-        );
-      }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      key: 1,
+      loggedIn: false,
+      loginVisible: false,
+      registerVisible: false,
+      confirmLoading: false,
+    };
+    verifyUser(({ loggedIn, username, email }) => {
+      this.setState(() => ({ loggedIn }));
+    });
   }
-  
-  export default LoginPage;
-  
+
+  render() {
+    if (this.state.loggedIn) {
+      return (
+        <div>
+
+          <ChangePasswordForm />
+          <SignOut />
+          <DeleteAccount />
+
+        </div>
+      );
+    }
+
+    return (
+      <div>
+
+        <LoginForm />
+        <RegisterForm />
+
+      </div>
+    );
+  }
+}
+
+export default LoginPage;
