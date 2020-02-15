@@ -34,6 +34,7 @@
     "bcryptjs": "^2.4.3",
     "body-scroll-lock": "^2.6.4",
     "core-js": "^3.2.1",
+    "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
     "eslint-plugin-custom-rules": "file:eslint",
     "eslint-plugin-jest": "^23.1.1",
