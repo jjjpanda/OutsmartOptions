@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('user');
 
+const appendLogs = require('../logs/appendLogs.js')
+
 const env = require('dotenv').config();
 
 const opts = {};
@@ -20,7 +22,7 @@ module.exports = (passport) => {
           }
           return done(null, false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => appendLogs('./server/logs/logs.txt', err));
     }),
   );
 };

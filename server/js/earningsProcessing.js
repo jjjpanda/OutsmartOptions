@@ -1,9 +1,11 @@
 const request = require('request');
 
+const appendLogs = require('../logs/appendLogs.js')
+
 module.exports = {
 
   getERCalendar: (date, callback) => {
-    // console.log(`${date.getFullYear()}-${(`0${date.getMonth() + 1}`).slice(-2)}-${(`0${date.getDate()}`).slice(-2)}`)
+    // appendLogs('./server/logs/logs.txt', `${date.getFullYear()}-${(`0${date.getMonth() + 1}`).slice(-2)}-${(`0${date.getDate()}`).slice(-2)}`)
     request({
       method: 'get',
       url: `https://api.earningscalendar.net/?date=${date.getFullYear()}-${(`0${date.getMonth() + 1}`).slice(-2)}-${(`0${date.getDate()}`).slice(-2)}/`,
@@ -17,7 +19,7 @@ module.exports = {
         }
       } else {
         // Error
-        console.log('EARNINGS API ERROR');
+        appendLogs('./server/logs/logs.txt', 'EARNINGS API ERROR');
       }
     });
   },

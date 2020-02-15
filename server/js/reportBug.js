@@ -1,9 +1,11 @@
 const request = require('request');
 
+const appendLogs = require('../logs/appendLogs.js')
+
 module.exports = {
 
   sendCalcError(url, msg, callback) {
-    // console.log(JSON.stringify({"content": JSON.stringify({"report": msg})}))
+    // appendLogs('./server/logs/logs.txt', JSON.stringify({"content": JSON.stringify({"report": msg})}))
     request({
       method: 'POST',
       url,
@@ -11,7 +13,7 @@ module.exports = {
       body: JSON.stringify({ content: JSON.stringify({ report: msg }) }),
     },
     (error, response, body) => {
-      // console.log(response.statusCode)
+      // appendLogs('./server/logs/logs.txt', response.statusCode)
       if (!error) {
         callback({ error: false, details: 'Details Sent to URL' });
       } else {
@@ -63,7 +65,7 @@ module.exports = {
             }),
           }),
         }, (e, r, b) => {
-          // console.log(r.statusCode)
+          // appendLogs('./server/logs/logs.txt', r.statusCode)
           if (!e) {
             callback({ error: false, details: 'IP Data Sent To Url' });
           } else {

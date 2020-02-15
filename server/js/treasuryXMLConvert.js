@@ -1,6 +1,8 @@
 const request = require('request');
 const convert = require('xml-js');
 
+const appendLogs = require('../logs/appendLogs.js')
+
 module.exports = {
 
   getYield(callback) {
@@ -18,12 +20,12 @@ module.exports = {
       url: `https://data.treasury.gov/feed.svc/DailyTreasuryYieldCurveRateData?$filter=month(NEW_DATE)%20eq%20${month}%20and%20year(NEW_DATE)%20eq%20${year}and%20day(NEW_DATE)%20eq%20${day}`,
     }, (error, response, body) => {
       if (!error && response.statusCode == 200) {
-        // console.log(body)
+        // appendLogs('./server/logs/logs.txt', body)
         let data = (convert.xml2json(body));
         try {
           data = JSON.parse(data).elements[0].elements[4].elements[6].elements[0].elements.slice(2, 14).map((k) => ({ name: k.name, val: parseFloat(k.elements[0].text) }));
         } catch (error) {
-          // console.error(error);
+          //  appendLogs('./server/logs/logs.txt', error);
           data = [];
         }
         callback(data);

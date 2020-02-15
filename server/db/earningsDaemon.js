@@ -1,13 +1,15 @@
 const cron = require('node-cron');
 const processing = require('../js/earningsProcessing.js');
 
+const appendLogs = require('../logs/appendLogs.js')
+
 const Earnings = require('./models/Earnings');
 
 const daemon = cron.schedule( // '*/30 * * * * *',
   '0 0-3 * * *',
   () => {
-    console.log('---DB REQUESTED CRON JOB---');
-    console.log('TITLE: UPDATE EARNINGS');
+    appendLogs('./server/logs/logs.txt', '---DB REQUESTED CRON JOB---');
+    appendLogs('./server/logs/logs.txt', 'TITLE: UPDATE EARNINGS');
     let date = new Date();
     const days = 6;
     let iterations = 0;
@@ -46,7 +48,7 @@ const daemon = cron.schedule( // '*/30 * * * * *',
     Earnings.deleteMany({ date: { $lt: new Date() } })
       .then((e) => {
         if (!e.ok) {
-          console.log('UPDATE EARNINGS: Previous Dates Removed');
+          appendLogs('./server/logs/logs.txt', 'UPDATE EARNINGS: Previous Dates Removed');
         }
       });
   }, {

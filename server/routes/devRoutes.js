@@ -2,7 +2,17 @@ const express = require('express');
 
 const router = express.Router();
 
+const path = require('path');
 const env = require('dotenv').config();
+
+router.post('/logs', function (req, res) {
+  if(req.body.token === process.env.devRouteToken){
+    res.sendFile(path.join(__dirname, '../logs/logs.txt'))
+  }
+  else{
+    res.sendStatus(401);
+  }
+});
 
 if (process.env.NODE_ENV === 'development') {
   router.use('/coverage', express.static('./coverage/lcov-report', {

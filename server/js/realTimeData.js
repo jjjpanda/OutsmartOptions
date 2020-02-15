@@ -1,5 +1,7 @@
 const request = require('request');
 
+const appendLogs = require('../logs/appendLogs.js')
+
 module.exports = {
 
   getData(apikey, ticker, callback) {
@@ -87,7 +89,7 @@ module.exports = {
         Accept: 'application/json',
       },
     }, (error, response, body) => {
-      // console.log(response.statusCode);
+      // appendLogs('./server/logs/logs.txt', response.statusCode);
       if (!error && response.statusCode == 200) {
         body = JSON.parse(body).options;
         let data;
@@ -161,7 +163,7 @@ module.exports = {
         body = JSON.parse(body);
         if (body != undefined && body.history != undefined && body.history != null) {
           let historical = body.history.day;
-          //console.log(historical)
+          //appendLogs('./server/logs/logs.txt', historical)
           if(historical.length > 1){
             /*
             historical.forEach((day, index) => {
@@ -230,7 +232,7 @@ module.exports = {
     (error, response, body) => {
       body = JSON.parse(body)
       const earnings = new Date(body['quoteResponse']['result'][0]['earningsTimestamp'] * 1000)
-      //console.log(earnings)
+      //appendLogs('./server/logs/logs.txt', earnings)
       callback({earningsDate: earnings})
     })
   }

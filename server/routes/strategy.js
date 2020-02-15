@@ -64,7 +64,6 @@ router.post('/delete', auth, strategyFormatCheck, (req, res) => {
   User.findById(req.body.id).then((user) => {
     if (user) {
       Strategy.deleteOne({ user, stock: req.body.ticker, ...searchQuery }).then((e) => {
-        console.log(e);
         if (e.deletedCount == 1) {
           res.json({ error: false, details: e });
         } else {

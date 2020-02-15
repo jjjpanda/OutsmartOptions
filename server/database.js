@@ -1,17 +1,18 @@
 const env = require('dotenv').config();
 const mongoose = require('mongoose');
 const daemon = require('./db/earningsDaemon.js');
+const appendLogs = require('./logs/appendLogs.js')
 
 mongoose.connection.once('connected', () => {
-  console.log('~MongoDB Database Connected~');
+  appendLogs('./server/logs/logs.txt','~MongoDB Database Connected~');
   //daemon.start();
 });
 mongoose.connection.once('error', () => {
-  console.log('~MongoDB Database Error~');
+  appendLogs('./server/logs/logs.txt','~MongoDB Database Error~');
   //daemon.stop();
 });
 mongoose.connection.once('disconnected', () => {
-  console.log('~MongoDB Database Disconnected~');
+  appendLogs('./server/logs/logs.txt','~MongoDB Database Disconnected~');
   //daemon.stop();
 });
 
@@ -29,24 +30,24 @@ module.exports = {
     })
     .then(
       () => {
-        console.log('Database Connect Callback Received');
+        appendLogs('./server/logs/logs.txt','Database Connect Callback Received');
         callback(true);
       },
       (error) => {
-        console.log(error);
-        try { callback(false); } catch (error) { console.log(error); }
+        appendLogs('./server/logs/logs.txt',error);
+        try { callback(false); } catch (error) { appendLogs('./server/logs/logs.txt',error); }
       },
     ),
 
   disconnect: (callback) => mongoose.disconnect()
     .then(
       () => {
-        console.log('Database Disconnect Callback Received');
+        appendLogs('./server/logs/logs.txt','Database Disconnect Callback Received');
         callback(true);
       },
       (error) => {
-        console.log(error);
-        try { callback(false); } catch (error) { console.log(error); }
+        appendLogs('./server/logs/logs.txt',error);
+        try { callback(false); } catch (error) { appendLogs('./server/logs/logs.txt',error); }
       },
     ),
 
