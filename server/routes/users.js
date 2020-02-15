@@ -10,6 +10,8 @@ const secretOrKey = process.env.SECRETKEY;
 
 const validate = require('../db/loginValidation.js');
 
+const appendLogs = require("../logs/appendLogs.js")
+
 const User = require('../db/models/User');
 
 router.post('/register', (req, res) => {
@@ -36,7 +38,7 @@ router.post('/register', (req, res) => {
         newUser
           .save()
           .then((user) => res.json(user))
-          .catch((err) => console.log(err));
+          .catch((err) => appendLogs('./server/logs/logs.txt', err));
       });
     });
   });
