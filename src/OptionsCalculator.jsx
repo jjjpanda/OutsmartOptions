@@ -62,9 +62,9 @@ class OptionsCalculator extends React.Component {
       numberIntervals: 15,
       percentInterval: 1,
     };
-    verifyUser(({loggedIn, user, email}) => {
-      this.setState(() => ({loggedIn : loggedIn}))
-    })
+    verifyUser(({ loggedIn, user, email }) => {
+      this.setState(() => ({ loggedIn }));
+    });
   }
 
   updateSearchResults = (state) => {
@@ -164,14 +164,14 @@ class OptionsCalculator extends React.Component {
         return -1;
       }),
     }), () => {
-      //console.log(this.state)
+      // console.log(this.state)
     });
   }
 
   addOption = (isCall, strike, price, date, iv, symbol) => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected, {
-        key: date + strike + (isCall ? 'C' : 'P'), isCall, date, strike, price, iv, symbol
+        key: date + strike + (isCall ? 'C' : 'P'), isCall, date, strike, price, iv, symbol,
       }],
     }), this.resortOptionsSelected);
   }
@@ -460,13 +460,12 @@ class OptionsCalculator extends React.Component {
       }
     }
 
-    if(this.state.loggedIn){
-      post.fetchReqAuth('/api/strategy/save', Cookie.get('token'), JSON.stringify({id: Cookie.get('id'), ticker: this.state.symbol, strategy: this.state.optionsSelected}), (data) => {
-        console.log(data)
-      })
-    }
-    else{
-      //Not Logged in, reroute the uesr to login
+    if (this.state.loggedIn) {
+      post.fetchReqAuth('/api/strategy/save', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id'), ticker: this.state.symbol, strategy: this.state.optionsSelected }), (data) => {
+        console.log(data);
+      });
+    } else {
+      // Not Logged in, reroute the uesr to login
     }
   }
 

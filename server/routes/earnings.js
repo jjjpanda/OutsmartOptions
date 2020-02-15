@@ -18,10 +18,10 @@ router.post('/earningsSoon', (req, res) => {
 });
 
 router.post('/earningsDate', (req, res) => {
-  const {ticker} = req.body;
+  const { ticker } = req.body;
   realTimeData.getEarnings(ticker, (data) => {
     res.json(data);
   });
-})
+});
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const http = require('http');
 const env = require('dotenv').config();
 
-const appendLogs = require('../logs/appendLogs.js')
+const appendLogs = require('../logs/appendLogs.js');
 
 module.exports = () => {
   setInterval(() => {

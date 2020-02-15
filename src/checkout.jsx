@@ -10,9 +10,9 @@ class Checkout extends React.Component {
     return (
 
       <div>
-          <h1 className = "text" id = "title">Checkout</h1>
-          <img src="/img/stripeExample.png" alt="stripe" height="250" width="450" /> 
-          
+        <h1 className="text" id="title">Checkout</h1>
+        <img src="/img/stripeExample.png" alt="stripe" height="250" width="450" />
+
       </div>
     );
   }

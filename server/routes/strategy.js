@@ -27,7 +27,7 @@ const strategyFormatCheck = (req, res, next) => {
 router.post('/load', auth, (req, res) => {
   User.findById(req.body.id).then((user) => {
     if (user) {
-      if(req.body.ticker != undefined){
+      if (req.body.ticker != undefined) {
         Strategy.find({ user, stock: req.body.ticker }).then((strategies) => {
           if (strategies) {
             res.json({ strategies });
@@ -35,9 +35,8 @@ router.post('/load', auth, (req, res) => {
             res.json({ strategy: false });
           }
         });
-      }
-      else{
-        Strategy.find({ user}).then((strategies) => {
+      } else {
+        Strategy.find({ user }).then((strategies) => {
           if (strategies) {
             res.json({ strategies });
           } else {

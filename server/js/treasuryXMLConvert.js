@@ -1,7 +1,7 @@
 const request = require('request');
 const convert = require('xml-js');
 
-const appendLogs = require('../logs/appendLogs.js')
+const appendLogs = require('../logs/appendLogs.js');
 
 module.exports = {
 

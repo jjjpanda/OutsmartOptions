@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const processing = require('../js/earningsProcessing.js');
 
-const appendLogs = require('../logs/appendLogs.js')
+const appendLogs = require('../logs/appendLogs.js');
 
 const Earnings = require('./models/Earnings');
 

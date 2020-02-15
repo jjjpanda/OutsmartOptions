@@ -1,6 +1,6 @@
 const request = require('request');
 
-const appendLogs = require('../logs/appendLogs.js')
+const appendLogs = require('../logs/appendLogs.js');
 
 module.exports = {
 
@@ -162,20 +162,20 @@ module.exports = {
       } else {
         body = JSON.parse(body);
         if (body != undefined && body.history != undefined && body.history != null) {
-          let historical = body.history.day;
-          //appendLogs('./server/logs/logs.txt', historical)
-          if(historical.length > 1){
+          const historical = body.history.day;
+          // appendLogs('./server/logs/logs.txt', historical)
+          if (historical.length > 1) {
             /*
             historical.forEach((day, index) => {
               if(index > 1 && timeBetweenDates(stringToDate(day.date), stringToDate(historical[index-1].date)) > 1){
                 for(let i = 0; i < timeBetweenDates(stringToDate(day.date), stringToDate(historical[index-1].date)); i++){
-                  
+
                 }
               }
               else{
 
               }
-            }) 
+            })
             */
           }
           callback(historical);
@@ -227,15 +227,15 @@ module.exports = {
   getEarnings(ticker, callback) {
     request({
       method: 'get',
-      url: `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${ticker}`
+      url: `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${ticker}`,
     },
     (error, response, body) => {
-      body = JSON.parse(body)
-      const earnings = new Date(body['quoteResponse']['result'][0]['earningsTimestamp'] * 1000)
-      //appendLogs('./server/logs/logs.txt', earnings)
-      callback({earningsDate: earnings})
-    })
-  }
+      body = JSON.parse(body);
+      const earnings = new Date(body.quoteResponse.result[0].earningsTimestamp * 1000);
+      // appendLogs('./server/logs/logs.txt', earnings)
+      callback({ earningsDate: earnings });
+    });
+  },
 
 };
 
@@ -247,17 +247,15 @@ const getDateFromDaysAgo = (n) => {
 
 const ms_per_day = 1000 * 60 * 60 * 24;
 
-const dateToString = (d) => {
-  return (`${d.getFullYear()}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`);
-}
+const dateToString = (d) => (`${d.getFullYear()}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`);
 
 const stringToDate = (strDate) => {
   strDate = strDate.split('-');
   return new Date(strDate[0], (strDate[1] - 1), strDate[2]);
-}
+};
 
 const timeBetweenDates = (a, b) => {
   const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
   const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
   return (Math.floor((utc1 - utc2) / ms_per_day));
-}
+};

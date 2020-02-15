@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from 'antd';
 
-import verifyUser from './components/UserVerifier.jsx'
+import verifyUser from './components/UserVerifier.jsx';
 
 import './css/watchlist.less';
 
@@ -51,17 +51,16 @@ class Watchlist extends React.Component {
     this.state = {
       selectedRowKeys: [], // Check here to configure the default column
     };
-    verifyUser(({loggedIn, user, email}) => {
-      this.setState(() => ({loggedIn : loggedIn}))
-    })
+    verifyUser(({ loggedIn, user, email }) => {
+      this.setState(() => ({ loggedIn }));
+    });
   }
 
   checkLogin = () => {
-    
+
   }
 
   render() {
-
     const { selectedRowKeys } = this.state;
     const rowSelection = {
       selectedRowKeys,
@@ -108,7 +107,7 @@ class Watchlist extends React.Component {
       ],
     };
     return (
-      <div className='tableWrapper'>
+      <div className="tableWrapper">
         <div>
           <h1 className="title">Username's Watchlist</h1>
         </div>
