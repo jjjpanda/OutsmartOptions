@@ -1,6 +1,7 @@
 const env = require('dotenv').config();
 const fs = require('fs');
 const app = require('./app');
+const discord = require('./discord.js')
 
 const appendLogs = require('./logs/appendLogs.js');
 
@@ -11,6 +12,8 @@ fs.writeFile('./server/logs/logs.txt', '', (err, date) => {
     console.log('Log text file reset');
   }
 });
+
+discord.start()
 
 const port = process.env.PORT;
 app.listen(port, () => appendLogs('./server/logs/logs.txt', `Mr. Outsmart is watching port ${port}!`));
