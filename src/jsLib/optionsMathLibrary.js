@@ -143,29 +143,39 @@ export function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, d
 
 // IV and Price
 export function calculateIV(t, pO, priceUnderlying, strike, isCall, r, divYield) {
-  const priceOfOption = isCall ? (pO + strike > priceUnderlying || strike > priceUnderlying ? (pO) : ((priceUnderlying + 0.001) - strike)) : (strike - pO < priceUnderlying || strike < priceUnderlying ? (pO) : (strike - (priceUnderlying - 0.001)));
+  const priceOfOption = isCall ? (pO + strike > priceUnderlying || strike > priceUnderlying ? (pO) : ((priceUnderlying + 0.001) - strike)) : 
+                                (strike - pO < priceUnderlying || strike < priceUnderlying ? (pO) : (strike - (priceUnderlying - 0.001)));
+  if(t <= 0){
+    return Infinity
+  }
   let iv = Math.sqrt(Math.PI * 2 / t) * priceOfOption / priceUnderlying;
   if (iv <= 0) {
-    return 0.01; // INVALID IV
+    return 0.01;
   }
-  let priceOfOptionTheoretical; let
-    vega;
-  priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv);
+  let vega;
+  let priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv);
   let stopTrying = 0;
-  while (loss(priceOfOption, priceOfOptionTheoretical) > 0.000003 || loss(priceOfOption, priceOfOptionTheoretical) < -0.000003) {
+  while (loss(priceOfOption, priceOfOptionTheoretical) > 0.00005 || loss(priceOfOption, priceOfOptionTheoretical) < -0.00005) {
+    console.log(iv)
     if (Math.abs(loss(priceOfOption, priceOfOptionTheoretical)) > priceOfOption / 10) {
       if (priceOfOption > priceOfOptionTheoretical) {
-        iv *= (1.5);
+        iv *= (1 + (Math.random()/2+0.01));
       }
       if (priceOfOption < priceOfOptionTheoretical) {
-        iv /= (1.33);
+        iv /= (1 + (Math.random()/2+0.01));
       }
     } else {
       vega = priceUnderlying * Math.exp(-1 * divYield * t) * Math.sqrt(t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv));
-      iv += (loss(priceOfOption, priceOfOptionTheoretical) / vega);
-      if (iv < 0.005) {
-        iv -= (loss(priceOfOption, priceOfOptionTheoretical) / vega);
-        break;
+      if( iv < (-1 * (loss(priceOfOption, priceOfOptionTheoretical) / vega)) ){
+        if (priceOfOption > priceOfOptionTheoretical) {
+          iv *= (1 + (Math.random()/2+0.01));
+        }
+        if (priceOfOption < priceOfOptionTheoretical) {
+          iv /= (1 + (Math.random()/2+0.01));
+        }
+      }
+      else {
+        iv += (loss(priceOfOption, priceOfOptionTheoretical) / vega);
       }
     }
     priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv);
