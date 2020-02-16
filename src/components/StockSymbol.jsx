@@ -122,6 +122,13 @@ class StockSymbol extends React.Component {
               return y;
             })];
           });
+
+          data = data.map((expiry) => {
+            return [expiry[0], expiry[1].filter((strike) => {
+              return (!isNaN(strike.callIV) && !isNaN(strike.putIV) && isFinite(strike.callIV) && isFinite(strike.putIV))
+            })]
+          })
+
           this.setState(() => ({ optionsChain: data }), () => {
             this.props.updateCallback(this.state);
             console.log(this.state);
