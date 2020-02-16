@@ -23,7 +23,6 @@ describe('Options Math Test', () => {
     expect(math.calculateIV(0.25, 5, 100, 100, true, 0, 0)).toBeCloseTo(math.calculateIV(0.25, 5, 100, 100, false, 0, 0));
     expect(math.calculateIV(0.25, 5, 100, 95, true, 0, 0)).toBeCloseTo(math.calculateIV(0.25, 5, 100, 105, false, 0, 0));
     expect(math.calculateIV(0.25, 4, 100, 95, true, 0, 0)).toBeCloseTo(math.calculateIV(0.25, 4, 100, 105, false, 0, 0));
-    // expect(math.calculateIV(0.1, 2.42, 157.38, 157.5, true, 1.51, 1.1)).not.toBe(0.01);
   });
   it('Delta', () => {
     expect(math.delta(0 / 365, 100, 100, true, true, 0, 0, 0.01)).toBe(NaN);

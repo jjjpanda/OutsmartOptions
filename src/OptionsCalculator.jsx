@@ -384,7 +384,7 @@ class OptionsCalculator extends React.Component {
       const base64image = c.toDataURL('image/png');
       const formData = new FormData();
       formData.append('file', structure.dataURItoBlob(base64image), 'img');
-      post.fileReq('/imageReport', formData);
+      post.fileReq('/api/bug/imageReport', formData);
     });
     post.fetchReq('/api/bug/report',
       JSON.stringify({
