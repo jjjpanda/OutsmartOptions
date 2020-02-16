@@ -59,13 +59,14 @@ module.exports = {
         request({
           method: 'POST',
           url,
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             content: JSON.stringify({
               ip: body.ip, lat: body.latitude, long: body.longitude, city: body.city, asn: body.asn, flag: body.emoji_flag,
             }),
           }),
         }, (e, r, b) => {
-          // appendLogs('./server/logs/logs.txt', r.statusCode)
+          //appendLogs('./server/logs/logs.txt', r.statusCode)
           if (!e) {
             callback({ error: false, details: 'IP Data Sent To Url' });
           } else {
