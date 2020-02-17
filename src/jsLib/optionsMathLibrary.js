@@ -146,10 +146,10 @@ export function calculateIV(t, pO, priceUnderlying, strike, isCall, r, divYield)
   pO = parseFloat(pO)
   let priceOfOption = pO //isCall ? ((pO + strike > priceUnderlying || strike > priceUnderlying) ? (pO) : ((priceUnderlying + 0.001) - strike)) : ((strike - pO < priceUnderlying || strike < priceUnderlying) ? (pO) : (strike - (priceUnderlying - 0.001)));
   if(isCall && pO + strike < priceUnderlying && strike < priceUnderlying){
-    priceOfOption = (priceUnderlying + 0.001) - strike; 
+    priceOfOption = (priceUnderlying + 0.00005) - strike; 
   }
   else if(!isCall && strike - pO > priceUnderlying && strike > priceUnderlying){
-    priceOfOption = strike - (priceUnderlying - 0.001);
+    priceOfOption = strike - (priceUnderlying - 0.00005);
   }
   if(t <= 0){
     return Infinity
@@ -161,7 +161,7 @@ export function calculateIV(t, pO, priceUnderlying, strike, isCall, r, divYield)
   let vega;
   let priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv);
   let stopTrying = 0;
-  while (loss(priceOfOption, priceOfOptionTheoretical) > 0.00005 || loss(priceOfOption, priceOfOptionTheoretical) < -0.00005) {
+  while (loss(priceOfOption, priceOfOptionTheoretical) > 0.000005 || loss(priceOfOption, priceOfOptionTheoretical) < -0.000005) {
     if (Math.abs(loss(priceOfOption, priceOfOptionTheoretical)) > priceOfOption / 10) {
       //console.log(iv, 'big')
       if (priceOfOption > priceOfOptionTheoretical) {

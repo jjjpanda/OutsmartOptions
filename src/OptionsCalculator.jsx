@@ -11,6 +11,7 @@ import {
   Icon,
   Menu,
   Popover,
+  Calendar 
 } from 'antd';
 
 import Tour from 'reactour';
@@ -61,6 +62,8 @@ class OptionsCalculator extends React.Component {
       activeOptionExpiry: '',
       numberIntervals: 15,
       percentInterval: 1,
+      erVisible: false,
+      calculateMenuVisible: false
     };
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }));
@@ -846,6 +849,18 @@ renderCalculateMenu = () => (
       )}
       />
     </Menu.Item>
+    <Menu.Item key='3'>
+      <Button onClick = { () => {this.setState(() => ({erVisible : true, calculateMenuVisible: false}))} }>
+        Show Calender
+      </Button>
+      <Modal
+      visible = {this.state.erVisible}
+      onOk = { () => {this.setState(() => ({erVisible : false, calculateMenuVisible: true}))} }
+      onCancel = { () => {this.setState(() => ({erVisible : false, calculateMenuVisible: true}))} }
+      >
+        <Calendar fullscreen={false} />
+      </Modal>
+    </Menu.Item>
   </Menu>
 );
 
@@ -924,11 +939,16 @@ IV Skew
         <div id="calculateButton" step-name="calculate-button">
           <ButtonGroup>
             <Button onClick={this.calculateProfits} type="primary">Calculate</Button>
-            <Popover content={this.renderCalculateMenu()} trigger="click">
-              <Button type="primary" icon="cloud" style={{ paddingBottom: '1px' }} />
-            </Popover>
+            <Button type="primary" icon="cloud" onClick={()=>{this.setState(() => ({calculateMenuVisible: true}))}} style={{ paddingBottom: '1px' }} />
           </ButtonGroup>
         </div>
+        <Modal 
+        visible={this.state.calculateMenuVisible}
+        onOk = {() => {this.setState(() => ({calculateMenuVisible: false}))}}
+        onCancel = {() => {this.setState(() => ({calculateMenuVisible: false}))}}
+        >
+          {this.renderCalculateMenu()}
+        </Modal>
         <div id="saveButton"><Button shape="circle" icon="save" onClick={this.saveStrategy} /></div>
         <div id="savedStrategyButton"><Button shape="circle" icon="download" onClick={this.loadStrategy} /></div>
       </div>

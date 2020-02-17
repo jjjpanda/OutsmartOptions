@@ -48,7 +48,6 @@ fetch('https://api.ipify.org?format=jsoniuhb',
     post.fetchReq('/api/bug/track', JSON.stringify({ ip: data }), (data) => console.log(data));
   });
 
-  console.log('bruh')
 
 class SideMenu extends React.Component {
   state = {
