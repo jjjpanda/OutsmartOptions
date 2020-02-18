@@ -39,7 +39,7 @@ export var capabilities = [{
   build: 'Safari',
   project: 'OutsmartOptions',
   name: 'Safari',
-},
+},/*
 {
   browserName: 'IE',
   browser_version: '11.0',
@@ -51,5 +51,5 @@ export var capabilities = [{
   build: 'Edge',
   project: 'OutsmartOptions',
   name: 'Edge',
-},
+},*/
 ];

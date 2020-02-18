@@ -64,7 +64,7 @@ describe('POST Market Data /api/market/', () => {
       .send({ ticker: 'V200320P00190000' })
       .expect('Content-Type', /json/)
       .then((response) => {
-        console.log(response.body);
+        //console.log(response.body);
         expect(response.body).toBeInstanceOf(Array);
         done();
       });
