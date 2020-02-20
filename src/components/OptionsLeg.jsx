@@ -112,19 +112,19 @@ class OptionsLeg extends React.Component {
             <div className="removeDisable">
               <div id="removeButton"><Button shape="circle" icon="delete" onClick={() => { this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date); }} /></div>
               <div id="disableButton"><Button shape="circle" icon="stop" onClick={this.disableSelf} /></div>
-            </div>
-            <div>
-              <Button onClick={this.handleClick}>
-                BRUH
-              </Button>
-              <Modal
-                title="Bruh"
-                visible={this.state.visible}
-                onOk={this.handleOk}
-                onCancel={this.handleCancel}
-              >
-                <BarLineComboGraph data={this.state.historical} xKey="date" lineKey="close" barKey="volume" />
-              </Modal>
+              <div id="contractGraphButton">
+                <Button onClick={this.handleClick}>
+                  <Icon type="fund" />
+                </Button>
+                <Modal
+                  title="Bruh"
+                  visible={this.state.visible}
+                  onOk={this.handleOk}
+                  onCancel={this.handleCancel}
+                >
+                  <BarLineComboGraph data={this.state.historical} xKey="date" lineKey="close" barKey="volume" />
+                </Modal>
+              </div>
             </div>
           </div>
         </div>

@@ -32,7 +32,7 @@ class NoAxisGraph extends React.Component {
         >
           <XAxis dataKey={this.props.xKey} allowDecimals={false} />
           <YAxis />
-          <Line name={this.props.dataKey} type="monotone" dot={false} dataKey={this.props.dataKey} stroke="#000000" />
+          <Line name={this.props.dataKey} type="monotone" dot={false} dataKey={this.props.dataKey} stroke="#ffffff" />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -58,7 +58,7 @@ class BarLineComboGraph extends React.Component {
           <YAxis yAxisId="right" dataKey={this.props.lineKey} orientation="right" />
           <YAxis yAxisId="left" dataKey={this.props.barKey} orientation="left" />
 
-          <Line yAxisId="right" name={this.props.lineKey} type="monotone" dot={false} dataKey={this.props.lineKey} stroke="#000000" />
+          <Line yAxisId="right" name={this.props.lineKey} type="monotone" dot={false} dataKey={this.props.lineKey} stroke="#ffffff" />
           <Bar yAxisId="left" name={this.props.barKey} dataKey={this.props.barKey} fill="#99ee9955" />
 
         </ComposedChart>
