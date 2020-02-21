@@ -765,6 +765,150 @@ One of the most important tools for outcome visualization is the
     );
   }
 
+  createCarousel13() {
+    return (
+      <div>
+        <Carousel padding="50px" ref="caros" dots="false" />
+        <ButtonGroup>
+          <Button type="primary" onClick={() => this.refs.caros.prev()}>
+            <Icon type="left" />
+          Prev
+          </Button>
+          <Button type="primary" onClick={() => this.refs.caros.next()}>
+          Next
+            <Icon type="right" />
+          </Button>
+        </ButtonGroup>
+      </div>
+    );
+  }
+
+  createCarousel15() {
+    return (
+      <div>
+        <Carousel padding="50px" ref="caros" dots="false" />
+        <ButtonGroup>
+          <Button type="primary" onClick={() => this.refs.caros.prev()}>
+            <Icon type="left" />
+          Prev
+          </Button>
+          <Button type="primary" onClick={() => this.refs.caros.next()}>
+          Next
+            <Icon type="right" />
+          </Button>
+        </ButtonGroup>
+      </div>
+    );
+  }
+
+  createCarousel16() {
+    return (
+      <div>
+        <Carousel padding="50px" ref="caros" dots="false" />
+        <ButtonGroup>
+          <Button type="primary" onClick={() => this.refs.caros.prev()}>
+            <Icon type="left" />
+          Prev
+          </Button>
+          <Button type="primary" onClick={() => this.refs.caros.next()}>
+          Next
+            <Icon type="right" />
+          </Button>
+        </ButtonGroup>
+      </div>
+    );
+  }
+
+  createCarousel17() {
+    return (
+      <div>
+        <Carousel padding="50px" ref="caros" dots="false" />
+        <ButtonGroup>
+          <Button type="primary" onClick={() => this.refs.caros.prev()}>
+            <Icon type="left" />
+          Prev
+          </Button>
+          <Button type="primary" onClick={() => this.refs.caros.next()}>
+          Next
+            <Icon type="right" />
+          </Button>
+        </ButtonGroup>
+      </div>
+    );
+  }
+
+  createCarousel18() {
+    return (
+      <div>
+        <Carousel padding="50px" ref="caros" dots="false" />
+        <ButtonGroup>
+          <Button type="primary" onClick={() => this.refs.caros.prev()}>
+            <Icon type="left" />
+          Prev
+          </Button>
+          <Button type="primary" onClick={() => this.refs.caros.next()}>
+          Next
+            <Icon type="right" />
+          </Button>
+        </ButtonGroup>
+      </div>
+    );
+  }
+
+  createCarousel19() {
+    return (
+      <div>
+        <Carousel padding="50px" ref="caros" dots="false" />
+        <ButtonGroup>
+          <Button type="primary" onClick={() => this.refs.caros.prev()}>
+            <Icon type="left" />
+          Prev
+          </Button>
+          <Button type="primary" onClick={() => this.refs.caros.next()}>
+          Next
+            <Icon type="right" />
+          </Button>
+        </ButtonGroup>
+      </div>
+    );
+  }
+
+  createCarousel20() {
+    return (
+      <div>
+        <Carousel padding="50px" ref="caros" dots="false" />
+        <ButtonGroup>
+          <Button type="primary" onClick={() => this.refs.caros.prev()}>
+            <Icon type="left" />
+          Prev
+          </Button>
+          <Button type="primary" onClick={() => this.refs.caros.next()}>
+          Next
+            <Icon type="right" />
+          </Button>
+        </ButtonGroup>
+      </div>
+    );
+  }
+
+  createCarousel21() {
+    return (
+      <div>
+        <Carousel padding="50px" ref="caros" dots="false" />
+        <ButtonGroup>
+          <Button type="primary" onClick={() => this.refs.caros.prev()}>
+            <Icon type="left" />
+          Prev
+          </Button>
+          <Button type="primary" onClick={() => this.refs.caros.next()}>
+          Next
+            <Icon type="right" />
+          </Button>
+        </ButtonGroup>
+      </div>
+    );
+  }
+
   render() {
     // Fill in the following info for each card variable in this order: title, image, video link, sub text, modal title
     // Fill out the corresponding create# function above to populate that card's info carousel
@@ -781,6 +925,14 @@ One of the most important tools for outcome visualization is the
     const caro11 = this.createCarousel11();
     const caro12 = this.createCarousel12();
     const caro13 = this.createCarousel13();
+    const caro14 = this.createCarousel13();
+    const caro15 = this.createCarousel13();
+    const caro16 = this.createCarousel13();
+    const caro17 = this.createCarousel13();
+    const caro18 = this.createCarousel13();
+    const caro19 = this.createCarousel13();
+    const caro20 = this.createCarousel13();
+    const caro21 = this.createCarousel13();
 
     const card1 = ['Buying Stocks',
       'https://www.thestreet.com/files/tsc/v2008/defaultImages/thestreet-picks-stockpickr.jpg',
@@ -879,57 +1031,56 @@ One of the most important tools for outcome visualization is the
       'https://www.youtube.com/embed/4X3HBFntkds',
       'Greeks Pt 2',
       'Theta',
-      caro13];
+      caro14];
 
     const card15 = ['IV, Vega, and IV Crush',
       'https://www.ally.com/do-it-right/images/2017/04/market-up-down-400x300.jpg',
       'https://www.youtube.com/embed/Q3XAlfAyMGI',
       'Lets get volatile',
       'IV, Vega, and IV Crush',
-      caro13];
+      caro15];
 
     const card16 = ['Rho',
       'https://epsilonoptions.com/wp-content/uploads/rho.jpg',
       'https://www.youtube.com/embed/Isy2i8dRAqU',
       'Stay Greecy',
       'Rho',
-      caro13];
-
+      caro16];
 
     const card17 = ['Multileg Strategies',
       '/img/helpPageImages/multileg.png',
       'https://www.youtube.com/embed/yX43RYerHhU',
       'Advanced Strats',
       'Multileg Strategies',
-      caro13];
+      caro17];
 
     var card18 = ['Straddles and Strangles',
       'https://i2-prod.mirror.co.uk/incoming/article3025296.ece/ALTERNATES/s615/Birds.jpg',
       'https://www.youtube.com/embed/p1zZOZgMhag',
       'Gettin Spicy',
       'Straddles and Strangles',
-      caro13];
+      caro18];
 
-    var card18 = ['Spreads',
+    var card19 = ['Spreads',
       'https://thumbs.gfycat.com/PoorBonyAppaloosa-size_restricted.gif',
       'https://www.youtube.com/embed/sMAOFz0eoBk',
       'No Flockin',
       'Spreads',
-      caro13];
+      caro19];
 
-    const card19 = ['Condors and Flys',
+    const card20 = ['Condors and Flys',
       'https://www.nps.gov/grca/learn/news/images/CA-Condor-flying-Photo_Jim-Shuler-Utah-DWR.jpg',
       'https://www.youtube.com/embed/bqZvoLszVEo',
       'Gotta stay fly-y-y-y, y-y, y-y, y',
       'Condors and Flys',
-      caro13];
+      caro21];
 
-    const card20 = ['Calendar Spreads',
+    const card21 = ['Calendar Spreads',
       'https://s3-us-west-1.amazonaws.com/hopegrown/blog-images/Hopegrown-April-Calendar-420.jpg?mtime=20160420160129',
       'https://www.youtube.com/embed/laxOmN3EJ3g',
       'Save the Date',
       'Calendar Spreads',
-      caro13];
+      caro21];
 
 
     const row1 = [card1, card2, card3];
@@ -938,7 +1089,7 @@ One of the most important tools for outcome visualization is the
     const row4 = [card10, card11, card12];
     const row5 = [card13, card14, card15];
     const row6 = [card16, card17, card18];
-    const row7 = [card19, card20];
+    const row7 = [card19, card20, card21];
 
 
     return (
