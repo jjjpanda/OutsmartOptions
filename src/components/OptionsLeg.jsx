@@ -117,7 +117,7 @@ class OptionsLeg extends React.Component {
                   <Icon type="fund" />
                 </Button>
                 <Modal
-                  title="Bruh"
+                  title={`${this.state.date} ${this.state.strike} ${this.state.isCall ? 'C' : 'P'}`}
                   visible={this.state.visible}
                   onOk={this.handleOk}
                   onCancel={this.handleCancel}
