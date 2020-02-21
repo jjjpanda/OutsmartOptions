@@ -103,36 +103,44 @@ class StockSymbol extends React.Component {
 
       if (this.props.options) {
         post.fetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
-          data = data.filter((x) => {
-            const callVolSum = x[1].map((x) => x.callVol).reduce((a, b) => a + b, 0);
-            const putVolSum = x[1].map((x) => x.putVol).reduce((a, b) => a + b, 0);
-            const callDist = outliers.setDistribution(x[1].map((x) => x.strike), x[1].map((x) => x.callVol));
-            const putDist = outliers.setDistribution(x[1].map((x) => x.strike), x[1].map((x) => x.putVol));
-            const callVolMean = outliers.getMean(callDist);
-            const putVolMean = outliers.getMean(putDist);
-            const callVolStd = outliers.getSD(callDist);
-            const putVolStd = outliers.getSD(putDist);
-            return [x[0], x[1].map((y, index) => {
-              const rfir = treasury.getRightYield(this.props.yieldCurve || [], timeMath.timeBetweenDates(timeMath.stringToDate(x[0]), timeMath.getCurrentDate())) / 100;
-              y.callIV = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, rfir, this.state.divYield);
-              y.putIV = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, rfir, this.state.divYield);
-              y.atmNess = x[1][index + 1] != undefined ? ((x[1][index].strike <= this.state.price && x[1][index + 1].strike > this.state.price) ? 'atmStrike' : '') : '';
-              y.callOutlier = outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd);
-              y.putOutlier = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd);
-              return y;
-            })];
-          });
-
-          data = data.map((expiry) => {
-            return [expiry[0], expiry[1].filter((strike) => {
-              return (!isNaN(strike.callIV) && !isNaN(strike.putIV) && isFinite(strike.callIV) && isFinite(strike.putIV))
-            })]
-          })
-
-          this.setState(() => ({ optionsChain: data }), () => {
-            this.props.updateCallback(this.state);
-            console.log(this.state);
-          });
+          if(data != null){
+            data = data.filter((x) => {
+              const callVolSum = x[1].map((x) => x.callVol).reduce((a, b) => a + b, 0);
+              const putVolSum = x[1].map((x) => x.putVol).reduce((a, b) => a + b, 0);
+              const callDist = outliers.setDistribution(x[1].map((x) => x.strike), x[1].map((x) => x.callVol));
+              const putDist = outliers.setDistribution(x[1].map((x) => x.strike), x[1].map((x) => x.putVol));
+              const callVolMean = outliers.getMean(callDist);
+              const putVolMean = outliers.getMean(putDist);
+              const callVolStd = outliers.getSD(callDist);
+              const putVolStd = outliers.getSD(putDist);
+              return [x[0], x[1].map((y, index) => {
+                const rfir = treasury.getRightYield(this.props.yieldCurve || [], timeMath.timeBetweenDates(timeMath.stringToDate(x[0]), timeMath.getCurrentDate())) / 100;
+                y.callIV = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, rfir, this.state.divYield);
+                y.putIV = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, rfir, this.state.divYield);
+                y.atmNess = x[1][index + 1] != undefined ? ((x[1][index].strike <= this.state.price && x[1][index + 1].strike > this.state.price) ? 'atmStrike' : '') : '';
+                y.callOutlier = outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd);
+                y.putOutlier = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd);
+                return y;
+              })];
+            });
+  
+            data = data.map((expiry) => {
+              return [expiry[0], expiry[1].filter((strike) => {
+                return (!isNaN(strike.callIV) && !isNaN(strike.putIV) && isFinite(strike.callIV) && isFinite(strike.putIV))
+              })]
+            })
+  
+            this.setState(() => ({ optionsChain: data }), () => {
+              this.props.updateCallback(this.state);
+              console.log(this.state);
+            });
+          }
+          else{
+            this.setState(() => ({ optionsChain: [] }), () => {
+              this.props.updateCallback(this.state);
+              console.log(this.state);
+            });
+          }
         });
       }
 
@@ -173,7 +181,7 @@ class StockSymbol extends React.Component {
                   <InputSearch placeholder="Enter..." onSearch={this.onSearch} />
                 </AutoComplete>
               </div>
-              <div id="exists">{this.state.exists ? null : (<Icon step-name="stock-nonexistent" type="close-circle" />)}</div>
+              <div id="exists">{this.state.exists && this.state.optionsChain ? null : (<Icon step-name="stock-nonexistent" type="close-circle" />)}</div>
             </div>
           </div>
           <div style={{ width: '43px', display: 'inline-block' }} />
@@ -199,7 +207,7 @@ class StockSymbol extends React.Component {
             <div style={{ width: '60px', display: 'inline-block' }} />
             <div style={{ width: '410px', display: 'inline-block' }}>
               <Card>
-                {this.state.description != null ? this.state.description : 'Please Enter a Stock Symbol'}
+                {this.state.description != null ? `${this.state.description} ${(this.state.optionsChain[0] != undefined ? '' : 'has no options chain')}` : "Stock Doesn't Exist"}
               </Card>
             </div>
             <div style={{ width: '600px' }} />
