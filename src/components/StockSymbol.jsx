@@ -5,6 +5,7 @@ import {
   Card,
   AutoComplete,
   Button,
+  Spin
 } from 'antd';
 
 import Cookie from 'js-cookie';
@@ -21,6 +22,11 @@ import * as treasury from '../jsLib/treasuryLibrary.js';
 const AutoCompleteOption = AutoComplete.Option;
 const InputSearch = Input.Search;
 
+import '../css/logo.css';
+
+import logo from '../img/logo.png';
+const spin = <Icon component={() => (<img key="mainLogo" id="logo" className="spin" src={logo} />)} />
+
 class StockSymbol extends React.Component {
   constructor(props) {
     super(props);
@@ -35,6 +41,7 @@ class StockSymbol extends React.Component {
       historical: [],
       guess: [],
       inWatchlist: false,
+      loading: false
     };
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }));
@@ -67,6 +74,7 @@ class StockSymbol extends React.Component {
     ))
 
     onSearch = (val) => {
+      this.setState(() => ({loading: true}))
       const e = val.toUpperCase().trim();
       this.setState(() => ({
         exists: true, symbol: e, guess: [], inWatchlist: false,
@@ -130,13 +138,13 @@ class StockSymbol extends React.Component {
               })]
             })
   
-            this.setState(() => ({ optionsChain: data }), () => {
+            this.setState(() => ({ optionsChain: data, loading: false }), () => {
               this.props.updateCallback(this.state);
               console.log(this.state);
             });
           }
           else{
-            this.setState(() => ({ optionsChain: [] }), () => {
+            this.setState(() => ({ optionsChain: [], loading: false }), () => {
               this.props.updateCallback(this.state);
               console.log(this.state);
             });
@@ -146,7 +154,7 @@ class StockSymbol extends React.Component {
 
       if (this.props.historical) {
         post.fetchReq('/api/market/historical', JSON.stringify({ ticker: e }), (data) => {
-          this.setState(() => ({ historical: data }), () => {
+          this.setState(() => ({ historical: data, loading: false }), () => {
             console.log(this.state);
             this.props.updateCallback(this.state);
           });
@@ -208,6 +216,7 @@ class StockSymbol extends React.Component {
             <div style={{ width: '410px', display: 'inline-block' }}>
               <Card>
                 {this.state.description != null ? `${this.state.description} ${(this.state.optionsChain[0] != undefined ? '' : 'has no options chain')}` : "Stock Doesn't Exist"}
+                {this.state.loading ? <Spin indicator={spin} /> : null}
               </Card>
             </div>
             <div style={{ width: '600px' }} />

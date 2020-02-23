@@ -63,7 +63,8 @@ class OptionsCalculator extends React.Component {
       numberIntervals: 15,
       percentInterval: 1,
       erVisible: false,
-      calculateMenuVisible: false
+      calculateMenuVisible: false,
+      reportLoading: false
     };
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }));
@@ -382,27 +383,30 @@ class OptionsCalculator extends React.Component {
   closeOptionsChainModal = () => this.setAddLegModalVisible(false)
 
   sendCalcError = () => {
-    const input = document.getElementsByTagName('html')[0];
-    html2canvas(input).then((c) => {
-      const base64image = c.toDataURL('image/png');
-      const formData = new FormData();
-      formData.append('file', structure.dataURItoBlob(base64image), 'img');
-      post.fileReq('/api/bug/imageReport', formData);
-    });
-    post.fetchReq('/api/bug/report',
-      JSON.stringify({
-        options: this.state.optionsSelected
-          .map((option) => Object.keys(option).filter((key) => key != 'profit')
-            .reduce((obj, key) => {
-              obj[key] = option[key];
-              return obj;
-            },
-            {})),
-      }),
-      (data) => {
-        console.log('Report Sent');
-        console.log(data);
+    this.setState(() => ({reportLoading: true}), () => {
+      const input = document.getElementsByTagName('html')[0];
+      html2canvas(input).then((c) => {
+        const base64image = c.toDataURL('image/png');
+        const formData = new FormData();
+        formData.append('file', structure.dataURItoBlob(base64image), 'img');
+        post.fileReq('/api/bug/imageReport', formData);
       });
+      post.fetchReq('/api/bug/report',
+        JSON.stringify({
+          options: this.state.optionsSelected
+            .map((option) => Object.keys(option).filter((key) => key != 'profit')
+              .reduce((obj, key) => {
+                obj[key] = option[key];
+                return obj;
+              },
+              {})),
+        }),
+        (data) => {
+          console.log('Report Sent');
+          this.setState(() => ({reportLoading: false}))
+          console.log(data);
+      });
+    })
   }
 
   columns = (expiry) => [
@@ -971,7 +975,7 @@ IV Skew
               <div className="profitTableWrapper" step-name="profit-table">
                 <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
               </div>
-              <Button onClick={this.sendCalcError}>Report Calculation Error</Button>
+              <Button onClick={this.sendCalcError} loading = {this.state.reportLoading}>Report Calculation Error</Button>
             </div>
           )
           : null
