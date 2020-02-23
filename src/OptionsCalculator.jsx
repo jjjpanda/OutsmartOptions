@@ -80,6 +80,7 @@ class OptionsCalculator extends React.Component {
       optionsChain: state.optionsChain,
       divYield: state.divYield,
       optionsSelected: [],
+      earningsDate: state.earningsDate
     }));
   }
 

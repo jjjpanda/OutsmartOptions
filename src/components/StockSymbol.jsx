@@ -101,6 +101,13 @@ class StockSymbol extends React.Component {
           } else {
             // Not Logged in, don't care
           }
+
+          post.fetchReq('/api/market/earningsDate', JSON.stringify({ticker: e}), (data) => {
+            this.setState(() => ({ earningsDate: data.earningsDate }), () => {
+              this.props.updateCallback(this.state);
+            });
+          })
+
           post.fetchReq('/api/market/divYield', JSON.stringify({ ticker: e }), (data) => {
             this.setState(() => ({ divYield: data.dividendAnnum / this.state.price }), () => {
               this.props.updateCallback(this.state);
