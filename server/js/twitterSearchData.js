@@ -4,7 +4,10 @@ module.exports = {
   getTweets(apikey, q, callback) {
     request({
       method: 'get',
-      url: `https://api.twitter.com/1.1/search/tweets.json?q=${q}`,
+      url: `https://api.twitter.com/1.1/search/tweets.json`,
+      qs: {
+        q: q
+      },
       headers: {
         Authorization: `Bearer ${apikey}`,
         Accept: 'application/json',
