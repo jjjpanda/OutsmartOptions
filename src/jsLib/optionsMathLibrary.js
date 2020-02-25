@@ -145,11 +145,15 @@ export function calculateGreeks(t, priceUnderlying, strike, isCall, isLong, r, d
 export function calculateIV(t, pO, priceUnderlying, strike, isCall, r, divYield) {
   pO = parseFloat(pO)
   let priceOfOption = pO //isCall ? ((pO + strike > priceUnderlying || strike > priceUnderlying) ? (pO) : ((priceUnderlying + 0.001) - strike)) : ((strike - pO < priceUnderlying || strike < priceUnderlying) ? (pO) : (strike - (priceUnderlying - 0.001)));
-  if(isCall && pO + strike < priceUnderlying && strike < priceUnderlying){
-    priceOfOption = (priceUnderlying + 0.00005) - strike; 
+  if(isCall && priceUnderlying - strike > pO && strike < priceUnderlying){
+    priceOfOption = (priceUnderlying - strike) + 0.001; 
+    r = 0
+    divYield = 0
   }
-  else if(!isCall && strike - pO > priceUnderlying && strike > priceUnderlying){
-    priceOfOption = strike - (priceUnderlying - 0.00005);
+  else if(!isCall && strike - priceUnderlying > pO && strike > priceUnderlying){
+    priceOfOption = (strike - priceUnderlying) + 0.001;
+    r = 0
+    divYield = 0
   }
   if(t <= 0){
     return Infinity
@@ -161,7 +165,7 @@ export function calculateIV(t, pO, priceUnderlying, strike, isCall, r, divYield)
   let vega;
   let priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv);
   let stopTrying = 0;
-  while (loss(priceOfOption, priceOfOptionTheoretical) > 0.000005 || loss(priceOfOption, priceOfOptionTheoretical) < -0.000005) {
+  while (loss(priceOfOption, priceOfOptionTheoretical) > 0.01 || loss(priceOfOption, priceOfOptionTheoretical) < -0.01) {
     if (Math.abs(loss(priceOfOption, priceOfOptionTheoretical)) > priceOfOption / 10) {
       //console.log(iv, 'big')
       if (priceOfOption > priceOfOptionTheoretical) {
@@ -172,24 +176,24 @@ export function calculateIV(t, pO, priceUnderlying, strike, isCall, r, divYield)
       }
     } else {
       vega = priceUnderlying * Math.exp(-1 * divYield * t) * Math.sqrt(t) * ndf(d1(priceUnderlying, strike, t, divYield, r, iv));
-      if( iv < (-1 * (loss(priceOfOption, priceOfOptionTheoretical) / vega)) ){
+      /*if( iv < (-1 * (loss(priceOfOption, priceOfOptionTheoretical) / vega)) ){
         //console.log(iv, 'loss/vega too large')
         if (priceOfOption > priceOfOptionTheoretical) {
-          iv *= (1 + (Math.random()/2+0.01));
+          iv *= (1 + (Math.random()/10+0.01));
         }
         if (priceOfOption < priceOfOptionTheoretical) {
-          iv /= (1 + (Math.random()/2+0.01));
+          iv /= (1 + (Math.random()/10+0.01));
         }
       }
       else {
-        //console.log(iv, 'small')
+        //console.log(iv, 'small')*/
         iv += (loss(priceOfOption, priceOfOptionTheoretical) / vega);
-      }
+      //}
     }
     priceOfOptionTheoretical = calculateOptionsPrice(t, priceUnderlying, strike, isCall, true, r, divYield, iv);
     stopTrying++;
-    if (stopTrying > 100) {
-      // console.log('Iteration Limit Reached')
+    if (stopTrying > 75) {
+      //console.log('Iteration Limit Reached')
       break;
     }
   }
