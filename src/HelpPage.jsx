@@ -50,8 +50,7 @@ class Help2 extends React.Component {
                     }
           actions={[
             <Icon type="youtube" onClick={() => this.renderVid(index[2], index[0])} />,
-            <Icon type="info-circle" onClick={() => this.renderCarousel(index[0], index[5])} />,
-            // <Icon type = "book"/>,
+            <Icon type="info-circle" onClick={() => this.renderCarousel(index[0], index[5])} />
           ]}
         >
           {index[3]}
@@ -103,7 +102,6 @@ of that company.
     );
   }
 
-
   createCarousel2() {
     // Options Contracts
     return (
@@ -111,16 +109,8 @@ of that company.
         <Carousel padding="50px" ref="caros" dots="false">
           <div>
             <p>An option contract facilitates the transaction of a security at a predetermined price, before a predetermined date.</p>
-            <p>
-The predetermined price is known as the
-              <b>strike price</b>
-.
-            </p>
-            <p>
-The predetermined date is known as the
-              <b>expiration date</b>
-.
-            </p>
+            <p>The predetermined price is known as the <b>strike price</b>.</p>
+            <p>The predetermined date is known as the <b>expiration date</b>.</p>
             <p>The buyer must pay a premium to the writer of the contract, which is charged per share of the contract.</p>
             <p>The standard options contract covers 100 shares of the underlying security.</p>
           </div>
@@ -748,9 +738,40 @@ One of the most important tools for outcome visualization is the
   }
 
   createCarousel13() {
+    // Delta Gamma Leverage
     return (
       <div>
-        <Carousel padding="50px" ref="caros" dots="false" />
+        <Carousel padding="50px" ref="caros" dots="false">
+          <div>
+            <p>The next step in analyzing optios contracts is learning about the Greeks.</p>
+            <p>The Greeks are broken up into delta, gamma, vega, theta, and Rho. Each measures a different factor that affects the price of an option.</p>
+            <p>In this lesson, we will start with delta and gamma, and how they affect the leverage of your options contracts.</p>
+          </div>
+          <div>
+            <p>Delta represents the ratio between the change in the price of an asset, in our case stocks, to the change in price of its derivative (option contract). </p>
+            <p>A call option has a delta in the range of 0-1, because the price of a call option will increase when the price of its underlying stock increases.</p>
+            <p>A put option has a delta in the range of -1-0, because the price of a put option will increase when the price of its underlying stock decreases.</p>
+            <p>For example, if the delta of a call option on stock ABC is 0.5 and ABC goes up $1, the contract price will go up $0.5.</p>
+          </div>
+          <div>
+            <p>In the money options will approach 1 for calls and -1 for puts as the contract gets closer to expiration</p>
+            <p>Out of the money options will approach 0 as the contract gets closer to expiration.</p>
+            <p>This behaviour is indicative of the value of contracts: an ITM contract will get more expensive as it gets closer to expiration, and a OTM contract will lose value.</p>
+          </div>
+          <div>
+            <p>Now remember that options contracts produce leverage; a contract gives the options trader control over 100 shares of a stock for a fraction of the stock's price.</p>
+            <p>This means that the options trader has access to the gain of the underlying stock without paying full price to own the stock. This is leverage.</p>
+            <p>Delta can be used to calculate leverage with the following equation:  LEVERAGE = DELTA EQUIVALENT STOCK PRICE - OPTION PRICE) / OPTION PRICE.</p>
+            <p>Stock ABC is trading at $100. A call at strike price costs $5 and has a delta of 0.5. LEVERAGE = (.5 * 100 - 5)/5 = 9</p>
+            <p>Idk how t tie this together properly, something about making mad money</p>
+          </div>
+          <div>
+            But beware...mo OTM mo leverage... and mo problems.
+          </div>
+          <div>
+            GAMMA
+          </div>
+        </Carousel>
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
@@ -765,10 +786,11 @@ One of the most important tools for outcome visualization is the
     );
   }
 
-  createCarousel13() {
+  createCarousel14() {
     return (
       <div>
-        <Carousel padding="50px" ref="caros" dots="false" />
+        <Carousel padding="50px" ref="caros" dots="false" >
+        </Carousel>
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
@@ -786,7 +808,7 @@ One of the most important tools for outcome visualization is the
   createCarousel15() {
     return (
       <div>
-        <Carousel padding="50px" ref="caros" dots="false" />
+        <Carousel padding="50px" ref="caros" dots="false"/>
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
@@ -925,14 +947,14 @@ One of the most important tools for outcome visualization is the
     const caro11 = this.createCarousel11();
     const caro12 = this.createCarousel12();
     const caro13 = this.createCarousel13();
-    const caro14 = this.createCarousel13();
-    const caro15 = this.createCarousel13();
-    const caro16 = this.createCarousel13();
-    const caro17 = this.createCarousel13();
-    const caro18 = this.createCarousel13();
-    const caro19 = this.createCarousel13();
-    const caro20 = this.createCarousel13();
-    const caro21 = this.createCarousel13();
+    const caro14 = this.createCarousel14();
+    const caro15 = this.createCarousel15();
+    const caro16 = this.createCarousel16();
+    const caro17 = this.createCarousel17();
+    const caro18 = this.createCarousel18();
+    const caro19 = this.createCarousel19();
+    const caro20 = this.createCarousel20();
+    const caro21 = this.createCarousel21();
 
     const card1 = ['Buying Stocks',
       'https://www.thestreet.com/files/tsc/v2008/defaultImages/thestreet-picks-stockpickr.jpg',
@@ -1073,7 +1095,7 @@ One of the most important tools for outcome visualization is the
       'https://www.youtube.com/embed/bqZvoLszVEo',
       'Gotta stay fly-y-y-y, y-y, y-y, y',
       'Condors and Flys',
-      caro21];
+      caro20];
 
     const card21 = ['Calendar Spreads',
       'https://s3-us-west-1.amazonaws.com/hopegrown/blog-images/Hopegrown-April-Calendar-420.jpg?mtime=20160420160129',
