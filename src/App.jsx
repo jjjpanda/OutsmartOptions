@@ -20,6 +20,7 @@ import logo from './img/logo.png';
 // CSS
 import './css/logo.css';
 import './css/calculator.less';
+import {darkTheme, lightTheme} from './css/themes.js'
 
 import HomePage from './HomePage.jsx';
 import OptionsCalculator from './OptionsCalculator.jsx';
@@ -82,7 +83,8 @@ class SideMenu extends React.Component {
     });
     console.log('Toggled darkmode: ', +this.state.toggleDarkMode);
 
-    window.less.modifyVars({
+    window.less.modifyVars(
+      this.state.toggleDarkMode ? darkTheme : lightTheme
       /*
       '@primary-color': '#1890ff',
       '@info-color': '#1890ff',
@@ -120,42 +122,7 @@ class SideMenu extends React.Component {
       '@card-actions-background': '#364889',
       '@card-background': '#cfd8dc',
     */
-      '@primary-color': '#0A53B0',
-      '@info-color': '#313133',
-      '@warning-color': '#613400',
-      '@highlight-color': '#a8071a',
-      '@body-background': '#775547',
-      '@component-background': '#171F22',
-      '@heading-color': '#E3E3E3',
-      '@text-color': '#213144',
-      '@text-color-secondary': '#fffffa',
-      '@border-color-base': '#456543',
-      '@border-color-split': '#363636',
-      '@layout-body-background': '#171717',
-      '@layout-header-background': '#171F22',
-      '@layout-sider-background': '#312415',
-      '@layout-trigger-background': '#313232',
-      '@layout-trigger-color': '#214526',
-      '@disabled-color': '#456543',
-      '@background-color-light': '#1890ff',
-      '@background-color-base': '#262626',
-      '@item-active-bg': '#1890ff',
-      '@item-hover-bg': '#214423',
-      '@btn-default-bg': '#142562',
-      '@input-bg': '#ffffff',
-      '@popover-bg': '#262629',
-      '@menu-dark-submenu-bg': '#257323',
-      '@table-header-bg': '#744314',
-      '@table-row-hover-bg': '#326362',
-      '@table-selected-row-bg': '#236634',
-      '@table-expanded-row-bg': '#426154',
-      '@tag-default-bg': '#262628',
-      '@collapse-header-bg': '#262629',
-      '@card-head-color': '#655333',
-      '@card-head-background': '#907fff',
-      '@card-actions-background': '#653655',
-      '@card-background': '#bb4411',
-    }).then ((e) => console.log(e), (e) => console.log('error', e));
+    ).then ((e) => console.log(e), (e) => console.log('error', e));
   }
 
   render() {

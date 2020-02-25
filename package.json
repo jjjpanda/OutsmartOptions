@@ -13,7 +13,7 @@
     "testAll": "jest --setupFiles dotenv/config --runInBand",
     "lint": "eslint --ext .jsx --ext .js \"src/\" \"server/\" \"test/\" -o eslint/lintOutput.html -f html",
     "lintRemover": "eslint --ext .jsx --ext .js \"src/\" \"server/\" \"test/\" -o eslint/lintOutput.html -f html --fix",
-    "createDistContinuous": "npx webpack --watch",
+    "createDistContinuous": "npx webpack --progress",
     "nodemonStart": "npx nodemon ./server/server.js"
   },
   "repository": {
