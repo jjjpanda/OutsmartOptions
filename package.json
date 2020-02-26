@@ -43,6 +43,7 @@
     "is-empty": "^1.2.0",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
     "mongoose": "^5.7.14",
     "node-cron": "^2.0.3",
     "passport": "^0.4.0",

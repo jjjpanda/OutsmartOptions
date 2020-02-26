@@ -14,10 +14,11 @@ import HelpTooltip from './HelpTooltip.jsx';
 import verifyUser from './UserVerifier.jsx';
 
 import * as optionsMath from '../jsLib/optionsMathLibrary.js';
-import * as timeMath from '../jsLib/timeLibrary.js';
 import * as post from '../jsLib/fetchLibrary.js';
 import * as outliers from '../jsLib/outliersLibrary.js';
 import * as treasury from '../jsLib/treasuryLibrary.js';
+
+import * as moment from 'moment';
 
 const AutoCompleteOption = AutoComplete.Option;
 const InputSearch = Input.Search;
@@ -129,9 +130,9 @@ class StockSymbol extends React.Component {
               const callVolStd = outliers.getSD(callDist);
               const putVolStd = outliers.getSD(putDist);
               return [x[0], x[1].map((y, index) => {
-                const rfir = treasury.getRightYield(this.props.yieldCurve || [], timeMath.timeBetweenDates(timeMath.stringToDate(x[0]), timeMath.getCurrentDate())) / 100;
-                y.callIV = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.call, this.state.price, y.strike, true, rfir, this.state.divYield);
-                y.putIV = optionsMath.calculateIV(timeMath.timeTillExpiry(timeMath.stringToDate(x[0])), y.put, this.state.price, y.strike, false, rfir, this.state.divYield);
+                const rfir = treasury.getRightYield(this.props.yieldCurve || [], moment(x[0]).diff(moment(), 'days')) / 100;
+                y.callIV = optionsMath.calculateIV(moment(x[0]).diff(moment(), 'days') / 365.0, y.call, this.state.price, y.strike, true, rfir, this.state.divYield);
+                y.putIV = optionsMath.calculateIV(moment(x[0]).diff(moment(), 'days') / 365.0, y.put, this.state.price, y.strike, false, rfir, this.state.divYield);
                 y.atmNess = x[1][index + 1] != undefined ? ((x[1][index].strike <= this.state.price && x[1][index + 1].strike > this.state.price) ? 'atmStrike' : '') : '';
                 y.callOutlier = outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd);
                 y.putOutlier = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd);
