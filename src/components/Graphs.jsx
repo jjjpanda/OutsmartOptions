@@ -14,7 +14,7 @@ import {
   Bar,
 } from 'recharts';
 
-import * as timeMath from '../jsLib/timeLibrary.js';
+import * as moment from 'moment';
 
 class NoAxisGraph extends React.Component {
   constructor(props) {
@@ -128,7 +128,7 @@ class ProfitGraph extends React.Component {
         return opacities;
       }
       for (var date of dates) {
-        opacities[date] = timeMath.timeBetweenDates(timeMath.stringToDate(date), timeMath.getCurrentDate());
+        opacities[date] = moment(date).diff(moment(), 'days');
       }
       // console.log(opacities)
       const minOpacity = Math.min(...Object.values(opacities));
