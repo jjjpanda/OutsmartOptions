@@ -20,6 +20,7 @@ import logo from './img/logo.png';
 // CSS
 import './css/logo.css';
 import './css/calculator.less';
+import {darkTheme, lightTheme} from './css/themes.js'
 
 import HomePage from './HomePage.jsx';
 import OptionsCalculator from './OptionsCalculator.jsx';
@@ -82,7 +83,8 @@ class SideMenu extends React.Component {
     });
     console.log('Toggled darkmode: ', +this.state.toggleDarkMode);
 
-    window.less.modifyVars({
+    window.less.modifyVars(
+      this.state.toggleDarkMode ? darkTheme : lightTheme
       /*
       '@primary-color': '#1890ff',
       '@info-color': '#1890ff',
