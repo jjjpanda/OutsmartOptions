@@ -515,17 +515,13 @@ to traverse through the graphical lesson.
         <Carousel padding="50px" ref="caros" dots="false">
           <div>
             <p>Options contracts have intrinsic and extrinsic value.</p>
-            <p>
-The
-              <b>intrinsic</b>
+            <p>The <b>intrinsic</b>
               {' '}
 value of a contract is the difference between the strike price and the current market price.
             Basically, the money you would take away from the contract should you excercise now.
               {' '}
             </p>
-            <p>
-The
-              <b>extrinsic</b>
+            <p>The <b>extrinsic</b>
               {' '}
 value of a contract is governed by the time value and implied volatility of the option.
             This can be explained as the potential for the stock to get in the money before expiration.
@@ -745,13 +741,16 @@ One of the most important tools for outcome visualization is the
           <div>
             <p>The next step in analyzing optios contracts is learning about the Greeks.</p>
             <p>The Greeks are broken up into delta, gamma, vega, theta, and Rho. Each measures a different factor that affects the price of an option.</p>
-            <p>In this lesson, we will start with delta and gamma, and how they affect the leverage of your options contracts.</p>
+            <p>In this lesson, we will start with <b>delta</b> and <b>gamma</b>, and how they affect the leverage of your options contracts.</p>
           </div>
           <div>
             <p>Delta represents the ratio between the change in the price of an asset, in our case stocks, to the change in price of its derivative (option contract). </p>
             <p>A call option has a delta in the range of 0-1, because the price of a call option will increase when the price of its underlying stock increases.</p>
             <p>A put option has a delta in the range of -1-0, because the price of a put option will increase when the price of its underlying stock decreases.</p>
-            <p>For example, if the delta of a call option on stock ABC is 0.5 and ABC goes up $1, the contract price will go up $0.5.</p>
+          </div>
+          <div>
+            <p>For example, if the delta of a call option on stock ABC is 0.5 and ABC goes up $1, the contract price will go up $0.50. If ABC goes down $1, the price will go down $0.50.</p>
+            <img src="/img/helpPageImages/delta.gif" alt="pie" height="250" width="450" />
           </div>
           <div>
             <p>In the money options will approach 1 for calls and -1 for puts as the contract gets closer to expiration</p>
@@ -759,17 +758,20 @@ One of the most important tools for outcome visualization is the
             <p>This behaviour is indicative of the value of contracts: an ITM contract will get more expensive as it gets closer to expiration, and a OTM contract will lose value.</p>
           </div>
           <div>
+            <p>Gamma is the first derivative of delta, meaning it is the ration between change of an option's delta and the change of the underlying security. </p>
+            <p>This ratio is important because delta is constantly changing, so reading delta on its own does not paint the full picture. Traders can use gamma to get insight on how delta will change, and therefore how the option's price will change.</p>
+          </div>
+          <div>
             <p>Now remember that options contracts produce leverage; a contract gives the options trader control over 100 shares of a stock for a fraction of the stock's price.</p>
             <p>This means that the options trader has access to the gain of the underlying stock without paying full price to own the stock. This is leverage.</p>
             <p>Delta can be used to calculate leverage with the following equation:  LEVERAGE = DELTA EQUIVALENT STOCK PRICE - OPTION PRICE) / OPTION PRICE.</p>
             <p>Stock ABC is trading at $100. A call at strike price costs $5 and has a delta of 0.5. LEVERAGE = (.5 * 100 - 5)/5 = 9</p>
-            <p>Idk how t tie this together properly, something about making mad money</p>
+            <p>Whoa! So you can make 9 times the amount of profit on ABC with this contract, with the same amount of money, compared to just owning the stock.</p>
           </div>
           <div>
-            But beware...mo OTM mo leverage... and mo problems.
-          </div>
-          <div>
-            GAMMA
+            <p>So you may be thinking Mo OTM =  Mo Leverage = Mo Money, but Mo OTM = Mo risk = Mo problems. </p>
+            <p>Just becuase your deeply OTM contract has a crazy leverage multiplier will mean you will make money. That contract must get ITM before expiration, and its typically not safe to bet on big swings to save yoru position at the last second.</p>
+            <p>Investing ITM is less risky, so you can make small, but consitent gains over time, instead of betting big and losing big premiums.</p>
           </div>
         </Carousel>
         <ButtonGroup>
@@ -787,9 +789,30 @@ One of the most important tools for outcome visualization is the
   }
 
   createCarousel14() {
+    //Theta 
     return (
       <div>
         <Carousel padding="50px" ref="caros" dots="false" >
+          <div>
+            <p>The next Greek you need for your analyses is <b>theta</b>.</p>
+            <p>Theta, also known as time decay, is a measure of the rate at which an option contract loses value.</p>
+            <p>Everything else being equal, options lose value as they approach expiry. Specifically, they lose extrinsic value.</p>
+            <p>For example, a contract with a theta of -0.5 will theoretically lose 50 cents in value until it expires.</p>
+          </div>
+          <div>
+            <p>Once purchased, options begin to lose extrinsic value.</p>
+            <img src="/img/helpPageImages/theta.jpeg" alt="pie" height="250" width="450" />
+          </div>
+          <div>
+            <p>In terms of risk management, an options buyer would want to buy contracts with low theta.</p>
+            <p>Suppose a buyer is deciding between two contracts that only differ in theta. They would want the contract that holds value better.</p>
+            <p>Think of it this way: as an option gets closer to expiration, there is less probability that the underlying security moves in a way for the contract to be profitable.</p>
+          </div>
+          <div>
+            <p>Options writers, on the other hand, like options with high theta.</p>
+            <p>The less likely the option is to be profitable for the buyer, the more likely the writer can get away with the premium and not have to worry about the buyer excercising.</p>
+            <p>Another way to think of it: theta represents the rate at which value transfers from the buyer to the writer over time.</p>
+          </div>
         </Carousel>
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
@@ -806,9 +829,23 @@ One of the most important tools for outcome visualization is the
   }
 
   createCarousel15() {
+    //IV VEGA IV CRUSH
     return (
       <div>
-        <Carousel padding="50px" ref="caros" dots="false"/>
+        <Carousel padding="50px" ref="caros" dots="false">
+          <div>
+            <p>The next Greek is <b>vega</b>. It's a measurement of an option's price relative to change in the underlying stock's implied volatility.</p>
+            <p>Before we get ahead of ourselves, let us discuss implied volatilty, or IV.</p>
+          </div>
+          <div>
+            <p>IV is a measure of predicted movement of a security's price. A security with high IV is expected to fluctuate or have a price swing. A security with low IV is expected to remain steady.</p>
+            <p>IV does not predict which way the price will move, only that the price is expected to move.</p>
+          </div>
+          <div>
+            <p>Take stock ABC, which is sitting at $50 with a IV of 20%. This means that ABC is expected to fluctuate within 20% of the price, at one standard deviation. Therefore one can expect ABC to fluctuate between $40 and $60.</p>
+            <img src="https://www.optionsplaybook.com/media/images/graphics/normal_distribution.gif" alt="pie" height="250" width="450" />
+          </div>
+        </Carousel>
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
