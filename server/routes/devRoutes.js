@@ -25,12 +25,11 @@ if (process.env.NODE_ENV === 'development') {
   router.use('/jest', express.static('./test/report', {
     index: 'index.html',
   }));
+
+  router.use("/*", (req, res) => res.status(404).send("Not a path you moron."));
+
 } else {
-  router.use('/coverage', (req, res) => res.status(404).send("You're a dev?"));
-
-  router.use('/lint', (req, res) => res.status(404).send("You're a dev?"));
-
-  router.use('/jest', (req, res) => res.status(404).send("You're a dev?"));
+  router.use("/*", (req, res) => res.status(404).send("You're a dev?"));
 }
 
 module.exports = router;

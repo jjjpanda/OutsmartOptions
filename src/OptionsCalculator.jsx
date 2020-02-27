@@ -25,11 +25,12 @@ import verifyUser from './components/UserVerifier.jsx';
 
 // JS Libraries
 import * as optionsMath from './jsLib/optionsMathLibrary.js';
-import * as timeMath from './jsLib/timeLibrary.js';
 import * as percentageColor from './jsLib/colorLibrary.js';
 import * as structure from './jsLib/structuresEditingLibrary.js';
 import * as post from './jsLib/fetchLibrary.js';
 import * as treasury from './jsLib/treasuryLibrary.js';
+
+import * as moment from 'moment';
 
 const ButtonGroup = Button.Group;
 const CollapsePanel = Collapse.Panel;
@@ -149,7 +150,7 @@ class OptionsCalculator extends React.Component {
   resortOptionsSelected = () => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected].sort((a, b) => {
-        const t = timeMath.timeBetweenDates(timeMath.stringToDate(a.date), timeMath.stringToDate(b.date));
+        const t = moment(a.date).diff(moment(b.date), 'days')
         if (t > 0) {
           return 1;
         }
@@ -284,22 +285,22 @@ class OptionsCalculator extends React.Component {
     }
     const rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, this.state.percentInterval, this.state.numberIntervals, 0);
     for (const option of selectedOptions) {
-      const rfir = treasury.getRightYield(yields || [], timeMath.timeBetweenDates(timeMath.stringToDate(option.date), timeMath.getCurrentDate())) / 100;
-      option.greeks = optionsMath.calculateGreeks(timeMath.timeTillExpiry(timeMath.stringToDate(option.date)), this.state.price, option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
+      const rfir = treasury.getRightYield(yields || [], moment(option.date).diff(moment(), 'days')) / 100;
+      option.greeks = optionsMath.calculateGreeks(moment(option.date).diff(moment(), 'days') / 365.0, this.state.price, option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
       option.profit = [];
-      let d = timeMath.getCurrentDate();
-      while (timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d) > 0) {
-        option.profit.push([timeMath.dateToString(d), rangeOfPrices.map((arr) => arr.slice())]);
+      let d = moment();
+      while (moment(option.date).diff(d, 'days') > 0) {
+        option.profit.push([d.format("YYYY-MM-DD"), rangeOfPrices.map((arr) => arr.slice())]);
         for (var price of option.profit[option.profit.length - 1][1]) {
-          price[1] = optionsMath.calculateOptionsPrice(timeMath.percentageOfYear(timeMath.timeBetweenDates(timeMath.stringToDate(option.date), d)), price[0], option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
+          price[1] = optionsMath.calculateOptionsPrice(moment(option.date).diff(d, 'days') / 365.0, price[0], option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
           price[1] -= option.limitPrice * (option.isLong ? 1 : -1);
           price[1] *= option.hide ? 0 : option.quantity;
         }
-        d = timeMath.incrementOneDay(d);
+        d = d.add(1, 'days');
       }
 
       // PROFIT AT EXPIRY
-      option.profit.push([timeMath.dateToString(d), rangeOfPrices.map((arr) => arr.slice())]);
+      option.profit.push([d.format("YYYY-MM-DD"), rangeOfPrices.map((arr) => arr.slice())]);
       for (price of option.profit[option.profit.length - 1][1]) {
         price[1] = optionsMath.calculateProfitAtExpiry(option.limitPrice, price[0], option.strike, option.isCall, option.isLong);
         price[1] *= option.hide ? 0 : option.quantity;
@@ -338,7 +339,7 @@ class OptionsCalculator extends React.Component {
     console.log(selectedOptions.filter((o) => !o.hide));
     const optionsProfits = selectedOptions.filter((o) => !o.hide).map((o) => o.profit);
 
-    mergedOptions.date = timeMath.dateToString(selectedOptions.filter((o) => !o.hide).map((o) => timeMath.stringToDate(o.date)).sort(timeMath.timeBetweenDates)[0]);
+    mergedOptions.date = moment(selectedOptions.filter((o) => !o.hide).map((o) => moment(o.date).format("YYYY-MM-DD")).sort((a,b) => moment(a).diff(moment(b)))[0]).format("YYYY-MM-DD");
 
     mergedOptions.percentProfit = [];
     mergedOptions.profit = this.mergeProfits(optionsProfits, mergedOptions.date);
@@ -365,16 +366,18 @@ class OptionsCalculator extends React.Component {
 
   mergeProfits = (optionsProfits, expiry) => {
     const profitMap = [];
-    let d = timeMath.getCurrentDate();
+    let d = moment();
     const rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, this.state.percentInterval, this.state.numberIntervals, 0);
-    while (timeMath.timeBetweenDates(timeMath.stringToDate(expiry), d) > -1) {
-      profitMap.push([timeMath.dateToString(d), rangeOfPrices.map((arr) => arr.slice())]);
+    while (moment(expiry).diff(d, 'days') > 0) {
+      profitMap.push([d.format("YYYY-MM-DD"), rangeOfPrices.map((arr) => arr.slice())]);
       for (const price of profitMap[profitMap.length - 1][1]) {
         for (const profitSet of optionsProfits) {
-          price[1] += structure.mapToObject(structure.mapToObject(profitSet)[timeMath.dateToString(d)])[price[0]];
+          console.log(structure.mapToObject(profitSet))
+          console.log(d.format("YYYY-MM-DD"))
+          price[1] += structure.mapToObject(structure.mapToObject(profitSet)[d.format("YYYY-MM-DD")])[price[0]];
         }
       }
-      d = timeMath.incrementOneDay(d);
+      d = d.add(1, 'days');
     }
     return profitMap;
   }

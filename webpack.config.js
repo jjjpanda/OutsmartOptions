@@ -5,9 +5,10 @@ const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
 const options = {
   antDir: path.join(__dirname, './node_modules/antd'),
   stylesDir: path.join(__dirname, './src/css'),
-  varFile: path.join(__dirname, './src/css/variables.less'),
+  varFile: path.join(__dirname, './src/css/defaultTheme.less'),
   mainLessFile: path.join(__dirname, './src/css/index.less'),
-  themeVariables: ['@primary-color', 
+  themeVariables: [
+    '@primary-color', 
     '@info-color', 
     '@warning-color', 
     '@primary-color',
@@ -65,6 +66,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx']
+  },
+  watch: true,
+  watchOptions: {
+    aggregateTimeout: 100
   },
   module: {
     rules: [
