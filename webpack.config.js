@@ -8,9 +8,6 @@ const options = {
   varFile: path.join(__dirname, './src/css/defaultTheme.less'),
   mainLessFile: path.join(__dirname, './src/css/index.less'),
   themeVariables: [
-    '@primary-color', 
-    '@info-color', 
-    '@warning-color', 
     '@primary-color',
     '@info-color',
     '@warning-color',
@@ -19,7 +16,6 @@ const options = {
     '@component-background',
     '@heading-color',
     '@text-color',
-    '@text-color-secondary',
     '@border-color-base',
     '@border-color-split',
     '@layout-body-background',
@@ -46,7 +42,8 @@ const options = {
     '@card-head-background',
     '@card-actions-background',
     '@card-background',
-    '@input-bg',
+    '@modal-mask-bg',
+
   ],
   indexFileName: 'app.html',
   generateOnce: false,
