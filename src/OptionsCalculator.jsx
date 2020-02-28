@@ -177,13 +177,13 @@ class OptionsCalculator extends React.Component {
   addOption = (isCall, strike, price, date, iv, symbol) => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected, {
-        key: date + strike + (isCall ? 'C' : 'P'), isCall, date, strike, price, iv, symbol,
+        key: symbol, isCall, date, strike, price, iv, symbol,
       }],
     }), this.resortOptionsSelected);
   }
 
-  deleteOption = (isCall, strike, date) => {
-    this.setState((state) => ({ optionsSelected: state.optionsSelected.filter((e) => !(e.key == date + strike + (isCall ? 'C' : 'P'))) }));
+  deleteOption = (symbol) => {
+    this.setState((state) => ({ optionsSelected: state.optionsSelected.filter( (e) => !(e.key == symbol) ) }));
   }
 
   onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv, symbol) => {
@@ -192,7 +192,7 @@ class OptionsCalculator extends React.Component {
     if (needToAdd) {
       this.addOption(isCall, strike, price, date, iv, symbol);
     } else {
-      this.deleteOption(isCall, strike, date);
+      this.deleteOption(symbol);
     }
   }
 
@@ -418,7 +418,7 @@ class OptionsCalculator extends React.Component {
       title: '',
       dataIndex: 'callAction',
       width: '10%',
-      render: (text, row) => <Checkbox disabled={isNaN(row.callIV)} checked={this.state.optionsSelected.some((option) => option.key === `${expiry + row.strike}C`) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, true, row.strike, row.call, expiry, row.callIV, row.callSymbol); }} />,
+      render: (text, row) => <Checkbox disabled={isNaN(row.callIV)} checked={this.state.optionsSelected.some((option) => option.key === row.callSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, true, row.strike, row.call, expiry, row.callIV, row.callSymbol); }} />,
     },
     {
       title: 'Call',
@@ -456,7 +456,7 @@ class OptionsCalculator extends React.Component {
     {
       title: '',
       dataIndex: 'putAction',
-      render: (text, row) => <Checkbox disabled={isNaN(row.putIV)} checked={this.state.optionsSelected.some((option) => option.key === `${expiry + row.strike}P`) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, false, row.strike, row.put, expiry, row.putIV, row.putSymbol); }} />,
+      render: (text, row) => <Checkbox disabled={isNaN(row.putIV)} checked={this.state.optionsSelected.some((option) => option.key === row.putSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, false, row.strike, row.put, expiry, row.putIV, row.putSymbol); }} />,
     },
   ]
 
