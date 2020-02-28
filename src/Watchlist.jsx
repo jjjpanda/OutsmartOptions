@@ -3,8 +3,6 @@ import { Table } from 'antd';
 
 import verifyUser from './components/UserVerifier.jsx';
 
-import './css/watchlist.less';
-
 const columns = [
   {
     title: 'Ticker',

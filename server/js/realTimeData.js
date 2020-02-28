@@ -231,7 +231,13 @@ module.exports = {
     },
     (error, response, body) => {
       body = JSON.parse(body);
-      const earnings = new Date(body.quoteResponse.result[0].earningsTimestamp * 1000);
+      let earnings;
+      if(body.quoteResponse != undefined && body.quoteResponse.result[0] != undefined && body.quoteResponse.result[0].earningsTimestamp != undefined){
+        earnings = new Date(body.quoteResponse.result[0].earningsTimestamp * 1000);
+      }
+      else {
+        earnings = undefined
+      }
       // appendLogs('./server/logs/logs.txt', earnings)
       callback({ earningsDate: earnings });
     });

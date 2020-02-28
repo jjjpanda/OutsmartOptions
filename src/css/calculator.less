@@ -8,13 +8,13 @@ html, body, #root { height: 100%; width: 100%; margin: 0; }
     #searchWrapper {
         display: inline-block;
         width: 95%;
-    }    
+    }
     #exists {
         position: absolute;
         display: inline-block;
         padding-top: 5px;
         padding-left: 10px;
-        color: red;
+        color: @highlight-color;
     }
 }
 
@@ -47,7 +47,7 @@ html, body, #root { height: 100%; width: 100%; margin: 0; }
     margin-left: 60px;
     margin-top: 20px;
     width: 790px;
-    border: 1px solid black;
+    border: 1px solid @primary-color;
     overflow-x: hidden;
 }
 
@@ -191,7 +191,7 @@ html, body, #root { height: 100%; width: 100%; margin: 0; }
 }
 
 .atmStrike {
-    background-color: rgb(221, 255, 221);
+    background-color: @info-color;
 }
 
 #hr2 {
