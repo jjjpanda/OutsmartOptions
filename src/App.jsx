@@ -19,7 +19,7 @@ import logo from './img/logo.png';
 
 // CSS
 import './css/logo.css';
-import './css/calculator.less';
+import './css/index.less'
 import {darkTheme, lightTheme} from './css/themes.js'
 
 import HomePage from './HomePage.jsx';
