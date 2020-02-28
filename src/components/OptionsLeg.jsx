@@ -18,7 +18,7 @@ class OptionsLeg extends React.Component {
     this.state = {
       symbol: props.optionRepresented.symbol,
       isFirst: props.isFirst,
-      key: props.optionRepresented.date + props.optionRepresented.strike + (props.optionRepresented.isCall ? 'C' : 'P'),
+      key: props.optionRepresented.symbol,
       isCall: props.optionRepresented.isCall,
       date: props.optionRepresented.date,
       strike: props.optionRepresented.strike,
@@ -110,7 +110,7 @@ class OptionsLeg extends React.Component {
               <div id="atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange} /></div>
             </div>
             <div className="removeDisable">
-              <div id="removeButton"><Button shape="circle" icon="delete" onClick={() => { this.props.deleteSelf(this.state.isCall, this.state.strike, this.state.date); }} /></div>
+              <div id="removeButton"><Button shape="circle" icon="delete" onClick={() => { this.props.deleteSelf(this.state.key); }} /></div>
               <div id="disableButton"><Button shape="circle" icon="stop" onClick={this.disableSelf} /></div>
               <div id="contractGraphButton">
                 <Button onClick={this.handleClick}>
