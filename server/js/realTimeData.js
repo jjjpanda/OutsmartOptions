@@ -1,4 +1,5 @@
 const request = require('request');
+const moment = require('moment')
 
 const appendLogs = require('../logs/appendLogs.js');
 
@@ -76,6 +77,35 @@ module.exports = {
     });
   },
 
+  getStrikes(apikey, ticker, expiration, callback) {
+    request({
+      method: 'get',
+      url: 'https://sandbox.tradier.com/v1/markets/options/strikes',
+      qs: {
+        symbol: ticker,
+        expiration: expiration,
+      },
+      headers: {
+        Authorization: `Bearer ${apikey}`,
+        Accept: 'application/json',
+      },
+    }, (error, response, body) => {
+      if (!error && response.statusCode == 200) {
+        body = JSON.parse(body)
+        if(body != undefined){
+          body = body.strikes
+          callback(body)
+        }
+        else{
+          callback({strike:[]})
+        }
+      }
+      else{
+        callback({ error, response: response.statusCode });
+      }
+    })
+  },
+
   getChain(apikey, ticker, expiration, index, callback) {
     request({
       method: 'get',
@@ -93,7 +123,8 @@ module.exports = {
       if (!error && response.statusCode == 200) {
         body = JSON.parse(body).options;
         let data;
-        if (body.option != undefined) {
+        if (body != null && body.option != undefined) {
+
           body = body.option;
           data = body.map((a) => ({
             type: a.option_type,
@@ -105,36 +136,42 @@ module.exports = {
             oi: a.open_interest,
             symbol: a.symbol,
           }));
-        }
-        // REFACTOR
-        const newData = [];
-        const strikes = [];
-        for (const option of data) {
-          if (!strikes.includes(option.strike)) {
-            strikes.push(option.strike);
-            newData.push({
-              strike: option.strike,
-              [`${option.type}Bid`]: option.bid,
-              [option.type]: ((option.bid + option.ask) / 2).toFixed(2),
-              [`${option.type}Ask`]: option.ask,
-              [`${option.type}Vol`]: option.vol,
-              // [option.type+"AvgVol"]:option.avol,
-              [`${option.type}OI`]: option.oi,
-              [`${option.type}Symbol`]: option.symbol,
-              key: expiration[index] + option.strike,
-            });
-          } else {
-            newData.find((x) => x.strike === option.strike)[`${option.type}Bid`] = option.bid;
-            newData.find((x) => x.strike === option.strike)[option.type] = ((option.bid + option.ask) / 2).toFixed(2);
-            newData.find((x) => x.strike === option.strike)[`${option.type}Ask`] = option.ask;
-            newData.find((x) => x.strike === option.strike)[`${option.type}Vol`] = option.vol;
-            // newData.find(x => x.strike === option.strike)[option.type+"AvgVol"] = option.avol
-            newData.find((x) => x.strike === option.strike)[`${option.type}OI`] = option.oi;
-            newData.find((x) => x.strike === option.strike)[`${option.type}Symbol`] = option.symbol;
+        
+          // REFACTOR
+          const newData = [];
+          const strikes = [];
+          for (const option of data) {
+            if (!strikes.includes(option.strike)) {
+              strikes.push(option.strike);
+              newData.push({
+                strike: option.strike,
+                [`${option.type}Bid`]: option.bid,
+                [option.type]: ((option.bid + option.ask) / 2).toFixed(2),
+                [`${option.type}Ask`]: option.ask,
+                [`${option.type}Vol`]: option.vol,
+                // [option.type+"AvgVol"]:option.avol,
+                [`${option.type}OI`]: option.oi,
+                [`${option.type}Symbol`]: option.symbol,
+                key: expiration[index] + option.strike,
+              });
+            } else {
+              newData.find((x) => x.strike === option.strike)[`${option.type}Bid`] = option.bid;
+              newData.find((x) => x.strike === option.strike)[option.type] = ((option.bid + option.ask) / 2).toFixed(2);
+              newData.find((x) => x.strike === option.strike)[`${option.type}Ask`] = option.ask;
+              newData.find((x) => x.strike === option.strike)[`${option.type}Vol`] = option.vol;
+              // newData.find(x => x.strike === option.strike)[option.type+"AvgVol"] = option.avol
+              newData.find((x) => x.strike === option.strike)[`${option.type}OI`] = option.oi;
+              newData.find((x) => x.strike === option.strike)[`${option.type}Symbol`] = option.symbol;
+            }
           }
+
+          // CHANGED DATA TO NEWDATA
+          callback(newData.sort((a, b) => a.strike - b.strike));
+
         }
-        // CHANGED DATA TO NEWDATA
-        callback(newData.sort((a, b) => a.strike - b.strike));
+        else{
+          callback({ error, response: response.statusCode });
+        }
       } else {
         callback({ error, response: response.statusCode });
       }
@@ -165,18 +202,11 @@ module.exports = {
           const historical = body.history.day;
           // appendLogs('./server/logs/logs.txt', historical)
           if (historical.length > 1) {
-            /*
-            historical.forEach((day, index) => {
-              if(index > 1 && timeBetweenDates(stringToDate(day.date), stringToDate(historical[index-1].date)) > 1){
-                for(let i = 0; i < timeBetweenDates(stringToDate(day.date), stringToDate(historical[index-1].date)); i++){
-
-                }
+            for(let i = 1; i < historical.length; i++){
+              while(moment(historical[i].date).diff(moment(historical[i-1].date), 'days') > 1){
+                historical.splice(i, 0, {date: moment(historical[i-1].date).add(1, 'days').format('YYYY-MM-DD'), open: historical[i-1].open, high: historical[i-1].high, low: historical[i-1].low, close: historical[i-1].close, volume: 0});
               }
-              else{
-
-              }
-            })
-            */
+            }
           }
           callback(historical);
         } else {
@@ -185,6 +215,20 @@ module.exports = {
       }
     });
   },
+
+  getIV(apikey, ticker, callback){
+    //XXX-YYMMDD-00000.000
+    let iv = []
+    module.exports.getStockHistoricalData(apikey, ticker, 720, (historical) => {
+      for(let date of historical){
+        if(moment(date.date).day() == 5){
+          module.exports.getStockHistoricalData(apikey, `${ticker}${moment(date.date).format('YYMMDD')}C${('00000000'+Math.ceil(date.close/5)*5*1000).slice(-8)}`, 30, (optionH) => {
+            console.log(optionH)
+          })
+        }}
+    })
+    callback({bruh:true})
+  }, 
 
   guessSymbol(apikey, data, callback) {
     request({
