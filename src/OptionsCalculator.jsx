@@ -878,7 +878,7 @@ render() {
       <div style={{ width: '60px', paddingBottom: '20px' }} />
       <div style={{ width: '60px', display: 'inline-block' }} />
       <h1 key="mainTitle" step-name="title" style={{ width: '135px', display: 'inline-block' }}>Outsmart Options</h1>
-      <StockSymbol updateCallback={this.updateSearchResults} yieldCurve={yields} options historical={false} />
+      <StockSymbol updateCallback={this.updateSearchResults} yieldCurve={yields} options={true} historical={false} />
 
       <hr id="hr" align="left" />
 
