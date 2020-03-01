@@ -25,8 +25,8 @@ router.post('/chain', (req, res) => {
 });
 
 router.post('/iv', (req, res) => {
-  const { ticker } = req.body;
-  realTimeData.getIV(tradikey, ticker, (data) => {
+  const { ticker, length } = req.body;
+  realTimeData.getIV(tradikey, ticker, (length === undefined ? 30 : length), (data) => {
     res.json(data);
   });
 });
