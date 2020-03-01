@@ -40,6 +40,7 @@ class StockSymbol extends React.Component {
       optionsChain: [['Empty', {}]],
       divYield: 0,
       historical: [],
+      historicalIV: [],
       guess: [],
       inWatchlist: false,
       loading: false
@@ -107,6 +108,17 @@ class StockSymbol extends React.Component {
             this.setState(() => ({ earningsDate: data.earningsDate }), () => {
               this.props.updateCallback(this.state);
             });
+          })
+
+          post.fetchReq('/api/market/iv', JSON.stringify({ticker: e}), (data) => {
+            console.log(data.iv)
+            let iv = data.iv.map((d) => {
+              return [d.expiry, optionsMath.calculateIV(d.t, d.price, d.underlying, d.strike, true, 0, 0)];
+            })
+            console.log(iv)
+            this.setState(() => { historicalIV : iv }, () => {
+              this.props.updateCallback(this.state)
+            })
           })
 
           post.fetchReq('/api/market/divYield', JSON.stringify({ ticker: e }), (data) => {
