@@ -219,49 +219,61 @@ module.exports = {
   getIV(apikey, ticker, ivLength, callback){
     //XXX-YYMMDD-00000.000
     let iv = []
-    module.exports.getStockHistoricalData(apikey, ticker, 200, (historical) => {
-      let pastExpiries = historical.filter(d => moment(d.date).day() == 5);
-      let index = 0;
-      let rounder = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
-      let roundIndex = 0;
-      let looper = () => {
-        module.exports.getStockHistoricalData(apikey, `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex]*1000).slice(-8)}`, moment().diff(moment(pastExpiries[index].date), 'days')+ivLength, (optionH) => {
-          //console.log(pastExpiries[index].date ,`${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].closerounder[roundIndex])*rounder[roundIndex]*1000).slice(-8)}`, optionH)
-          if(optionH[0] != undefined && optionH[0] != null){
-            iv.push({
-              t: ivLength/365,
-              expiry: moment(pastExpiries[index].date).format('YYYY-MM-DD'),
-              date: moment(pastExpiries[index].date).subtract(ivLength, 'days').format('YYYY-MM-DD'), 
-              underlying: pastExpiries[index].close, 
-              strike: Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex], 
-              price: optionH[0].close
-            })
-            index++
-            if(index >= pastExpiries.length){
-              callback({iv})
-            }
-            else{
-              looper()
-            }
+    module.exports.getStockHistoricalData(apikey, ticker, 720, (historical) => {
+      if(historical == undefined){
+        callback({iv: false})
+      }
+      else{
+        let pastExpiries = historical.filter(d => moment(d.date).day() == 5);
+        let index = 0;
+        let rounder = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
+        let roundIndex = 0;
+        let looper = () => {
+          if(index >= pastExpiries.length){
+            callback({iv})
           }
           else{
-            roundIndex++;
-            if(roundIndex >= rounder.length){
-              callback({iv: false})
-            }
-            else{
-              looper()
-            }
+            module.exports.getStockHistoricalData(apikey, `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex]*1000).slice(-8)}`, moment().diff(moment(pastExpiries[index].date), 'days')+ivLength, (optionH) => {
+                if(optionH[0] != undefined && optionH[0] != null){
+                  //roundIndex = 0
+                  iv.push({
+                    t: ivLength/365,
+                    expiry: moment(pastExpiries[index].date).format('YYYY-MM-DD'),
+                    date: moment(pastExpiries[index].date).subtract(ivLength, 'days').format('YYYY-MM-DD'), 
+                    underlying: pastExpiries[index].close, 
+                    strike: Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex], 
+                    price: optionH[0].close,
+                    symbol: `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex]*1000).slice(-8)}`
+                  })
+                  index++
+                  looper()
+                }
+                else{
+                  roundIndex++;
+                  if(roundIndex >= rounder.length){
+                    iv.push({
+                      t: ivLength/365,
+                      expiry: moment(pastExpiries[index].date).format('YYYY-MM-DD'),
+                      date: moment(pastExpiries[index].date).subtract(ivLength, 'days').format('YYYY-MM-DD'), 
+                      underlying: pastExpiries[index].close, 
+                      strike: Math.ceil(pastExpiries[index].close/rounder[0])*rounder[0], 
+                      price: 0,
+                      symbol: `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].close/rounder[0])*rounder[0]*1000).slice(-8)}`
+                    })
+                    index++
+                    roundIndex = 0
+                    looper()
+                  }
+                  else{
+                    looper();
+                  }
+                }
+            })
           }
-        })
-      }
+        }
 
-      looper()
-      /* for(let date of historical.filter(d => moment(d.date).day() == 5)){
-        module.exports.getStockHistoricalData(apikey, `${ticker}${moment(date.date).format('YYMMDD')}C${('00000000'+Math.ceil(date.close/10)*10*1000).slice(-8)}`, 2, (optionH) => {
-          console.log(date.date, `${ticker}${moment(date.date).format('YYMMDD')}C${('00000000'+Math.ceil(date.close/10)*10*1000).slice(-8)}`, optionH)
-        })
-      } */
+        looper()
+      }
     })
     //callback({bruh:true})
   }, 
