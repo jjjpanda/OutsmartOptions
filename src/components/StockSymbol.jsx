@@ -113,10 +113,12 @@ class StockSymbol extends React.Component {
           post.fetchReq('/api/market/iv', JSON.stringify({ticker: e}), (data) => {
             console.log(data.iv)
             let iv = data.iv.map((d) => {
-              return [d.expiry, optionsMath.calculateIV(d.t, d.price, d.underlying, d.strike, true, 0, 0)];
+              return {date: d.date,
+                      iv: optionsMath.calculateIV(d.t, d.price, d.underlying, d.strike, true, 0, 0)
+                    };
             })
             console.log(iv)
-            this.setState(() => { historicalIV : iv }, () => {
+            this.setState(() => ({ historicalIV : iv }), () => {
               this.props.updateCallback(this.state)
             })
           })
