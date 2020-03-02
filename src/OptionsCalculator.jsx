@@ -20,6 +20,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { NoAxisGraph, ProfitGraph } from './components/Graphs.jsx';
 import { StrategyInfo } from './components/StrategyInfo.jsx';
 import StockSymbol from './components/StockSymbol.jsx';
+import StockCalendar from './components/StockCalendar.jsx';
 import OptionsLeg from './components/OptionsLeg.jsx';
 import verifyUser from './components/UserVerifier.jsx';
 
@@ -866,7 +867,7 @@ renderCalculateMenu = () => (
       onOk = { () => {this.setState(() => ({erVisible : false, calculateMenuVisible: true}))} }
       onCancel = { () => {this.setState(() => ({erVisible : false, calculateMenuVisible: true}))} }
       >
-        <Calendar fullscreen={false} />
+        <StockCalendar earningsDate = {this.state.earningsDate} fullscreen={false} />
       </Modal>
     </Menu.Item>
   </Menu>
