@@ -11,7 +11,8 @@ import {
   Icon,
   Menu,
   Popover,
-  Calendar 
+  Calendar, 
+  Spin
 } from 'antd';
 
 import Tour from 'reactour';
@@ -19,6 +20,7 @@ import Cookie from 'js-cookie';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { NoAxisGraph, ProfitGraph } from './components/Graphs.jsx';
 import { StrategyInfo } from './components/StrategyInfo.jsx';
+import SpinningLogo from './components/SpinningLogo.jsx';
 import StockSymbol from './components/StockSymbol.jsx';
 import StockCalendar from './components/StockCalendar.jsx';
 import OptionsLeg from './components/OptionsLeg.jsx';
@@ -66,7 +68,8 @@ class OptionsCalculator extends React.Component {
       percentInterval: 1,
       erVisible: false,
       calculateMenuVisible: false,
-      reportLoading: false
+      reportLoading: false,
+      editLegLoading: []
     };
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }));
@@ -107,7 +110,7 @@ class OptionsCalculator extends React.Component {
 
   optionsSelectedMoreInfo = (e) => {
     console.log(e);
-    this.setState((state) => ({ optionsSelected: [...state.optionsSelected.filter((item) => !(item.key == e.key)), e] }), this.resortOptionsSelected);
+    this.setState((state) => ({ optionsSelected: [...state.optionsSelected.filter((item) => !(item.key == e.key)), e] }), () => this.resortOptionsSelected(e.symbol));
   }
 
   modalTrackSelected = (date) => {
@@ -148,7 +151,7 @@ class OptionsCalculator extends React.Component {
     </CollapsePanel>
   ))
 
-  resortOptionsSelected = () => {
+  resortOptionsSelected = (symbol) => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected].sort((a, b) => {
         const t = moment(a.date).diff(moment(b.date), 'days')
@@ -171,7 +174,9 @@ class OptionsCalculator extends React.Component {
         return -1;
       }),
     }), () => {
-      // console.log(this.state)
+      setTimeout(() => {
+        this.setState((state) => ({editLegLoading: state.editLegLoading.filter(leg => leg != (symbol))}))
+      }, 1000)
     });
   }
 
@@ -180,11 +185,11 @@ class OptionsCalculator extends React.Component {
       optionsSelected: [...state.optionsSelected, {
         key: symbol, isCall, date, strike, price, iv, symbol,
       }],
-    }), this.resortOptionsSelected);
+    }), () => this.resortOptionsSelected(symbol));
   }
 
   deleteOption = (symbol) => {
-    this.setState((state) => ({ optionsSelected: state.optionsSelected.filter( (e) => !(e.key == symbol) ) }));
+    this.setState((state) => ({ optionsSelected: state.optionsSelected.filter( (e) => !(e.key == symbol) ) }), () => this.resortOptionsSelected(symbol));
   }
 
   onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv, symbol) => {
@@ -192,8 +197,10 @@ class OptionsCalculator extends React.Component {
     // console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
     if (needToAdd) {
       this.addOption(isCall, strike, price, date, iv, symbol);
+      this.setState((state) => ({editLegLoading: [...state.editLegLoading, symbol]}), ()=>console.log(this.state.editLegLoading))
     } else {
       this.deleteOption(symbol);
+      this.setState((state) => ({editLegLoading: [...state.editLegLoading, symbol]}), ()=>console.log(this.state.editLegLoading))
     }
   }
 
@@ -419,7 +426,7 @@ class OptionsCalculator extends React.Component {
       title: '',
       dataIndex: 'callAction',
       width: '10%',
-      render: (text, row) => <Checkbox disabled={isNaN(row.callIV)} checked={this.state.optionsSelected.some((option) => option.key === row.callSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, true, row.strike, row.call, expiry, row.callIV, row.callSymbol); }} />,
+      render: (text, row) => (this.state.editLegLoading.includes(row.callSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.callIV)} checked={this.state.optionsSelected.some((option) => option.key === row.callSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, true, row.strike, row.call, expiry, row.callIV, row.callSymbol); }} />),
     },
     {
       title: 'Call',
@@ -457,7 +464,7 @@ class OptionsCalculator extends React.Component {
     {
       title: '',
       dataIndex: 'putAction',
-      render: (text, row) => <Checkbox disabled={isNaN(row.putIV)} checked={this.state.optionsSelected.some((option) => option.key === row.putSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, false, row.strike, row.put, expiry, row.putIV, row.putSymbol); }} />,
+      render: (text, row) => (this.state.editLegLoading.includes(row.putSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.putIV)} checked={this.state.optionsSelected.some((option) => option.key === row.putSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, false, row.strike, row.put, expiry, row.putIV, row.putSymbol); }} />),
     },
   ]
 
