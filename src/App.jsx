@@ -13,6 +13,7 @@ import {
   Switch,
   Anchor,
 } from 'antd';
+import Cookie from 'js-cookie';
 
 // Files
 import logo from './img/logo.png';
@@ -78,50 +79,17 @@ class SideMenu extends React.Component {
   }
 
   toggleDarkMode = () => {
-    this.setState({
+    this.setState(() => ({
       toggleDarkMode: !this.state.toggleDarkMode,
+    }), () => {
+      Cookie.set('theme', this.state.toggleDarkMode);
     });
     console.log('Toggled darkmode: ', +this.state.toggleDarkMode);
 
+    
+
     window.less.modifyVars(
       this.state.toggleDarkMode ? darkTheme : lightTheme
-      /*
-      '@primary-color': '#1890ff',
-      '@info-color': '#1890ff',
-      '@warning-color': '#faad14',
-      '@highlight-color': '#f5222d',
-      '@body-background': '#fffffe',
-      '@component-background': '#fffffd',
-      '@heading-color': '#000000',
-      '@text-color': '#000001',
-      //'@text-color-secondary': 'fade(#000, 45%)',
-      //'@border-color-base': 'hsv(0, 0, 85%)',
-      //'@border-color-split': 'hsv(0, 0, 91%)',
-      '@layout-body-background': '#f0f2f5',
-      '@layout-header-background': '#001529',
-      '@layout-sider-background': '#f0f2f5',
-      '@layout-trigger-background': '#002140',
-      '@layout-trigger-color': '#fffffc',
-      //'@disabled-color': 'fade(#000, 25%)',
-      //'@background-color-light': 'hsv(0, 0, 98%)',
-      //'@background-color-base': 'hsv(0, 0, 96%)',
-      '@item-active-bg': '#1890fe',
-      '@item-hover-bg': '#1890fd,',
-      '@btn-default-bg': '#',
-      '@input-bg': '#fffffb',
-      '@popover-bg': '#fffffe',
-      '@menu-dark-submenu-bg': '#171F22',
-      //'@table-header-bg': 'hsv(0, 0, 98%)',
-      //'@table-row-hover-bg': 'hsv(0, 0, 98%)',
-      '@table-selected-row-bg': '#1890ff',
-      '@table-expanded-row-bg': '#fbfbfb',
-      //'@tag-default-bg': 'hsv(0, 0, 98%)',
-      //'@collapse-header-bg': 'hsv(0, 0, 98%)',
-      //'@card-head-color': 'fade(#000, 85%)',
-      '@card-head-background': '#ff7f75',
-      '@card-actions-background': '#364889',
-      '@card-background': '#cfd8dc',
-    */
     ).then ((e) => console.log(e), (e) => console.log('error', e));
   }
 
@@ -131,7 +99,7 @@ class SideMenu extends React.Component {
         collapsible={false}
         collapsed={this.state.collapsed}
         onCollapse={this.onCollapse}
-        style={{ boxShadow: '1px 1px 2px 1px #888888', minHeight: '100vh' }}
+        style={{ boxShadow: '1px 1px 2px 1px #000000', minHeight: '100vh' }}
       >
         <div className="logo"><img key="mainLogo" id="logo" src={logo} /></div>
         <Menu theme="dark" defaultSelectedKeys={['index']} mode="inline" onClick={this.handleClick}>
