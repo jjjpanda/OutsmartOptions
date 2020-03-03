@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import React from 'react';
 
 import {
@@ -15,6 +16,9 @@ import {
 } from 'recharts';
 
 import * as moment from 'moment';
+import Cookie from 'js-cookie';
+import {darkTheme, lightTheme} from '../css/themes.js';
+let colors = {'dark' : darkTheme, 'light' : lightTheme};
 
 class NoAxisGraph extends React.Component {
   constructor(props) {
@@ -32,7 +36,7 @@ class NoAxisGraph extends React.Component {
         >
           <XAxis dataKey={this.props.xKey} allowDecimals={false} />
           <YAxis />
-          <Line name={this.props.dataKey} type="monotone" dot={false} dataKey={this.props.dataKey} stroke="#ffffff" />
+          <Line name={this.props.dataKey} type="monotone" dot={false} dataKey={this.props.dataKey} stroke={colors[Cookie.get('theme') ? 'dark': 'light']['@info-color']} />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -58,7 +62,7 @@ class BarLineComboGraph extends React.Component {
           <YAxis yAxisId="right" dataKey={this.props.lineKey} orientation="right" />
           <YAxis yAxisId="left" dataKey={this.props.barKey} orientation="left" />
 
-          <Line yAxisId="right" name={this.props.lineKey} type="monotone" dot={false} dataKey={this.props.lineKey} stroke="#ffffff" />
+          <Line yAxisId="right" name={this.props.lineKey} type="monotone" dot={false} dataKey={this.props.lineKey} stroke={colors[Cookie.get('theme') ? 'dark': 'light']['@info-color']} />
           <Bar yAxisId="left" name={this.props.barKey} dataKey={this.props.barKey} fill="#99ee9955" />
 
         </ComposedChart>
@@ -100,7 +104,7 @@ class ProfitGraph extends React.Component {
     disableDate = (event) => {
       this.setState((state) => {
         if (state.disabledDates.includes(event.dataKey)) {
-          return ({ disabledDates: state.disabledDates.filter((a) => a != event.dataKey) });
+          return ({ disabledDates: state.disabledDates.filter((a) => a !== event.dataKey) });
         }
 
         return ({ disabledDates: [...state.disabledDates, event.dataKey] });
@@ -127,7 +131,7 @@ class ProfitGraph extends React.Component {
         opacities[dates[0]] = 1;
         return opacities;
       }
-      for (var date of dates) {
+      for (let date of dates) {
         opacities[date] = moment(date).diff(moment(), 'days');
       }
       // console.log(opacities)
@@ -159,11 +163,11 @@ class ProfitGraph extends React.Component {
       for (let i = e.payload.length - 1; i >= 0; i--) {
         arr.push((
           <p>
-On
+On 
             {e.payload[i].name}
             {' '}
 you will
-            {Math.sign(e.payload[i].value) == 1 ? 'make' : 'lose'}
+            {Math.sign(e.payload[i].value) == 1 ? ' make' : ' lose'}
             {' '}
 $
             {e.payload[i].value.toFixed(2)}
@@ -172,7 +176,7 @@ $
       }
       if (e.active && e.payload != null && e.payload[0] != null) {
         return (
-          <div style={{ backgroundColor: '#ffffff', lineHeight: 0.5, padding: 5 }} className="custom-tooltip">
+          <div style={{backgroundColor: colors[Cookie.get('theme') ? 'dark' : 'light']['@info-color'], lineHeight: 0.5, padding: 5 }} className="custom-tooltip">
             <p>
 $
               {e.label.toFixed(2)}

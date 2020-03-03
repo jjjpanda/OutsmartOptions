@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npx webpack && node server/server.js",
     "startCont": "run-s clean startDaemon",
-    "startDaemon" : "run-p createDistContinuous nodemonStart",
+    "startDaemon": "run-p createDistContinuous nodemonStart",
     "test": "run-s testReact",
     "testReact": "jest test/reactTests --runInBand",
     "testEndpoints": "jest test/nodeTests --runInBand",
@@ -25,7 +25,7 @@
     "createDirGraph": "npx mkdirp ./coverage/graphs",
     "createDistContinuous": "npx webpack --progress",
     "nodemonStart": "npx nodemon ./server/server.js",
-    "clean" : "npx rimraf dist"
+    "clean": "npx rimraf dist"
   },
   "repository": {
     "type": "git",
