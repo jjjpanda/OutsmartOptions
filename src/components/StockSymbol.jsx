@@ -20,13 +20,12 @@ import * as treasury from '../jsLib/treasuryLibrary.js';
 
 import * as moment from 'moment';
 
+import SpinningLogo from './SpinningLogo.jsx';
+
 const AutoCompleteOption = AutoComplete.Option;
 const InputSearch = Input.Search;
 
 import '../css/logo.css';
-
-import logo from '../img/logo.png';
-const spin = <Icon component={() => (<img key="mainLogo" id="logo" className="spin" src={logo} />)} />
 
 class StockSymbol extends React.Component {
   constructor(props) {
@@ -241,7 +240,7 @@ class StockSymbol extends React.Component {
             <div style={{ width: '410px', display: 'inline-block' }}>
               <Card>
                 {this.state.description != null ? `${this.state.description} ${(this.state.optionsChain[0] != undefined ? '' : 'has no options chain')}` : "Stock Doesn't Exist"}
-                {this.state.loading ? <Spin indicator={spin} /> : null}
+                {this.state.loading ? <SpinningLogo /> : null}
               </Card>
             </div>
             <div style={{ width: '600px' }} />
