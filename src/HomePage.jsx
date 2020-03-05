@@ -18,6 +18,7 @@ class HomePage extends React.Component {
       priceChange: 0,
       price: 0,
       historical: [],
+      historicalIV: []
     };
   }
 
@@ -28,7 +29,8 @@ class HomePage extends React.Component {
         priceChange: state.priceChange,
         price: state.price,
         historical: state.historical,
-      }));
+        historicalIV: state.historicalIV
+      }), ()=> console.log(this.state));
     }
 
 
@@ -41,6 +43,7 @@ class HomePage extends React.Component {
               <StockSymbol updateCallback={this.updateSearchResults} options={false} historical />
               <br />
               {this.state.historical != [] && this.state.historical.length > 1 ? <BarLineComboGraph data={this.state.historical} xKey="date" lineKey="close" barKey="volume" /> : null}
+              {this.state.historicalIV != [] && this.state.historicalIV.length > 1 ? <BarLineComboGraph data={this.state.historicalIV} xKey="date" lineKey="iv" barKey="volume" /> : null}
 
             </div>
             <div id="twitter">

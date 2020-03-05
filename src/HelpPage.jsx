@@ -842,8 +842,18 @@ One of the most important tools for outcome visualization is the
             <p>IV does not predict which way the price will move, only that the price is expected to move.</p>
           </div>
           <div>
-            <p>Take stock ABC, which is sitting at $50 with a IV of 20%. This means that ABC is expected to fluctuate within 20% of the price, at one standard deviation. Therefore one can expect ABC to fluctuate between $40 and $60.</p>
+            <p>Take stock ABC, which is sitting at $50 with an IV of 20%. This means that ABC is expected to fluctuate within 20% of the price, at one standard deviation. Therefore one can expect ABC to fluctuate between $40 and $60.</p>
             <img src="https://www.optionsplaybook.com/media/images/graphics/normal_distribution.gif" alt="pie" height="250" width="450" />
+          </div>
+          <div>
+            <p>Vega tells us how IV will affect the value of our options.</p>
+            <p>The higher the IV, the higher the extrinsic value of the option. This is because the underlying stock is more likely to move and make the contract profitable. The opposite is true for low IV.</p>
+            <img src="/img/helpPageImages/vega.gif" alt="pie" height="250" width="450" />
+          </div>
+          <div>
+            <p>IV tends to increase leading up to the release of a company's earnings report, which subsequently causes the price of options on that stock to increase.</p>
+            <p>Once the earnings are released, the IV tends to drop signifigantly, in a phenomena known as <b>IV Crush</b>.</p>
+            <p>Options traders can use this predictable pattern to time their trades.</p>
           </div>
         </Carousel>
         <ButtonGroup>
