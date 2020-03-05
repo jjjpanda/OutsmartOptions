@@ -20,13 +20,12 @@ import * as treasury from '../jsLib/treasuryLibrary.js';
 
 import * as moment from 'moment';
 
+import SpinningLogo from './SpinningLogo.jsx';
+
 const AutoCompleteOption = AutoComplete.Option;
 const InputSearch = Input.Search;
 
 import '../css/logo.css';
-
-import logo from '../img/logo.png';
-const spin = <Icon component={() => (<img key="mainLogo" id="logo" className="spin" src={logo} />)} />
 
 class StockSymbol extends React.Component {
   constructor(props) {
@@ -40,6 +39,7 @@ class StockSymbol extends React.Component {
       optionsChain: [['Empty', {}]],
       divYield: 0,
       historical: [],
+      historicalIV: [],
       guess: [],
       inWatchlist: false,
       loading: false
@@ -107,6 +107,19 @@ class StockSymbol extends React.Component {
             this.setState(() => ({ earningsDate: data.earningsDate }), () => {
               this.props.updateCallback(this.state);
             });
+          })
+
+          post.fetchReq('/api/market/iv', JSON.stringify({ticker: e}), (data) => {
+            console.log(data.iv)
+            let iv = data.iv.map((d) => {
+              return {date: d.date,
+                      iv: optionsMath.calculateIV(d.t, d.price, d.underlying, d.strike, true, 0, 0)
+                    };
+            })
+            console.log(iv)
+            this.setState(() => ({ historicalIV : iv }), () => {
+              this.props.updateCallback(this.state)
+            })
           })
 
           post.fetchReq('/api/market/divYield', JSON.stringify({ ticker: e }), (data) => {
@@ -227,7 +240,7 @@ class StockSymbol extends React.Component {
             <div style={{ width: '410px', display: 'inline-block' }}>
               <Card>
                 {this.state.description != null ? `${this.state.description} ${(this.state.optionsChain[0] != undefined ? '' : 'has no options chain')}` : "Stock Doesn't Exist"}
-                {this.state.loading ? <Spin indicator={spin} /> : null}
+                {this.state.loading ? <SpinningLogo /> : null}
               </Card>
             </div>
             <div style={{ width: '600px' }} />

@@ -24,6 +24,13 @@ router.post('/chain', (req, res) => {
   });
 });
 
+router.post('/iv', (req, res) => {
+  const { ticker, length } = req.body;
+  realTimeData.getIV(tradikey, ticker, (length === undefined ? 30 : length), (data) => {
+    res.json(data);
+  });
+});
+
 router.post('/historical', (req, res) => {
   const { ticker, days } = req.body;
   realTimeData.getStockHistoricalData(tradikey, ticker, (days === undefined ? 720 : days), (data) => {
