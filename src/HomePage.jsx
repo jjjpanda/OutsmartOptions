@@ -56,20 +56,6 @@ class HomePage extends React.Component {
               {' '}
               <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
             </div>
-            <div className="instagram" id="insta1">
-              <InstagramEmbed
-                url="https://www.instagram.com/p/B5S-8Tshp51/"
-                maxWidth={320}
-                hideCaption={false}
-                containerTagName="div"
-                protocol=""
-                injectScript
-                onLoading={() => {}}
-                onSuccess={() => {}}
-                onAfterRender={() => {}}
-                onFailure={() => {}}
-              />
-            </div>
           </div>
           <div />
         </div>

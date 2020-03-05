@@ -984,7 +984,7 @@ IV Skew
 
               <hr id="hr2" />
               <h3 style={{ marginLeft: '60px' }}>Profit Table:</h3>
-              <div className="profitTableWrapper" step-name="profit-table">
+              <div className="profitTableWrapper" step-name="profit-table" style={{width: '80vw'}}>
                 <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
               </div>
               <Button onClick={this.sendCalcError} loading = {this.state.reportLoading}>Report Calculation Error</Button>
