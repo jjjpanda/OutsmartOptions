@@ -69,12 +69,13 @@ require('./db/passport.js')(passport);
 
 // Handle 404
 app.use((req, res) => {
-  appendLogs('./server/logs/logs.txt', `The URL ${req.originalUrl} is not correct.`)
+  appendLogs('./server/logs/logs.txt', `The URL ${req.originalUrl} 404ed.`)
   res.status(404).send('Bruh 404');
 });
 
 // Handle 500
 app.use((error, req, res, next) => {
+  appendLogs('./server/logs/logs.txt', `The URL ${req.originalUrl} 500ed on you.`)
   res.status(500).send('500: Internal Server Error');
 });
 

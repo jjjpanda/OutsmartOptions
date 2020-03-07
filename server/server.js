@@ -1,6 +1,6 @@
 const env = require('dotenv').config();
 const fs = require('fs');
-const app = require('./app');
+const app = require('./app.js');
 const discord = require('./discord.js')
 
 const appendLogs = require('./logs/appendLogs.js');
