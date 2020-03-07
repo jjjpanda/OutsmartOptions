@@ -1,5 +1,6 @@
 node_modules
 coverage
+dist/*
 .env
 server/logs/*.txt
 .DS_Store
