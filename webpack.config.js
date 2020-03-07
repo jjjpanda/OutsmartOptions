@@ -64,7 +64,6 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx']
   },
-  watch: true,
   watchOptions: {
     aggregateTimeout: 100
   },
