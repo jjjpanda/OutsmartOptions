@@ -25,7 +25,6 @@
     "createDirGraph": "npx mkdirp ./coverage/graphs",
     "createDist": "npx webpack --watch --progress",
     "nodemonStart": "npx nodemon ./server/server.js",
-    "prestart": "npm run clean",
     "clean": "npx rimraf dist"
   },
   "repository": {
