@@ -4,7 +4,8 @@
   "description": "Y'all ever wanted to make money?",
   "main": "server.js",
   "scripts": {
-    "start": "run-s clean startDaemon",
+    "start": "npx webpack && node server/server.js",
+    "startCont": "run-s clean startDaemon",
     "startDaemon": "run-p createDist nodemonStart",
     "test": "run-s testReact",
     "testReact": "jest test/reactTests --runInBand",
@@ -24,6 +25,7 @@
     "createDirGraph": "npx mkdirp ./coverage/graphs",
     "createDist": "npx webpack --watch --progress",
     "nodemonStart": "npx nodemon ./server/server.js",
+    "prestart": "npm run clean",
     "clean": "npx rimraf dist"
   },
   "repository": {
