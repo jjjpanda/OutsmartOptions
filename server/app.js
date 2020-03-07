@@ -1,5 +1,7 @@
 const express = require('express');
 
+const appendLogs = require('./logs/appendLogs.js');
+
 const app = express();
 const path = require('path');
 
@@ -67,6 +69,7 @@ require('./db/passport.js')(passport);
 
 // Handle 404
 app.use((req, res) => {
+  appendLogs('./server/logs/logs.txt', `The URL ${req.originalUrl} is not correct.`)
   res.status(404).send('Bruh 404');
 });
 
