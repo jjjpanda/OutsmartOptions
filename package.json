@@ -4,8 +4,7 @@
   "description": "Y'all ever wanted to make money?",
   "main": "server.js",
   "scripts": {
-    "start": "npm run clean && npx webpack && node server/server.js",
-    "startCont": "run-s clean startDaemon",
+    "start": "run-s clean startDaemon",
     "startDaemon": "run-p createDist nodemonStart",
     "test": "run-s testReact",
     "testReact": "jest test/reactTests --runInBand",
