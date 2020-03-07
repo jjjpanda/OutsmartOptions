@@ -4,9 +4,10 @@
   "description": "Y'all ever wanted to make money?",
   "main": "server.js",
   "scripts": {
-    "start": "npx webpack && node server/server.js",
+    "start": "run-s clean startSync",
     "startCont": "run-s clean startDaemon",
-    "startDaemon": "run-p createDistContinuous nodemonStart",
+    "startSync": "run-p createDist nodeStart",
+    "startDaemon": "run-p createDist nodemonStart",
     "test": "run-s testReact",
     "testReact": "jest test/reactTests --runInBand",
     "testEndpoints": "jest test/nodeTests --runInBand",
@@ -23,7 +24,8 @@
     "serverGraphNeato": "npx madge ./server ./node_modules --extensions js --include-npm -i ./coverage/graphs/serverGraphN.png -l neato",
     "allGraphNeato": "npx madge ./src ./test ./server ./node_modules --extensions js,jsx,less,json --include-npm --webpack-config ./webpack.config.js -i ./coverage/graphs/projectGraphN.png -l neato",
     "createDirGraph": "npx mkdirp ./coverage/graphs",
-    "createDistContinuous": "npx webpack --progress",
+    "createDist": "npx webpack --progress",
+    "nodeStart": "node server/server.js",
     "nodemonStart": "npx nodemon ./server/server.js",
     "clean": "npx rimraf dist"
   },
