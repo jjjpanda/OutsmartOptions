@@ -30,9 +30,9 @@ const devRoutes = require('./routes/devRoutes.js');
 
 app.use('/dev', devRoutes);
 
-const twitterSearch = require('./routes/twitterSearch.js');
+const twitter = require('./routes/twitter.js');
 
-app.use('/api/twitter', twitterSearch);
+app.use('/api/twitter', twitter);
 
 const marketData = require('./routes/marketData.js');
 
