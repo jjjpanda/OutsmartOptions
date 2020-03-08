@@ -29,7 +29,7 @@ import Watchlist from './Watchlist.jsx';
 import AboutPage from './AboutPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import HelpPage from './HelpPage.jsx';
-import Checkout from './Checkout.jsx';
+import Checkout from './checkout.jsx';
 
 import * as post from './jsLib/fetchLibrary.js';
 
