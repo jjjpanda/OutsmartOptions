@@ -78,7 +78,7 @@ class StockSymbol extends React.Component {
       this.setState(() => ({loading: true}))
       const e = val.toUpperCase().trim();
       this.setState(() => ({
-        exists: true, symbol: e, guess: [], inWatchlist: false,
+        exists: true, symbol: e, guess: [], inWatchlist: false, earningsDate: "", historicalIV : "", divYield: ""
       }));
 
       post.fetchReq('/api/market/price', JSON.stringify({ ticker: e }), (data) => {
@@ -102,32 +102,32 @@ class StockSymbol extends React.Component {
           } else {
             // Not Logged in, don't care
           }
-
-          post.fetchReq('/api/market/earningsDate', JSON.stringify({ticker: e}), (data) => {
-            this.setState(() => ({ earningsDate: data.earningsDate }), () => {
-              this.props.updateCallback(this.state);
-            });
-          })
-
-          post.fetchReq('/api/market/iv', JSON.stringify({ticker: e}), (data) => {
-            console.log(data.iv)
-            let iv = data.iv.map((d) => {
-              return {date: d.date,
-                      iv: optionsMath.calculateIV(d.t, d.price, d.underlying, d.strike, true, 0, 0)
-                    };
-            })
-            console.log(iv)
-            this.setState(() => ({ historicalIV : iv }), () => {
-              this.props.updateCallback(this.state)
-            })
-          })
-
-          post.fetchReq('/api/market/divYield', JSON.stringify({ ticker: e }), (data) => {
-            this.setState(() => ({ divYield: data.dividendAnnum / this.state.price }), () => {
-              this.props.updateCallback(this.state);
-            });
-          });
         });
+      });
+
+      const checkFinished = () => {
+        if(this.state.earningsDate != " " && this.state.historicalIV != "" && this.state.divYield != ""){
+          this.setState(() => ({loading: false}), () => this.props.updateCallback(this.state))
+        }
+      }
+
+      post.fetchReq('/api/market/earningsDate', JSON.stringify({ticker: e}), (data) => {
+        this.setState(() => ({ earningsDate: data.earningsDate }), checkFinished);
+      })
+
+      post.fetchReq('/api/market/iv', JSON.stringify({ticker: e}), (data) => {
+        console.log(data.iv)
+        let iv = data.iv.map((d) => {
+          return {date: d.date,
+                  iv: optionsMath.calculateIV(d.t, d.price, d.underlying, d.strike, true, 0, 0)
+                };
+        })
+        console.log(iv)
+        this.setState(() => ({ historicalIV : iv }), checkFinished)
+      })
+
+      post.fetchReq('/api/market/divYield', JSON.stringify({ ticker: e }), (data) => {
+        this.setState(() => ({ divYield: data.dividendAnnum / this.state.price }), checkFinished);
       });
 
       if (this.props.options) {
@@ -162,13 +162,13 @@ class StockSymbol extends React.Component {
             })
             */
 
-            this.setState(() => ({ optionsChain: data, loading: false }), () => {
+            this.setState(() => ({ optionsChain: data }), () => {
               this.props.updateCallback(this.state);
               console.log(this.state);
             });
           }
           else{
-            this.setState(() => ({ optionsChain: [], loading: false }), () => {
+            this.setState(() => ({ optionsChain: [] }), () => {
               this.props.updateCallback(this.state);
               console.log(this.state);
             });
@@ -178,9 +178,8 @@ class StockSymbol extends React.Component {
 
       if (this.props.historical) {
         post.fetchReq('/api/market/historical', JSON.stringify({ ticker: e }), (data) => {
-          this.setState(() => ({ historical: data, loading: false }), () => {
+          this.setState(() => ({ historical: data }), () => {
             console.log(this.state);
-            this.props.updateCallback(this.state);
           });
         });
       }

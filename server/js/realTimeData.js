@@ -220,7 +220,7 @@ module.exports = {
     //XXX-YYMMDD-00000.000
     let iv = []
     module.exports.getStockHistoricalData(apikey, ticker, 720, (historical) => {
-      if(historical == undefined){
+      if(historical == undefined || (historical.history == null && historical[0] == undefined) || historical.error == true){
         callback({iv: false})
       }
       else{
