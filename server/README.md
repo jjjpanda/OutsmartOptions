@@ -33,9 +33,9 @@ Here's your three route files:
 
 |Route|Description|Parameters|Returns|
 | :- |:-:|:-:|-:|
-|POST /track         |Uhhhhhh. I should stop talking now.               |bruh|n
-|POST /report        |Hey look! Here's how you send state data to us.   |bruh|a
-|POST /imageReport   |Oh snap, you can send pictures too. That's crazy. |bruh|a
+|POST /track         |Uhhhhhh. I should stop talking now.               |`{ body: { ip: String } }`|n
+|POST /report        |Hey look! Here's how you send state data to us.   |`{ body: { options: String } }`|a
+|POST /imageReport   |Oh snap, you can send pictures too. That's crazy. |`{ files: { file: { data : Buffer } } }`|a
 
 ### /api/twitter/
 
@@ -43,7 +43,7 @@ Here's your three route files:
 
 |Route|Description|Parameters|Returns|
 | :- |:-:|:-:|-:|
-|POST /search    |Search for tweets on Twitter.|bruh|n
+|POST /search    |Search for tweets on Twitter.|`{ body: { q: String } }`|n
 
 ### /api/users/
 
@@ -51,11 +51,11 @@ Here's your three route files:
 
 |Route|Description|Parameters|Returns|
 | :- |:-:|:-:|-:|
-|POST /register    |Register an account with us.                           |bruh|n
-|POST /login       |Login into the account.                                |bruh|a
-|POST /current     |Using cookies and whatnot to get tokens and whatnot.   |bruh|a
-|POST /change      |Change your password with this.                        |a|a|
-|POST /delete      |Delete.😢                                              |a|a|
+|POST /register    |Register an account with us.                           |`{ body: { name: String, email: String, password: String, password2: String } }`|n
+|POST /login       |Login into the account.                                |`{ body: { email: String, password: String } }`|a
+|POST /current     |Using cookies and whatnot to get tokens and whatnot.   |`{ header: { authorization: String }, body: { id: String } }`|a
+|POST /change      |Change your password with this.                        |`{ header: { authorization: String }, body: { id: String, oldPassword: String, newPassword: String, newPassword2: String } }`|a|
+|POST /delete      |Delete.😢                                              |`{ header: { authorization: String }, body: { id: String } }`|a|
 
 ### /api/watchlist/
 
@@ -63,8 +63,8 @@ Here's your three route files:
 
 |Route|Description|Parameters|Returns|
 | :- |:-:|:-:|-:|
-|POST /view    |So you wanna see your watchlist huh?                       |bruh|n
-|POST /edit    |So you wanna add or remove something in your watchlist huh?|bruh|a
+|POST /view    |So you wanna see your watchlist huh?                       |`{ header: { authorization: String }, body: { id: String } }`|n
+|POST /edit    |So you wanna add or remove something in your watchlist huh?|`{ header: { authorization: String }, body: { id: String, ticker: String } }`|a
 
 ### /api/strategy/
 
@@ -72,9 +72,9 @@ Here's your three route files:
 
 |Route|Description|Parameters|Returns|
 | :- |:-:|:-:|-:|
-|POST /load     |See all your saved strats. |bruh|n
-|POST /delete   |Delete a strategy.         |bruh|a
-|POST /save     |Save a strategy.           |bruh|a
+|POST /load     |See all your saved strats. |`{ header: { authorization: String }, body: { id: String, ticker: String (default="") } }`|n
+|POST /delete   |Delete a strategy.         |`{ header: { authorization: String }, body: { id: String, ticker: String, strategy: Array of Objects } }`|a
+|POST /save     |Save a strategy.           |`{ header: { authorization: String }, body: { id: String, ticker: String, strategy: Array of Objects } }`|a
 
 ### /dev/
 
@@ -82,10 +82,10 @@ Here's your three route files:
 
 |Route|Description|Parameters|Returns|
 | :- |:-:|:-:|-:|
-|GET /jest      |View the [Jest](../test/report/index.html) HTML report file.           |bruh|n
-|GET /coverage  |View the [Coverage](../coverage/lcov-report/index.html) report HTML.   |bruh|a
-|GET /lint      |View the [ESLint](./eslint/lintOutput.html) HTML report file.          |bruh|a
-|GET /logs      |This will send you the [logs.txt](logs/logs.txt).                      |bruh|a
+|GET /jest      |View the [Jest](../test/report/index.html) HTML report file.           |`{ query: {} }`|n
+|GET /coverage  |View the [Coverage](../coverage/lcov-report/index.html) report HTML.   |`{ query: {} }`|a
+|GET /lint      |View the [ESLint](./eslint/lintOutput.html) HTML report file.          |`{ query: {} }`|a
+|POST /logs     |This will send you the [logs.txt](logs/logs.txt).                      |`{ body: { token: String } }`|a
 
 ### Webpage Routes
 
