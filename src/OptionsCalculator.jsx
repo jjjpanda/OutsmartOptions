@@ -950,7 +950,7 @@ IV Skew
           </div>
         </div>
         <div style={{ width: '43px', display: 'inline-block' }} />
-        <div id="strategyButton"><Button icon="fund" onClick={this.startTutorial}>Strategy</Button></div>
+        <div id="strategyButton"><Button icon="fund" onClick={}>Strategy</Button></div>
         <div style={{ width: '43px', display: 'inline-block' }} />
         <div id="calculateButton" step-name="calculate-button">
           <ButtonGroup>
