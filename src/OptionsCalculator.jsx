@@ -950,12 +950,12 @@ IV Skew
           </div>
         </div>
         <div style={{ width: '43px', display: 'inline-block' }} />
-        <div id="strategyButton"><Button icon="fund" onClick={}>Strategy</Button></div>
+        <div id="strategyButton"><Button icon="fund" onClick={() => {}}>Strategy</Button></div>
         <div style={{ width: '43px', display: 'inline-block' }} />
         <div id="calculateButton" step-name="calculate-button">
           <ButtonGroup>
             <Button onClick={this.calculateProfits} type="primary">Calculate</Button>
-            <Button type="primary" icon="cloud" onClick={()=>{this.setState(() => ({calculateMenuVisible: true}))}} style={{ paddingBottom: '1px' }} />
+            <Button type="primary" icon="cloud" onClick={()=>{this.setState(() => ({calculateMenuVisible: true}))}} />
           </ButtonGroup>
         </div>
         <Modal 

@@ -58,7 +58,7 @@ const lightTheme = {
   '@item-active-bg': '#1890fe',
   '@item-hover-bg': '#1890fd',
   '@btn-default-bg': '#fffffa',
-  '@input-bg': '#7788ff',
+  '@input-bg': '#ffffff',
   '@popover-bg': '#fffffe',
   '@menu-dark-submenu-bg': '#171F22',
   '@table-header-bg': '#d9d5d9',
