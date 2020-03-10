@@ -24,6 +24,13 @@ router.post('/chain', (req, res) => {
   });
 });
 
+router.post('/optionsQuote', (req, res) => {
+  const { ticker } = req.body;
+  realTimeData.getOptionsQuote(tradikey, ticker, (data) => {
+    res.json(data);
+  });
+})
+
 router.post('/iv', (req, res) => {
   const { ticker, length } = req.body;
   realTimeData.getIV(tradikey, ticker, (length === undefined ? 30 : length), (data) => {

@@ -2,6 +2,8 @@ import React from 'react';
 import { Table } from 'antd';
 
 import verifyUser from './components/UserVerifier.jsx';
+import Cookie from 'js-cookie'
+import * as post from './jsLib/fetchLibrary.js';
 
 const columns = [
   {
@@ -9,12 +11,20 @@ const columns = [
     dataIndex: 'ticker',
   },
   {
+    title: 'Name',
+    dataIndex: 'name'
+  },
+  {
+    title: 'Price',
+    dataIndex: 'price'
+  },
+  {
     title: 'Put OI',
     dataIndex: 'putOI',
   },
   {
     title: 'Put Volume',
-    dataIndex: 'putVolume',
+    dataIndex: 'putVol',
   },
   {
     title: 'Put IV',
@@ -26,7 +36,7 @@ const columns = [
   },
   {
     title: 'Call Volume',
-    dataIndex: 'callVolume',
+    dataIndex: 'callVol',
   },
   {
     title: 'Call IV',
@@ -38,7 +48,7 @@ const columns = [
   },
   {
     title: '% Change',
-    dataIndex: 'percentChange',
+    dataIndex: 'change',
   },
 ];
 
@@ -48,14 +58,41 @@ class Watchlist extends React.Component {
     super(props);
     this.state = {
       selectedRowKeys: [], // Check here to configure the default column
+      dataSource: [],
+      watchlist: []
     };
     verifyUser(({ loggedIn, user, email }) => {
-      this.setState(() => ({ loggedIn }));
+      this.setState(() => ({ loggedIn }), () => {
+        post.fetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id')}), (data) => {
+          this.setState(() => ({watchlist: data.list, dataSource: data.list.map(stock => {return {ticker: stock}})}), () => {
+            for( let stock of this.state.watchlist ){
+              post.fetchReq('/api/market/price', JSON.stringify({ticker: stock}), (data) => {
+                this.setState((state) => {
+                  let i = state.dataSource.findIndex(e => e.ticker == stock)
+                  state.dataSource[i].price = data.price
+                  state.dataSource[i].change = data.change
+                  state.dataSource[i].name = data.name
+                  return { dataSource: state.dataSource }
+                })
+              })
+              post.fetchReq('/api/market/optionsQuote', JSON.stringify({ticker: stock}), (data) => {
+                this.setState((state) => {
+                  let i = state.dataSource.findIndex(e => e.ticker == stock)
+                  state.dataSource[i].callIV = data.callIV
+                  state.dataSource[i].callVol = data.callVol
+                  state.dataSource[i].callOI = data.callOI
+                  state.dataSource[i].putIV = data.putIV
+                  state.dataSource[i].putVol = data.putVol
+                  state.dataSource[i].putOI = data.putOI
+                  state.dataSource[i].pcRatio = data.pcRatio
+                  return { dataSource: state.dataSource }
+                })
+              })
+            }
+          })
+        });
+      });
     });
-  }
-
-  checkLogin = () => {
-
   }
 
   render() {
@@ -73,35 +110,7 @@ class Watchlist extends React.Component {
               selectedRowKeys: [...Array(46).keys()], // 0...45
             });
           },
-        },
-        {
-          key: 'odd',
-          text: 'Select Odd Row',
-          onSelect: (changableRowKeys) => {
-            let newSelectedRowKeys = [];
-            newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-              if (index % 2 !== 0) {
-                return false;
-              }
-              return true;
-            });
-            this.setState({ selectedRowKeys: newSelectedRowKeys });
-          },
-        },
-        {
-          key: 'even',
-          text: 'Select Even Row',
-          onSelect: (changableRowKeys) => {
-            let newSelectedRowKeys = [];
-            newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-              if (index % 2 !== 0) {
-                return true;
-              }
-              return false;
-            });
-            this.setState({ selectedRowKeys: newSelectedRowKeys });
-          },
-        },
+        }
       ],
     };
     return (
@@ -109,7 +118,7 @@ class Watchlist extends React.Component {
         <div>
           <h1 className="title">Username's Watchlist</h1>
         </div>
-        <Table rowSelection={rowSelection} columns={columns} dataSource={[]} locale={{ emptyText: 'No watched tickers or User not logged in' }} />
+        <Table rowSelection={rowSelection} columns={columns} dataSource={this.state.dataSource} locale={{ emptyText: 'No watched tickers or User not logged in' }} />
       </div>
     );
   }
