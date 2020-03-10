@@ -36,6 +36,18 @@ module.exports = {
     });
   },
 
+  getOptionsQuote(apikey, ticker, callback){
+    callback({
+      callOI: Math.round(Math.random()*1000) /1000,
+      putOI: Math.round(Math.random()*1000) /1000,
+      callIV: Math.round(Math.random()*1000) /1000,
+      putIV: Math.round(Math.random()*1000) /1000,
+      callVol: Math.round(Math.random()*1000) /1000,
+      putVol: Math.round(Math.random()*1000) /1000,
+      pcRatio: Math.round(Math.random()*1000) /1000,
+    })
+  },
+
   getExpiries(apikey, ticker, callback) {
     request({
       method: 'get',
@@ -146,7 +158,7 @@ module.exports = {
               newData.push({
                 strike: option.strike,
                 [`${option.type}Bid`]: option.bid,
-                [option.type]: ((option.bid + option.ask) / 2).toFixed(2),
+                [option.type]: parseFloat(((option.bid + option.ask) / 2).toFixed(2)),
                 [`${option.type}Ask`]: option.ask,
                 [`${option.type}Vol`]: option.vol,
                 // [option.type+"AvgVol"]:option.avol,
