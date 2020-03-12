@@ -72,7 +72,7 @@ class SideMenu extends React.Component {
     }
 
     render() {
-        console.log(this.props.location.pathname.match(/\/.*[^\/]/))
+        console.log(this.props.location.pathname.match(/\/(.*[^\/])?/))
         return (
             <Sider
                 collapsible={false}
@@ -81,7 +81,7 @@ class SideMenu extends React.Component {
                 style={{ boxShadow: '1px 1px 2px 1px #000000', minHeight: '100vh' }}
             >
             <div className="logo"><img key="mainLogo" id="logo" src={logo} /></div>
-            <Menu theme="dark" defaultSelectedKeys={this.props.location.pathname.match(/\/.*[^\/]/)} mode="inline" onClick={this.handleClick}>
+            <Menu theme="dark" defaultSelectedKeys={this.props.location.pathname.match(/\/(.*[^\/])?/)} mode="inline" onClick={this.handleClick}>
 
             <Menu.Item key="/">
                 <Icon type="home" />
