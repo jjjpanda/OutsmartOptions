@@ -18,25 +18,25 @@ Here's your three route files:
 
 |Route|Description|Parameters|Returns|
 | :- |:-:|:-:|:-:|
-|POST /quote        |This guy right here gives you the stonk price and stuff.     |`{ body: { ticker: String } }`|`{ price: Double, change: Double, name: String, average_volume: Integer, volume: Integer s }`
+|POST /quote        |This guy right here gives you the stonk price and stuff.     |`{ body: { ticker: String } }`|`{ price: Double, change: Double, name: String, average_volume: Integer, volume: Integer }`
 |POST /optionsQuote |This dude here gives you the total options data.              |`{ body: { ticker: String } }`|`{ callOI: Integer, callVol: Integer, callIV: Double, putOI: Integer, putVol: Integer, putIV: Double, pcRatio: Double }`
 |POST /chain        |This guy? This is the options chain.               |`{ body: { ticker: String } }`|`[ [ "2000-01-01", { strike: Double, callBid: Double, call: Double, callAsk: Double, callOI: Integer, callVol: Integer, callSymbol: String, key: String, putBid: Double, put: Double, putAsk: Double, putOI: Integer, putVol: Integer, putSymbol: String } ]... ]`
 |POST /iv           |HIV positive. Historical Implied Volatility.       |`{ body: { ticker: String, length: 30 } }`|`[ { date: "2000-01-01", underlying: Double, strike: Double, price: Double, symbol: String, iv: Double }... ]`
-|POST /historical   |This gets ya some historical data.                 |`{ body: { ticker: String, days: 720 } }`|`[ { date: "2000-01-01", open: Double, high: Double, low: Double, close: Double, volume: Integ }... ]`
-|POST /guessSymbol  |Send a request here for symbol recommendations.    |`{ body: { text: String } }`|a|
-|POST /divYield     |This gal hands you the dividend data for a stock.  |`{ body: { ticker: String } }`|a|
-|POST /treasury     |Fed up? Here's the yield curve data for today.     |`{ body: {} }`|a|
-|POST /earningsDate |Never miss a move. Here's a stocks earnings date.  |`{ body: { ticker: String } }`|a|
+|POST /historical   |This gets ya some historical data.                 |`{ body: { ticker: String, days: 720 } }`|`[ { date: "2000-01-01", open: Double, high: Double, low: Double, close: Double, volume: Integer }... ]`
+|POST /guessSymbol  |Send a request here for symbol recommendations.    |`{ body: { text: String } }`|`{ bestMatches: [ { symbol: String, name: String, type: String}... ] }`|
+|POST /dividend     |This gal hands you the dividend data for a stock.  |`{ body: { ticker: String } }`|`{ divRate:Double, divYield: Double, date: "2000-01-01" }`|
+|POST /treasury     |Fed up? Here's the yield curve data for today.     |`{ body: {} }`|`[ { name: String, val: Double }... ]`|
+|POST /earningsDate |Never miss a move. Here's a stocks earnings date.  |`{ body: { ticker: String } }`|`{ earningsDate: "2000-01-01" }`|
 
-### /api/bugs/
+### /api/bug/
 
 [bugsAndReports.js](routes/bugsAndReports.js)
 
 |Route|Description|Parameters|Returns|
 | :- |:-:|:-:|:-:|
-|POST /track         |Uhhhhhh. I should stop talking now.               |`{ body: { ip: String } }`|n
-|POST /report        |Hey look! Here's how you send state data to us.   |`{ body: { options: String } }`|a
-|POST /imageReport   |Oh snap, you can send pictures too. That's crazy. |`{ files: { file: { data : Buffer } } }`|a
+|POST /track         |Uhhhhhh. I should stop talking now.               |`{ body: { ip: String } }`|`{ error: Boolean, details: String }`|
+|POST /report        |Hey look! Here's how you send state data to us.   |`{ body: { options: String } }`|`{ error: Boolean, details: String }`|
+|POST /imageReport   |Oh snap, you can send pictures too. That's crazy. |`{ files: { file: { data : Buffer } } }`|`{ error: Boolean, details: String }`|
 
 ### /api/twitter/
 
