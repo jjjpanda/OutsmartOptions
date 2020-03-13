@@ -1,8 +1,8 @@
-const express = require('express');
-
 const appendLogs = require('./logs/appendLogs.js');
 
+const express = require('express');
 const app = express();
+
 const path = require('path');
 
 const bodyParser = require('body-parser');
@@ -14,11 +14,12 @@ const fileUpload = require('express-fileupload');
 
 app.use(fileUpload());
 
-// NECESSARY FOR CALLS IN HTML
+// HTML Calls
 app.use('/css', express.static(path.join(__dirname, '../src/css')));
 app.use('/img', express.static(path.join(__dirname, '../src/img')));
 app.use('/jsLib', express.static(path.join(__dirname, '../src/jsLib')));
 
+//Routes
 const knownPaths = ['/', '/calc', '/help', '/login', '/watch', '/about', '/checkout'];
 for (const webPath of knownPaths) {
   app.use(webPath, express.static('./dist', {
@@ -26,46 +27,19 @@ for (const webPath of knownPaths) {
   }));
 }
 
-const devRoutes = require('./routes/devRoutes.js');
+app.use('/api/market', require('./routes/market.js'));
 
-app.use('/dev', devRoutes);
+app.use('/api/bug', require('./routes/bug.js'));
 
-const twitter = require('./routes/twitter.js');
+app.use('/api/twitter', require('./routes/twitter.js'));
 
-app.use('/api/twitter', twitter);
+app.use('/api/users', require('./routes/users.js'));
 
-const marketData = require('./routes/marketData.js');
+app.use('/api/watchlist', require('./routes/watchlist.js'));
 
-app.use('/api/market', marketData);
+app.use('/api/strategy', require('./routes/strategy.js'));
 
-const bugsAndReports = require('./routes/bugsAndReports.js');
-
-app.use('/api/bug', bugsAndReports);
-
-const treasury = require('./routes/treasury.js');
-
-app.use('/api/market', treasury);
-
-const users = require('./routes/users.js');
-
-app.use('/api/users', users);
-
-const earnings = require('./routes/earnings.js');
-
-app.use('/api/market', earnings);
-
-const watchlist = require('./routes/watchlist.js');
-
-app.use('/api/watchlist', watchlist);
-
-const strategy = require('./routes/strategy.js');
-
-app.use('/api/strategy', strategy);
-
-const passport = require('passport');
-
-app.use(passport.initialize());
-require('./db/passport.js')(passport);
+app.use('/dev', require('./routes/dev.js'));
 
 // Handle 404
 app.use((req, res) => {
@@ -78,5 +52,11 @@ app.use((error, req, res, next) => {
   appendLogs('./server/logs/logs.txt', `The URL ${req.originalUrl} 500ed on you.`)
   res.status(500).send('500: Internal Server Error');
 });
+
+//Database
+const passport = require('passport');
+
+app.use(passport.initialize());
+require('./db/passport.js')(passport);
 
 module.exports = app;

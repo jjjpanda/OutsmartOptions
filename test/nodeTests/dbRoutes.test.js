@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../server/app.js');
-const mongoDB = require('../../server/database');
+const mongoDB = require('../../server/daemons/database');
 
 let id; let
   token;
