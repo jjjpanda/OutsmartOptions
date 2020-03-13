@@ -8,7 +8,7 @@ const iptrackkey = process.env.iptrack;
 const { bugUrl } = process.env;
 const { ipUrl } = process.env;
 
-const reportBugs = require('../js/reportBug.js');
+const reportBugs = require('../buffer/reportBug.js');
 
 router.post('/track', (req, res) => {
   reportBugs.getIP(iptrackkey, ipUrl, req.body.ip, (data) => {

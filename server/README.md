@@ -2,7 +2,7 @@
 
 **THIS MAY BE INACCURATE. SERVER IS UNDER DEVELOPMENT AND MAY CHANGE. DOCUMENT DRIVEN DEVELOPMENT, YOU KNOW?**
 
-The server starts from [server.js](server.js), which calls 3 main subprocesses: the [routes](#routes-and-endpoints), the [discord bot](#discord-and-roku) and all [daemons](#daemons). 
+The server starts from [server.js](server.js), which calls 3 main subprocesses: the [routes](#routes-and-endpoints), the [discord bot](#discord-and-roku) and all [daemons](#daemons). All logs go through [appendLogs.js](logs/appendLogs.js) to go into [logs.txt](logs/logs.txt). 
 
 ## Routes and Endpoints
  
@@ -97,6 +97,9 @@ Yes. There is a website.
 Yes. What's up?
 
 ## Daemons
+
+### The Database
+So... yes, there's a database: [database.js](database.js).
 
 ### Server Warmer
 The warmer sends continous GET requests to *localhost:PORT/* every 5 minutes. Here's the file: [serverWarmer.js](js/serverWarmer.js)

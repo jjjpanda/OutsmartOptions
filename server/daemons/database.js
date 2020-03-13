@@ -1,7 +1,7 @@
 const env = require('dotenv').config();
 const mongoose = require('mongoose');
-const daemon = require('./db/earningsDaemon.js');
-const appendLogs = require('./logs/appendLogs.js');
+const daemon = require('../db/earningsDaemon.js');
+const appendLogs = require('../logs/appendLogs.js');
 
 mongoose.connection.once('connected', () => {
   appendLogs('./server/logs/logs.txt', '~MongoDB Database Connected~');

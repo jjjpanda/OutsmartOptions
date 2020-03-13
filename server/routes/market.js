@@ -7,7 +7,10 @@ const env = require('dotenv').config();
 const tradikey = process.env.tradier;
 const alphakey = process.env.alpha;
 
-const realTimeData = require('../js/realTimeData.js');
+const Earnings = require('../db/models/Earnings');
+
+const realTimeData = require('../buffer/realTimeData.js');
+const treasuryXML = require('../buffer/treasuryXMLConvert.js');
 
 router.post('/price', (req, res) => {
   const { ticker } = req.body;
@@ -55,6 +58,30 @@ router.post('/guessSymbol', (req, res) => {
 router.post('/divYield', (req, res) => {
   const { ticker } = req.body;
   realTimeData.getDividend(alphakey, ticker, (data) => {
+    res.json(data);
+  });
+});
+
+router.post('/earningsSoon', (req, res) => {
+  const { ticker } = req.body;
+  Earnings.findOne({ company: ticker }).then((earnings) => {
+    if (earnings) {
+      res.json({ date: earnings.date, erSoon: true });
+    } else {
+      res.json({ erSoon: false });
+    }
+  });
+});
+
+router.post('/earningsDate', (req, res) => {
+  const { ticker } = req.body;
+  realTimeData.getEarnings(ticker, (data) => {
+    res.json(data);
+  });
+});
+
+router.post('/treasury', (req, res) => {
+  treasuryXML.getYield((data) => {
     res.json(data);
   });
 });
