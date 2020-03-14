@@ -12,7 +12,7 @@ const validate = require("./validation/loginValidation.js");
 
 const appendLogs = require('../logs/appendLogs.js');
 
-const User = require('../daemons/db/User');
+const User = require('../daemons/models/User');
 
 router.post('/register', (req, res) => {
   // Form validation

@@ -124,13 +124,13 @@ Yes. What's up? The Discord bot starts out from [discord.js](discord.js), with s
 ## Daemons
 
 ### The Database
-So... yes, there's a connection to a MongoDB backend database: [database.js](daemons/database.js). And you can interact with the server with the [Mango Discord Bot](https://github.com/jjjpanda/MongoDBDiscordBot). 
+So... yes, there's a connection to a Mongomodels backend database: [database.js](daemons/database.js). And you can interact with the server with the [Mango Discord Bot](https://github.com/jjjpanda/MongomodelsDiscormodelsot). 
 
-The [database folder](daemons/db), holds the models that are used in the server:
-[User](daemons/db/User.js),
-[Watchlist](daemons/db/Watchlist.js),
-[Strategy](daemons/db/Strategy.js),
-and [Earnings](daemons/db/Earnings.js). 
+The [database folder](daemons/models), holds the models that are used in the server:
+[User](daemons/models/User.js),
+[Watchlist](daemons/models/Watchlist.js),
+[Strategy](daemons/models/Strategy.js),
+and [Earnings](daemons/models/Earnings.js). 
 
 *But Earnings is currently not being used. See more in the [next section](###earnings-calendar)*
 

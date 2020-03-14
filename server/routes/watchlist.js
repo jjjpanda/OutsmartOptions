@@ -7,8 +7,8 @@ const env = require('dotenv').config();
 
 const secretOrKey = process.env.SECRETKEY;
 
-const Watchlist = require('../daemons/db/Watchlist');
-const User = require('../daemons/db/User');
+const Watchlist = require('../daemons/models/Watchlist');
+const User = require('../daemons/models/User');
 
 router.post('/view', auth, (req, res) => {
   User.findById(req.body.id).then((user) => {
