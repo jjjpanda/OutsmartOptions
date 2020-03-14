@@ -1,4 +1,4 @@
-module.exports = strategyFormatCheck = (req, res, next) => {
+module.exports = (req, res, next) => {
     if (!(req.body.strategy instanceof Array)) {
       res.json({ error: true, details: 'Badly Formatted Strategies, Not Array' });
       return;

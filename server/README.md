@@ -3,9 +3,23 @@
 **THIS MAY BE INACCURATE. SERVER IS UNDER DEVELOPMENT AND MAY CHANGE. DOCUMENT DRIVEN DEVELOPMENT, YOU KNOW?**
 
 The server starts from [server.js](server.js), 
-which calls 3 main subprocesses: the [routes and endpoints](#routes-and-endpoints), 
-the [discord bot](#discord-and-roku) 
-and all [daemons](#daemons). 
+which calls 3 main subprocesses: 
+1. [The Routes and Endpoints](#routes-and-endpoints)
+    - [Static Endpoints](##public-static-files-and-directories)
+    - [API Endpoints](###/api/markets/)
+        - [/api/markets/](###/api/markets/)
+        - [/api/bug/](###/api/bug/)
+        - [/api/twitter/](###/api/twitter/)
+        - [/api/users/](###/api/users/)
+        - [/api/watchlist/](###/api/watchlist/)
+        - [/api/strategy/](###/api/strategy/)
+    - [Dev Endpoints](###/dev/)
+2. [The Discord Bot](#discord-and-roku) 
+3. [The Daemons](#daemons)
+    - [The MongoDB Database](###the-database)
+    - [Earnings Calendar Daemon](###earnings-calendar)
+    - [The Server Warmer](###server-warmer)
+
 All logs go through [appendLogs.js](logs/appendLogs.js) to go into [logs.txt](logs/logs.txt). 
 
 ## Routes and Endpoints
@@ -14,8 +28,8 @@ All routes come from [app.js](app.js).
 
 The server uses ExpressJS middleware to set up all the routes.
 
-There are 2 types of routes, static file endpoints and API endpoints.
-Static endpoints are simple serves of files or directories. 
+There are 3 types of routes: static file endpoints, dev endpoints and API endpoints.
+Static and dev endpoints are simple serves of files or directories. 
 But API calls are bit more complex.
 The structure for all API calls require up to a 3 step process before they send any response:
 
@@ -124,13 +138,14 @@ Yes. What's up? The Discord bot starts out from [discord.js](discord.js), with s
 ## Daemons
 
 ### The Database
-So... yes, there's a connection to a Mongomodels backend database: [database.js](daemons/database.js). And you can interact with the server with the [Mango Discord Bot](https://github.com/jjjpanda/MongomodelsDiscormodelsot). 
+So... yes, there's a connection to a Mongo backend database: [database.js](daemons/database.js). And you can interact with the server with the [Mango Discord Bot](https://github.com/jjjpanda/MongomodelsDiscormodelsot). 
 
-The [database folder](daemons/models), holds the models that are used in the server:
-[User](daemons/models/User.js),
-[Watchlist](daemons/models/Watchlist.js),
-[Strategy](daemons/models/Strategy.js),
-and [Earnings](daemons/models/Earnings.js). 
+The [database folder](daemons/models), holds the models and objects that are used in the server:
+1. [User](daemons/models/User.js)
+2. [Watchlist](daemons/models/Watchlist.js)
+3. [Strategy](daemons/models/Strategy.js)
+4. [Earnings](daemons/models/Earnings.js)
+5. [Option](daemons/models/Option.js)
 
 *But Earnings is currently not being used. See more in the [next section](###earnings-calendar)*
 
