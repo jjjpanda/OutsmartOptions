@@ -57,6 +57,6 @@ app.use((error, req, res, next) => {
 const passport = require('passport');
 
 app.use(passport.initialize());
-require('./db/passport.js')(passport);
+require('./routes/buffer/passport.js')(passport);
 
 module.exports = app;

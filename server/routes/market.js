@@ -7,10 +7,10 @@ const env = require('dotenv').config();
 const tradikey = process.env.tradier;
 const alphakey = process.env.alpha;
 
-const Earnings = require('../db/models/Earnings');
+//const Earnings = require('../daemons/db/Earnings');
 
-const realTimeData = require('../buffer/realTimeData.js');
-const treasuryXML = require('../buffer/treasuryXMLConvert.js');
+const realTimeData = require('./buffer/realTimeData.js');
+const treasuryXML = require('./buffer/treasuryXMLConvert.js');
 
 router.post('/price', (req, res) => {
   const { ticker } = req.body;
@@ -62,6 +62,7 @@ router.post('/divYield', (req, res) => {
   });
 });
 
+/* 
 router.post('/earningsSoon', (req, res) => {
   const { ticker } = req.body;
   Earnings.findOne({ company: ticker }).then((earnings) => {
@@ -72,6 +73,7 @@ router.post('/earningsSoon', (req, res) => {
     }
   });
 });
+*/
 
 router.post('/earningsDate', (req, res) => {
   const { ticker } = req.body;

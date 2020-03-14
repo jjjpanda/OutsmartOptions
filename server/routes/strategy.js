@@ -2,13 +2,13 @@ const express = require('express');
 
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const auth = require('../buffer/authorizeUser')(jwt);
+const auth = require('./validation/authorizeUser')(jwt);
 const env = require('dotenv').config();
 
 const secretOrKey = process.env.SECRETKEY;
 
-const Strategy = require('../db/models/Strategy');
-const User = require('../db/models/User');
+const Strategy = require('../daemons/db/Strategy');
+const User = require('../daemons/db/User');
 
 const strategyFormatCheck = (req, res, next) => {
   if (!(req.body.strategy instanceof Array)) {

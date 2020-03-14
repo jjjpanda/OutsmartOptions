@@ -1,6 +1,6 @@
 const request = require('request');
 
-const appendLogs = require('../logs/appendLogs.js');
+const appendLogs = require('../../logs/appendLogs.js');
 
 module.exports = {
 

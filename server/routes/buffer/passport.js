@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('user');
 
-const appendLogs = require('../logs/appendLogs.js');
+const appendLogs = require('../../logs/appendLogs.js');
 
 const env = require('dotenv').config();
 
