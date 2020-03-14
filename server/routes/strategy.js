@@ -3,26 +3,13 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const auth = require('./validation/authorizeUser')(jwt);
+const strategyFormatCheck = require('./validation/strategyFormatCheck.js');
 const env = require('dotenv').config();
 
 const secretOrKey = process.env.SECRETKEY;
 
-const Strategy = require('../daemons/db/Strategy');
-const User = require('../daemons/db/User');
-
-const strategyFormatCheck = (req, res, next) => {
-  if (!(req.body.strategy instanceof Array)) {
-    res.json({ error: true, details: 'Badly Formatted Strategies, Not Array' });
-    return;
-  }
-  for (const strat of req.body.strategy) {
-    if (!(strat instanceof Object)) {
-      res.json({ error: true, details: 'Badly Formatted Strategies, Not Array of Objects' });
-      return;
-    }
-  }
-  next();
-};
+const Strategy = require('../daemons/models/Strategy');
+const User = require('../daemons/models/User');
 
 router.post('/load', auth, (req, res) => {
   User.findById(req.body.id).then((user) => {
