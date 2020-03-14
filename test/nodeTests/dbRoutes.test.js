@@ -71,7 +71,7 @@ describe('POST /api/users/', () => {
 
 describe('Public Routes', () => {
   describe('POST Earnings /api/market/', () => {
-    it('Tests /earningsSoon', async (done) => {
+    it.skip('Tests /earningsSoon', async (done) => {
       request(app).post('/api/market/earningsSoon')
         .send({ ticker: 'SPY' }) // The infamous SP500 Earnings
         .expect('Content-Type', /json/)
