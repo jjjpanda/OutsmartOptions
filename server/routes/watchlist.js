@@ -2,13 +2,13 @@ const express = require('express');
 
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const auth = require('../buffer/authorizeUser')(jwt);
+const auth = require('./validation/authorizeUser')(jwt);
 const env = require('dotenv').config();
 
 const secretOrKey = process.env.SECRETKEY;
 
-const Watchlist = require('../db/models/Watchlist');
-const User = require('../db/models/User');
+const Watchlist = require('../daemons/db/Watchlist');
+const User = require('../daemons/db/User');
 
 router.post('/view', auth, (req, res) => {
   User.findById(req.body.id).then((user) => {

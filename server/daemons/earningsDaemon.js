@@ -1,9 +1,9 @@
 const cron = require('node-cron');
-const processing = require('../buffer/earningsProcessing.js');
+const processing = require('./earnings/earningsProcessing.js');
 
 const appendLogs = require('../logs/appendLogs.js');
 
-const Earnings = require('./models/Earnings');
+const Earnings = require('./db/Earnings');
 
 const daemon = cron.schedule( // '*/30 * * * * *',
   '0 0-3 * * *',

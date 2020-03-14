@@ -4,7 +4,7 @@ const router = express.Router();
 
 const env = require('dotenv').config();
 
-const twitterSearchData = require('../buffer/twitterSearchData.js');
+const twitterSearchData = require('./buffer/twitterSearchData.js');
 
 router.post('/search', (req, res) => {
   const { q } = req.body;

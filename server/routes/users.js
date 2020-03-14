@@ -3,16 +3,16 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const auth = require('../buffer/authorizeUser')(jwt);
+const auth = require('./validation/authorizeUser')(jwt);
 const env = require('dotenv').config();
 
 const secretOrKey = process.env.SECRETKEY;
 
-const validate = require('../db/loginValidation.js');
+const validate = require("./validation/loginValidation.js");
 
 const appendLogs = require('../logs/appendLogs.js');
 
-const User = require('../db/models/User');
+const User = require('../daemons/db/User');
 
 router.post('/register', (req, res) => {
   // Form validation

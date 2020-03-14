@@ -2,19 +2,48 @@
 
 **THIS MAY BE INACCURATE. SERVER IS UNDER DEVELOPMENT AND MAY CHANGE. DOCUMENT DRIVEN DEVELOPMENT, YOU KNOW?**
 
-The server starts from [server.js](server.js), which calls 3 main subprocesses: the [routes](#routes-and-endpoints), the [discord bot](#discord-and-roku) and all [daemons](#daemons). All logs go through [appendLogs.js](logs/appendLogs.js) to go into [logs.txt](logs/logs.txt). 
+The server starts from [server.js](server.js), 
+which calls 3 main subprocesses: the [routes and endpoints](#routes-and-endpoints), 
+the [discord bot](#discord-and-roku) 
+and all [daemons](#daemons). 
+All logs go through [appendLogs.js](logs/appendLogs.js) to go into [logs.txt](logs/logs.txt). 
 
 ## Routes and Endpoints
  
 All routes come from [app.js](app.js). 
 
+The server uses ExpressJS middleware to set up all the routes.
+
+There are 2 types of routes, static file endpoints and API endpoints.
+Static endpoints are simple serves of files or directories. 
+But API calls are bit more complex.
+The structure for all API calls require up to a 3 step process before they send any response:
+
+1. Request Validation
+    - AKA Making sure the inputs are valid. 
+2. Data Stream Buffer
+    - AKA Making sure the data that the server requests from other API's is formatted and converted correctly.
+3. Calculations
+    - AKA Doing any math on the data that we need to. 
+
+### Public Static Files and Directories
+
+Currently app.js lists out all of the static file endpoints starting from "/", for example: "/calc", "/login" and "/watch".
+These all serve the same static [HTML file from dist](../dist/app.html). 
+
+The app also serves full directories from ["/css"](../src/css), ["/img"](../src/img), and ["/jsLib"](../src/jsLib).
+
 ### /api/markets/
 
 Here we got all of the market data: stonks, options, treasury yields... You name it.  
-Here's your three route files:
-[marketData.js](routes/marketData.js),
-[earnings.js](routes/earnings.js) and
-[treasury.js](routes/treasury.js)
+Here's your route file: [market.js](routes/market.js).
+
+1. Request Validation Files
+    - [a](a)
+2. Data Stream Buffers
+    - [a](a)
+3. Calculations
+    - [a](a)
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
@@ -30,7 +59,7 @@ Here's your three route files:
 
 ### /api/bug/
 
-[bugsAndReports.js](routes/bugsAndReports.js)
+[bug.js](routes/bug.js)
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
@@ -79,7 +108,7 @@ Here's your three route files:
 
 ### /dev/
 
-[devRoutes.js](routes/devRoutes.js)
+[dev.js](routes/dev.js)
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
@@ -88,18 +117,28 @@ Here's your three route files:
 |GET |/lint      |View the [ESLint](./eslint/lintOutput.html) HTML report file.          |`{ query: {} }`|HTML File|
 |POST |/logs     |This will send you the [logs.txt](logs/logs.txt).                      |`{ body: { token: String } }`|Text File|
 
-### Webpage Routes
-
-Yes. There is a website.
-
 ## Discord and Roku
 
-Yes. What's up?
+Yes. What's up? The Discord bot starts out from [discord.js](discord.js), with self-contained code. The bot connects back to the Outsmart Options discord server and is named Roku. Saying "roku" or @ing the bot will let you know whether the server is up or not.
 
 ## Daemons
 
 ### The Database
-So... yes, there's a database: [database.js](database.js).
+So... yes, there's a connection to a MongoDB backend database: [database.js](daemons/database.js). And you can interact with the server with the [Mango Discord Bot](https://github.com/jjjpanda/MongoDBDiscordBot). 
+
+The [database folder](daemons/db), holds the models that are used in the server:
+[User](daemons/db/User.js),
+[Watchlist](daemons/db/Watchlist.js),
+[Strategy](daemons/db/Strategy.js),
+and [Earnings](daemons/db/Earnings.js). 
+
+*But Earnings is currently not being used. See more in the [next section](###earnings-calendar)*
+
+### Earnings Calendar
+**Currently not in use.**
+
+Note that the earnings daemon is called by the database daemon [described above](###the-database).
+The earnings [daemon](daemons/earningsDaemon.js) updates the database ER calendar. 
 
 ### Server Warmer
-The warmer sends continous GET requests to *localhost:PORT/* every 5 minutes. Here's the file: [serverWarmer.js](js/serverWarmer.js)
+The warmer sends continous GET requests to *localhost:PORT/* every 5 minutes. Here's the file: [serverWarmer.js](daemons/serverWarmer.js)
