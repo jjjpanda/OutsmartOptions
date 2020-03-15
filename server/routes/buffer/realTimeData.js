@@ -315,13 +315,11 @@ module.exports = {
               stock['name'] = stock.description
               delete stock.description;
             }
-            console.log(body)
             callback(body);
           }
           else{
             body['name'] = body.description
             delete body.description;
-            console.log(body)
             callback([body]);
           }
         }
