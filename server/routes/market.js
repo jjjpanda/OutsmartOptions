@@ -9,27 +9,25 @@ const alphakey = process.env.alpha;
 
 //const Earnings = require('../daemons/db/Earnings');
 
+const validate = require('./validation/marketDataRequestValidation.js')
+
 const realTimeData = require('./buffer/realTimeData.js');
 const treasuryXML = require('./buffer/treasuryXMLConvert.js');
 
-router.post('/price', (req, res) => {
-  const { ticker } = req.body;
-  // res.json({"test": "test"});
-  realTimeData.getData(tradikey, ticker, (data) => {
+router.post('/price', validate.validateTicker, (req, res) => {
+  realTimeData.getData(tradikey, req.body.ticker, (data) => {
     res.json(data);
   });
 });
 
-router.post('/chain', (req, res) => {
-  const { ticker } = req.body;
-  realTimeData.getExpiries(tradikey, ticker, (data) => {
+router.post('/chain', validate.validateTicker, (req, res) => {
+  realTimeData.getExpiries(tradikey, req.body.ticker, (data) => {
     res.json(data);
   });
 });
 
-router.post('/optionsQuote', (req, res) => {
-  const { ticker } = req.body;
-  realTimeData.getOptionsQuote(tradikey, ticker, (data) => {
+router.post('/optionsQuote', validate.validateTicker, (req, res) => {
+  realTimeData.getOptionsQuote(tradikey, req.body.ticker, (data) => {
     res.json(data);
   });
 })
@@ -50,14 +48,25 @@ router.post('/historical', (req, res) => {
 
 router.post('/guessSymbol', (req, res) => {
   const { text } = req.body;
-  realTimeData.guessSymbol(alphakey, text, (data) => {
+  realTimeData.guessSymbol(tradikey, text, (data) => {
     res.json(data);
   });
 });
 
-router.post('/divYield', (req, res) => {
-  const { ticker } = req.body;
-  realTimeData.getDividend(alphakey, ticker, (data) => {
+router.post('/divYield', validate.validateTicker, (req, res) => {
+  realTimeData.getDividend(alphakey, req.body.ticker, (data) => {
+    res.json(data);
+  });
+});
+
+router.post('/earningsDate', validate.validateTicker, (req, res) => {
+  realTimeData.getEarnings(req.body.ticker, (data) => {
+    res.json(data);
+  });
+});
+
+router.post('/treasury', (req, res) => {
+  treasuryXML.getYield((data) => {
     res.json(data);
   });
 });
@@ -74,18 +83,5 @@ router.post('/earningsSoon', (req, res) => {
   });
 });
 */
-
-router.post('/earningsDate', (req, res) => {
-  const { ticker } = req.body;
-  realTimeData.getEarnings(ticker, (data) => {
-    res.json(data);
-  });
-});
-
-router.post('/treasury', (req, res) => {
-  treasuryXML.getYield((data) => {
-    res.json(data);
-  });
-});
 
 module.exports = router;
