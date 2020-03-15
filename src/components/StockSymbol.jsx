@@ -52,7 +52,6 @@ class StockSymbol extends React.Component {
     notFound = (val) => {
       const e = val.trim();
       post.fetchReq('/api/market/guessSymbol', JSON.stringify({ text: e }), (data) => {
-        data = JSON.parse(data);
         data = data.bestMatches.filter((e) => e['4. region'] === 'United States').filter((e) => e['3. type'] === 'Equity');
         console.log(data);
         this.setState(() => (
