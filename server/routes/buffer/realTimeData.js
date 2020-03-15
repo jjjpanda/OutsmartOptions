@@ -293,10 +293,26 @@ module.exports = {
   guessSymbol(apikey, data, callback) {
     request({
       method: 'get',
-      url: `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${data}&apikey=${apikey}`,
+      url: 'https://sandbox.tradier.com/v1/markets/search',
+      qs: {
+        q: data,
+      },
+      headers: {
+        Authorization: `Bearer ${apikey}`,
+        Accept: 'application/json',
+      },
     },
     (error, response, body) => {
       if (!error && response.statusCode == 200) {
+        body = JSON.parse(body)
+        if(body.securities === undefined || body.securities === null || body.securities.security === null){
+          callback({ error: true })
+        }
+        body = body.securities.security
+        for (let stock of body){
+          stock['name'] = stock.description
+          delete stock.description;
+        }
         callback(body);
       } else {
         callback({ error: true });

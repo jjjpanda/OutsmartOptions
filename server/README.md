@@ -4,7 +4,7 @@
 
 The server starts from [server.js](server.js), 
 which calls 3 main subprocesses: 
-1. [The Routes and Endpoints](#routes-and-endpoints)
+1. **[The Routes and Endpoints](#routes-and-endpoints)**
     - [Static Endpoints](##public-static-files-and-directories)
     - [API Endpoints](###/api/markets/)
         - [/api/markets/](###/api/markets/)
@@ -14,9 +14,14 @@ which calls 3 main subprocesses:
         - [/api/watchlist/](###/api/watchlist/)
         - [/api/strategy/](###/api/strategy/)
     - [Dev Endpoints](###/dev/)
-2. [The Discord Bot](#discord-and-roku) 
-3. [The Daemons](#daemons)
+2. **[The Discord Bot](#discord-and-roku)**
+3. **[The Daemons](#daemons)**
     - [The MongoDB Database](###the-database)
+        - [Users](###the-database)
+        - [Watchlist](###the-database)
+        - [Strategy](###the-database)
+        - [Earnings](###the-database)
+        - [Option](###the-database)
     - [Earnings Calendar Daemon](###earnings-calendar)
     - [The Server Warmer](###server-warmer)
 
@@ -33,16 +38,15 @@ Static and dev endpoints are simple serves of files or directories.
 But API calls are bit more complex.
 The structure for all API calls require up to a 3 step process before they send any response:
 
-1. Request Validation
-    - AKA Making sure the inputs are valid. 
-2. Data Stream Buffer
-    - AKA Making sure the data that the server requests from other API's is formatted and converted correctly.
-3. Calculations
-    - AKA Doing any math on the data that we need to. 
+|Step|Title|Description|Error Response|
+|:-|:-:|:-:|:-:|
+|1|Request Validation|Making sure the inputs are valid.|Unauthorized or `{ error: true, details: "Validation Error" }`
+|2|Data Stream Buffer|Making sure the data that the server requests from other API's is formatted and converted correctly.|`{ error: true, details: "Data Formatting Error" }`
+|3|Calculations and Verification|Doing any math on the data that we need to and checking everything is ok.|`{ error: true, details: "Calculation/Verification Error" }`
 
 ### Public Static Files and Directories
 
-Currently app.js lists out all of the static file endpoints starting from "/", for example: "/calc", "/login" and "/watch".
+Currently [app.js](app.js) lists out all of the static file endpoints starting from "/", for example: "/calc", "/login" and "/watch".
 These all serve the same static [HTML file from dist](../dist/app.html). 
 
 The app also serves full directories from ["/css"](../src/css), ["/img"](../src/img), and ["/jsLib"](../src/jsLib).
@@ -56,7 +60,7 @@ Here's your route file: [market.js](routes/market.js).
     - [a](a)
 2. Data Stream Buffers
     - [a](a)
-3. Calculations
+3. Calculations and Verification
     - [a](a)
 
 |Type|Route|Description|Parameters|Returns|
@@ -66,8 +70,8 @@ Here's your route file: [market.js](routes/market.js).
 |POST|/chain        |This guy? This is the options chain.               |`{ body: { ticker: String } }`|`[ [ "2000-01-01", { strike: Double, callBid: Double, call: Double, callAsk: Double, callOI: Integer, callVol: Integer, callSymbol: String, key: String, putBid: Double, put: Double, putAsk: Double, putOI: Integer, putVol: Integer, putSymbol: String } ]... ]`|
 |POST|/iv           |HIV positive. Historical Implied Volatility.       |`{ body: { ticker: String, length: 30 } }`|`[ { date: "2000-01-01", underlying: Double, strike: Double, price: Double, symbol: String, iv: Double }... ]`|
 |POST|/historical   |This gets ya some historical data.                 |`{ body: { ticker: String, days: 720 } }`|`[ { date: "2000-01-01", open: Double, high: Double, low: Double, close: Double, volume: Integer }... ]`|
-|POST|/guessSymbol  |Send a request here for symbol recommendations.    |`{ body: { text: String } }`|`{ bestMatches: [ { symbol: String, name: String, type: String}... ] }`|
-|POST|/dividend     |This gal hands you the dividend data for a stock.  |`{ body: { ticker: String } }`|`{ divRate:Double, divYield: Double, date: "2000-01-01" }`|
+|POST|/guessSymbol  |Send a request here for symbol recommendations.    |`{ body: { text: String } }`|`{ bestMatches: [ { symbol: String, name: String }... ] }`|
+|POST|/dividend     |This gal hands you the dividend data for a stock.  |`{ body: { ticker: String } }`|`{ divRate: Double, divYield: Double, date: "2000-01-01" }`|
 |POST|/treasury     |Fed up? Here's the yield curve data for today.     |`{ body: {} }`|`[ { name: String, val: Double }... ]`|
 |POST|/earningsDate |Never miss a move. Here's a stocks earnings date.  |`{ body: { ticker: String } }`|`{ earningsDate: "2000-01-01" }`|
 
@@ -142,10 +146,27 @@ So... yes, there's a connection to a Mongo backend database: [database.js](daemo
 
 The [database folder](daemons/models), holds the models and objects that are used in the server:
 1. [User](daemons/models/User.js)
+    - **name**: String
+    - **email**: String
+    - **password**: String
+    - **date**: Date
 2. [Watchlist](daemons/models/Watchlist.js)
+    - **user**: User
+    - **stocks**: Array of Strings
 3. [Strategy](daemons/models/Strategy.js)
+    - **user**: User
+    - **stock**: String
+    - **legs**: Array of Options
 4. [Earnings](daemons/models/Earnings.js)
+    - **date**: Date
+    - **company**: String
 5. [Option](daemons/models/Option.js)
+    - **date**: String (YYYY-MM-DD)
+    - **strike**: Double
+    - **price**: Double
+    - **isCall**: Boolean
+    - **isLong**: Boolean
+    - **quantity**: Integer
 
 *But Earnings is currently not being used. See more in the [next section](###earnings-calendar)*
 
