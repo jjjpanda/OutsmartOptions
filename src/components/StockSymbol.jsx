@@ -52,22 +52,21 @@ class StockSymbol extends React.Component {
     notFound = (val) => {
       const e = val.trim();
       post.fetchReq('/api/market/guessSymbol', JSON.stringify({ text: e }), (data) => {
-        data = data.bestMatches.filter((e) => e['4. region'] === 'United States').filter((e) => e['3. type'] === 'Equity');
         console.log(data);
         this.setState(() => (
           {
-            guess: data,
+            guess: data.error ? [] : data,
           }
         ));
       });
     }
 
     renderDropdown = () => this.state.guess.map((guess, i) => (
-      <AutoCompleteOption key={guess['1. symbol']} value={guess['1. symbol']}>
-        {guess['1. symbol']}
+      <AutoCompleteOption key={guess['symbol']} value={guess['symbol']}>
+        {guess['symbol']}
         <span>
           {' '}
-          {guess['2. name']}
+          {guess['name']}
           {' '}
         </span>
       </AutoCompleteOption>
