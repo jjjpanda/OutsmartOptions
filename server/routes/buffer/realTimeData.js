@@ -308,12 +308,23 @@ module.exports = {
         if(body.securities === undefined || body.securities === null || body.securities.security === null){
           callback({ error: true })
         }
-        body = body.securities.security
-        for (let stock of body){
-          stock['name'] = stock.description
-          delete stock.description;
+        else{
+          body = body.securities.security
+          if(body instanceof Array){
+            for (let stock of body){
+              stock['name'] = stock.description
+              delete stock.description;
+            }
+            console.log(body)
+            callback(body);
+          }
+          else{
+            body['name'] = body.description
+            delete body.description;
+            console.log(body)
+            callback([body]);
+          }
         }
-        callback(body);
       } else {
         callback({ error: true });
       }
