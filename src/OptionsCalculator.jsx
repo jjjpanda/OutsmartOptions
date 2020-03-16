@@ -30,11 +30,16 @@ import verifyUser from './components/UserVerifier.jsx';
 
 import * as math from 'mathematique';
 let optionsMath = math.options
+let treasury = math.treasury
 
-import * as percentageColor from './jsLib/colorLibrary.js';
-import * as structure from './jsLib/structuresEditingLibrary.js';
-import * as post from './jsLib/fetchLibrary.js';
-import * as treasury from './jsLib/treasuryLibrary.js';
+import * as aes from 'aesthetique'
+let percentageColor = aes.color
+
+import html2canvas from 'html2canvas';
+
+import * as util from 'utilique'
+let structure = util.structures
+let post = util.fetch
 
 import * as moment from 'moment';
 

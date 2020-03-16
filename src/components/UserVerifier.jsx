@@ -1,5 +1,7 @@
 import Cookies from 'js-cookie';
-import * as post from '../jsLib/fetchLibrary.js';
+
+import * as util from "utilique"
+let post = util.fetch
 
 export default function verifyUser(callback) {
   post.fetchReqAuth('/api/users/current', Cookies.get('token'), JSON.stringify({ id: Cookies.get('id') }), (data) => {

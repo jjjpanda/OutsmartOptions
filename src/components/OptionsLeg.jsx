@@ -10,7 +10,8 @@ import {
 import { BarLineComboGraph } from './Graphs.jsx';
 import HelpTooltip from './HelpTooltip.jsx';
 
-import * as post from '../jsLib/fetchLibrary.js';
+import * as util from "utilique"
+let post = util.fetch
 
 class OptionsLeg extends React.Component {
   constructor(props) {

@@ -49,7 +49,7 @@ The structure for all API calls require up to a 3 step process before they send 
 Currently [app.js](app.js) lists out all of the static file endpoints starting from "/", for example: "/calc", "/login" and "/watch".
 These all serve the same static [HTML file from dist](../dist/app.html). 
 
-The app also serves full directories from ["/css"](../src/css), ["/img"](../src/img), and ["/jsLib"](../src/jsLib).
+The app also serves full directories from ["/css"](../src/css) and ["/img"](../src/img).
 
 ### /api/markets/
 

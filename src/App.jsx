@@ -32,7 +32,8 @@ import LoginPage from './LoginPage.jsx';
 import HelpPage from './HelpPage.jsx';
 import Checkout from './checkout.jsx';
 
-import * as post from './jsLib/fetchLibrary.js';
+import * as util from "utilique"
+let post = util.fetch
 
 const { Footer } = Layout;
 const { Sider } = Layout;

@@ -9,7 +9,9 @@ import {
 
 import Cookie from 'js-cookie';
 import verifyUser from './UserVerifier.jsx';
-import * as post from '../jsLib/fetchLibrary.js';
+
+import * as util from "utilique"
+let post = util.fetch
 
 const hasErrors = (fieldsError) => Object.keys(fieldsError).some((field) => fieldsError[field]);
 

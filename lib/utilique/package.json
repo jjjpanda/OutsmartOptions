@@ -1,0 +1,11 @@
+{
+    "name": "utilique",
+    "version": "1.0.0",
+    "description": "utilities and whatever",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"hi\""
+    },
+    "author": "j"
+  }
+  
