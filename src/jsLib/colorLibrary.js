@@ -1,3 +1,5 @@
+import Cookie from 'js-cookie'
+console.log(Cookie.get('theme'))
 export function hexColorFromPercent(percentGain) {
   if (percentGain <= 0) {
     return colorToHex(Math.max(80, 255 + (25 * percentGain)), 0, 0);
@@ -16,5 +18,5 @@ export function hexColorFromPercent(percentGain) {
   }
 }
 function colorToHex(r, g, b) {
-  return `2px solid rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
+  return `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)}, 1)`;
 }
