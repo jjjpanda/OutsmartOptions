@@ -13,9 +13,11 @@ import HelpTooltip from './HelpTooltip.jsx';
 
 import verifyUser from './UserVerifier.jsx';
 
-import * as optionsMath from '../jsLib/optionsMathLibrary.js';
+import * as math from 'mathematique';
+let optionsMath = math.options
+let outliers = math.stats
+
 import * as post from '../jsLib/fetchLibrary.js';
-import * as outliers from '../jsLib/outliersLibrary.js';
 import * as treasury from '../jsLib/treasuryLibrary.js';
 
 import * as moment from 'moment';

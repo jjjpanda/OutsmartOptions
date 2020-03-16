@@ -65,7 +65,7 @@ Here's your route file: [market.js](routes/market.js).
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
-|POST|/quote        |This guy right here gives you the stonk price and stuff.     |`{ body: { ticker: String } }`|`{ price: Double, change: Double, name: String, average_volume: Integer, volume: Integer }`|
+|POST|/quote        |This guy right here gives you the stonk price and stuff.     |`{ body: { ticker: String } }`|`{ found: Boolean, price: Double, change: Double, name: String, average_volume: Integer, volume: Integer }`|
 |POST|/optionsQuote |This dude here gives you the total options data.              |`{ body: { ticker: String } }`|`{ callOI: Integer, callVol: Integer, callIV: Double, putOI: Integer, putVol: Integer, putIV: Double, pcRatio: Double }`|
 |POST|/chain        |This guy? This is the options chain.               |`{ body: { ticker: String } }`|`[ [ "2000-01-01", { strike: Double, callBid: Double, call: Double, callAsk: Double, callOI: Integer, callVol: Integer, callSymbol: String, key: String, putBid: Double, put: Double, putAsk: Double, putOI: Integer, putVol: Integer, putSymbol: String } ]... ]`|
 |POST|/iv           |HIV positive. Historical Implied Volatility.       |`{ body: { ticker: String, length: 30 } }`|`[ { date: "2000-01-01", underlying: Double, strike: Double, price: Double, symbol: String, iv: Double }... ]`|

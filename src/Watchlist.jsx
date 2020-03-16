@@ -63,35 +63,37 @@ class Watchlist extends React.Component {
     };
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }), () => {
-        post.fetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id')}), (data) => {
-          this.setState(() => ({watchlist: data.list, dataSource: data.list.map(stock => {return {ticker: stock}})}), () => {
-            for( let stock of this.state.watchlist ){
-              post.fetchReq('/api/market/price', JSON.stringify({ticker: stock}), (data) => {
-                this.setState((state) => {
-                  let i = state.dataSource.findIndex(e => e.ticker == stock)
-                  state.dataSource[i].price = data.price
-                  state.dataSource[i].change = data.change
-                  state.dataSource[i].name = data.name
-                  return { dataSource: state.dataSource }
+        if(this.state.loggedIn){
+          post.fetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id')}), (data) => {
+            this.setState(() => ({watchlist: data.list, dataSource: data.list.map(stock => {return {ticker: stock}})}), () => {
+              for( let stock of this.state.watchlist ){
+                post.fetchReq('/api/market/price', JSON.stringify({ticker: stock}), (data) => {
+                  this.setState((state) => {
+                    let i = state.dataSource.findIndex(e => e.ticker == stock)
+                    state.dataSource[i].price = data.price
+                    state.dataSource[i].change = data.change
+                    state.dataSource[i].name = data.name
+                    return { dataSource: state.dataSource }
+                  })
                 })
-              })
-              post.fetchReq('/api/market/optionsQuote', JSON.stringify({ticker: stock}), (data) => {
-                this.setState((state) => {
-                  let i = state.dataSource.findIndex(e => e.ticker == stock)
-                  state.dataSource[i].callIV = data.callIV
-                  state.dataSource[i].callVol = data.callVol
-                  state.dataSource[i].callOI = data.callOI
-                  state.dataSource[i].putIV = data.putIV
-                  state.dataSource[i].putVol = data.putVol
-                  state.dataSource[i].putOI = data.putOI
-                  state.dataSource[i].pcRatio = data.pcRatio
-                  return { dataSource: state.dataSource }
+                post.fetchReq('/api/market/optionsQuote', JSON.stringify({ticker: stock}), (data) => {
+                  this.setState((state) => {
+                    let i = state.dataSource.findIndex(e => e.ticker == stock)
+                    state.dataSource[i].callIV = data.callIV
+                    state.dataSource[i].callVol = data.callVol
+                    state.dataSource[i].callOI = data.callOI
+                    state.dataSource[i].putIV = data.putIV
+                    state.dataSource[i].putVol = data.putVol
+                    state.dataSource[i].putOI = data.putOI
+                    state.dataSource[i].pcRatio = data.pcRatio
+                    return { dataSource: state.dataSource }
+                  })
                 })
-              })
-            }
-          })
-        });
-      });
+              }
+            })
+          });
+        }
+      }); 
     });
   }
 

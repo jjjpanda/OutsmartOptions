@@ -27,7 +27,10 @@ import OptionsLeg from './components/OptionsLeg.jsx';
 import verifyUser from './components/UserVerifier.jsx';
 
 // JS Libraries
-import * as optionsMath from './jsLib/optionsMathLibrary.js';
+
+import * as math from 'mathematique';
+let optionsMath = math.options
+
 import * as percentageColor from './jsLib/colorLibrary.js';
 import * as structure from './jsLib/structuresEditingLibrary.js';
 import * as post from './jsLib/fetchLibrary.js';

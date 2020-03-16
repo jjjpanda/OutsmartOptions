@@ -11,13 +11,13 @@ const alphakey = process.env.alpha;
 
 const validate = require('./validation/marketDataRequestValidation.js')
 
+const tradierBuffer = require('./buffer/tradierBuffer.js')
+
 const realTimeData = require('./buffer/realTimeData.js');
 const treasuryXML = require('./buffer/treasuryXMLConvert.js');
 
-router.post('/price', validate.validateTicker, (req, res) => {
-  realTimeData.getData(tradikey, req.body.ticker, (data) => {
-    res.json(data);
-  });
+router.post('/price', validate.validateTicker, tradierBuffer.getQuotes, (req, res) => {
+  res.json(req.body.answer)
 });
 
 router.post('/chain', validate.validateTicker, (req, res) => {
@@ -26,27 +26,29 @@ router.post('/chain', validate.validateTicker, (req, res) => {
   });
 });
 
+router.post('/chain2', validate.validateTicker, tradierBuffer.getChainExpiries, (req, res) => {
+  res.json(req.body.answer)
+});
+
 router.post('/optionsQuote', validate.validateTicker, (req, res) => {
   realTimeData.getOptionsQuote(tradikey, req.body.ticker, (data) => {
     res.json(data);
   });
 })
 
-router.post('/iv', (req, res) => {
-  const { ticker, length } = req.body;
-  realTimeData.getIV(tradikey, ticker, (length === undefined ? 30 : length), (data) => {
+router.post('/iv', validate.validateTicker, validate.validateIVLength, (req, res) => {
+  realTimeData.getIV(tradikey, req.body.ticker, req.body.length, (data) => {
     res.json(data);
   });
 });
 
-router.post('/historical', (req, res) => {
-  const { ticker, days } = req.body;
-  realTimeData.getStockHistoricalData(tradikey, ticker, (days === undefined ? 720 : days), (data) => {
+router.post('/historical', validate.validateTicker, validate.validateDays, (req, res) => {
+  realTimeData.getStockHistoricalData(tradikey, req.body.ticker, req.body.days, (data) => {
     res.json(data);
   });
 });
 
-router.post('/guessSymbol', (req, res) => {
+router.post('/guessSymbol', validate.validateText, (req, res) => {
   const { text } = req.body;
   realTimeData.guessSymbol(tradikey, text, (data) => {
     res.json(data);

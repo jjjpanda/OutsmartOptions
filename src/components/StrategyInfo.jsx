@@ -5,7 +5,8 @@ import {
   Icon,
 } from 'antd';
 
-import * as optionsMath from '../jsLib/optionsMathLibrary.js';
+import * as math from 'mathematique';
+let optionsMath = math.options
 
 const warningColor = (state) => {
   if (state.risks <= 0) {
