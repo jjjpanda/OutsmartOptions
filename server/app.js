@@ -17,7 +17,6 @@ app.use(fileUpload());
 // HTML Calls
 app.use('/css', express.static(path.join(__dirname, '../src/css')));
 app.use('/img', express.static(path.join(__dirname, '../src/img')));
-app.use('/jsLib', express.static(path.join(__dirname, '../src/jsLib')));
 
 //Routes
 const knownPaths = ['/', '/calc', '/help', '/login', '/watch', '/about', '/checkout'];

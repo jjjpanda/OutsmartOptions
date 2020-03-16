@@ -43,6 +43,7 @@
   ],
   "homepage": "https://github.com/jjjpanda/OutsmartOptions#readme",
   "dependencies": {
+    "aesthetique": "file:./lib/aesthetique",
     "antd": "^3.26.13",
     "bcryptjs": "^2.4.3",
     "body-scroll-lock": "^2.6.4",
@@ -53,10 +54,11 @@
     "eslint-plugin-jest": "^23.8.2",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
+    "html2canvas": "^1.0.0-rc.5",
     "is-empty": "^1.2.0",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
-    "mathematique": "file:./mathematique",
+    "mathematique": "file:./lib/mathematique",
     "moment": "^2.24.0",
     "mongoose": "^5.9.3",
     "node-cron": "^2.0.3",
@@ -76,6 +78,7 @@
     "stripe": "^8.29.0",
     "styled-components": "^4.4.1",
     "url-loader": "^2.3.0",
+    "utilique": "file:./lib/utilique",
     "validator": "^12.2.0",
     "xml-js": "^1.6.11"
   },

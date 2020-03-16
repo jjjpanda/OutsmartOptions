@@ -1,0 +1,11 @@
+{
+    "name": "aesthetique",
+    "version": "1.0.0",
+    "description": "A E S T H E T I C",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"hi\""
+    },
+    "author": "j"
+  }
+  

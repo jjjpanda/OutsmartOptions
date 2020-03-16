@@ -3,7 +3,9 @@ import { Table } from 'antd';
 
 import verifyUser from './components/UserVerifier.jsx';
 import Cookie from 'js-cookie'
-import * as post from './jsLib/fetchLibrary.js';
+
+import * as util from "utilique"
+let post = util.fetch
 
 const columns = [
   {

@@ -16,9 +16,10 @@ import verifyUser from './UserVerifier.jsx';
 import * as math from 'mathematique';
 let optionsMath = math.options
 let outliers = math.stats
+let treasury = math.treasury
 
-import * as post from '../jsLib/fetchLibrary.js';
-import * as treasury from '../jsLib/treasuryLibrary.js';
+import * as util from 'utilique'
+let post = util.fetch
 
 import * as moment from 'moment';
 
