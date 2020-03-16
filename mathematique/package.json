@@ -1,0 +1,10 @@
+{
+  "name": "mathematique",
+  "version": "1.0.0",
+  "description": "math and stuff",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"hi\""
+  },
+  "author": "j"
+}
