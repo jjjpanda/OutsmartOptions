@@ -13,13 +13,19 @@ import HelpTooltip from './HelpTooltip.jsx';
 
 import verifyUser from './UserVerifier.jsx';
 
-import * as math from 'mathematique';
+// JS Libraries
+import { 
+  aesthetique as aes, 
+  mathematique as math, 
+  utilique as util 
+} from "que-series"
+
 let optionsMath = math.options
 let outliers = math.stats
 let treasury = math.treasury
 
-import * as util from 'utilique'
-let post = util.fetch
+
+let post = util.post
 
 import * as moment from 'moment';
 

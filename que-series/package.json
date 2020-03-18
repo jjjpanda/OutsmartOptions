@@ -1,0 +1,18 @@
+{
+  "name": "que-series",
+  "version": "1.0.0",
+  "description": "all the eek que JS tools",
+  "main": "src/index.js",
+  "module": "index.js",
+  "scripts": {
+    "build": "npm install && npx webpack",
+    "test": "echo \"hi\""
+  },
+  "author": "j",
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-transform-modules-commonjs": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.42.0"
+  }
+}

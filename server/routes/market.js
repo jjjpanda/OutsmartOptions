@@ -12,23 +12,15 @@ const alphakey = process.env.alpha;
 const validate = require('./validation/marketDataRequestValidation.js')
 
 const tradierBuffer = require('./buffer/tradierBuffer.js')
+const treasuryBuffer = require('./buffer/treasuryBuffer.js')
+
+const noCheckSend = require('./calculation/noCheckSend.js')
 
 const realTimeData = require('./buffer/realTimeData.js');
-const treasuryXML = require('./buffer/treasuryXMLConvert.js');
 
-router.post('/price', validate.validateTicker, tradierBuffer.getQuotes, (req, res) => {
-  res.json(req.body.answer)
-});
+router.post('/price', validate.validateTicker, tradierBuffer.getQuotes, noCheckSend);
 
-router.post('/chain', validate.validateTicker, (req, res) => {
-  realTimeData.getExpiries(tradikey, req.body.ticker, (data) => {
-    res.json(data);
-  });
-});
-
-router.post('/chain2', validate.validateTicker, tradierBuffer.getChainExpiries, (req, res) => {
-  res.json(req.body.answer)
-});
+router.post('/chain', validate.validateTicker, tradierBuffer.getChainExpiries, noCheckSend);
 
 router.post('/optionsQuote', validate.validateTicker, (req, res) => {
   realTimeData.getOptionsQuote(tradikey, req.body.ticker, (data) => {
@@ -67,11 +59,7 @@ router.post('/earningsDate', validate.validateTicker, (req, res) => {
   });
 });
 
-router.post('/treasury', (req, res) => {
-  treasuryXML.getYield((data) => {
-    res.json(data);
-  });
-});
+router.post('/treasury', treasuryBuffer.getYieldCurve, noCheckSend);
 
 /* 
 router.post('/earningsSoon', (req, res) => {

@@ -3,6 +3,10 @@ const moment = require('moment')
 
 const appendLogs = require('../../logs/appendLogs.js');
 
+const treasuryBuffer = require('./treasuryBuffer.js')
+
+console.log(require('que-series').aesthetique)
+
 const env = require('dotenv').config();
 const apikey = process.env.tradier;
 
@@ -56,28 +60,31 @@ module.exports = {
         },
       }, (error, response, body) => {
         if(!error && response.statusCode == 200){
-          let {expirations} = JSON.parse(body)
-          if(expirations == null){
-            res.json({ error: true, details: "No Options Expiries" })
-          }
-          else{
-            //req.body.answer = expirations;
-            const numberOfExpiries = expirations.date.length
-            const optionsChain = []
-            let i = 0;
-            function looper(data, index){
-              optionsChain.splice(index, 0, [expirations.date[i], data])
-              i++;
-              if (i >= numberOfExpiries){
-                req.body.answer = optionsChain;
-                next()
-              }
-              else{
-                getChainOfExpiry(req.body.ticker, expirations.date[i], looper, i)
-              }
+          let res = {body: {}}
+          treasuryBuffer.getYieldCurve(res, "", () => {
+            let {expirations} = JSON.parse(body)
+            if(expirations == null){
+              res.json({ error: true, details: "No Options Expiries" })
             }
-            getChainOfExpiry(req.body.ticker, expirations.date[i], looper, i)
-          }
+            else{
+              //req.body.answer = expirations;
+              const numberOfExpiries = expirations.date.length
+              const optionsChain = []
+              let i = 0;
+              function looper(data, index){
+                optionsChain.splice(index, 0, [expirations.date[i], data])
+                i++;
+                if (i >= numberOfExpiries){
+                  req.body.answer = optionsChain;
+                  next()
+                }
+                else{
+                  getChainOfExpiry(req.body.ticker, expirations.date[i], looper, i)
+                }
+              }
+              getChainOfExpiry(req.body.ticker, expirations.date[i], looper, i)
+            }
+          })
         }
         else{
           res.json({ error: true, details: "Data Formatting Error" })

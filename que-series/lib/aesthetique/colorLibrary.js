@@ -16,6 +16,5 @@ export function hexColorFromPercent(percentGain) {
   }
 }
 function colorToHex(r, g, b) {
-  console.log(r, g, b)
   return `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)}, 1)`;
 }

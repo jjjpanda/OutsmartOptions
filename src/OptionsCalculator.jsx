@@ -27,19 +27,21 @@ import OptionsLeg from './components/OptionsLeg.jsx';
 import verifyUser from './components/UserVerifier.jsx';
 
 // JS Libraries
+import { 
+  aesthetique as aes, 
+  mathematique as math, 
+  utilique as util 
+} from "que-series"
 
-import * as math from 'mathematique';
 let optionsMath = math.options
 let treasury = math.treasury
 
-import * as aes from 'aesthetique'
 let percentageColor = aes.color
 
-import html2canvas from 'html2canvas';
-
-import * as util from 'utilique'
 let structure = util.structures
-let post = util.fetch
+let post = util.post
+
+import html2canvas from 'html2canvas';
 
 import * as moment from 'moment';
 

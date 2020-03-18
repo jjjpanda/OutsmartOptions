@@ -32,8 +32,11 @@ import LoginPage from './LoginPage.jsx';
 import HelpPage from './HelpPage.jsx';
 import Checkout from './checkout.jsx';
 
-import * as util from "utilique"
-let post = util.fetch
+import {
+  utilique as util 
+} from "que-series"
+
+let post = util.post
 
 const { Footer } = Layout;
 const { Sider } = Layout;
