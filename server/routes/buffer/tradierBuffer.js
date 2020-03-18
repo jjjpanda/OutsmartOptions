@@ -5,7 +5,7 @@ const appendLogs = require('../../logs/appendLogs.js');
 
 const treasuryBuffer = require('./treasuryBuffer.js')
 
-console.log(require('que-series').aesthetique)
+console.log("If this: "+ require('que-series').mathematique.options.loss(1, 0) + " is 1, you're good.")
 
 const env = require('dotenv').config();
 const apikey = process.env.tradier;

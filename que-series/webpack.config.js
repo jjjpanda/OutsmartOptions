@@ -6,9 +6,12 @@ entry: {
   app: './index.js',
 },
 output: {
-  filename: 'index.js',
-  path: path.resolve(__dirname, 'src')
+  filename: 'bundle.js',
+  path: path.resolve(__dirname, 'src'),
+  library: '', 
+  libraryTarget: 'commonjs'
 },
+target: "node",
 resolve: {
   extensions: ['.js']
 },
