@@ -10,8 +10,9 @@ import {
 import Cookie from 'js-cookie';
 import verifyUser from './UserVerifier.jsx';
 
-import * as util from "utilique"
-let post = util.fetch
+import { utilique as util } from "que-series"
+
+let post = util.post
 
 const hasErrors = (fieldsError) => Object.keys(fieldsError).some((field) => fieldsError[field]);
 

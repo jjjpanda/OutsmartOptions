@@ -4,8 +4,9 @@ import { Table } from 'antd';
 import verifyUser from './components/UserVerifier.jsx';
 import Cookie from 'js-cookie'
 
-import * as util from "utilique"
-let post = util.fetch
+import { utilique as util } from "que-series"
+
+let post = util.post
 
 const columns = [
   {

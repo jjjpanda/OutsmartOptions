@@ -5,7 +5,8 @@ import {
   Icon,
 } from 'antd';
 
-import * as math from 'mathematique';
+import { mathematique as math } from "que-series"
+
 let optionsMath = math.options
 
 const warningColor = (state) => {
