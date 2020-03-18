@@ -2,10 +2,10 @@
   "name": "que-series",
   "version": "1.0.0",
   "description": "all the eek que JS tools",
-  "main": "src/index.js",
+  "main": "src/bundle.js",
   "module": "index.js",
   "scripts": {
-    "build": "npm install && npx webpack",
+    "build": "npm install && npx webpack && echo \"eek que eek que\"",
     "test": "echo \"hi\""
   },
   "author": "j",

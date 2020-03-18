@@ -27,7 +27,8 @@
     "createDist": "npx webpack",
     "createDistCont": "npx webpack --watch --progress",
     "nodemonStart": "npx nodemon ./server/server.js",
-    "clean": "npx rimraf dist"
+    "clean": "npx rimraf dist",
+    "postinstall": "npm explore que-series -- npm run build"
   },
   "repository": {
     "type": "git",
