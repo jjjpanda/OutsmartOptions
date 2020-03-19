@@ -65,15 +65,13 @@ Here's your route file: [market.js](routes/market.js).
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
-|POST|/quote        |This guy right here gives you the stonk price and stuff.     |`{ body: { ticker: String } }`|`{ found: Boolean, price: Double, change: Double, name: String, average_volume: Integer, volume: Integer }`|
+|POST|/quote        |This guy right here gives you the stonk price and stuff.     |`{ body: { ticker: String } }`|`{ found: Boolean, price: Double, change: Double, name: String, average_volume: Integer, volume: Integer, divRate: Double, divYield: Double, date: "2000-01-01", earningsDate: "2000-01-01" }`|
 |POST|/optionsQuote |This dude here gives you the total options data.              |`{ body: { ticker: String } }`|`{ callOI: Integer, callVol: Integer, callIV: Double, putOI: Integer, putVol: Integer, putIV: Double, pcRatio: Double }`|
 |POST|/chain        |This guy? This is the options chain.               |`{ body: { ticker: String } }`|`[ [ "2000-01-01", { strike: Double, callBid: Double, call: Double, callAsk: Double, callOI: Integer, callVol: Integer, callSymbol: String, key: String, putBid: Double, put: Double, putAsk: Double, putOI: Integer, putVol: Integer, putSymbol: String } ]... ]`|
 |POST|/iv           |HIV positive. Historical Implied Volatility.       |`{ body: { ticker: String, length: 30 } }`|`[ { date: "2000-01-01", underlying: Double, strike: Double, price: Double, symbol: String, iv: Double }... ]`|
 |POST|/historical   |This gets ya some historical data.                 |`{ body: { ticker: String, days: 720 } }`|`[ { date: "2000-01-01", open: Double, high: Double, low: Double, close: Double, volume: Integer }... ]`|
 |POST|/guessSymbol  |Send a request here for symbol recommendations.    |`{ body: { text: String } }`|`{ bestMatches: [ { symbol: String, name: String }... ] }`|
-|POST|/dividend     |This gal hands you the dividend data for a stock.  |`{ body: { ticker: String } }`|`{ divRate: Double, divYield: Double, date: "2000-01-01" }`|
 |POST|/treasury     |Fed up? Here's the yield curve data for today.     |`{ body: {} }`|`[ { name: String, val: Double }... ]`|
-|POST|/earningsDate |Never miss a move. Here's a stocks earnings date.  |`{ body: { ticker: String } }`|`{ earningsDate: "2000-01-01" }`|
 
 ### /api/bug/
 
