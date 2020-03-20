@@ -1,5 +1,7 @@
 # Que Series
 
+**THIS MAY BE INACCURATE. QUE SERIES IS UNDER DEVELOPMENT AND MAY CHANGE. DOCUMENT DRIVEN DEVELOPMENT, YOU KNOW?**
+
 eek que eek que
 
 ## Installation
@@ -52,7 +54,7 @@ So there's
 
 |Function|Description|Params|Returns|
 |:-|:-:|:-:|:-:|
-|hexColorFromPercent|desc|`(Double)`|`String`|
+|hexColorFromPercent|Get rgb color string from percentage|`(Double)`|`String`|
 
 ### Mathematique
 
@@ -60,22 +62,22 @@ So there's
 
 |Function|Description|Params|Returns|
 |:-|:-:|:-:|:-:|
-|cndf||`(x: Double)`|`Double`|
-|cndfInv||`(p: Double)`|`Double`|
-|ndf||`(x: Double)`|`Double`|
-|loss||`(a: Double, b: Double)`|`Double`|
-|d1||`(p: Double, x: Double, t: Double, q: Double, r: Double, sigma: Double)`|`Double`|
-|d2||`(p: Double, x: Double, t: Double, q: Double, r: Double, sigma: Double)`|`Double`|
-|getRangeOfPrices||`(priceUnderlying: Double, percentInterval: Double, numOfIntervals: Integer, initialCost: Double)`|`[ [Double, Double]... ]`|
-|delta||`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
-|gamma||`(t: Double, priceUnderlying: Double, strike: Double, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
-|theta||`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
-|vega||`(t: Double, priceUnderlying: Double, strike: Double, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
-|rho||`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
-|calculateGreeks||`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`{delta: Double, gamma: Double, theta: Double, vega: Double, rho: Double}`|
-|calculateIV||`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, r: Double, divYield: Double)`|`Double`|
-|calculateOptionsPrice||`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
-|calculateProfitAtExpiry||`(initialCost: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean)`|`Double`|
+|cndf|This is the cumulative normal dist function.|`(x: Double)`|`Double`|
+|cndfInv|This is the inverse of the cndf.|`(p: Double)`|`Double`|
+|ndf|This is the normal dist function.|`(x: Double)`|`Double`|
+|loss|This is the difference between the two inputs.|`(a: Double, b: Double)`|`Double`|
+|d1|Gets the d1 value in the Black Scholes formula|`(p: Double, x: Double, t: Double, q: Double, r: Double, sigma: Double)`|`Double`|
+|d2|Gets the d2 value in the Black Scholes formula|`(p: Double, x: Double, t: Double, q: Double, r: Double, sigma: Double)`|`Double`|
+|getRangeOfPrices|Returns an array of prices for calculating profits|`(priceUnderlying: Double, percentInterval: Double, numOfIntervals: Integer, initialCost: Double)`|`[ [Double, Double]... ]`|
+|delta|Gets the delta of an option|`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
+|gamma|Gets the gamma of an option|`(t: Double, priceUnderlying: Double, strike: Double, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
+|theta|Gets the theta of an option|`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
+|vega|Gets the vega of an option|`(t: Double, priceUnderlying: Double, strike: Double, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
+|rho|Gets the rho of an option|`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
+|calculateGreeks|Gets the greeks of an option|`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`{delta: Double, gamma: Double, theta: Double, vega: Double, rho: Double}`|
+|calculateIV|Calculate iv of an option|`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, r: Double, divYield: Double)`|`Double`|
+|calculateOptionsPrice|Calculate options price with Black Scholes|`(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)`|`Double`|
+|calculateProfitAtExpiry|Calculate options price at expiry|`(initialCost: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean)`|`Double`|
 |collateralAnalysis||
 |extractStrategies||
 |assignmentRiskAnalysis||
