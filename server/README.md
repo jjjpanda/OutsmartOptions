@@ -65,13 +65,13 @@ Here's your route file: [market.js](routes/market.js).
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
-|POST|/quote        |This guy right here gives you the stonk price and stuff.     |`{ body: { ticker: String } }`|`{ found: Boolean, price: Double, change: Double, name: String, average_volume: Integer, volume: Integer, divRate: Double, divYield: Double, date: "2000-01-01", earningsDate: "2000-01-01" }`|
-|POST|/optionsQuote |This dude here gives you the total options data.              |`{ body: { ticker: String } }`|`{ callOI: Integer, callVol: Integer, callIV: Double, putOI: Integer, putVol: Integer, putIV: Double, pcRatio: Double }`|
-|POST|/chain        |This guy? This is the options chain.               |`{ body: { ticker: String } }`|`[ [ "2000-01-01", { strike: Double, callBid: Double, call: Double, callAsk: Double, callOI: Integer, callVol: Integer, callSymbol: String, key: String, putBid: Double, put: Double, putAsk: Double, putOI: Integer, putVol: Integer, putSymbol: String } ]... ]`|
-|POST|/iv           |HIV positive. Historical Implied Volatility.       |`{ body: { ticker: String, length: 30 } }`|`[ { date: "2000-01-01", underlying: Double, strike: Double, price: Double, symbol: String, iv: Double }... ]`|
-|POST|/historical   |This gets ya some historical data.                 |`{ body: { ticker: String, days: 720 } }`|`[ { date: "2000-01-01", open: Double, high: Double, low: Double, close: Double, volume: Integer }... ]`|
+|POST|/quote        |This guy right here gives you the stonk price and stuff.     |`{ body: { ticker: String } }`|`{ quote: { found: Boolean, price: Double, change: Double, name: String, average_volume: Integer, volume: Integer, divRate: Double, divYield: Double, divDate: "2000-01-01", earningsDate: "2000-01-01" } }`|
+|POST|/optionsQuote |This dude here gives you the total options data.              |`{ body: { ticker: String } }`|`{ optionsQuote: { callOI: Integer, callVol: Integer, callIV: Double, putOI: Integer, putVol: Integer, putIV: Double, pcRatio: Double } }`|
+|POST|/chain        |This guy? This is the options chain.               |`{ body: { ticker: String } }`|`{ chain: [ [ "2000-01-01", { strike: Double, callBid: Double, call: Double, callAsk: Double, callOI: Integer, callVol: Integer, callSymbol: String, key: String, putBid: Double, put: Double, putAsk: Double, putOI: Integer, putVol: Integer, putSymbol: String } ]... ] }`|
+|POST|/iv           |HIV positive. Historical Implied Volatility.       |`{ body: { ticker: String, length: 30 } }`|`{ historicalIV: [ { date: "2000-01-01", underlying: Double, strike: Double, price: Double, symbol: String, iv: Double }... ] }`|
+|POST|/historical   |This gets ya some historical data.                 |`{ body: { ticker: String, days: 720 } }`|`{ historical: [ { date: "2000-01-01", open: Double, high: Double, low: Double, close: Double, volume: Integer }... ] }`|
 |POST|/guessSymbol  |Send a request here for symbol recommendations.    |`{ body: { text: String } }`|`{ bestMatches: [ { symbol: String, name: String }... ] }`|
-|POST|/treasury     |Fed up? Here's the yield curve data for today.     |`{ body: {} }`|`[ { name: String, val: Double }... ]`|
+|POST|/yields     |Fed up? Here's the yield curve data for today.     |`{ body: {} }`|`{ yields: [ { name: String, val: Double }... ] }`|
 
 ### /api/bug/
 
@@ -97,9 +97,9 @@ Here's your route file: [market.js](routes/market.js).
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
-|POST|/register    |Register an account with us.                           |`{ body: { name: String, email: String, password: String, password2: String } }`|`{ name: String, email: String, date: String }`|
-|POST|/login       |Login into the account.                                |`{ body: { email: String, password: String } }`|`{ success: Boolean, id: String, token: String }`|
-|POST|/current     |Using cookies and whatnot to get tokens and whatnot.   |`{ header: { authorization: String }, body: { id: String } }`|`{ user: String, email: String }`|
+|POST|/register    |Register an account with us.                           |`{ body: { name: String, email: String, password: String, password2: String } }`|`{ registered: { name: String, email: String, date: String } }`|
+|POST|/login       |Login into the account.                                |`{ body: { email: String, password: String } }`|`{ login: { success: Boolean, id: String, token: String } }`|
+|POST|/current     |Using cookies and whatnot to get tokens and whatnot.   |`{ header: { authorization: String }, body: { id: String } }`|`{ current: { user: String, email: String } }`|
 |POST|/change      |Change your password with this.                        |`{ header: { authorization: String }, body: { id: String, oldPassword: String, newPassword: String, newPassword2: String } }`|`{ changed: Boolean }`|
 |POST|/delete      |Delete.😢                                              |`{ header: { authorization: String }, body: { id: String } }`|`{ deleted: true }`|
 

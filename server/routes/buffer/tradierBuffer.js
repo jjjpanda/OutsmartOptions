@@ -3,7 +3,7 @@ const moment = require('moment')
 
 const appendLogs = require('../../logs/appendLogs.js');
 
-const treasuryBuffer = require('./treasuryBuffer.js')
+const { mathematique } = require("que-series")
 
 console.log("If this: "+ require('que-series').mathematique.options.loss(1, 0) + " is 1, you're good.")
 
@@ -36,7 +36,7 @@ module.exports = {
               const name = quotes.quote.description;
               const average_volume = quotes.quote.average_volume;
               const volume = quotes.quote.volume;
-              req.body.answer = { found, price, change, name, average_volume, volume };
+              req.body.answer.quote = { found, price, change, name, average_volume, volume };
               next()
             }
           } else {
@@ -59,32 +59,29 @@ module.exports = {
           Accept: 'application/json',
         },
       }, (error, response, body) => {
-        if(!error && response.statusCode == 200){
-          let res = {body: {}}
-          treasuryBuffer.getYieldCurve(res, "", () => {
-            let {expirations} = JSON.parse(body)
-            if(expirations == null){
-              res.json({ error: true, details: "No Options Expiries" })
-            }
-            else{
-              //req.body.answer = expirations;
-              const numberOfExpiries = expirations.date.length
-              const optionsChain = []
-              let i = 0;
-              function looper(data, index){
-                optionsChain.splice(index, 0, [expirations.date[i], data])
-                i++;
-                if (i >= numberOfExpiries){
-                  req.body.answer = optionsChain;
-                  next()
-                }
-                else{
-                  getChainOfExpiry(req.body.ticker, expirations.date[i], looper, i)
-                }
+        if(!error && response.statusCode == 200 && req.body.answer.quote.found){
+          let {expirations} = JSON.parse(body)
+          if(expirations == null){
+            res.json({ error: true, details: "No Options Expiries" })
+          }
+          else{
+            //req.body.answer = expirations;
+            const numberOfExpiries = expirations.date.length
+            const optionsChain = []
+            let i = 0;
+            function looper(data, index){
+              optionsChain.splice(index, 0, [expirations.date[i], data])
+              i++;
+              if (i >= numberOfExpiries){
+                req.body.answer.chain = optionsChain;
+                next()
               }
-              getChainOfExpiry(req.body.ticker, expirations.date[i], looper, i)
+              else{
+                getChainOfExpiry(req.body.ticker, expirations.date[i], req.body.answer, looper, i)
+              }
             }
-          })
+            getChainOfExpiry(req.body.ticker, expirations.date[i], req.body.answer, looper, i)
+          }
         }
         else{
           res.json({ error: true, details: "Data Formatting Error" })
@@ -94,13 +91,19 @@ module.exports = {
 
 }
 
-const getChainOfExpiry = (ticker, expiration, callback, i=0) => {
+const getChainOfExpiry = (ticker, expiration, answer, callback, i=0) => {
+  let underlying = answer.quote.price
+  let yields = answer.yields
+  let divYield = answer.quote.divYield
+  let t = moment(expiration).diff(moment(), 'days')/365
+  let rfir = mathematique.treasury.getRightYield(yields, t)
   request({
     method: 'get',
     url: 'https://sandbox.tradier.com/v1/markets/options/chains',
     qs: {
       symbol: ticker,
       expiration: expiration,
+      greeks: true
     },
     headers: {
       Authorization: `Bearer ${apikey}`,
@@ -110,46 +113,38 @@ const getChainOfExpiry = (ticker, expiration, callback, i=0) => {
     // appendLogs('./server/logs/logs.txt', response.statusCode);
     if (!error && response.statusCode == 200) {
       let {options} = JSON.parse(body);
-      let data;
       if (options != null && options.option != undefined) {
-
         options = options.option;
-        data = options.map((a) => ({
-          type: a.option_type,
-          strike: a.strike,
-          bid: a.bid,
-          ask: a.ask,
-          vol: a.volume,
-          // avol: a.average_volume,
-          oi: a.open_interest,
-          symbol: a.symbol,
-        }));
-      
-        // REFACTOR
+
         const newData = [];
         const strikes = [];
-        for (const option of data) {
+        let mid
+        for (const option of options) {
+          mid = parseFloat(((option.bid + option.ask) / 2).toFixed(2))
           if (!strikes.includes(option.strike)) {
             strikes.push(option.strike);
             newData.push({
               strike: option.strike,
-              [`${option.type}Bid`]: option.bid,
-              [option.type]: parseFloat(((option.bid + option.ask) / 2).toFixed(2)),
-              [`${option.type}Ask`]: option.ask,
-              [`${option.type}Vol`]: option.vol,
-              // [option.type+"AvgVol"]:option.avol,
-              [`${option.type}OI`]: option.oi,
-              [`${option.type}Symbol`]: option.symbol,
+              [`${option.option_type}Bid`]: option.bid,
+              [option.option_type]: mid,
+              [`${option.option_type}Ask`]: option.ask,
+              [`${option.option_type}Vol`]: option.volume,
+              [`${option.option_type}OI`]: option.open_interest,
+              [`${option.option_type}Symbol`]: option.symbol,
+              [`${option.option_type}IV`]: mathematique.options.calculateIV(t, mid, underlying, option.strike, option.option_type == 'call', rfir, divYield),
+              [`${option.option_type}Greeks`]: option.greeks,
               key: expiration + option.strike,
             });
           } else {
-            newData.find((x) => x.strike === option.strike)[`${option.type}Bid`] = option.bid;
-            newData.find((x) => x.strike === option.strike)[option.type] = ((option.bid + option.ask) / 2).toFixed(2);
-            newData.find((x) => x.strike === option.strike)[`${option.type}Ask`] = option.ask;
-            newData.find((x) => x.strike === option.strike)[`${option.type}Vol`] = option.vol;
-            // newData.find(x => x.strike === option.strike)[option.type+"AvgVol"] = option.avol
-            newData.find((x) => x.strike === option.strike)[`${option.type}OI`] = option.oi;
-            newData.find((x) => x.strike === option.strike)[`${option.type}Symbol`] = option.symbol;
+            let found = newData.find((x) => x.strike === option.strike)
+            found[`${option.option_type}Bid`] = option.bid;
+            found[option.option_type] = mid;
+            found[`${option.option_type}Ask`] = option.ask;
+            found[`${option.option_type}Vol`] = option.volume;
+            found[`${option.option_type}OI`] = option.open_interest;
+            found[`${option.option_type}Symbol`] = option.symbol;
+            found[`${option.option_type}IV`] = mathematique.options.calculateIV(t, mid, underlying, option.strike, option.option_type == 'call', rfir, divYield);
+            found[`${option.option_type}Greeks`] = option.greeks
           }
         }
 

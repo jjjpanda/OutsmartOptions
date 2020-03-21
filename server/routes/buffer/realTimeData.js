@@ -329,7 +329,7 @@ module.exports = {
     });
   },
 
-  getDividend(apikey, ticker, callback) {
+  /* getDividend(apikey, ticker, callback) {
     request({
       method: 'get',
       url: `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=${ticker}&apikey=${apikey}`,
@@ -370,27 +370,6 @@ module.exports = {
       // appendLogs('./server/logs/logs.txt', earnings)
       callback({ earningsDate: earnings });
     });
-  },
+  }, */
 
-};
-
-const getDateFromDaysAgo = (n) => {
-  let d = new Date();
-  d = new Date(d.setDate((new Date()).getDate() - n));
-  return `${d.getFullYear()}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`;
-};
-
-const ms_per_day = 1000 * 60 * 60 * 24;
-
-const dateToString = (d) => (`${d.getFullYear()}-${(`0${d.getMonth() + 1}`).slice(-2)}-${(`0${d.getDate()}`).slice(-2)}`);
-
-const stringToDate = (strDate) => {
-  strDate = strDate.split('-');
-  return new Date(strDate[0], (strDate[1] - 1), strDate[2]);
-};
-
-const timeBetweenDates = (a, b) => {
-  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-  return (Math.floor((utc1 - utc2) / ms_per_day));
 };
