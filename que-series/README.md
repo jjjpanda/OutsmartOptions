@@ -21,7 +21,9 @@ So, this is a local package. Add this to the parent's package.json
     "uhhh": "^1.0.0"
 }
 ```
-and run `npm install`
+and run `npm install` 
+
+That'll also build the packages inside for usage.
 
 ## Usage
 
