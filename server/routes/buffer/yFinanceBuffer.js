@@ -1,4 +1,5 @@
 const request = require('request');
+const moment = require('moment')
 
 module.exports = {
 
@@ -21,8 +22,8 @@ module.exports = {
                 }
                 req.body.answer.quote = { 
                     ...req.body.answer.quote, 
-                    earningsDate: new Date(data.earningsTimestamp * 1000),  
-                    divDate: data.dividendDate != undefined ? new Date(data.dividendDate * 1000) : false,
+                    earningsDate: data.earningsTimestamp != undefined ? moment(new Date(data.earningsTimestamp * 1000)).format('YYYY-MM-DD') : "",  
+                    divDate: data.dividendDate != undefined ? moment(new Date(data.dividendDate * 1000)).format('YYYY-MM-DD') : "",
                     divRate: data.trailingAnnualDividendRate != undefined ? data.trailingAnnualDividendRate : 0,
                     divYield: data.trailingAnnualDividendYield != undefined ? data.trailingAnnualDividendYield : 0, 
                 }
