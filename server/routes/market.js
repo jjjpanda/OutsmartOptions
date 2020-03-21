@@ -21,7 +21,7 @@ const noCheckSend = require('./calculation/noCheckSend.js')
 
 const realTimeData = require('./buffer/realTimeData.js');
 
-router.post('/price', validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, noCheckSend("quote"));
+router.post('/quote', validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, noCheckSend("quote"));
 
 router.post('/chain', validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, treasuryBuffer.getYieldCurve, tradierBuffer.getChainExpiries, noCheckSend("chain"));
 

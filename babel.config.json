@@ -9,6 +9,7 @@
         "@babel/plugin-transform-runtime"
     ],
     "only": [
+        "./que-series",
         "./server",
         "./src",
         "./test"
