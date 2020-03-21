@@ -68,19 +68,17 @@ module.exports = {
             //req.body.answer = expirations;
             const numberOfExpiries = expirations.date.length
             const optionsChain = []
-            let i = 0;
             function looper(data, index){
-              optionsChain.splice(index, 0, [expirations.date[i], data])
-              i++;
-              if (i >= numberOfExpiries){
+              optionsChain.splice(index, 0, [expirations.date[index], data])
+              if (optionsChain.length >= numberOfExpiries){
+                optionsChain.sort((a, b) => moment(a[0]).diff(b[0]));
                 req.body.answer.chain = optionsChain;
                 next()
               }
-              else{
-                getChainOfExpiry(req.body.ticker, expirations.date[i], req.body.answer, looper, i)
-              }
             }
-            getChainOfExpiry(req.body.ticker, expirations.date[i], req.body.answer, looper, i)
+            for(let j = 0; j < numberOfExpiries; j++){
+              getChainOfExpiry(req.body.ticker, expirations.date[j], req.body.answer, looper, j)
+            }
           }
         }
         else{
@@ -115,12 +113,12 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i=0) => {
       let {options} = JSON.parse(body);
       if (options != null && options.option != undefined) {
         options = options.option;
-
         const newData = [];
         const strikes = [];
         let mid
         for (const option of options) {
           mid = parseFloat(((option.bid + option.ask) / 2).toFixed(2))
+
           if (!strikes.includes(option.strike)) {
             strikes.push(option.strike);
             newData.push({
