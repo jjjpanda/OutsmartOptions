@@ -35,19 +35,7 @@ module.exports = {
       }
     });
   },
-
-  getOptionsQuote(apikey, ticker, callback){
-    callback({
-      callOI: Math.round(Math.random()*1000) /1000,
-      putOI: Math.round(Math.random()*1000) /1000,
-      callIV: Math.round(Math.random()*1000) /1000,
-      putIV: Math.round(Math.random()*1000) /1000,
-      callVol: Math.round(Math.random()*1000) /1000,
-      putVol: Math.round(Math.random()*1000) /1000,
-      pcRatio: Math.round(Math.random()*1000) /1000,
-    })
-  },
-
+  
   getExpiries(apikey, ticker, callback) {
     request({
       method: 'get',
@@ -329,7 +317,7 @@ module.exports = {
     });
   },
 
-  /* getDividend(apikey, ticker, callback) {
+  getDividend(apikey, ticker, callback) {
     request({
       method: 'get',
       url: `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=${ticker}&apikey=${apikey}`,
@@ -370,6 +358,6 @@ module.exports = {
       // appendLogs('./server/logs/logs.txt', earnings)
       callback({ earningsDate: earnings });
     });
-  }, */
+  },
 
 };

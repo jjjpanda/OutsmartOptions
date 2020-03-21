@@ -10,7 +10,7 @@ const alphakey = process.env.alpha;
 //const Earnings = require('../daemons/db/Earnings');
 
 const validate = require('./validation/marketDataRequestValidation.js')
-const prepare = require('./validation/prepareAnswer.js')
+const prepareAnswer = require('./validation/prepareAnswer.js')
 
 const tradierBuffer = require('./buffer/tradierBuffer.js')
 const yFinanceBuffer = require('./buffer/yFinanceBuffer.js')
@@ -21,11 +21,15 @@ const noCheckSend = require('./calculation/noCheckSend.js')
 
 const realTimeData = require('./buffer/realTimeData.js');
 
-router.post('/price', validate.validateTicker, prepare, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, noCheckSend("quote"));
+router.post('/price', validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, noCheckSend("quote"));
 
-router.post('/chain', validate.validateTicker, prepare, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, treasuryBuffer.getYieldCurve, tradierBuffer.getChainExpiries, noCheckSend("chain"));
+router.post('/chain', validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, treasuryBuffer.getYieldCurve, tradierBuffer.getChainExpiries, noCheckSend("chain"));
 
-router.post('/optionsQuote', validate.validateTicker, prepare, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, treasuryBuffer.getYieldCurve, tradierBuffer.getChainExpiries, optionsQuote.getOptionsQuote, noCheckSend("optionsQuote"));
+router.post('/optionsQuote', validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, treasuryBuffer.getYieldCurve, tradierBuffer.getChainExpiries, optionsQuote.getOptionsQuote, noCheckSend("optionsQuote"));
+
+router.post('/historical', validate.validateTicker, validate.validateDays, prepareAnswer, tradierBuffer.getHistoricalData, noCheckSend('historical'));
+
+router.post('/iv2', validate.validateTicker, validate.validateIVLength, prepareAnswer, tradierBuffer.getHistoricalIV, noCheckSend('historicalIV'));
 
 router.post('/iv', validate.validateTicker, validate.validateIVLength, (req, res) => {
   realTimeData.getIV(tradikey, req.body.ticker, req.body.length, (data) => {
@@ -33,20 +37,9 @@ router.post('/iv', validate.validateTicker, validate.validateIVLength, (req, res
   });
 });
 
-router.post('/historical', validate.validateTicker, validate.validateDays, (req, res) => {
-  realTimeData.getStockHistoricalData(tradikey, req.body.ticker, req.body.days, (data) => {
-    res.json(data);
-  });
-});
+router.post('/guessSymbol', validate.validateText, prepareAnswer, tradierBuffer.guessSymbol, noCheckSend('guesses'));
 
-router.post('/guessSymbol', validate.validateText, (req, res) => {
-  const { text } = req.body;
-  realTimeData.guessSymbol(tradikey, text, (data) => {
-    res.json(data);
-  });
-});
-
-router.post('/yields', prepare, treasuryBuffer.getYieldCurve, noCheckSend("yields"));
+router.post('/yields', prepareAnswer, treasuryBuffer.getYieldCurve, noCheckSend("yields"));
 
 /* 
 router.post('/earningsSoon', (req, res) => {
