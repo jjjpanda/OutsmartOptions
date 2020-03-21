@@ -9,6 +9,7 @@
         "@babel/plugin-transform-runtime"
     ],
     "only": [
+        "./server",
         "./src",
         "./test"
     ]
