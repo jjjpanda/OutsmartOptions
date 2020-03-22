@@ -27,149 +27,183 @@ describe('GET Website Paths /', () => {
 });
 
 describe('POST Market Data /api/market/', () => {
-  it('stock quote', async (done) => {
-    request(app).post('/api/market/quote')
-      .send({ ticker: ticker })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.quote).toBeObject();
-        expect(response.body.quote.found).toBe(true);
-        expect(response.body.quote.price).toBeNumber()
-        expect(response.body.quote.change).toBeNumber()
-        expect(response.body.quote.name).toBeString()
-        expect(response.body.quote.average_volume).toBeNumber()
-        expect(response.body.quote.volume).toBeNumber()
-        expect(response.body.quote.divRate).toBeNumber()
-        expect(response.body.quote.divYield).toBeNumber()
-        expect(response.body.quote.divDate).toBeString()
-        expect(response.body.quote.earningsDate).toBeString()
-        done();
-      });
-  }, waitTime);
+  describe('/quote', () => {
+    it('stock quote', async (done) => {
+      request(app).post('/api/market/quote')
+        .send({ ticker: ticker })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.quote).toBeObject();
+          expect(response.body.quote.found).toBe(true);
+          expect(response.body.quote.price).toBeNumber()
+          expect(response.body.quote.change).toBeNumber()
+          expect(response.body.quote.name).toBeString()
+          expect(response.body.quote.average_volume).toBeNumber()
+          expect(response.body.quote.volume).toBeNumber()
+          expect(response.body.quote.divRate).toBeNumber()
+          expect(response.body.quote.divYield).toBeNumber()
+          expect(response.body.quote.divDate).toBeString()
+          expect(response.body.quote.earningsDate).toBeString()
+          done();
+        });
+    }, waitTime);
+  
+    it('non stock search', async (done) => {
+      request(app).post('/api/market/quote')
+        .send({ ticker: nonTicker })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.quote).toBeObject();
+          expect(response.body.quote.found).toBe(false)
+          done();
+        });
+    }, waitTime);
+  })
 
-  it('non stock search', async (done) => {
-    request(app).post('/api/market/quote')
-      .send({ ticker: nonTicker })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.quote).toBeObject();
-        expect(response.body.quote.found).toBe(false)
-        done();
-      });
-  }, waitTime);
+  describe('/optionsQuote', () => {
+    it('options quote', async (done) => {
+      request(app).post('/api/market/optionsQuote')
+        .send({ ticker: ticker })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.optionsQuote).toBeObject();
+          expect(response.body.optionsQuote.callOI).toBeNumber()
+          expect(response.body.optionsQuote.callVol).toBeNumber()
+          expect(response.body.optionsQuote.callIV).toBeNumber()
+          expect(response.body.optionsQuote.callIVArray).toBeArray()
+          expect(response.body.optionsQuote.putOI).toBeNumber()
+          expect(response.body.optionsQuote.putVol).toBeNumber()
+          expect(response.body.optionsQuote.putIV).toBeNumber()
+          expect(response.body.optionsQuote.putIVArray).toBeArray()
+          expect(response.body.optionsQuote.pcRatioOI).toBeNumber()
+          expect(response.body.optionsQuote.pcRatioVol).toBeNumber()
+          done();
+        });
+    }, waitTime);
+  
+    it('tests option quote of stock with no options', async (done) => {
+      request(app).post('/api/market/optionsQuote')
+        .send({ ticker: tickerWithoutOptions })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.error).toBe(true)
+          done();
+        });
+    }, waitTime);
+  
+    it('tests option quote of non stock', async (done) => {
+      request(app).post('/api/market/optionsQuote')
+        .send({ ticker: nonTicker })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.error).toBe(true)
+          done();
+        });
+    }, waitTime);
+  })
 
-  it('tests options chain', async (done) => {
-    request(app).post('/api/market/chain')
-      .send({ ticker: ticker })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.chain).toBeArray();
-        expect(response.body.chain[0][0]).toBeString()
-        expect(response.body.chain[0][1]).toBeArray()
-        expect(response.body.chain[0][1][0]).toBeObject()
-        done();
-      });
-  }, waitTime);
+  describe('/chain', () => {
+    it('tests options chain', async (done) => {
+      request(app).post('/api/market/chain')
+        .send({ ticker: ticker })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.chain).toBeArray();
+          expect(response.body.chain[0][0]).toBeString()
+          expect(response.body.chain[0][1]).toBeArray()
+          expect(response.body.chain[0][1][0]).toBeObject()
+          done();
+        });
+    }, waitTime);
+  
+    it('tests chain of stock without options', async (done) => {
+      request(app).post('/api/market/chain')
+        .send({ ticker: tickerWithoutOptions })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.error).toBe(true)
+          done();
+        });
+    }, waitTime);
+  
+    it('tests chain of non stock', async (done) => {
+      request(app).post('/api/market/chain')
+        .send({ ticker: nonTicker })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.error).toBe(true)
+          done();
+        });
+    }, waitTime);
+  })
 
-  it('tests chain of stock without options', async (done) => {
-    request(app).post('/api/market/chain')
-      .send({ ticker: tickerWithoutOptions })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.error).toBe(true)
-        done();
-      });
-  }, waitTime);
+  describe('/historical', () => {
+    it('tests historical data of stock', async (done) => {
+      request(app).post('/api/market/historical')
+        .send({ ticker: ticker })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.historical).toBeArray()
+          done();
+        })
+    }, waitTime)
+  
+    it('tests historical data of non stock', async (done) => {
+      request(app).post('/api/market/historical')
+        .send({ ticker: nonTicker })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.error).toBe(true)
+          done();
+        })
+    }, waitTime)
+  })
 
-  it('tests chain of non stock', async (done) => {
-    request(app).post('/api/market/chain')
-      .send({ ticker: nonTicker })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.error).toBe(true)
-        done();
-      });
-  }, waitTime);
+  describe('/guessSymbol', () => {
+    it('guess on a company name', async (done) => {
+      request(app).post('/api/market/guessSymbol')
+        .send({ text: search })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.guesses).toBeArray();
+          done();
+        });
+    }, waitTime);
+  
+    it('guess on nonsense', async (done) => {
+      request(app).post('/api/market/guessSymbol')
+        .send({ text: incoherentSearch })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.error).toBe(true)
+          done();
+        });
+    }, waitTime);
+  })
 
-  it('options quote', async (done) => {
-    request(app).post('/api/market/optionsQuote')
-      .send({ ticker: ticker })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.optionsQuote).toBeObject();
-        expect(response.body.optionsQuote.callOI).toBeNumber()
-        expect(response.body.optionsQuote.callVol).toBeNumber()
-        expect(response.body.optionsQuote.callIV).toBeNumber()
-        expect(response.body.optionsQuote.callIVArray).toBeArray()
-        expect(response.body.optionsQuote.putOI).toBeNumber()
-        expect(response.body.optionsQuote.putVol).toBeNumber()
-        expect(response.body.optionsQuote.putIV).toBeNumber()
-        expect(response.body.optionsQuote.putIVArray).toBeArray()
-        expect(response.body.optionsQuote.pcRatioOI).toBeNumber()
-        expect(response.body.optionsQuote.pcRatioVol).toBeNumber()
-        done();
-      });
-  }, waitTime);
-
-  it('tests option quote of stock with no options', async (done) => {
-    request(app).post('/api/market/optionsQuote')
-      .send({ ticker: tickerWithoutOptions })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.error).toBe(true)
-        done();
-      });
-  }, waitTime);
-
-  it('tests option quote of non stock', async (done) => {
-    request(app).post('/api/market/optionsQuote')
-      .send({ ticker: nonTicker })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.error).toBe(true)
-        done();
-      });
-  }, waitTime);
-
-  it('Tests /api/market/guessSymbol', async (done) => {
-    request(app).post('/api/market/guessSymbol')
-      .send({ text: search })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.guesses).toBeArray();
-        done();
-      });
-  }, waitTime);
-
-  it('Tests /api/market/guessSymbol', async (done) => {
-    request(app).post('/api/market/guessSymbol')
-      .send({ text: incoherentSearch })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.error).toBe(true)
-        done();
-      });
-  }, waitTime);
-
-  it('Tests /treasury', async (done) => {
-    request(app).post('/api/market/yields')
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.yields).toBeArray();
-        done();
-      });
-  }, waitTime);
+  describe('/yields', () => {
+    it('tests treasury yields', async (done) => {
+      request(app).post('/api/market/yields')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.yields).toBeArray();
+          done();
+        });
+    }, waitTime);
+  })
 });
 
 describe('POST Bug Reports /api/bug/', () => {
