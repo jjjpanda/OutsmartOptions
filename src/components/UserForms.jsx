@@ -8,11 +8,11 @@ import {
 } from 'antd';
 
 import Cookie from 'js-cookie';
+import { utilique as util } from 'que-series';
 import verifyUser from './UserVerifier.jsx';
 
-import { utilique as util } from "que-series"
 
-let post = util.post
+const { post } = util;
 
 const hasErrors = (fieldsError) => Object.keys(fieldsError).some((field) => fieldsError[field]);
 
@@ -83,7 +83,7 @@ class LoginModal extends React.Component {
       return (
         <div>
           <Button type="primary" onClick={this.showModal}>
-                    Log in
+            Log in
           </Button>
 
           <Modal
@@ -198,7 +198,7 @@ class RegisterModal extends React.Component {
       return (
         <div>
           <Button type="primary" onClick={this.showModal}>
-                    Register
+            Register
           </Button>
           <Modal
             title="Register"
@@ -332,7 +332,7 @@ class ChangePasswordModal extends React.Component {
       return (
         <div>
           <Button type="primary" onClick={this.showModal}>
-                    Change Password
+            Change Password
           </Button>
           <Modal
             title="Change Password"
@@ -395,7 +395,7 @@ class SignOut extends React.Component {
     render() {
       return (
         <Button type="primary" onClick={this.onClick}>
-                Sign Out
+          Sign Out
         </Button>
       );
     }
@@ -425,7 +425,7 @@ class DeleteAccount extends React.Component {
     render() {
       return (
         <Button type="primary" onClick={this.onClick}>
-                Delete Account
+          Delete Account
         </Button>
       );
     }

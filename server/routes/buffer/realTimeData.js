@@ -1,5 +1,5 @@
 const request = require('request');
-const moment = require('moment')
+const moment = require('moment');
 
 const appendLogs = require('../../logs/appendLogs.js');
 
@@ -35,7 +35,7 @@ module.exports = {
       }
     });
   },
-  
+
   getExpiries(apikey, ticker, callback) {
     request({
       method: 'get',
@@ -83,7 +83,7 @@ module.exports = {
       url: 'https://sandbox.tradier.com/v1/markets/options/strikes',
       qs: {
         symbol: ticker,
-        expiration: expiration,
+        expiration,
       },
       headers: {
         Authorization: `Bearer ${apikey}`,
@@ -91,19 +91,17 @@ module.exports = {
       },
     }, (error, response, body) => {
       if (!error && response.statusCode == 200) {
-        body = JSON.parse(body)
-        if(body != undefined){
-          body = body.strikes
-          callback(body)
+        body = JSON.parse(body);
+        if (body != undefined) {
+          body = body.strikes;
+          callback(body);
+        } else {
+          callback({ strike: [] });
         }
-        else{
-          callback({strike:[]})
-        }
-      }
-      else{
+      } else {
         callback({ error, response: response.statusCode });
       }
-    })
+    });
   },
 
   getChain(apikey, ticker, expiration, index, callback) {
@@ -124,7 +122,6 @@ module.exports = {
         body = JSON.parse(body).options;
         let data;
         if (body != null && body.option != undefined) {
-
           body = body.option;
           data = body.map((a) => ({
             type: a.option_type,
@@ -136,7 +133,7 @@ module.exports = {
             oi: a.open_interest,
             symbol: a.symbol,
           }));
-        
+
           // REFACTOR
           const newData = [];
           const strikes = [];
@@ -167,9 +164,7 @@ module.exports = {
 
           // CHANGED DATA TO NEWDATA
           callback(newData.sort((a, b) => a.strike - b.strike));
-
-        }
-        else{
+        } else {
           callback({ error, response: response.statusCode });
         }
       } else {
@@ -202,9 +197,11 @@ module.exports = {
           const historical = body.history.day;
           // appendLogs('./server/logs/logs.txt', historical)
           if (historical.length > 1) {
-            for(let i = 1; i < historical.length; i++){
-              while(moment(historical[i].date).diff(moment(historical[i-1].date), 'days') > 1){
-                historical.splice(i, 0, {date: moment(historical[i-1].date).add(1, 'days').format('YYYY-MM-DD'), open: historical[i-1].open, high: historical[i-1].high, low: historical[i-1].low, close: historical[i-1].close, volume: 0});
+            for (let i = 1; i < historical.length; i++) {
+              while (moment(historical[i].date).diff(moment(historical[i - 1].date), 'days') > 1) {
+                historical.splice(i, 0, {
+                  date: moment(historical[i - 1].date).add(1, 'days').format('YYYY-MM-DD'), open: historical[i - 1].open, high: historical[i - 1].high, low: historical[i - 1].low, close: historical[i - 1].close, volume: 0,
+                });
               }
             }
           }
@@ -216,67 +213,63 @@ module.exports = {
     });
   },
 
-  getIV(apikey, ticker, ivLength, callback){
-    //XXX-YYMMDD-00000.000
-    let iv = []
+  getIV(apikey, ticker, ivLength, callback) {
+    // XXX-YYMMDD-00000.000
+    const iv = [];
     module.exports.getStockHistoricalData(apikey, ticker, 720, (historical) => {
-      if(historical == undefined || (historical.history == null && historical[0] == undefined) || historical.error == true){
-        callback({iv: false})
-      }
-      else{
-        let pastExpiries = historical.filter(d => moment(d.date).day() == 5);
+      if (historical == undefined || (historical.history == null && historical[0] == undefined) || historical.error == true) {
+        callback({ iv: false });
+      } else {
+        const pastExpiries = historical.filter((d) => moment(d.date).day() == 5);
         let index = 0;
-        let rounder = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
+        const rounder = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
         let roundIndex = 0;
-        let looper = () => {
-          if(index >= pastExpiries.length){
-            callback({iv})
-          }
-          else{
-            module.exports.getStockHistoricalData(apikey, `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex]*1000).slice(-8)}`, moment().diff(moment(pastExpiries[index].date), 'days')+ivLength, (optionH) => {
-                if(optionH[0] != undefined && optionH[0] != null){
-                  //roundIndex = 0
+        const looper = () => {
+          if (index >= pastExpiries.length) {
+            callback({ iv });
+          } else {
+            module.exports.getStockHistoricalData(apikey, `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${(`00000000${Math.ceil(pastExpiries[index].close / rounder[roundIndex]) * rounder[roundIndex] * 1000}`).slice(-8)}`, moment().diff(moment(pastExpiries[index].date), 'days') + ivLength, (optionH) => {
+              if (optionH[0] != undefined && optionH[0] != null) {
+                // roundIndex = 0
+                iv.push({
+                  t: ivLength / 365,
+                  expiry: moment(pastExpiries[index].date).format('YYYY-MM-DD'),
+                  date: moment(pastExpiries[index].date).subtract(ivLength, 'days').format('YYYY-MM-DD'),
+                  underlying: pastExpiries[index].close,
+                  strike: Math.ceil(pastExpiries[index].close / rounder[roundIndex]) * rounder[roundIndex],
+                  price: optionH[0].close,
+                  symbol: `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${(`00000000${Math.ceil(pastExpiries[index].close / rounder[roundIndex]) * rounder[roundIndex] * 1000}`).slice(-8)}`,
+                });
+                index++;
+                looper();
+              } else {
+                roundIndex++;
+                if (roundIndex >= rounder.length) {
                   iv.push({
-                    t: ivLength/365,
+                    t: ivLength / 365,
                     expiry: moment(pastExpiries[index].date).format('YYYY-MM-DD'),
-                    date: moment(pastExpiries[index].date).subtract(ivLength, 'days').format('YYYY-MM-DD'), 
-                    underlying: pastExpiries[index].close, 
-                    strike: Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex], 
-                    price: optionH[0].close,
-                    symbol: `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex]*1000).slice(-8)}`
-                  })
-                  index++
-                  looper()
+                    date: moment(pastExpiries[index].date).subtract(ivLength, 'days').format('YYYY-MM-DD'),
+                    underlying: pastExpiries[index].close,
+                    strike: Math.ceil(pastExpiries[index].close / rounder[0]) * rounder[0],
+                    price: 0,
+                    symbol: `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${(`00000000${Math.ceil(pastExpiries[index].close / rounder[0]) * rounder[0] * 1000}`).slice(-8)}`,
+                  });
+                  index++;
+                  roundIndex = 0;
+                  looper();
+                } else {
+                  looper();
                 }
-                else{
-                  roundIndex++;
-                  if(roundIndex >= rounder.length){
-                    iv.push({
-                      t: ivLength/365,
-                      expiry: moment(pastExpiries[index].date).format('YYYY-MM-DD'),
-                      date: moment(pastExpiries[index].date).subtract(ivLength, 'days').format('YYYY-MM-DD'), 
-                      underlying: pastExpiries[index].close, 
-                      strike: Math.ceil(pastExpiries[index].close/rounder[0])*rounder[0], 
-                      price: 0,
-                      symbol: `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].close/rounder[0])*rounder[0]*1000).slice(-8)}`
-                    })
-                    index++
-                    roundIndex = 0
-                    looper()
-                  }
-                  else{
-                    looper();
-                  }
-                }
-            })
+              }
+            });
           }
-        }
+        };
 
-        looper()
+        looper();
       }
-    })
-    //callback({bruh:true})
-  }, 
+    });
+    // callback({bruh:true})
+  },
 
   guessSymbol(apikey, data, callback) {
     request({
@@ -292,21 +285,19 @@ module.exports = {
     },
     (error, response, body) => {
       if (!error && response.statusCode == 200) {
-        body = JSON.parse(body)
-        if(body.securities === undefined || body.securities === null || body.securities.security === null){
-          callback({ error: true })
-        }
-        else{
-          body = body.securities.security
-          if(body instanceof Array){
-            for (let stock of body){
-              stock['name'] = stock.description
+        body = JSON.parse(body);
+        if (body.securities === undefined || body.securities === null || body.securities.security === null) {
+          callback({ error: true });
+        } else {
+          body = body.securities.security;
+          if (body instanceof Array) {
+            for (const stock of body) {
+              stock.name = stock.description;
               delete stock.description;
             }
             callback(body);
-          }
-          else{
-            body['name'] = body.description
+          } else {
+            body.name = body.description;
             delete body.description;
             callback([body]);
           }
@@ -349,11 +340,10 @@ module.exports = {
     (error, response, body) => {
       body = JSON.parse(body);
       let earnings;
-      if(body.quoteResponse != undefined && body.quoteResponse.result[0] != undefined && body.quoteResponse.result[0].earningsTimestamp != undefined){
+      if (body.quoteResponse != undefined && body.quoteResponse.result[0] != undefined && body.quoteResponse.result[0].earningsTimestamp != undefined) {
         earnings = new Date(body.quoteResponse.result[0].earningsTimestamp * 1000);
-      }
-      else {
-        earnings = undefined
+      } else {
+        earnings = undefined;
       }
       // appendLogs('./server/logs/logs.txt', earnings)
       callback({ earningsDate: earnings });

@@ -5,36 +5,36 @@ import {
   Card,
   AutoComplete,
   Button,
-  Spin
+  Spin,
 } from 'antd';
 
 import Cookie from 'js-cookie';
+import {
+  aesthetique as aes,
+  mathematique as math,
+  utilique as util,
+} from 'que-series';
+import * as moment from 'moment';
 import HelpTooltip from './HelpTooltip.jsx';
 
 import verifyUser from './UserVerifier.jsx';
 
 // JS Libraries
-import { 
-  aesthetique as aes, 
-  mathematique as math, 
-  utilique as util 
-} from "que-series"
 
-let optionsMath = math.options
-let outliers = math.stats
-let treasury = math.treasury
-
-
-let post = util.post
-
-import * as moment from 'moment';
 
 import SpinningLogo from './SpinningLogo.jsx';
 
+import '../css/logo.css';
+
+const optionsMath = math.options;
+const outliers = math.stats;
+const { treasury } = math;
+
+
+const { post } = util;
+
 const AutoCompleteOption = AutoComplete.Option;
 const InputSearch = Input.Search;
-
-import '../css/logo.css';
 
 class StockSymbol extends React.Component {
   constructor(props) {
@@ -51,7 +51,7 @@ class StockSymbol extends React.Component {
       historicalIV: [],
       guess: [],
       inWatchlist: false,
-      loading: false
+      loading: false,
     };
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }));
@@ -71,21 +71,21 @@ class StockSymbol extends React.Component {
     }
 
     renderDropdown = () => this.state.guess.map((guess, i) => (
-      <AutoCompleteOption key={guess['symbol']} value={guess['symbol']}>
-        {guess['symbol']}
+      <AutoCompleteOption key={guess.symbol} value={guess.symbol}>
+        {guess.symbol}
         <span>
           {' '}
-          {guess['name']}
+          {guess.name}
           {' '}
         </span>
       </AutoCompleteOption>
     ))
 
     onSearch = (val) => {
-      this.setState(() => ({loading: true}))
+      this.setState(() => ({ loading: true }));
       const e = val.toUpperCase().trim();
       this.setState(() => ({
-        exists: true, symbol: e, guess: [], inWatchlist: false, earningsDate: "", historicalIV : "", divYield: ""
+        exists: true, symbol: e, guess: [], inWatchlist: false, earningsDate: '', historicalIV: '', divYield: '',
       }));
 
       post.fetchReq('/api/market/price', JSON.stringify({ ticker: e }), (data) => {
@@ -113,25 +113,24 @@ class StockSymbol extends React.Component {
       });
 
       const checkFinished = () => {
-        if(this.state.earningsDate != " " && this.state.historicalIV != "" && this.state.divYield != ""){
-          this.setState(() => ({loading: false}), () => this.props.updateCallback(this.state))
+        if (this.state.earningsDate != ' ' && this.state.historicalIV != '' && this.state.divYield != '') {
+          this.setState(() => ({ loading: false }), () => this.props.updateCallback(this.state));
         }
-      }
+      };
 
-      post.fetchReq('/api/market/earningsDate', JSON.stringify({ticker: e}), (data) => {
+      post.fetchReq('/api/market/earningsDate', JSON.stringify({ ticker: e }), (data) => {
         this.setState(() => ({ earningsDate: data.earningsDate }), checkFinished);
-      })
+      });
 
-      post.fetchReq('/api/market/iv', JSON.stringify({ticker: e}), (data) => {
-        console.log(data.iv)
-        let iv = data.iv.map((d) => {
-          return {date: d.date,
-                  iv: optionsMath.calculateIV(d.t, d.price, d.underlying, d.strike, true, 0, 0)
-                };
-        })
-        console.log(iv)
-        this.setState(() => ({ historicalIV : iv }), checkFinished)
-      })
+      post.fetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
+        console.log(data.iv);
+        const iv = data.iv.map((d) => ({
+          date: d.date,
+          iv: optionsMath.calculateIV(d.t, d.price, d.underlying, d.strike, true, 0, 0),
+        }));
+        console.log(iv);
+        this.setState(() => ({ historicalIV: iv }), checkFinished);
+      });
 
       post.fetchReq('/api/market/divYield', JSON.stringify({ ticker: e }), (data) => {
         this.setState(() => ({ divYield: data.dividendAnnum / this.state.price }), checkFinished);
@@ -139,7 +138,7 @@ class StockSymbol extends React.Component {
 
       if (this.props.options) {
         post.fetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
-          if(data != null){
+          if (data != null) {
             data = data.filter((x) => {
               const callVolSum = x[1].map((x) => x.callVol).reduce((a, b) => a + b, 0);
               const putVolSum = x[1].map((x) => x.putVol).reduce((a, b) => a + b, 0);
@@ -159,7 +158,7 @@ class StockSymbol extends React.Component {
                 return y;
               })];
             });
-            
+
             /*
             Filters NaN
             data = data.map((expiry) => {
@@ -173,8 +172,7 @@ class StockSymbol extends React.Component {
               this.props.updateCallback(this.state);
               console.log(this.state);
             });
-          }
-          else{
+          } else {
             this.setState(() => ({ optionsChain: [] }), () => {
               this.props.updateCallback(this.state);
               console.log(this.state);
@@ -194,7 +192,7 @@ class StockSymbol extends React.Component {
 
     onStarClick = () => {
       if (this.state.loggedIn) {
-        if(this.state.symbol != ""){
+        if (this.state.symbol != '') {
           post.fetchReqAuth('/api/watchlist/edit', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id'), ticker: this.state.symbol }), (data) => {
             this.setState(() => ({ inWatchlist: data.list.includes(this.state.symbol) }));
           });

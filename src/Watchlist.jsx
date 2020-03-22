@@ -1,12 +1,12 @@
 import React from 'react';
 import { Table } from 'antd';
 
+import Cookie from 'js-cookie';
+
+import { utilique as util } from 'que-series';
 import verifyUser from './components/UserVerifier.jsx';
-import Cookie from 'js-cookie'
 
-import { utilique as util } from "que-series"
-
-let post = util.post
+const { post } = util;
 
 const columns = [
   {
@@ -15,11 +15,11 @@ const columns = [
   },
   {
     title: 'Name',
-    dataIndex: 'name'
+    dataIndex: 'name',
   },
   {
     title: 'Price',
-    dataIndex: 'price'
+    dataIndex: 'price',
   },
   {
     title: 'Put OI',
@@ -62,41 +62,41 @@ class Watchlist extends React.Component {
     this.state = {
       selectedRowKeys: [], // Check here to configure the default column
       dataSource: [],
-      watchlist: []
+      watchlist: [],
     };
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }), () => {
-        if(this.state.loggedIn){
-          post.fetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id')}), (data) => {
-            this.setState(() => ({watchlist: data.list, dataSource: data.list.map(stock => {return {ticker: stock}})}), () => {
-              for( let stock of this.state.watchlist ){
-                post.fetchReq('/api/market/price', JSON.stringify({ticker: stock}), (data) => {
+        if (this.state.loggedIn) {
+          post.fetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
+            this.setState(() => ({ watchlist: data.list, dataSource: data.list.map((stock) => ({ ticker: stock })) }), () => {
+              for (const stock of this.state.watchlist) {
+                post.fetchReq('/api/market/price', JSON.stringify({ ticker: stock }), (data) => {
                   this.setState((state) => {
-                    let i = state.dataSource.findIndex(e => e.ticker == stock)
-                    state.dataSource[i].price = data.price
-                    state.dataSource[i].change = data.change
-                    state.dataSource[i].name = data.name
-                    return { dataSource: state.dataSource }
-                  })
-                })
-                post.fetchReq('/api/market/optionsQuote', JSON.stringify({ticker: stock}), (data) => {
+                    const i = state.dataSource.findIndex((e) => e.ticker == stock);
+                    state.dataSource[i].price = data.price;
+                    state.dataSource[i].change = data.change;
+                    state.dataSource[i].name = data.name;
+                    return { dataSource: state.dataSource };
+                  });
+                });
+                post.fetchReq('/api/market/optionsQuote', JSON.stringify({ ticker: stock }), (data) => {
                   this.setState((state) => {
-                    let i = state.dataSource.findIndex(e => e.ticker == stock)
-                    state.dataSource[i].callIV = data.callIV
-                    state.dataSource[i].callVol = data.callVol
-                    state.dataSource[i].callOI = data.callOI
-                    state.dataSource[i].putIV = data.putIV
-                    state.dataSource[i].putVol = data.putVol
-                    state.dataSource[i].putOI = data.putOI
-                    state.dataSource[i].pcRatio = data.pcRatio
-                    return { dataSource: state.dataSource }
-                  })
-                })
+                    const i = state.dataSource.findIndex((e) => e.ticker == stock);
+                    state.dataSource[i].callIV = data.callIV;
+                    state.dataSource[i].callVol = data.callVol;
+                    state.dataSource[i].callOI = data.callOI;
+                    state.dataSource[i].putIV = data.putIV;
+                    state.dataSource[i].putVol = data.putVol;
+                    state.dataSource[i].putOI = data.putOI;
+                    state.dataSource[i].pcRatio = data.pcRatio;
+                    return { dataSource: state.dataSource };
+                  });
+                });
               }
-            })
+            });
           });
         }
-      }); 
+      });
     });
   }
 
@@ -115,7 +115,7 @@ class Watchlist extends React.Component {
               selectedRowKeys: [...Array(46).keys()], // 0...45
             });
           },
-        }
+        },
       ],
     };
     return (

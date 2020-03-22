@@ -16,14 +16,17 @@ import {
 import Cookie from 'js-cookie';
 
 // Files
+import {
+  utilique as util,
+} from 'que-series';
 import logo from './img/logo.png';
 
 // CSS
 import './css/logo.css';
-import './css/index.less'
-import {darkTheme, lightTheme} from './css/themes.js'
+import './css/index.less';
+import { darkTheme, lightTheme } from './css/themes.js';
 
-import SideMenuRoute from './components/SideMenu.jsx'
+import SideMenuRoute from './components/SideMenu.jsx';
 import HomePage from './HomePage.jsx';
 import OptionsCalculator from './OptionsCalculator.jsx';
 import Watchlist from './Watchlist.jsx';
@@ -32,11 +35,8 @@ import LoginPage from './LoginPage.jsx';
 import HelpPage from './HelpPage.jsx';
 import Checkout from './checkout.jsx';
 
-import {
-  utilique as util 
-} from "que-series"
 
-let post = util.post
+const { post } = util;
 
 const { Footer } = Layout;
 const { Sider } = Layout;
@@ -55,36 +55,36 @@ fetch('https://api.ipify.org?format=jsoniuhb',
     post.fetchReq('/api/bug/track', JSON.stringify({ ip: data }), (data) => console.log(data));
   });
 
-class App extends React.Component{
+class App extends React.Component {
   render() {
     return (
       <Router>
-      <Layout style={{ minHeight: '100vh' }}>
-        <SideMenuRoute />
-        <Layout>
-          <Content>
-            <div className="contentWrapper">
-              <Route exact path="/" component={HomePage} />
-              <Route exact path="/calc" component={OptionsCalculator} />
-              <Route exact path="/watch" component={Watchlist} />
-              <Route exact path="/login" component={LoginPage} />
-              <Route exact path="/about" component={AboutPage} />
-              <Route exact path="/help" component={HelpPage} />
-              <Route exact path="/checkout" component={Checkout} />
-            </div>
+        <Layout style={{ minHeight: '100vh' }}>
+          <SideMenuRoute />
+          <Layout>
+            <Content>
+              <div className="contentWrapper">
+                <Route exact path="/" component={HomePage} />
+                <Route exact path="/calc" component={OptionsCalculator} />
+                <Route exact path="/watch" component={Watchlist} />
+                <Route exact path="/login" component={LoginPage} />
+                <Route exact path="/about" component={AboutPage} />
+                <Route exact path="/help" component={HelpPage} />
+                <Route exact path="/checkout" component={Checkout} />
+              </div>
 
-          </Content>
-          <Footer />
+            </Content>
+            <Footer />
+          </Layout>
         </Layout>
-      </Layout>
       </Router>
-    )
+    );
   }
 }
 
 ReactDOM.render(
   [
-    <App/>
+    <App />,
   ],
   document.getElementById('root'),
 );

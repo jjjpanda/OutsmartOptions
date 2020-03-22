@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../../server/app.js');
 const mongoDB = require('../../server/daemons/database');
 
-let waitTime = 30000
+const waitTime = 30000;
 let id; let
   token;
 
@@ -26,7 +26,7 @@ describe('POST User Requests /api/users/', () => {
   describe('/register', () => {
     it('registers a new user missing password retype', async (done) => {
       request(app).post('/api/users/register')
-        .send({ name: 'Bruh', email: 'email@email.email', password: 'password'})
+        .send({ name: 'Bruh', email: 'email@email.email', password: 'password' })
         .expect('Content-Type', /json/)
         .then((response) => {
           expect(response.body._id).toBeDefined();
@@ -45,7 +45,7 @@ describe('POST User Requests /api/users/', () => {
           done();
         });
     }, waitTime);
-  
+
     it('try registering with same email', async (done) => {
       request(app).post('/api/users/register')
         .send({
@@ -57,7 +57,7 @@ describe('POST User Requests /api/users/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 
   describe('/login', () => {
     it('login validate', async (done) => {
@@ -71,7 +71,7 @@ describe('POST User Requests /api/users/', () => {
           done();
         });
     }, waitTime);
-  
+
     it('false login', async (done) => {
       request(app).post('/api/users/login')
         .send({ email: 'email@email.email', password: 'wrongPassword' })
@@ -81,7 +81,7 @@ describe('POST User Requests /api/users/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 });
 
 describe('POST Strategy /api/strategy/', () => {
@@ -119,7 +119,7 @@ describe('POST Strategy /api/strategy/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 
   describe('/load', () => {
     it('Tests /load', async (done) => {
@@ -133,7 +133,7 @@ describe('POST Strategy /api/strategy/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 
   describe('/delete', () => {
     it('tests /delete', async (done) => {
@@ -148,7 +148,7 @@ describe('POST Strategy /api/strategy/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 });
 
 describe('POST Watchlist /api/watchlist/', () => {
@@ -164,7 +164,7 @@ describe('POST Watchlist /api/watchlist/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 
   describe('/view', () => {
     it('view watchlist', async (done) => {
@@ -178,7 +178,7 @@ describe('POST Watchlist /api/watchlist/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 
   describe('/edit', () => {
     it('delete from watchlist', async (done) => {
@@ -192,7 +192,7 @@ describe('POST Watchlist /api/watchlist/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 });
 
 describe('POST Logged In User Requests /api/users/', () => {
@@ -207,7 +207,7 @@ describe('POST Logged In User Requests /api/users/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 
   describe('/change', () => {
     it('password changing', async (done) => {
@@ -222,7 +222,7 @@ describe('POST Logged In User Requests /api/users/', () => {
           done();
         });
     }, waitTime);
-  
+
     it('incorrect password changing', async (done) => {
       request(app).post('/api/users/change')
         .send({
@@ -235,7 +235,7 @@ describe('POST Logged In User Requests /api/users/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 
   describe('/delete', () => {
     it('delete user', async (done) => {
@@ -248,5 +248,5 @@ describe('POST Logged In User Requests /api/users/', () => {
           done();
         });
     }, waitTime);
-  })
+  });
 });

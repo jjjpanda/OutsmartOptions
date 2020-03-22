@@ -5,9 +5,9 @@ import {
   Icon,
 } from 'antd';
 
-import { mathematique as math } from "que-series"
+import { mathematique as math } from 'que-series';
 
-let optionsMath = math.options
+const optionsMath = math.options;
 
 const warningColor = (state) => {
   if (state.risks <= 0) {
@@ -61,15 +61,15 @@ export const StrategyInfo = ({ stockPrice, optionsSelected, mergedOptions }) => 
       {state.cost >= 0
         ? (
           <div>
-                The cost of this strategy is $
+            The cost of this strategy is $
             {state.cost.toFixed(2)}
-.
+            .
           </div>
         ) : (
           <div>
-                The credit you'll receive for this strategy is $
+            The credit you'll receive for this strategy is $
             {(-1 * state.cost).toFixed(2)}
-.
+            .
           </div>
         )}
       {state.collateral <= 0

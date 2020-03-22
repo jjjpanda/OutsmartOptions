@@ -4,7 +4,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const auth = require('./validation/authorizeUser')(jwt);
 
-const userBuffer = require("./buffer/userBuffer.js")
+const userBuffer = require('./buffer/userBuffer.js');
 
 router.post('/register', userBuffer.registerUser);
 

@@ -18,7 +18,7 @@ class HomePage extends React.Component {
       priceChange: 0,
       price: 0,
       historical: [],
-      historicalIV: []
+      historicalIV: [],
     };
   }
 
@@ -29,8 +29,8 @@ class HomePage extends React.Component {
         priceChange: state.priceChange,
         price: state.price,
         historical: state.historical,
-        historicalIV: state.historicalIV
-      }), ()=> console.log(this.state));
+        historicalIV: state.historicalIV,
+      }), () => console.log(this.state));
     }
 
 
