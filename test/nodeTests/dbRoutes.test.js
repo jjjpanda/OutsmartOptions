@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../../server/app.js');
 const mongoDB = require('../../server/daemons/database');
 
+let waitTime = 30000
 let id; let
   token;
 
@@ -11,7 +12,7 @@ beforeAll(async (done) => mongoDB.connect('tests', (success) => {
   } else {
     done.fail(new Error('Database Connect Error'));
   }
-}), 50000);
+}), waitTime);
 
 afterAll(async (done) => mongoDB.disconnect((success) => {
   if (success) {
@@ -19,74 +20,73 @@ afterAll(async (done) => mongoDB.disconnect((success) => {
   } else {
     done.fail(new Error('Database Connect Error'));
   }
-}), 50000);
+}), waitTime);
 
-describe('POST /api/users/', () => {
-  it('Registers a New User', async (done) => {
-    request(app).post('/api/users/register')
-      .send({
-        name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password',
-      })
-      .expect('Content-Type', /json/)
-      .then((response) => {
-        expect(response.body._id).toBeDefined();
-        done();
-      });
-  }, 30000);
-
-  it('Registers a New User', async (done) => {
-    request(app).post('/api/users/register')
-      .send({
-        name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password',
-      })
-      .expect('Content-Type', /json/)
-      .then((response) => {
-        expect(response.statusCode).toBe(400);
-        done();
-      });
-  }, 30000);
-
-  it('Login Validate', async (done) => {
-    request(app).post('/api/users/login')
-      .send({ email: 'email@email.email', password: 'password' })
-      .expect('Content-Type', /json/)
-      .then((response) => {
-        id = response.body.id;
-        token = response.body.token;
-        expect(response.body.success).toBe(true);
-        done();
-      });
-  }, 30000);
-
-  it('False Login', async (done) => {
-    request(app).post('/api/users/login')
-      .send({ email: 'email@email.email', password: 'wrongPassword' })
-      .expect('Content-Type', /json/)
-      .then((response) => {
-        expect(response.statusCode).toBe(400);
-        done();
-      });
-  }, 30000);
-});
-
-describe('Public Routes', () => {
-  describe('POST Earnings /api/market/', () => {
-    it.skip('Tests /earningsSoon', async (done) => {
-      request(app).post('/api/market/earningsSoon')
-        .send({ ticker: 'SPY' }) // The infamous SP500 Earnings
+describe('POST User Requests /api/users/', () => {
+  describe('/register', () => {
+    it('registers a new user missing password retype', async (done) => {
+      request(app).post('/api/users/register')
+        .send({ name: 'Bruh', email: 'email@email.email', password: 'password'})
         .expect('Content-Type', /json/)
-        .expect(200)
         .then((response) => {
-          expect(response.body.erSoon).toBe(false);
+          expect(response.body._id).toBeDefined();
           done();
         });
-    }, 30000);
-  });
+    }, waitTime);
+
+    it('registers a new user', async (done) => {
+      request(app).post('/api/users/register')
+        .send({
+          name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password',
+        })
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          expect(response.body._id).toBeDefined();
+          done();
+        });
+    }, waitTime);
+  
+    it('try registering with same email', async (done) => {
+      request(app).post('/api/users/register')
+        .send({
+          name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password',
+        })
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          expect(response.statusCode).toBe(400);
+          done();
+        });
+    }, waitTime);
+  })
+
+  describe('/login', () => {
+    it('login validate', async (done) => {
+      request(app).post('/api/users/login')
+        .send({ email: 'email@email.email', password: 'password' })
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          id = response.body.id;
+          token = response.body.token;
+          expect(response.body.success).toBe(true);
+          done();
+        });
+    }, waitTime);
+  
+    it('false login', async (done) => {
+      request(app).post('/api/users/login')
+        .send({ email: 'email@email.email', password: 'wrongPassword' })
+        .expect('Content-Type', /json/)
+        .then((response) => {
+          expect(response.statusCode).toBe(400);
+          done();
+        });
+    }, waitTime);
+  })
 });
 
-describe('Protected Routes', () => {
-  describe('POST Strategy /api/strategy/', () => {
-    it('Tests /save', async (done) => {
+describe('POST Strategy /api/strategy/', () => {
+  describe('/save', () => {
+    it('tests /save', async (done) => {
       request(app).post('/api/strategy/save')
         .send({ id, ticker: 'SPY', strategy: [{ strike: 30 }, { price: 2 }, { quantity: 4 }] }) // Array of Objects should pass
         .set('Authorization', token)
@@ -96,9 +96,9 @@ describe('Protected Routes', () => {
           expect(response.body.strategy).toBe(true);
           done();
         });
-    }, 30000);
+    }, waitTime);
 
-    it('Tests badly formatted /save', async (done) => {
+    it('tests badly formatted /save', async (done) => {
       request(app).post('/api/strategy/save')
         .send({ id, ticker: 'SPY', strategy: [7, 7, 7] }) // Array with anything other than Objects should fail
         .set('Authorization', token)
@@ -107,9 +107,9 @@ describe('Protected Routes', () => {
           expect(response.body.details).toBe('Badly Formatted Strategies, Not Array of Objects');
           done();
         });
-    }, 30000);
+    }, waitTime);
 
-    it('Tests badly formatted /save', async (done) => {
+    it('tests badly formatted /save', async (done) => {
       request(app).post('/api/strategy/save')
         .send({ id, ticker: 'SPY', strategy: 14 }) // No Array, No pass
         .set('Authorization', token)
@@ -118,8 +118,10 @@ describe('Protected Routes', () => {
           expect(response.body.details).toBe('Badly Formatted Strategies, Not Array');
           done();
         });
-    }, 30000);
+    }, waitTime);
+  })
 
+  describe('/load', () => {
     it('Tests /load', async (done) => {
       request(app).post('/api/strategy/load')
         .send({ id, ticker: 'SPY' })
@@ -130,9 +132,11 @@ describe('Protected Routes', () => {
           expect(response.body.strategies[0].legs).toMatchObject([{ strike: 30 }, { price: 2 }, { quantity: 4 }]);
           done();
         });
-    }, 30000);
+    }, waitTime);
+  })
 
-    it('Tests /delete', async (done) => {
+  describe('/delete', () => {
+    it('tests /delete', async (done) => {
       request(app).post('/api/strategy/delete')
         .send({ id, ticker: 'SPY', strategy: [{ strike: 30 }, { price: 2 }, { quantity: 4 }] })
         .set('Authorization', token)
@@ -143,11 +147,13 @@ describe('Protected Routes', () => {
           expect(response.body.details.deletedCount).toBe(1);
           done();
         });
-    }, 30000);
-  });
+    }, waitTime);
+  })
+});
 
-  describe('POST Watchlist /api/watchlist/', () => {
-    it('Tests /edit to add', async (done) => {
+describe('POST Watchlist /api/watchlist/', () => {
+  describe('/edit', () => {
+    it('tests edit watchlist to add', async (done) => {
       request(app).post('/api/watchlist/edit')
         .send({ id, ticker: 'SPY' })
         .set('Authorization', token)
@@ -157,9 +163,11 @@ describe('Protected Routes', () => {
           expect(response.body.list).toMatchObject(['SPY']);
           done();
         });
-    }, 30000);
+    }, waitTime);
+  })
 
-    it('Tests /view', async (done) => {
+  describe('/view', () => {
+    it('view watchlist', async (done) => {
       request(app).post('/api/watchlist/view')
         .send({ id })
         .set('Authorization', token)
@@ -169,9 +177,11 @@ describe('Protected Routes', () => {
           expect(response.body.list).toMatchObject(['SPY']);
           done();
         });
-    }, 30000);
+    }, waitTime);
+  })
 
-    it('Tests /edit to delete', async (done) => {
+  describe('/edit', () => {
+    it('delete from watchlist', async (done) => {
       request(app).post('/api/watchlist/edit')
         .send({ id, ticker: 'SPY' })
         .set('Authorization', token)
@@ -181,11 +191,13 @@ describe('Protected Routes', () => {
           expect(response.body.list).toMatchObject([]);
           done();
         });
-    }, 30000);
-  });
+    }, waitTime);
+  })
+});
 
-  describe('User Related Routes', () => {
-    it('Authentication Validation', async (done) => {
+describe('POST Logged In User Requests /api/users/', () => {
+  describe('/current', () => {
+    it('authentication validation', async (done) => {
       request(app).post('/api/users/current')
         .send({ id })
         .set('Authorization', token)
@@ -194,9 +206,11 @@ describe('Protected Routes', () => {
           expect(response.body.email).toBe('email@email.email');
           done();
         });
-    }, 30000);
+    }, waitTime);
+  })
 
-    it('Password Changing', async (done) => {
+  describe('/change', () => {
+    it('password changing', async (done) => {
       request(app).post('/api/users/change')
         .send({
           id, oldPassword: 'password', newPassword: 'password2', newPassword2: 'password2',
@@ -207,9 +221,9 @@ describe('Protected Routes', () => {
           expect(response.body.changed).toBe(true);
           done();
         });
-    }, 30000);
-
-    it('Incorrect Password Changing', async (done) => {
+    }, waitTime);
+  
+    it('incorrect password changing', async (done) => {
       request(app).post('/api/users/change')
         .send({
           id, oldPassword: 'passwordThatsWrong', newPassword: 'shouldntReallyMatter', newPassword2: 'shouldntReallyMatter',
@@ -220,9 +234,11 @@ describe('Protected Routes', () => {
           expect(response.body.error).toBeDefined();
           done();
         });
-    }, 30000);
+    }, waitTime);
+  })
 
-    it('Delete User', async (done) => {
+  describe('/delete', () => {
+    it('delete user', async (done) => {
       request(app).post('/api/users/delete')
         .send({ id })
         .set('Authorization', token)
@@ -231,6 +247,6 @@ describe('Protected Routes', () => {
           expect(response.body.deleted).toBe(true);
           done();
         });
-    }, 30000);
-  });
+    }, waitTime);
+  })
 });

@@ -207,49 +207,99 @@ describe('POST Market Data /api/market/', () => {
 });
 
 describe('POST Bug Reports /api/bug/', () => {
-  it('Tests /track', async (done) => {
-    // /api/bug/track
-    request(app).post('/api/bug/track')
-      .send({ ip: '64.233.160.33' })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.details).toBe('IP Data Sent To Url');
-        done();
-      });
-  }, waitTime);
+  describe('/track', () => {
+    it('sends ip', async (done) => {
+      // /api/bug/track
+      request(app).post('/api/bug/track')
+        .send({ ip: '64.233.160.33' })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.details).toBe('IP Data Sent To Url');
+          done();
+        });
+    }, waitTime);
 
-  it('Tests /report', async (done) => {
-    request(app).post('/api/bug/report')
-      .send({ options: ['TEST MSG'] })
-      .expect(200)
-      .then((response) => {
-        expect(response.body.details).toBe('Details Sent to URL');
-        done();
-      });
-  }, waitTime);
+    it('sends nothing', async (done) => {
+      // /api/bug/track
+      request(app).post('/api/bug/track')
+        .send({ ip: 'not really an ip' })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.error).toBe(true);
+          done();
+        });
+    }, waitTime);
+  })
 
-  it('Tests /imageReport', async (done) => {
-    request(app).post('/api/bug/imageReport')
-      .attach('file', path.join(__dirname, '../../src/img/logo.png'))
-      .expect(200)
-      .then((response) => {
-        expect(response.body.details).toBe('Image Sent to URL');
-        done();
-      });
-  }, waitTime);
+  describe('/report', () => {
+    it('sends test message', async (done) => {
+      request(app).post('/api/bug/report')
+        .send({ options: ['TEST MSG'] })
+        .expect(200)
+        .then((response) => {
+          expect(response.body.details).toBe('Details Sent to URL');
+          done();
+        });
+    }, waitTime);
+  })
+
+  describe('/imageReport', () => {
+    it('sends image', async (done) => {
+      request(app).post('/api/bug/imageReport')
+        .attach('file', path.join(__dirname, '../../src/img/logo.png'))
+        .expect(200)
+        .then((response) => {
+          expect(response.body.details).toBe('Image Sent to URL');
+          done();
+        });
+    }, waitTime);
+
+    it('sends request with text file', async (done) => {
+      request(app).post('/api/bug/imageReport')
+        .attach('file', path.join(__dirname, '../../src/css/index.less'))
+        .expect(200)
+        .then((response) => {
+          expect(response.body.error).toBe(true);
+          done();
+        });
+    }, waitTime);
+
+    it('sends request with no file', async (done) => {
+      request(app).post('/api/bug/imageReport')
+        .expect(200)
+        .then((response) => {
+          expect(response.body.error).toBe(true);
+          done();
+        });
+    }, waitTime);
+  })
 });
 
-describe('POST Market Data /api/twitter/', () => {
-  it('Tests /api/twitter/search', async (done) => {
-    request(app).post('/api/twitter/search')
-      .send({ q: 'bruh' })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        // console.log(response.body)
-        expect(response.body).toBeDefined();
-        done();
-      });
-  }, waitTime);
+describe('POST Twitter Data /api/twitter/', () => {
+  describe('/search', () => {
+    it('tests twitter searching', async (done) => {
+      request(app).post('/api/twitter/search')
+        .send({ q: 'bruh' })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          // console.log(response.body)
+          expect(response.body.tweets).toBeArray();
+          done();
+        });
+    }, waitTime);
+
+    it('tests twitter with no query', async (done) => {
+      request(app).post('/api/twitter/search')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          // console.log(response.body)
+          expect(response.body.error).toBe(true);
+          done();
+        });
+    }, waitTime);
+  })
 });
