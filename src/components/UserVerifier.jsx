@@ -1,10 +1,10 @@
 import Cookies from 'js-cookie';
 
-import { 
-  utilique as util 
-} from "que-series"
+import {
+  utilique as util,
+} from 'que-series';
 
-let post = util.post
+const { post } = util;
 
 export default function verifyUser(callback) {
   post.fetchReqAuth('/api/users/current', Cookies.get('token'), JSON.stringify({ id: Cookies.get('id') }), (data) => {

@@ -34,7 +34,7 @@ const darkTheme = {
   '@card-actions-background': '#636363',
   '@card-background': '#292929',
   '@modal-mask-bg': 'fade(#292929, 45%)',
-}
+};
 
 const lightTheme = {
   '@primary-color': '#1890ff',
@@ -72,6 +72,6 @@ const lightTheme = {
   '@card-actions-background': '#fffffeF',
   '@card-background': '#cfd8dc',
   '@modal-mask-bg': 'fade(#292929, 45%)',
-}
+};
 
-export {darkTheme, lightTheme}
+export { darkTheme, lightTheme };

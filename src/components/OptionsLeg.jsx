@@ -7,13 +7,13 @@ import {
   Modal,
 } from 'antd';
 
+import {
+  utilique as util,
+} from 'que-series';
 import { BarLineComboGraph } from './Graphs.jsx';
 import HelpTooltip from './HelpTooltip.jsx';
 
-import { 
-  utilique as util 
-} from "que-series"
-let post = util.post
+const { post } = util;
 
 class OptionsLeg extends React.Component {
   constructor(props) {

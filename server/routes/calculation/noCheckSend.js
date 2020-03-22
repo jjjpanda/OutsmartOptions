@@ -1,5 +1,3 @@
-module.exports = (key) => {
-    return (req, res) => {
-        res.json({[key]: req.body.answer[key]})
-    }
-}
+module.exports = (key) => (req, res) => {
+  res.json({ [key]: req.body.answer[key] });
+};

@@ -50,7 +50,7 @@ class Help2 extends React.Component {
                     }
           actions={[
             <Icon type="youtube" onClick={() => this.renderVid(index[2], index[0])} />,
-            <Icon type="info-circle" onClick={() => this.renderCarousel(index[0], index[5])} />
+            <Icon type="info-circle" onClick={() => this.renderCarousel(index[0], index[5])} />,
           ]}
         >
           {index[3]}
@@ -71,7 +71,7 @@ class Help2 extends React.Component {
               {' '}
               <b>share</b>
               {' '}
-of that company.
+              of that company.
             </p>
             <p>The value of a share is a percentage of the company's profits. </p>
             <p>So the more shares you own, the larger percentage of the company you own. </p>
@@ -91,10 +91,10 @@ of that company.
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-                  Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-                  Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -109,8 +109,16 @@ of that company.
         <Carousel padding="50px" ref="caros" dots="false">
           <div>
             <p>An option contract facilitates the transaction of a security at a predetermined price, before a predetermined date.</p>
-            <p>The predetermined price is known as the <b>strike price</b>.</p>
-            <p>The predetermined date is known as the <b>expiration date</b>.</p>
+            <p>
+              The predetermined price is known as the
+              <b>strike price</b>
+              .
+            </p>
+            <p>
+              The predetermined date is known as the
+              <b>expiration date</b>
+              .
+            </p>
             <p>The buyer must pay a premium to the writer of the contract, which is charged per share of the contract.</p>
             <p>The standard options contract covers 100 shares of the underlying security.</p>
           </div>
@@ -124,7 +132,7 @@ of that company.
             <img src="/img/helpPageImages/options.gif" alt="pie" height="250" width="450" />
           </div>
           <div>
-                End Lesson
+            End Lesson
           </div>
         </Carousel>
         <br />
@@ -132,10 +140,10 @@ of that company.
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-                  Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-                  Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -150,10 +158,10 @@ of that company.
         <Carousel padding="50px" ref="caros" dots="false">
           <div>
             <p>
-Deciding to buy or sell an option contract's underlying security is known as
+              Deciding to buy or sell an option contract's underlying security is known as
               <b>excercising</b>
               {' '}
-the option.
+              the option.
             </p>
             <p>European style options must be excercised on the contract's expiration date, whereas American options can be excercised at any point on or before the expiration date.</p>
           </div>
@@ -168,10 +176,10 @@ the option.
           <div>
             <p>Now why would someone allow their contract to expire?</p>
             <p>
-If the option is not
+              If the option is not
               <b>in the money</b>
               {' '}
-at expiry, the buyer would lose money by excercising the option.
+              at expiry, the buyer would lose money by excercising the option.
             </p>
             <p>A call option is in the money if the underlying security's price goes below strike price, allowing the buyer to buy the security for less than market price.</p>
             <p>A put option is in the money if the underlying security's price goes above strike price, allowing the buyer to sell the security for greater than market price.</p>
@@ -183,10 +191,10 @@ at expiry, the buyer would lose money by excercising the option.
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-                Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-                Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -206,10 +214,10 @@ at expiry, the buyer would lose money by excercising the option.
           </div>
           <div>
             <p>
-We will walk you through the process of buying calls, from purchase to expiration. Click
+              We will walk you through the process of buying calls, from purchase to expiration. Click
               <b>next</b>
               {' '}
-to traverse through the graphical lesson.
+              to traverse through the graphical lesson.
             </p>
             <img src="/img/helpPageImages/callBuyers/Slide1.jpeg" alt="pie" height="250" width="450" />
             <br />
@@ -243,16 +251,16 @@ to traverse through the graphical lesson.
             <img src="/img/helpPageImages/callBuyers/Slide8.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          End Lesson.
+            End Lesson.
           </div>
         </Carousel>
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-              Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-              Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -272,10 +280,10 @@ to traverse through the graphical lesson.
           </div>
           <div>
             <p>
-Click
+              Click
               <b>next</b>
               {' '}
-to traverse through the graphical lesson.
+              to traverse through the graphical lesson.
             </p>
             <img src="/img/helpPageImages/callWriters/Slide1.jpeg" alt="pie" height="250" width="450" />
             <br />
@@ -313,7 +321,7 @@ to traverse through the graphical lesson.
             <img src="/img/helpPageImages/callWriters/Slide9.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          End Lesson.
+            End Lesson.
           </div>
         </Carousel>
         <ButtonGroup>
@@ -341,10 +349,10 @@ to traverse through the graphical lesson.
           </div>
           <div>
             <p>
-We will walk you through the process of buying puts, from purchase to expiration. Click
+              We will walk you through the process of buying puts, from purchase to expiration. Click
               <b>next</b>
               {' '}
-to traverse through the graphical lesson.
+              to traverse through the graphical lesson.
             </p>
             <img src="/img/helpPageImages/putBuyers/Slide1.jpeg" alt="pie" height="250" width="450" />
             <br />
@@ -378,7 +386,7 @@ to traverse through the graphical lesson.
             <img src="/img/helpPageImages/putBuyers/Slide8.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-        End Lesson.
+            End Lesson.
           </div>
         </Carousel>
         <ButtonGroup>
@@ -407,10 +415,10 @@ to traverse through the graphical lesson.
           </div>
           <div>
             <p>
-Click
+              Click
               <b>next</b>
               {' '}
-to traverse through the graphical lesson.
+              to traverse through the graphical lesson.
             </p>
             <img src="/img/helpPageImages/putWriters/Slide1.jpeg" alt="pie" height="250" width="450" />
             <br />
@@ -448,7 +456,7 @@ to traverse through the graphical lesson.
             <img src="/img/helpPageImages/putWriters/Slide9.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          End Lesson.
+            End Lesson.
           </div>
         </Carousel>
         <ButtonGroup>
@@ -475,10 +483,10 @@ to traverse through the graphical lesson.
             <p>So we will summarize puts and calls and buyers and writers by breaking down the rights and obligations associated with each.</p>
             <p>In short, call writers and put buyers  make money if the stock price goes down, and call buyers and put writers make money if the stock price goes up.</p>
             <p>
-Click
+              Click
               <b>next</b>
               {' '}
-to traverse through the graphical lesson.
+              to traverse through the graphical lesson.
             </p>
           </div>
           <div>
@@ -491,16 +499,16 @@ to traverse through the graphical lesson.
             <img src="/img/helpPageImages/rightsAndObligations/Slide3.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          End Lesson.
+            End Lesson.
           </div>
         </Carousel>
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -515,26 +523,30 @@ to traverse through the graphical lesson.
         <Carousel padding="50px" ref="caros" dots="false">
           <div>
             <p>Options contracts have intrinsic and extrinsic value.</p>
-            <p>The <b>intrinsic</b>
+            <p>
+              The
+              <b>intrinsic</b>
               {' '}
-value of a contract is the difference between the strike price and the current market price.
-            Basically, the money you would take away from the contract should you excercise now.
+              value of a contract is the difference between the strike price and the current market price.
+              Basically, the money you would take away from the contract should you excercise now.
               {' '}
             </p>
-            <p>The <b>extrinsic</b>
+            <p>
+              The
+              <b>extrinsic</b>
               {' '}
-value of a contract is governed by the time value and implied volatility of the option.
-            This can be explained as the potential for the stock to get in the money before expiration.
+              value of a contract is governed by the time value and implied volatility of the option.
+              This can be explained as the potential for the stock to get in the money before expiration.
             </p>
           </div>
         </Carousel>
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -550,44 +562,44 @@ value of a contract is governed by the time value and implied volatility of the 
           <div>
             <p>Traditionally, people buy stocks they think will go up in value, in order to make money.</p>
             <p>
-But it is also possible to profit on stock that will lose value, in a strategy known as
+              But it is also possible to profit on stock that will lose value, in a strategy known as
               <b>short selling</b>
-.
+              .
             </p>
             <p>A trader may short sell for speculative trading, or to hedge a long position.</p>
             <p>Short sellers can make great profits on declining stocks, but they can also theoretically stand to lose an infinite amount of money 😬. </p>
             <p>Lets show you how this works.</p>
           </div>
           <div>
-          In this scenario, the market price of the stock our trader wants to short is $100.
+            In this scenario, the market price of the stock our trader wants to short is $100.
             <img src="/img/helpPageImages/shortSelling/Slide1.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          First, our trader borrows the stocks from a broker with an assigned expiration date.
+            First, our trader borrows the stocks from a broker with an assigned expiration date.
             <img src="/img/helpPageImages/shortSelling/Slide2.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          Next, our trader sells the stocks on the market.
+            Next, our trader sells the stocks on the market.
             <img src="/img/helpPageImages/shortSelling/Slide3.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          Our trader now has $100 and needs the stock price to drop below $100 before expiration in order to make money.
+            Our trader now has $100 and needs the stock price to drop below $100 before expiration in order to make money.
             <img src="/img/helpPageImages/shortSelling/Slide4.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          Look! The stock dropped to $80!  Our trader now buys the same stocks from the market for the new price of $80.
+            Look! The stock dropped to $80!  Our trader now buys the same stocks from the market for the new price of $80.
             <img src="/img/helpPageImages/shortSelling/Slide5.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          Now, our trader uses these newly purchased stocks to replace the stocks they had borrowed.
+            Now, our trader uses these newly purchased stocks to replace the stocks they had borrowed.
             <img src="/img/helpPageImages/shortSelling/Slide6.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          Our trader walks away with $20 per share!
+            Our trader walks away with $20 per share!
             <img src="/img/helpPageImages/shortSelling/Slide7.jpeg" alt="pie" height="250" width="450" />
           </div>
           <div>
-          Finesse!
+            Finesse!
             <img src="/img/helpPageImages/shortSelling.gif" alt="pie" height="250" width="450" />
           </div>
           <div>
@@ -597,16 +609,16 @@ But it is also possible to profit on stock that will lose value, in a strategy k
             <p>There are other ways to go short on a stock, such as buying puts and writing calls, which we talked about in previous lessons.</p>
           </div>
           <div>
-          End Lesson.
+            End Lesson.
           </div>
         </Carousel>
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -639,7 +651,7 @@ But it is also possible to profit on stock that will lose value, in a strategy k
           </div>
           <div>
             <p>
-The main differences between futures and forwards are &nbsp;
+              The main differences between futures and forwards are &nbsp;
               <Popover content="The money borrowed from a brokerage firm to purchase an investment." title="Margin" trigger="hover">
                 <u>margin</u>
               </Popover>
@@ -655,10 +667,10 @@ The main differences between futures and forwards are &nbsp;
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -674,9 +686,9 @@ The main differences between futures and forwards are &nbsp;
           <div>
             <p>Now that you know what options are, its time for you to learn the potential outcomes of your strategies.</p>
             <p>
-One of the most important tools for outcome visualization is the
+              One of the most important tools for outcome visualization is the
               <b>profit graph</b>
-.
+              .
             </p>
           </div>
           <div>
@@ -722,10 +734,10 @@ One of the most important tools for outcome visualization is the
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -741,7 +753,14 @@ One of the most important tools for outcome visualization is the
           <div>
             <p>The next step in analyzing optios contracts is learning about the Greeks.</p>
             <p>The Greeks are broken up into delta, gamma, vega, theta, and Rho. Each measures a different factor that affects the price of an option.</p>
-            <p>In this lesson, we will start with <b>delta</b> and <b>gamma</b>, and how they affect the leverage of your options contracts.</p>
+            <p>
+              In this lesson, we will start with
+              <b>delta</b>
+              {' '}
+              and
+              <b>gamma</b>
+              , and how they affect the leverage of your options contracts.
+            </p>
           </div>
           <div>
             <p>Delta represents the ratio between the change in the price of an asset, in our case stocks, to the change in price of its derivative (option contract). </p>
@@ -777,10 +796,10 @@ One of the most important tools for outcome visualization is the
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -789,12 +808,16 @@ One of the most important tools for outcome visualization is the
   }
 
   createCarousel14() {
-    //Theta 
+    // Theta
     return (
       <div>
-        <Carousel padding="50px" ref="caros" dots="false" >
+        <Carousel padding="50px" ref="caros" dots="false">
           <div>
-            <p>The next Greek you need for your analyses is <b>theta</b>.</p>
+            <p>
+              The next Greek you need for your analyses is
+              <b>theta</b>
+              .
+            </p>
             <p>Theta, also known as time decay, is a measure of the rate at which an option contract loses value.</p>
             <p>Everything else being equal, options lose value as they approach expiry. Specifically, they lose extrinsic value.</p>
             <p>For example, a contract with a theta of -0.5 will theoretically lose 50 cents in value until it expires.</p>
@@ -817,10 +840,10 @@ One of the most important tools for outcome visualization is the
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -829,12 +852,16 @@ One of the most important tools for outcome visualization is the
   }
 
   createCarousel15() {
-    //IV VEGA IV CRUSH
+    // IV VEGA IV CRUSH
     return (
       <div>
         <Carousel padding="50px" ref="caros" dots="false">
           <div>
-            <p>The next Greek is <b>vega</b>. It's a measurement of an option's price relative to change in the underlying stock's implied volatility.</p>
+            <p>
+              The next Greek is
+              <b>vega</b>
+              . It's a measurement of an option's price relative to change in the underlying stock's implied volatility.
+            </p>
             <p>Before we get ahead of ourselves, let us discuss implied volatilty, or IV.</p>
           </div>
           <div>
@@ -852,17 +879,21 @@ One of the most important tools for outcome visualization is the
           </div>
           <div>
             <p>IV tends to increase leading up to the release of a company's earnings report, which subsequently causes the price of options on that stock to increase.</p>
-            <p>Once the earnings are released, the IV tends to drop signifigantly, in a phenomena known as <b>IV Crush</b>.</p>
+            <p>
+              Once the earnings are released, the IV tends to drop signifigantly, in a phenomena known as
+              <b>IV Crush</b>
+              .
+            </p>
             <p>Options traders can use this predictable pattern to time their trades.</p>
           </div>
         </Carousel>
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -877,10 +908,10 @@ One of the most important tools for outcome visualization is the
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -895,10 +926,10 @@ One of the most important tools for outcome visualization is the
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -913,10 +944,10 @@ One of the most important tools for outcome visualization is the
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -931,10 +962,10 @@ One of the most important tools for outcome visualization is the
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -949,10 +980,10 @@ One of the most important tools for outcome visualization is the
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -967,10 +998,10 @@ One of the most important tools for outcome visualization is the
         <ButtonGroup>
           <Button type="primary" onClick={() => this.refs.caros.prev()}>
             <Icon type="left" />
-          Prev
+            Prev
           </Button>
           <Button type="primary" onClick={() => this.refs.caros.next()}>
-          Next
+            Next
             <Icon type="right" />
           </Button>
         </ButtonGroup>
@@ -1123,14 +1154,14 @@ One of the most important tools for outcome visualization is the
       'Multileg Strategies',
       caro17];
 
-    var card18 = ['Straddles and Strangles',
+    const card18 = ['Straddles and Strangles',
       'https://i2-prod.mirror.co.uk/incoming/article3025296.ece/ALTERNATES/s615/Birds.jpg',
       'https://www.youtube.com/embed/p1zZOZgMhag',
       'Gettin Spicy',
       'Straddles and Strangles',
       caro18];
 
-    var card19 = ['Spreads',
+    const card19 = ['Spreads',
       'https://thumbs.gfycat.com/PoorBonyAppaloosa-size_restricted.gif',
       'https://www.youtube.com/embed/sMAOFz0eoBk',
       'No Flockin',

@@ -66,7 +66,7 @@ module.exports = {
             }),
           }),
         }, (e, r, b) => {
-          //appendLogs('./server/logs/logs.txt', r.statusCode)
+          // appendLogs('./server/logs/logs.txt', r.statusCode)
           if (!e) {
             callback({ error: false, details: 'IP Data Sent To Url' });
           } else {

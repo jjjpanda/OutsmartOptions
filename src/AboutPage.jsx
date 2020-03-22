@@ -17,10 +17,10 @@ class AboutPage extends React.Component {
         <br />
         <h3 className="bStyle" id="mission">
           <center>
-We’re a team of developers tired of the status quo.  We hate that online brokers think every-day
-                 investors don’t need complex data because they’re “amateurs”. You should have access to the same tools used by the pros in
-                 a market where every advantage counts. We created Outsmart Options so that every trader can plan their trades in a way that is beautiful to see,
-                 easy to use, and affordable to regular traders like us, and like you.
+            We’re a team of developers tired of the status quo.  We hate that online brokers think every-day
+            investors don’t need complex data because they’re “amateurs”. You should have access to the same tools used by the pros in
+            a market where every advantage counts. We created Outsmart Options so that every trader can plan their trades in a way that is beautiful to see,
+            easy to use, and affordable to regular traders like us, and like you.
           </center>
         </h3>
         <br />
@@ -49,21 +49,21 @@ We’re a team of developers tired of the status quo.  We hate that online broke
 
           <h2 className="dStyle">Do your research</h2>
           <h1 className="cStyle">
-Our content is intended to be used for informational pursposes only. It is very important to do your own analysis before making any investment.
+            Our content is intended to be used for informational pursposes only. It is very important to do your own analysis before making any investment.
             You should not soley rely on this educational website for large financial decisions.
           </h1>
           <br />
 
           <h2 className="dStyle">Past Performance Does Not Predict Future Results</h2>
           <h1 className="cStyle">
-Past performance is not a guarantee of future return, nor is it necessarily indicative of future performance.
+            Past performance is not a guarantee of future return, nor is it necessarily indicative of future performance.
             Keep in mind that investing involves risk. The value of any options investment will fluctuate greatly over time and you will gain or lose money
           </h1>
           <br />
 
           <h2 className="dStyle">Some Data May be Delayed</h2>
           <h1 className="cStyle">
-In order to bring the best possible service at the lowest possible cost, Outsmart Options uses data that can be delayed by upt to 15 minutes.
+            In order to bring the best possible service at the lowest possible cost, Outsmart Options uses data that can be delayed by upt to 15 minutes.
             Because of this, the Outsmart Options team does not reccomend this website as a tool for active, intraday options trading.
             It is instead, a tool made for ordinary traders and investors to be more informed on options trades before they place them
           </h1>

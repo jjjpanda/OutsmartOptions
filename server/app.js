@@ -1,6 +1,7 @@
 const appendLogs = require('./logs/appendLogs.js');
 
 const express = require('express');
+
 const app = express();
 
 const path = require('path');
@@ -18,7 +19,7 @@ app.use(fileUpload());
 app.use('/css', express.static(path.join(__dirname, '../src/css')));
 app.use('/img', express.static(path.join(__dirname, '../src/img')));
 
-//Routes
+// Routes
 const knownPaths = ['/', '/calc', '/help', '/login', '/watch', '/about', '/checkout'];
 for (const webPath of knownPaths) {
   app.use(webPath, express.static('./dist', {
@@ -42,17 +43,17 @@ app.use('/dev', require('./routes/dev.js'));
 
 // Handle 404
 app.use((req, res) => {
-  appendLogs('./server/logs/logs.txt', `The URL ${req.originalUrl} 404ed.`)
+  appendLogs('./server/logs/logs.txt', `The URL ${req.originalUrl} 404ed.`);
   res.status(404).send('Bruh 404');
 });
 
 // Handle 500
 app.use((error, req, res, next) => {
-  appendLogs('./server/logs/logs.txt', `The URL ${req.originalUrl} 500ed on you.`)
+  appendLogs('./server/logs/logs.txt', `The URL ${req.originalUrl} 500ed on you.`);
   res.status(500).send('500: Internal Server Error');
 });
 
-//Database
+// Database
 const passport = require('passport');
 
 app.use(passport.initialize());

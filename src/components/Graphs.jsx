@@ -17,8 +17,9 @@ import {
 
 import * as moment from 'moment';
 import Cookie from 'js-cookie';
-import {darkTheme, lightTheme} from '../css/themes.js';
-let colors = {'dark' : darkTheme, 'light' : lightTheme};
+import { darkTheme, lightTheme } from '../css/themes.js';
+
+const colors = { dark: darkTheme, light: lightTheme };
 
 class NoAxisGraph extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class NoAxisGraph extends React.Component {
         >
           <XAxis dataKey={this.props.xKey} allowDecimals={false} />
           <YAxis />
-          <Line name={this.props.dataKey} type="monotone" dot={false} dataKey={this.props.dataKey} stroke={colors[Cookie.get('theme') ? 'dark': 'light']['@info-color']} />
+          <Line name={this.props.dataKey} type="monotone" dot={false} dataKey={this.props.dataKey} stroke={colors[Cookie.get('theme') ? 'dark' : 'light']['@info-color']} />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -62,7 +63,7 @@ class BarLineComboGraph extends React.Component {
           <YAxis yAxisId="right" dataKey={this.props.lineKey} orientation="right" />
           <YAxis yAxisId="left" dataKey={this.props.barKey} orientation="left" />
 
-          <Line yAxisId="right" name={this.props.lineKey} type="monotone" dot={false} dataKey={this.props.lineKey} stroke={colors[Cookie.get('theme') ? 'dark': 'light']['@info-color']} />
+          <Line yAxisId="right" name={this.props.lineKey} type="monotone" dot={false} dataKey={this.props.lineKey} stroke={colors[Cookie.get('theme') ? 'dark' : 'light']['@info-color']} />
           <Bar yAxisId="left" name={this.props.barKey} dataKey={this.props.barKey} fill="#99ee9955" />
 
         </ComposedChart>
@@ -131,13 +132,13 @@ class ProfitGraph extends React.Component {
         opacities[dates[0]] = 1;
         return opacities;
       }
-      for (let date of dates) {
+      for (const date of dates) {
         opacities[date] = moment(date).diff(moment(), 'days');
       }
       // console.log(opacities)
       const minOpacity = Math.min(...Object.values(opacities));
       const maxOpacity = Math.max(...Object.values(opacities));
-      for (var date of dates) {
+      for (const date of dates) {
         opacities[date] -= minOpacity;
         opacities[date] /= 2 * (maxOpacity - minOpacity);
         opacities[date] += 0.5;
@@ -163,22 +164,22 @@ class ProfitGraph extends React.Component {
       for (let i = e.payload.length - 1; i >= 0; i--) {
         arr.push((
           <p>
-On 
+            On
             {e.payload[i].name}
             {' '}
-you will
+            you will
             {Math.sign(e.payload[i].value) == 1 ? ' make' : ' lose'}
             {' '}
-$
+            $
             {e.payload[i].value.toFixed(2)}
           </p>
         ));
       }
       if (e.active && e.payload != null && e.payload[0] != null) {
         return (
-          <div style={{backgroundColor: colors[Cookie.get('theme') ? 'dark' : 'light']['@info-color'], lineHeight: 0.5, padding: 5 }} className="custom-tooltip">
+          <div style={{ backgroundColor: colors[Cookie.get('theme') ? 'dark' : 'light']['@info-color'], lineHeight: 0.5, padding: 5 }} className="custom-tooltip">
             <p>
-$
+              $
               {e.label.toFixed(2)}
             </p>
             {arr}
@@ -204,7 +205,7 @@ $
             <stop offset={this.gradientOffset(this.state.data, date)} stopColor="#009900" stopOpacity={opacities[date]} />
             <stop stopColor="#ff0000" stopOpacity={opacities[date]} />
           </linearGradient>
-        </defs>
+                  </defs>
         ));
         arr.push((
           <Line name={date} type="monotone" dot={false} hide={this.state.disabledDates.includes(date)} dataKey={date} stroke={this.colorOfLine(this.state.data, date, opacities[date])} />

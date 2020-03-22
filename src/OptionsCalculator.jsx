@@ -11,13 +11,20 @@ import {
   Icon,
   Menu,
   Popover,
-  Calendar, 
-  Spin
+  Calendar,
+  Spin,
 } from 'antd';
 
 import Tour from 'reactour';
 import Cookie from 'js-cookie';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import {
+  aesthetique as aes,
+  mathematique as math,
+  utilique as util,
+} from 'que-series';
+import html2canvas from 'html2canvas';
+import * as moment from 'moment';
 import { NoAxisGraph, ProfitGraph } from './components/Graphs.jsx';
 import { StrategyInfo } from './components/StrategyInfo.jsx';
 import SpinningLogo from './components/SpinningLogo.jsx';
@@ -27,23 +34,15 @@ import OptionsLeg from './components/OptionsLeg.jsx';
 import verifyUser from './components/UserVerifier.jsx';
 
 // JS Libraries
-import { 
-  aesthetique as aes, 
-  mathematique as math, 
-  utilique as util 
-} from "que-series"
 
-let optionsMath = math.options
-let treasury = math.treasury
 
-let percentageColor = aes.color
+const optionsMath = math.options;
+const { treasury } = math;
 
-let structure = util.structures
-let post = util.post
+const percentageColor = aes.color;
 
-import html2canvas from 'html2canvas';
-
-import * as moment from 'moment';
+const structure = util.structures;
+const { post } = util;
 
 const ButtonGroup = Button.Group;
 const CollapsePanel = Collapse.Panel;
@@ -79,7 +78,7 @@ class OptionsCalculator extends React.Component {
       erVisible: false,
       calculateMenuVisible: false,
       reportLoading: false,
-      editLegLoading: []
+      editLegLoading: [],
     };
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }));
@@ -95,7 +94,7 @@ class OptionsCalculator extends React.Component {
       optionsChain: state.optionsChain,
       divYield: state.divYield,
       optionsSelected: [],
-      earningsDate: state.earningsDate
+      earningsDate: state.earningsDate,
     }));
   }
 
@@ -164,7 +163,7 @@ class OptionsCalculator extends React.Component {
   resortOptionsSelected = (symbol) => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected].sort((a, b) => {
-        const t = moment(a.date).diff(moment(b.date), 'days')
+        const t = moment(a.date).diff(moment(b.date), 'days');
         if (t > 0) {
           return 1;
         }
@@ -185,8 +184,8 @@ class OptionsCalculator extends React.Component {
       }),
     }), () => {
       setTimeout(() => {
-        this.setState((state) => ({editLegLoading: state.editLegLoading.filter(leg => leg != (symbol))}))
-      }, 1000)
+        this.setState((state) => ({ editLegLoading: state.editLegLoading.filter((leg) => leg != (symbol)) }));
+      }, 1000);
     });
   }
 
@@ -199,7 +198,7 @@ class OptionsCalculator extends React.Component {
   }
 
   deleteOption = (symbol) => {
-    this.setState((state) => ({ optionsSelected: state.optionsSelected.filter( (e) => !(e.key == symbol) ) }), () => this.resortOptionsSelected(symbol));
+    this.setState((state) => ({ optionsSelected: state.optionsSelected.filter((e) => !(e.key == symbol)) }), () => this.resortOptionsSelected(symbol));
   }
 
   onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv, symbol) => {
@@ -207,10 +206,10 @@ class OptionsCalculator extends React.Component {
     // console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
     if (needToAdd) {
       this.addOption(isCall, strike, price, date, iv, symbol);
-      this.setState((state) => ({editLegLoading: [...state.editLegLoading, symbol]}), ()=>console.log(this.state.editLegLoading))
+      this.setState((state) => ({ editLegLoading: [...state.editLegLoading, symbol] }), () => console.log(this.state.editLegLoading));
     } else {
       this.deleteOption(symbol);
-      this.setState((state) => ({editLegLoading: [...state.editLegLoading, symbol]}), ()=>console.log(this.state.editLegLoading))
+      this.setState((state) => ({ editLegLoading: [...state.editLegLoading, symbol] }), () => console.log(this.state.editLegLoading));
     }
   }
 
@@ -308,7 +307,7 @@ class OptionsCalculator extends React.Component {
       option.profit = [];
       let d = moment();
       while (moment(option.date).diff(d, 'days') > 0) {
-        option.profit.push([d.format("YYYY-MM-DD"), rangeOfPrices.map((arr) => arr.slice())]);
+        option.profit.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
         for (var price of option.profit[option.profit.length - 1][1]) {
           price[1] = optionsMath.calculateOptionsPrice(moment(option.date).diff(d, 'days') / 365.0, price[0], option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
           price[1] -= option.limitPrice * (option.isLong ? 1 : -1);
@@ -318,7 +317,7 @@ class OptionsCalculator extends React.Component {
       }
 
       // PROFIT AT EXPIRY
-      option.profit.push([d.format("YYYY-MM-DD"), rangeOfPrices.map((arr) => arr.slice())]);
+      option.profit.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
       for (price of option.profit[option.profit.length - 1][1]) {
         price[1] = optionsMath.calculateProfitAtExpiry(option.limitPrice, price[0], option.strike, option.isCall, option.isLong);
         price[1] *= option.hide ? 0 : option.quantity;
@@ -357,7 +356,7 @@ class OptionsCalculator extends React.Component {
     console.log(selectedOptions.filter((o) => !o.hide));
     const optionsProfits = selectedOptions.filter((o) => !o.hide).map((o) => o.profit);
 
-    mergedOptions.date = moment(selectedOptions.filter((o) => !o.hide).map((o) => moment(o.date).format("YYYY-MM-DD")).sort((a,b) => moment(a).diff(moment(b)))[0]).format("YYYY-MM-DD");
+    mergedOptions.date = moment(selectedOptions.filter((o) => !o.hide).map((o) => moment(o.date).format('YYYY-MM-DD')).sort((a, b) => moment(a).diff(moment(b)))[0]).format('YYYY-MM-DD');
 
     mergedOptions.percentProfit = [];
     mergedOptions.profit = this.mergeProfits(optionsProfits, mergedOptions.date);
@@ -387,12 +386,12 @@ class OptionsCalculator extends React.Component {
     let d = moment();
     const rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, this.state.percentInterval, this.state.numberIntervals, 0);
     while (moment(expiry).diff(d, 'days') > 0) {
-      profitMap.push([d.format("YYYY-MM-DD"), rangeOfPrices.map((arr) => arr.slice())]);
+      profitMap.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
       for (const price of profitMap[profitMap.length - 1][1]) {
         for (const profitSet of optionsProfits) {
-          console.log(structure.mapToObject(profitSet))
-          console.log(d.format("YYYY-MM-DD"))
-          price[1] += structure.mapToObject(structure.mapToObject(profitSet)[d.format("YYYY-MM-DD")])[price[0]];
+          console.log(structure.mapToObject(profitSet));
+          console.log(d.format('YYYY-MM-DD'));
+          price[1] += structure.mapToObject(structure.mapToObject(profitSet)[d.format('YYYY-MM-DD')])[price[0]];
         }
       }
       d = d.add(1, 'days');
@@ -405,7 +404,7 @@ class OptionsCalculator extends React.Component {
   closeOptionsChainModal = () => this.setAddLegModalVisible(false)
 
   sendCalcError = () => {
-    this.setState(() => ({reportLoading: true}), () => {
+    this.setState(() => ({ reportLoading: true }), () => {
       const input = document.getElementsByTagName('html')[0];
       html2canvas(input).then((c) => {
         const base64image = c.toDataURL('image/png');
@@ -425,10 +424,10 @@ class OptionsCalculator extends React.Component {
         }),
         (data) => {
           console.log('Report Sent');
-          this.setState(() => ({reportLoading: false}))
+          this.setState(() => ({ reportLoading: false }));
           console.log(data);
-      });
-    })
+        });
+    });
   }
 
   columns = (expiry) => [
@@ -451,7 +450,7 @@ class OptionsCalculator extends React.Component {
     {
       title: 'Call IV',
       dataIndex: 'callIV',
-      render: (text) => (<div>{isNaN(text) ? `-` : text.toFixed(2)}</div>),
+      render: (text) => (<div>{isNaN(text) ? '-' : text.toFixed(2)}</div>),
     },
     {
       title: 'Strike',
@@ -469,7 +468,7 @@ class OptionsCalculator extends React.Component {
     {
       title: 'Put IV',
       dataIndex: 'putIV',
-      render: (text) => (<div>{isNaN(text) ? `-` : text.toFixed(2)}</div>),
+      render: (text) => (<div>{isNaN(text) ? '-' : text.toFixed(2)}</div>),
     },
     {
       title: '',
@@ -518,8 +517,8 @@ class OptionsCalculator extends React.Component {
       selector: '[step-name="title"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            What's up 😊? I'm Mr. Outsmart, a sentient AI that'll help guide you on your journey.
-            Follow the arrows (⬅➡) and you'll get it in no time.
+          What's up 😊? I'm Mr. Outsmart, a sentient AI that'll help guide you on your journey.
+          Follow the arrows (⬅➡) and you'll get it in no time.
           <br />
           <a onClick={() => goTo(step)}> Click me ➡ when you're ready to go. </a>
         </div>
@@ -559,7 +558,7 @@ class OptionsCalculator extends React.Component {
               }}
               >
                 {' '}
-Go back ⬅
+                Go back ⬅
               </a>
               and type in a stock that actually exists and has options.
             </div>
@@ -575,7 +574,7 @@ Go back ⬅
       selector: '[step-name="stock-price"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            Once you type in the stock, you'll see the current price right here. Pretty cool right?
+          Once you type in the stock, you'll see the current price right here. Pretty cool right?
           <br />
           <a onClick={() => goTo(step)}>Click here ➡ to move on</a>
           <br />
@@ -584,7 +583,7 @@ Go back ⬅
             goTo(1);
           }}
           >
-Click here ⬅ to input a stock
+            Click here ⬅ to input a stock
           </a>
         </div>
       ),
@@ -595,7 +594,7 @@ Click here ⬅ to input a stock
       selector: '[step-name="stock-percent-change"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            And here is the percent change for the day. We don't have premarket moves, so only during and after market hours will you see any changes.
+          And here is the percent change for the day. We don't have premarket moves, so only during and after market hours will you see any changes.
           <br />
           <a onClick={() => goTo(step)}>Click here ➡ to move on</a>
           <br />
@@ -604,7 +603,7 @@ Click here ⬅ to input a stock
             goTo(1);
           }}
           >
-Click here ⬅ to input a stock
+            Click here ⬅ to input a stock
           </a>
         </div>
       ),
@@ -684,7 +683,7 @@ Click here ⬅ to input a stock
                 goTo(step - 3);
               }}
               >
-Click here ⬅ to go back.
+                Click here ⬅ to go back.
               </a>
             </div>
           );
@@ -719,7 +718,7 @@ Click here ⬅ to go back.
       selector: '[step-name="example-contract"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            Here's the list of the options you just selected.
+          Here's the list of the options you just selected.
           <br />
           <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
           <br />
@@ -733,7 +732,7 @@ Click here ⬅ to go back.
       selector: '[step-name="contract-name"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            This is the name of the contract.
+          This is the name of the contract.
           <br />
           <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
           <br />
@@ -747,7 +746,7 @@ Click here ⬅ to go back.
       selector: '[step-name="buy-or-write"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            Here you can specify whether this specific option is being written or bought.
+          Here you can specify whether this specific option is being written or bought.
           <br />
           <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
           <br />
@@ -761,8 +760,8 @@ Click here ⬅ to go back.
       selector: '[step-name="option-quantity"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            And here's some more input if you wanna increase the quantity of the specific contract 💸.
-            Maybe you wanna buy 3, 4, 50 contracts. No judgement here 🤐.
+          And here's some more input if you wanna increase the quantity of the specific contract 💸.
+          Maybe you wanna buy 3, 4, 50 contracts. No judgement here 🤐.
           <br />
           <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
           <br />
@@ -776,9 +775,9 @@ Click here ⬅ to go back.
       selector: '[step-name="limit-price"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            And another input 😪. This is for specifying the price you paid or got paid for this specific leg.
-            For example, you may have already bought a contract and it didn't go so well 📉.
-            In that case you can type in that you paid a bit more than the price now.
+          And another input 😪. This is for specifying the price you paid or got paid for this specific leg.
+          For example, you may have already bought a contract and it didn't go so well 📉.
+          In that case you can type in that you paid a bit more than the price now.
           <br />
           <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
           <br />
@@ -809,7 +808,7 @@ Click here ⬅ to go back.
       selector: '[step-name="cost-card"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            Here is the cost of the strategy.
+          Here is the cost of the strategy.
           <br />
           <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
           <br />
@@ -818,7 +817,7 @@ Click here ⬅ to go back.
             goTo(step - 2);
           }}
           >
-Click here ⬅ to go back.
+            Click here ⬅ to go back.
           </a>
         </div>
       ),
@@ -829,7 +828,7 @@ Click here ⬅ to go back.
       selector: '[step-name="profit-graph"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            graf
+          graf
           <br />
           <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
           <br />
@@ -843,7 +842,7 @@ Click here ⬅ to go back.
       selector: '[step-name="profit-table"]',
       content: ({ goTo, inDOM, step }) => (
         <div>
-            table
+          table
           <br />
           <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
           <br />
@@ -875,16 +874,16 @@ renderCalculateMenu = () => (
       )}
       />
     </Menu.Item>
-    <Menu.Item key='3'>
-      <Button onClick = { () => {this.setState(() => ({erVisible : true, calculateMenuVisible: false}))} }>
+    <Menu.Item key="3">
+      <Button onClick={() => { this.setState(() => ({ erVisible: true, calculateMenuVisible: false })); }}>
         Show Calender
       </Button>
       <Modal
-      visible = {this.state.erVisible}
-      onOk = { () => {this.setState(() => ({erVisible : false, calculateMenuVisible: true}))} }
-      onCancel = { () => {this.setState(() => ({erVisible : false, calculateMenuVisible: true}))} }
+        visible={this.state.erVisible}
+        onOk={() => { this.setState(() => ({ erVisible: false, calculateMenuVisible: true })); }}
+        onCancel={() => { this.setState(() => ({ erVisible: false, calculateMenuVisible: true })); }}
       >
-        <StockCalendar earningsDate = {this.state.earningsDate} fullscreen={false} />
+        <StockCalendar earningsDate={this.state.earningsDate} fullscreen={false} />
       </Modal>
     </Menu.Item>
   </Menu>
@@ -896,7 +895,7 @@ render() {
       <div style={{ width: '60px', paddingBottom: '20px' }} />
       <div style={{ width: '60px', display: 'inline-block' }} />
       <h1 key="mainTitle" step-name="title" style={{ width: '135px', display: 'inline-block' }}>Outsmart Options</h1>
-      <StockSymbol updateCallback={this.updateSearchResults} yieldCurve={yields} options={true} historical={false} />
+      <StockSymbol updateCallback={this.updateSearchResults} yieldCurve={yields} options historical={false} />
 
       <hr id="hr" align="left" />
 
@@ -938,7 +937,7 @@ render() {
             == 'Empty')}
             onClick={() => this.setIVSkewModalVisible(true)}
           >
-IV Skew
+            IV Skew
           </Button>
           <div className="addLegButtonWrapper">
             <Modal
@@ -965,13 +964,13 @@ IV Skew
         <div id="calculateButton" step-name="calculate-button">
           <ButtonGroup>
             <Button onClick={this.calculateProfits} type="primary">Calculate</Button>
-            <Button type="primary" icon="cloud" onClick={()=>{this.setState(() => ({calculateMenuVisible: true}))}} />
+            <Button type="primary" icon="cloud" onClick={() => { this.setState(() => ({ calculateMenuVisible: true })); }} />
           </ButtonGroup>
         </div>
-        <Modal 
-        visible={this.state.calculateMenuVisible}
-        onOk = {() => {this.setState(() => ({calculateMenuVisible: false}))}}
-        onCancel = {() => {this.setState(() => ({calculateMenuVisible: false}))}}
+        <Modal
+          visible={this.state.calculateMenuVisible}
+          onOk={() => { this.setState(() => ({ calculateMenuVisible: false })); }}
+          onCancel={() => { this.setState(() => ({ calculateMenuVisible: false })); }}
         >
           {this.renderCalculateMenu()}
         </Modal>
@@ -994,10 +993,10 @@ IV Skew
 
               <hr id="hr2" />
               <h3 style={{ marginLeft: '60px' }}>Profit Table:</h3>
-              <div className="profitTableWrapper" step-name="profit-table" style={{width: '80vw'}}>
+              <div className="profitTableWrapper" step-name="profit-table" style={{ width: '80vw' }}>
                 <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
               </div>
-              <Button onClick={this.sendCalcError} loading = {this.state.reportLoading}>Report Calculation Error</Button>
+              <Button onClick={this.sendCalcError} loading={this.state.reportLoading}>Report Calculation Error</Button>
             </div>
           )
           : null

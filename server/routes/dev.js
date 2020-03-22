@@ -26,10 +26,9 @@ if (process.env.NODE_ENV === 'development') {
     index: 'index.html',
   }));
 
-  router.use("/*", (req, res) => res.status(404).send("Not a path you moron."));
-
+  router.use('/*', (req, res) => res.status(404).send('Not a path you moron.'));
 } else {
-  router.use("/*", (req, res) => res.status(404).send("You're a dev?"));
+  router.use('/*', (req, res) => res.status(404).send("You're a dev?"));
 }
 
 module.exports = router;
