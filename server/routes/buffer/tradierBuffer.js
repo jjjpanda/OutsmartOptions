@@ -43,7 +43,7 @@ module.exports = {
           next();
         }
       } else {
-        res.json({ error: true, details: 'Data Formatting Error' });
+        res.json({ error: true, details: 'Data Formatting Error from getQuotes in tradierBuffer' });
       }
     });
   },
@@ -79,22 +79,29 @@ module.exports = {
           req.body.answer.historical = historical;
           next();
         } else {
-          res.json({ error: true, details: 'Data Formatting Error' });
+          res.json({ error: true, details: 'Data Formatting Error from getHistoricalData in tradierBuffer' });
         }
       } else {
-        res.json({ error: true, details: 'Data Formatting Error' });
+        res.json({ error: true, details: 'Data Formatting Error from getHistoricalData in tradierBuffer' });
       }
     });
   },
 
   getHistoricalIV(req, res, next) {
     let editCount = 0
+    let lastDay = req.body.answer.historical[req.body.answer.historical.length - 1]
+    for(let i = 0; i < req.body.length; i++){
+      req.body.answer.historical.push({
+        date: moment(lastDay.date).add(i+1, 'days').format('YYYY-MM-DD'),
+        close: lastDay.close
+      })
+    };
     req.body.answer.historical.forEach((date, index) => {
       date.underlying = req.body.answer.historical[index - req.body.length >= 0 ? index - req.body.length : 0].close
       let strikeRounding = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
       let roundIndex = 0
       let looper = (roundNumber) => {
-        date.strike = Math.ceil(date.close / roundNumber) * roundNumber
+        date.strike = Math.ceil(date.underlying / roundNumber) * roundNumber
         date.symbol = `${req.body.ticker}${moment(date.date).format('YYMMDD')}P${(`00000000${date.strike * 1000}`).slice(-8)}`
         let r = { 'body': {
           'ticker': date.symbol,
@@ -154,10 +161,10 @@ module.exports = {
           }
           next();
         } else {
-          res.json({ error: true, details: 'Data Formatting Error' });
+          res.json({ error: true, details: 'Data Formatting Error from guessSymbol in tradierBuffer' });
         }
       } else {
-        res.json({ error: true, details: 'Data Formatting Error' });
+        res.json({ error: true, details: 'Data Formatting Error from guessSymbol in tradierBuffer' });
       }
     });
   },
@@ -179,7 +186,7 @@ module.exports = {
       if (!error && response.statusCode == 200 && req.body.answer.quote.found) {
         const { expirations } = JSON.parse(body);
         if (expirations == null) {
-          res.json({ error: true, details: 'No Options Expiries' });
+          res.json({ error: true, details: 'No Options Expiries from getChainExpiries in tradierBuffer' });
         } else {
           // req.body.answer = expirations;
           const numberOfExpiries = expirations.date.length;
@@ -197,7 +204,7 @@ module.exports = {
           }
         }
       } else {
-        res.json({ error: true, details: 'Data Formatting Error' });
+        res.json({ error: true, details: 'Data Formatting Error from getChainExpiries in tradierBuffer' });
       }
     });
   },
@@ -270,4 +277,5 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
       callback([], i);
     }
   });
+  
 };
