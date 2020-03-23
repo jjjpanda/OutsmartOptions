@@ -18,7 +18,7 @@ module.exports = {
           data = body.quoteResponse.result[0];
         } else {
           data = {
-            earningsTimestamp: false, dividendDate: false, trailingAnnualDividendYield: 0, trailingAnnualDividendRate: 0,
+            earningsTimestamp: undefined, dividendDate: undefined, trailingAnnualDividendYield: 0, trailingAnnualDividendRate: 0,
           };
         }
         req.body.answer.quote = {
