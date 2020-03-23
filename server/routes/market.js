@@ -29,7 +29,7 @@ router.post('/optionsQuote', validate.validateTicker, prepareAnswer, tradierBuff
 
 router.post('/historical', validate.validateTicker, validate.validateDays, prepareAnswer, tradierBuffer.getHistoricalData, noCheckSend('historical'));
 
-router.post('/iv2', validate.validateTicker, validate.validateIVLength, prepareAnswer, tradierBuffer.getHistoricalIV, noCheckSend('historicalIV'));
+router.post('/iv2', validate.validateTicker, validate.validateDays, validate.validateIVLength, prepareAnswer, tradierBuffer.getHistoricalData, tradierBuffer.getHistoricalIV, noCheckSend('historical'));
 
 router.post('/iv', validate.validateTicker, validate.validateIVLength, (req, res) => {
   realTimeData.getIV(tradikey, req.body.ticker, req.body.length, (data) => {

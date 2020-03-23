@@ -53,7 +53,7 @@ module.exports = {
       method: 'get',
       url: 'https://sandbox.tradier.com/v1/markets/history',
       qs: {
-        symbol: req.body.ticker,
+        symbol: req.body.ticker,    
         interval: 'daily',
         start: moment().subtract(req.body.days, 'days').format('YYYY-MM-DD'),
         end: moment().format('YYYY-MM-DD'),
@@ -88,59 +88,39 @@ module.exports = {
   },
 
   getHistoricalIV(req, res, next) {
-    const iv = [];
-    next();
-
-    /* let iv = []
-      let pastExpiries = req.body.answer.historical.filter(d => moment(d.date).day() == 5)
-      let index = 0;
-      let rounder = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
-      let roundIndex = 0;
-      let looper = () => {
-        if(index >= pastExpiries.length){
-          req.body.answer.historicalIV = iv //callback({iv})
+    let editCount = 0
+    for(const date of req.body.answer.historical){ 
+      let strikeRounding = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
+      let roundIndex = 0
+      let looper = (roundNumber) => {
+        let r = { 'body': {
+          'ticker': `${req.body.ticker}${moment(date.date).format('YYMMDD')}P${(`00000000${Math.ceil(date.close / roundNumber) * roundNumber * 1000}`).slice(-8)}`,
+          'days': moment().diff(moment(date.date), 'days')+req.body.length, 
+          'answer': date }
         }
-        else{
-          module.exports.getStockHistoricalData(apikey, `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex]*1000).slice(-8)}`, moment().diff(moment(pastExpiries[index].date), 'days')+ivLength, (optionH) => {
-              if(optionH[0] != undefined && optionH[0] != null){
-                //roundIndex = 0
-                iv.push({
-                  t: ivLength/365,
-                  expiry: moment(pastExpiries[index].date).format('YYYY-MM-DD'),
-                  date: moment(pastExpiries[index].date).subtract(ivLength, 'days').format('YYYY-MM-DD'),
-                  underlying: pastExpiries[index].close,
-                  strike: Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex],
-                  price: optionH[0].close,
-                  symbol: `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].close/rounder[roundIndex])*rounder[roundIndex]*1000).slice(-8)}`
-                })
-                index++
-                looper()
-              }
-              else{
-                roundIndex++;
-                if(roundIndex >= rounder.length){
-                  iv.push({
-                    t: ivLength/365,
-                    expiry: moment(pastExpiries[index].date).format('YYYY-MM-DD'),
-                    date: moment(pastExpiries[index].date).subtract(ivLength, 'days').format('YYYY-MM-DD'),
-                    underlying: pastExpiries[index].close,
-                    strike: Math.ceil(pastExpiries[index].close/rounder[0])*rounder[0],
-                    price: 0,
-                    symbol: `${ticker}${moment(pastExpiries[index].date).format('YYMMDD')}C${('00000000'+Math.ceil(pastExpiries[index].close/rounder[0])*rounder[0]*1000).slice(-8)}`
-                  })
-                  index++
-                  roundIndex = 0
-                  looper()
-                }
-                else{
-                  looper();
-                }
-              }
-          })
-        }
+        let s = {json : (o) => {
+          roundIndex++
+          if(roundIndex < strikeRounding.length){
+            looper(strikeRounding[roundIndex]) 
+          }
+          else {
+            editCount++
+            console.log(editCount)
+            if(editCount >= req.body.answer.historical.length){
+              next()
+            }
+          }
+        }}
+        module.exports.getHistoricalData(r, s, () => {
+          editCount++
+          console.log(editCount)
+          if(editCount >= req.body.answer.historical.length){
+            next()
+          }
+        })
       }
-
-      looper() */
+      looper(strikeRounding[roundIndex])
+    }
   },
 
   guessSymbol(req, res, next) {
