@@ -1,3 +1,6 @@
+const { mathematique } = require('que-series');
+const moment = require('moment')
+
 module.exports = {
 
   getOptionsQuote(req, res, next) {
@@ -30,5 +33,24 @@ module.exports = {
     }
     next();
   },
+
+  getHistoricalIV(req, res, next){
+    let historicalIV = req.body.answer.historical.filter(d => d.historical != undefined)
+    //[ { date: "2000-01-01", underlying: Double, strike: Double, price: Double, symbol: String, iv: Double }... 
+   
+    historicalIV = historicalIV.map(d => {
+      return {
+        date: d.historical[0].date,
+        underlying: d.underlying,
+        strike: d.strike,
+        price: d.historical[0].close,
+        symbol: d.symbol,
+        iv: mathematique.options.calculateIV(moment(d.date).diff(d.historical[0].date, 'days') / 365, d.historical[0].close, d.underlying, d.strike, false, 0, 0)
+      }
+    })
+
+    req.body.answer.historicalIV = historicalIV
+    next()
+  }
 
 };
