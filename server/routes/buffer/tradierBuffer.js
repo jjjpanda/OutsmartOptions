@@ -89,12 +89,15 @@ module.exports = {
 
   getHistoricalIV(req, res, next) {
     let editCount = 0
-    for(const date of req.body.answer.historical){ 
+    req.body.answer.historical.forEach((date, index) => {
+      date.underlying = req.body.answer.historical[index - req.body.length >= 0 ? index - req.body.length : 0].close
       let strikeRounding = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
       let roundIndex = 0
       let looper = (roundNumber) => {
+        date.strike = Math.ceil(date.close / roundNumber) * roundNumber
+        date.symbol = `${req.body.ticker}${moment(date.date).format('YYMMDD')}P${(`00000000${date.strike * 1000}`).slice(-8)}`
         let r = { 'body': {
-          'ticker': `${req.body.ticker}${moment(date.date).format('YYMMDD')}P${(`00000000${Math.ceil(date.close / roundNumber) * roundNumber * 1000}`).slice(-8)}`,
+          'ticker': date.symbol,
           'days': moment().diff(moment(date.date), 'days')+req.body.length, 
           'answer': date }
         }
@@ -105,7 +108,6 @@ module.exports = {
           }
           else {
             editCount++
-            console.log(editCount)
             if(editCount >= req.body.answer.historical.length){
               next()
             }
@@ -113,14 +115,13 @@ module.exports = {
         }}
         module.exports.getHistoricalData(r, s, () => {
           editCount++
-          console.log(editCount)
           if(editCount >= req.body.answer.historical.length){
             next()
           }
         })
       }
       looper(strikeRounding[roundIndex])
-    }
+    })
   },
 
   guessSymbol(req, res, next) {
