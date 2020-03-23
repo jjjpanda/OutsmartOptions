@@ -3,7 +3,7 @@ module.exports = {
   validateTicker(req, res, next) {
     const { ticker } = req.body;
     if (ticker == undefined) {
-      res.json({ error: true, details: 'Validation Error' });
+      res.json({ error: true, details: 'Validation Error from validateTicker in marketDataRequestValidation' });
     } else {
       next();
     }
@@ -28,7 +28,7 @@ module.exports = {
   validateText(req, res, next) {
     const { text } = req.body;
     if (text == undefined) {
-      res.json({ error: true, details: 'Validation Error' });
+      res.json({ error: true, details: 'Validation Error from validateText in marketDataRequestValidation' });
     } else {
       next();
     }

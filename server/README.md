@@ -40,9 +40,9 @@ The structure for all API calls require up to a 3 step process before they send 
 
 |Step|Title|Description|Error Response|
 |:-|:-:|:-:|:-:|
-|1|Request Validation|Making sure the inputs are valid.|Unauthorized or `{ error: true, details: "Validation Error" }`
-|2|Data Stream Buffer|Making sure the data that the server requests from other API's is formatted and converted correctly.|`{ error: true, details: "Data Formatting Error" }`
-|3|Calculations and Verification|Doing any math on the data that we need to and checking everything is ok.|`{ error: true, details: "Calculation/Verification Error" }`
+|1|Request Validation|Making sure the inputs are valid.|Unauthorized or `{ error: true, details: "Validation Error from [function] in [file]" }`
+|2|Data Stream Buffer|Making sure the data that the server requests from other API's is formatted and converted correctly.|`{ error: true, details: "Data Formatting Error from [function] in [file]" }`
+|3|Calculations and Verification|Doing any math on the data that we need to and checking everything is ok.|`{ error: true, details: "Calculation/Verification Error from [function] in [file]" }`
 
 ### Public Static Files and Directories
 

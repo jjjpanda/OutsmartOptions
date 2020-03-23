@@ -36,8 +36,6 @@ module.exports = {
 
   getHistoricalIV(req, res, next){
     let historicalIV = req.body.answer.historical.filter(d => d.historical != undefined)
-    //[ { date: "2000-01-01", underlying: Double, strike: Double, price: Double, symbol: String, iv: Double }... 
-   
     historicalIV = historicalIV.map(d => {
       return {
         date: d.historical[0].date,

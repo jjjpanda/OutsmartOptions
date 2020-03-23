@@ -29,41 +29,16 @@ router.post('/optionsQuote', validate.validateTicker, prepareAnswer, tradierBuff
 
 router.post('/historical', validate.validateTicker, validate.validateDays, prepareAnswer, tradierBuffer.getHistoricalData, noCheckSend('historical'));
 
-router.post('/iv2', validate.validateTicker, validate.validateDays, validate.validateIVLength, prepareAnswer, tradierBuffer.getHistoricalData, tradierBuffer.getHistoricalIV, optionsCalculation.getHistoricalIV, noCheckSend('historicalIV'));
-
-router.post('/iv', validate.validateTicker, validate.validateIVLength, (req, res) => {
-  realTimeData.getIV(tradikey, req.body.ticker, req.body.length, (data) => {
-    res.json(data);
-  });
-});
+router.post('/iv', validate.validateTicker, validate.validateDays, validate.validateIVLength, prepareAnswer, tradierBuffer.getHistoricalData, tradierBuffer.getHistoricalIV, optionsCalculation.getHistoricalIV, noCheckSend('historicalIV'));
 
 router.post('/guessSymbol', validate.validateText, prepareAnswer, tradierBuffer.guessSymbol, noCheckSend('guesses'));
 
 router.post('/yields', prepareAnswer, treasuryBuffer.getYieldCurve, noCheckSend('yields'));
 
-/*
-router.post('/earningsSoon', (req, res) => {
-  const { ticker } = req.body;
-  Earnings.findOne({ company: ticker }).then((earnings) => {
-    if (earnings) {
-      res.json({ date: earnings.date, erSoon: true });
-    } else {
-      res.json({ erSoon: false });
-    }
-  });
-});
-
-router.post('/divYield', validate.validateTicker, (req, res) => {
-  realTimeData.getDividend(alphakey, req.body.ticker, (data) => {
+router.post('/ivDeprecated', validate.validateTicker, validate.validateIVLength, (req, res) => {
+  realTimeData.getIV(tradikey, req.body.ticker, req.body.length, (data) => {
     res.json(data);
   });
 });
-
-router.post('/earningsDate', validate.validateTicker, (req, res) => {
-  realTimeData.getEarnings(req.body.ticker, (data) => {
-    res.json(data);
-  });
-});
-*/
 
 module.exports = router;
