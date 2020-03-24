@@ -1,28 +1,32 @@
 const request = require('request');
+const env = require('dotenv').config();
+const twitterKey = process.env.twitterKey
 
 module.exports = {
-  getTweets(apikey, q, callback) {
+
+  getTweets(req, res, next){
     request({
       method: 'get',
       url: 'https://api.twitter.com/1.1/search/tweets.json',
       qs: {
-        q,
+        q: req.body.q,
       },
       headers: {
-        Authorization: `Bearer ${apikey}`,
+        Authorization: `Bearer ${twitterKey}`,
         Accept: 'application/json',
       },
     }, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         const tweets = JSON.parse(body).statuses;
         if (tweets != undefined) {
-          callback({ tweets });
+          req.body.answer = { tweets };
         } else {
-          callback({ tweets: false });
+          req.body.answer = { tweets: false };
         }
+        next()
       } else {
-        callback({ error, response: response.statusCode });
+        res.json({ error: true, details: "Data Formatting Error from getTweets in twitterBuffer" });
       }
     });
-  },
+  }
 };

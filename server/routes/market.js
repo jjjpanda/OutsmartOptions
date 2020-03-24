@@ -10,7 +10,8 @@ const alphakey = process.env.alpha;
 // const Earnings = require('../daemons/db/Earnings');
 
 const validate = require('./validation/marketDataRequestValidation.js');
-const prepareAnswer = require('./validation/prepareAnswer.js');
+const validateBody = require('./validation/validateBody.js');
+const prepareAnswer = require('./buffer/prepareAnswer.js');
 
 const tradierBuffer = require('./buffer/tradierBuffer.js');
 const yFinanceBuffer = require('./buffer/yFinanceBuffer.js');
@@ -21,24 +22,18 @@ const noCheckSend = require('./calculation/noCheckSend.js');
 
 const realTimeData = require('./buffer/realTimeData.js');
 
-router.post('/quote', validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, noCheckSend('quote'));
+router.post('/quote', validateBody, validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, noCheckSend('quote'));
 
-router.post('/chain', validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, treasuryBuffer.getYieldCurve, tradierBuffer.getChainExpiries, noCheckSend('chain'));
+router.post('/chain', validateBody, validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, treasuryBuffer.getYieldCurve, tradierBuffer.getChainExpiries, noCheckSend('chain'));
 
-router.post('/optionsQuote', validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, treasuryBuffer.getYieldCurve, tradierBuffer.getChainExpiries, optionsCalculation.getOptionsQuote, noCheckSend('optionsQuote'));
+router.post('/optionsQuote', validateBody, validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, treasuryBuffer.getYieldCurve, tradierBuffer.getChainExpiries, optionsCalculation.getOptionsQuote, noCheckSend('optionsQuote'));
 
-router.post('/historical', validate.validateTicker, validate.validateDays, prepareAnswer, tradierBuffer.getHistoricalData, noCheckSend('historical'));
+router.post('/historical', validateBody, validate.validateTicker, validate.validateDays, prepareAnswer, tradierBuffer.getHistoricalData, noCheckSend('historical'));
 
-router.post('/iv', validate.validateTicker, validate.validateDays, validate.validateIVLength, prepareAnswer, tradierBuffer.getHistoricalData, tradierBuffer.getHistoricalIV, optionsCalculation.getHistoricalIV, noCheckSend('historicalIV'));
+router.post('/iv', validateBody, validate.validateTicker, validate.validateDays, validate.validateIVLength, prepareAnswer, tradierBuffer.getHistoricalData, tradierBuffer.getHistoricalIV, optionsCalculation.getHistoricalIV, noCheckSend('historicalIV'));
 
-router.post('/guessSymbol', validate.validateText, prepareAnswer, tradierBuffer.guessSymbol, noCheckSend('guesses'));
+router.post('/guessSymbol', validateBody, validate.validateText, prepareAnswer, tradierBuffer.guessSymbol, noCheckSend('guesses'));
 
-router.post('/yields', prepareAnswer, treasuryBuffer.getYieldCurve, noCheckSend('yields'));
-
-router.post('/ivDeprecated', validate.validateTicker, validate.validateIVLength, (req, res) => {
-  realTimeData.getIV(tradikey, req.body.ticker, req.body.length, (data) => {
-    res.json(data);
-  });
-});
+router.post('/yields', validateBody, prepareAnswer, treasuryBuffer.getYieldCurve, noCheckSend('yields'));
 
 module.exports = router;

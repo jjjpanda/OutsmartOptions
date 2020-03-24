@@ -21,12 +21,17 @@ module.exports = {
     },
 
     validateFile(req, res, next){
-        const {file} = req.files;
-        if(file === undefined || file.data === undefined || !(file.data instanceof Buffer)){
-            res.json({ error: true, details: "Validation Error from validateFile in bugValidation" })
+        if(req.files != undefined){
+            const {file} = req.files;
+            if(file === undefined || file.data === undefined || !(file.data instanceof Buffer)){
+                res.json({ error: true, details: "Validation Error from validateFile in bugValidation" })
+            }
+            else{
+                next()
+            }
         }
         else{
-            next()
+            res.json({ error: true, details: "Validation Error from validateFile in bugValidation" })
         }
     }
 }
