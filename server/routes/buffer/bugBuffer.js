@@ -68,7 +68,6 @@ module.exports = {
     },
 
     imageBuffer(req, res, next){
-        console.log(req.files.file.data)
         request({
             method: 'POST',
             url: bugUrl,
