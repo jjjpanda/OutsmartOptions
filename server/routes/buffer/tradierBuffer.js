@@ -76,7 +76,7 @@ module.exports = {
               }
             }
           }
-          req.body.answer.historical = historical;
+          req.body.answer.historical = historical instanceof Array ? historical : [historical];
           next();
         } else {
           res.json({ error: true, details: 'Data Formatting Error from getHistoricalData in tradierBuffer' });
@@ -97,7 +97,7 @@ module.exports = {
       })
     };
     req.body.answer.historical.forEach((date, index) => {
-      date.underlying = req.body.answer.historical[index - req.body.length >= 0 ? index - req.body.length : 0].close
+      date.underlying = req.body.answer.historical[(index - req.body.length >= 0) ? (index - req.body.length) : 0].close
       let strikeRounding = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
       let roundIndex = 0
       let looper = (roundNumber) => {
@@ -105,15 +105,16 @@ module.exports = {
         date.symbol = `${req.body.ticker}${moment(date.date).format('YYMMDD')}P${(`00000000${date.strike * 1000}`).slice(-8)}`
         let r = { 'body': {
           'ticker': date.symbol,
-          'days': moment().diff(moment(date.date), 'days')+req.body.length, 
-          'answer': date }
-        }
+          'days': parseInt(moment().diff(moment(date.date), 'days'))+parseInt(req.body.length), 
+          'answer': date 
+        }}
         let s = {json : (o) => {
           roundIndex++
           if(roundIndex < strikeRounding.length){
             looper(strikeRounding[roundIndex]) 
           }
           else {
+            
             editCount++
             if(editCount >= req.body.answer.historical.length){
               next()
