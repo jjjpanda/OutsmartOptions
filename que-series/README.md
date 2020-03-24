@@ -46,9 +46,9 @@ console.log(u) //Prints 0.5
 ## The Stuff
 
 So there's
-1. [aestheti**que**](###aesthetique)
-2. [mathemati**que**](###mathematique)
-3. [utili**que**](###utilique)
+1. [aestheti**que**](#aesthetique)
+2. [mathemati**que**](#mathematique)
+3. [utili**que**](#utilique)
 
 ### Aesthetique
 
