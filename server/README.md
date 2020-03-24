@@ -5,25 +5,25 @@
 The server starts from [server.js](server.js), 
 which calls 3 main subprocesses: 
 1. **[The Routes and Endpoints](#routes-and-endpoints)**
-    - [Static Endpoints](##public-static-files-and-directories)
-    - [API Endpoints](###/api/markets/)
-        - [/api/markets/](###/api/markets/)
-        - [/api/bug/](###/api/bug/)
-        - [/api/twitter/](###/api/twitter/)
-        - [/api/users/](###/api/users/)
-        - [/api/watchlist/](###/api/watchlist/)
-        - [/api/strategy/](###/api/strategy/)
-    - [Dev Endpoints](###/dev/)
+    - [Static Endpoints](#public-static-files-and-directories)
+    - [API Endpoints](#/api/markets/)
+        - [/api/markets/](#/api/markets/)
+        - [/api/bug/](#/api/bug/)
+        - [/api/twitter/](#/api/twitter/)
+        - [/api/users/](#/api/users/)
+        - [/api/watchlist/](#/api/watchlist/)
+        - [/api/strategy/](#/api/strategy/)
+    - [Dev Endpoints](#/dev/)
 2. **[The Discord Bot](#discord-and-roku)**
 3. **[The Daemons](#daemons)**
-    - [The MongoDB Database](###the-database)
-        - [Users](###the-database)
-        - [Watchlist](###the-database)
-        - [Strategy](###the-database)
-        - [Earnings](###the-database)
-        - [Option](###the-database)
-    - [Earnings Calendar Daemon](###earnings-calendar)
-    - [The Server Warmer](###server-warmer)
+    - [The MongoDB Database](#the-database)
+        - [Users](#the-database)
+        - [Watchlist](#the-database)
+        - [Strategy](#the-database)
+        - [Earnings](#the-database)
+        - [Option](#the-database)
+    - [Earnings Calendar Daemon](#earnings-calendar)
+    - [The Server Warmer](#server-warmer)
 
 All logs go through [appendLogs.js](logs/appendLogs.js) to go into [logs.txt](logs/logs.txt). 
 
@@ -166,12 +166,12 @@ The [database folder](daemons/models), holds the models and objects that are use
     - **isLong**: Boolean
     - **quantity**: Integer
 
-*But Earnings is currently not being used. See more in the [next section](###earnings-calendar)*
+*But Earnings is currently not being used. See more in the [next section](#earnings-calendar)*
 
 ### Earnings Calendar
 **Currently not in use.**
 
-Note that the earnings daemon is called by the database daemon [described above](###the-database).
+Note that the earnings daemon is called by the database daemon [described above](#the-database).
 The earnings [daemon](daemons/earningsDaemon.js) updates the database ER calendar. 
 
 ### Server Warmer
