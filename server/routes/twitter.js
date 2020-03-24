@@ -2,15 +2,12 @@ const express = require('express');
 
 const router = express.Router();
 
-const env = require('dotenv').config();
+const validateBody = require('./validation/validateBody.js')
+const validation = require('./validation/twitterValidation.js')
+const prepare = require('./buffer/prepareAnswer.js')
+const buffer = require('./buffer/twitterBuffer.js')
+const noCheckSend = require('./calculation/noCheckSend.js')
 
-const twitterSearchData = require('./buffer/twitterSearchData.js');
-
-router.post('/search', (req, res) => {
-  const { q } = req.body;
-  twitterSearchData.getTweets(process.env.twitterKey, q, (data) => {
-    res.json(data);
-  });
-});
+router.post('/search', validateBody, validation.qValidation, prepare, buffer.getTweets, noCheckSend('tweets'));
 
 module.exports = router;
