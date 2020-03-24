@@ -6,14 +6,14 @@ The server starts from [server.js](server.js),
 which calls 3 main subprocesses: 
 1. **[The Routes and Endpoints](#routes-and-endpoints)**
     - [Static Endpoints](#public-static-files-and-directories)
-    - [API Endpoints](#/api/markets/)
-        - [/api/markets/](#/api/markets/)
-        - [/api/bug/](#/api/bug/)
-        - [/api/twitter/](#/api/twitter/)
-        - [/api/users/](#/api/users/)
-        - [/api/watchlist/](#/api/watchlist/)
-        - [/api/strategy/](#/api/strategy/)
-    - [Dev Endpoints](#/dev/)
+    - [API Endpoints](#apimarkets)
+        - [/api/markets/](#apimarkets)
+        - [/api/bug/](#apibug)
+        - [/api/twitter/](#apitwitter)
+        - [/api/users/](#apiusers)
+        - [/api/watchlist/](#apiwatchlist)
+        - [/api/strategy/](#apistrategy)
+    - [Dev Endpoints](#dev/)
 2. **[The Discord Bot](#discord-and-roku)**
 3. **[The Daemons](#daemons)**
     - [The MongoDB Database](#the-database)
