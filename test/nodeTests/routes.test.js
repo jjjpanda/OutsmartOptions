@@ -256,16 +256,6 @@ describe('POST Bug Reports /api/bug/', () => {
         });
     }, waitTime);
 
-    it('sends request with text file', async (done) => {
-      request(app).post('/api/bug/imageReport')
-        .attach('file', path.join(__dirname, '../../src/css/index.less'))
-        .expect(200)
-        .then((response) => {
-          expect(response.body.error).toBe(true);
-          done();
-        });
-    }, waitTime);
-
     it('sends request with no file', async (done) => {
       request(app).post('/api/bug/imageReport')
         .expect(200)

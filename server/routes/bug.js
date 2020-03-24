@@ -2,30 +2,13 @@ const express = require('express');
 
 const router = express.Router();
 
-const env = require('dotenv').config();
+const validation = require('./validation/bugValidation.js');
+const buffer = require('./buffer/bugBuffer.js')
 
-const iptrackkey = process.env.iptrack;
-const { bugUrl } = process.env;
-const { ipUrl } = process.env;
+router.post('/track', validation.validateIP, buffer.getIP, buffer.ipBuffer);
 
-const reportBugs = require('./buffer/reportBug.js');
+router.post('/report', validation.validateOptions, buffer.reportBuffer);
 
-router.post('/track', (req, res) => {
-  reportBugs.getIP(iptrackkey, ipUrl, req.body.ip, (data) => {
-    res.json(data);
-  });
-});
-
-router.post('/report', (req, res) => {
-  reportBugs.sendCalcError(bugUrl, req.body.options, (data) => {
-    res.json(data);
-  });
-});
-
-router.post('/imageReport', (req, res) => {
-  reportBugs.sendImg(bugUrl, req.files.file.data, (data) => {
-    res.json(data);
-  });
-});
+router.post('/imageReport', validation.validateFile, buffer.imageBuffer);
 
 module.exports = router;
