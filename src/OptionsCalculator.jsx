@@ -42,14 +42,14 @@ const { treasury } = math;
 const percentageColor = aes.color;
 
 const structure = util.structures;
-const { post } = util;
+const { request } = util;
 
 const ButtonGroup = Button.Group;
 const CollapsePanel = Collapse.Panel;
 
 // Treasury Yields
 let yields = [];
-post.fetchReq('/api/market/treasury', '', (data) => {
+request.postFetchReq('/api/market/treasury', '', (data) => {
   yields = data;
 });
 
@@ -410,9 +410,9 @@ class OptionsCalculator extends React.Component {
         const base64image = c.toDataURL('image/png');
         const formData = new FormData();
         formData.append('file', structure.dataURItoBlob(base64image), 'img');
-        post.fileReq('/api/bug/imageReport', formData);
+        request.fileReq('/api/bug/imageReport', formData);
       });
-      post.fetchReq('/api/bug/report',
+      request.postFetchReq('/api/bug/report',
         JSON.stringify({
           options: this.state.optionsSelected
             .map((option) => Object.keys(option).filter((key) => key != 'profit')
@@ -489,7 +489,7 @@ class OptionsCalculator extends React.Component {
     }
 
     if (this.state.loggedIn) {
-      post.fetchReqAuth('/api/strategy/save', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id'), ticker: this.state.symbol, strategy: this.state.optionsSelected }), (data) => {
+      request.postFetchReqAuth('/api/strategy/save', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id'), ticker: this.state.symbol, strategy: this.state.optionsSelected }), (data) => {
         console.log(data);
       });
     } else {

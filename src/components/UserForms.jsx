@@ -12,7 +12,7 @@ import { utilique as util } from 'que-series';
 import verifyUser from './UserVerifier.jsx';
 
 
-const { post } = util;
+const { request } = util;
 
 const hasErrors = (fieldsError) => Object.keys(fieldsError).some((field) => fieldsError[field]);
 
@@ -50,7 +50,7 @@ class LoginModal extends React.Component {
         if (!err) {
           // console.log('Received values of form: ', values);
 
-          post.fetchReq('/api/users/login', JSON.stringify({ email: values.email, password: values.password }), (data) => {
+          request.postFetchReq('/api/users/login', JSON.stringify({ email: values.email, password: values.password }), (data) => {
             if (data.success) {
               this.setState(() => ({
                 visible: false,
@@ -161,7 +161,7 @@ class RegisterModal extends React.Component {
         if (!err) {
           // console.log('Received values of form: ', values);
 
-          post.fetchReq('/api/users/register', JSON.stringify({
+          request.postFetchReq('/api/users/register', JSON.stringify({
             name: values.userName, email: values.email, password: values.password, password2: values.password2,
           }), (data) => {
             if (data._id != undefined) {
@@ -295,7 +295,7 @@ class ChangePasswordModal extends React.Component {
         if (!err) {
           // console.log('Received values of form: ', values);
 
-          post.fetchReqAuth('/api/users/change', Cookie.get('token'), JSON.stringify({
+          request.postFetchReqAuth('/api/users/change', Cookie.get('token'), JSON.stringify({
             id: Cookie.get('id'), oldPassword: values.oldPassword, newPassword: values.newPassword, newPassword2: values.newPassword2,
           }), (data) => {
             if (data.changed) {
@@ -403,7 +403,7 @@ class SignOut extends React.Component {
 
 class DeleteAccount extends React.Component {
     onClick = (e) => {
-      post.fetchReqAuth('/api/users/delete', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
+      request.postFetchReqAuth('/api/users/delete', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
         if (data.deleted) {
           this.setState(() => ({
             visible: false,

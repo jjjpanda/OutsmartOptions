@@ -36,7 +36,7 @@ import HelpPage from './HelpPage.jsx';
 import Checkout from './checkout.jsx';
 
 
-const { post } = util;
+const { request } = util;
 
 const { Footer } = Layout;
 const { Sider } = Layout;
@@ -52,7 +52,7 @@ fetch('https://api.ipify.org?format=jsoniuhb',
   .then((res) => res.text())
   .then((data) => {
     console.log(data);
-    post.fetchReq('/api/bug/track', JSON.stringify({ ip: data }), (data) => console.log(data));
+    request.postFetchReq('/api/bug/track', JSON.stringify({ ip: data }), (data) => console.log(data));
   });
 
 class App extends React.Component {

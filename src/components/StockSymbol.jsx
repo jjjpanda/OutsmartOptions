@@ -31,7 +31,7 @@ const outliers = math.stats;
 const { treasury } = math;
 
 
-const { post } = util;
+const { request } = util;
 
 const AutoCompleteOption = AutoComplete.Option;
 const InputSearch = Input.Search;
@@ -60,7 +60,7 @@ class StockSymbol extends React.Component {
 
     notFound = (val) => {
       const e = val.trim();
-      post.fetchReq('/api/market/guessSymbol', JSON.stringify({ text: e }), (data) => {
+      request.postFetchReq('/api/market/guessSymbol', JSON.stringify({ text: e }), (data) => {
         console.log(data);
         this.setState(() => (
           {
@@ -88,7 +88,7 @@ class StockSymbol extends React.Component {
         exists: true, symbol: e, guess: [], inWatchlist: false, earningsDate: '', historicalIV: '', divYield: '',
       }));
 
-      post.fetchReq('/api/market/price', JSON.stringify({ ticker: e }), (data) => {
+      request.postFetchReq('/api/market/price', JSON.stringify({ ticker: e }), (data) => {
         console.log(data);
         if (data.price === undefined || data.price === null) {
           data.price = 0;
@@ -101,7 +101,7 @@ class StockSymbol extends React.Component {
         }),
         () => {
           if (this.state.loggedIn) {
-            post.fetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
+            request.postFetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
               if (data.list.includes(e)) {
                 this.setState(() => ({ inWatchlist: true }));
               }
@@ -118,11 +118,11 @@ class StockSymbol extends React.Component {
         }
       };
 
-      post.fetchReq('/api/market/earningsDate', JSON.stringify({ ticker: e }), (data) => {
+      request.postFetchReq('/api/market/earningsDate', JSON.stringify({ ticker: e }), (data) => {
         this.setState(() => ({ earningsDate: data.earningsDate }), checkFinished);
       });
 
-      post.fetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
+      request.postFetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
         console.log(data.iv);
         const iv = data.iv.map((d) => ({
           date: d.date,
@@ -132,12 +132,12 @@ class StockSymbol extends React.Component {
         this.setState(() => ({ historicalIV: iv }), checkFinished);
       });
 
-      post.fetchReq('/api/market/divYield', JSON.stringify({ ticker: e }), (data) => {
+      request.postFetchReq('/api/market/divYield', JSON.stringify({ ticker: e }), (data) => {
         this.setState(() => ({ divYield: data.dividendAnnum / this.state.price }), checkFinished);
       });
 
       if (this.props.options) {
-        post.fetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
+        request.postFetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
           if (data != null) {
             data = data.filter((x) => {
               const callVolSum = x[1].map((x) => x.callVol).reduce((a, b) => a + b, 0);
@@ -182,7 +182,7 @@ class StockSymbol extends React.Component {
       }
 
       if (this.props.historical) {
-        post.fetchReq('/api/market/historical', JSON.stringify({ ticker: e }), (data) => {
+        request.postFetchReq('/api/market/historical', JSON.stringify({ ticker: e }), (data) => {
           this.setState(() => ({ historical: data }), () => {
             console.log(this.state);
           });
@@ -193,7 +193,7 @@ class StockSymbol extends React.Component {
     onStarClick = () => {
       if (this.state.loggedIn) {
         if (this.state.symbol != '') {
-          post.fetchReqAuth('/api/watchlist/edit', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id'), ticker: this.state.symbol }), (data) => {
+          request.postFetchReqAuth('/api/watchlist/edit', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id'), ticker: this.state.symbol }), (data) => {
             this.setState(() => ({ inWatchlist: data.list.includes(this.state.symbol) }));
           });
         }

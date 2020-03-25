@@ -6,7 +6,7 @@ import Cookie from 'js-cookie';
 import { utilique as util } from 'que-series';
 import verifyUser from './components/UserVerifier.jsx';
 
-const { post } = util;
+const { request } = util;
 
 const columns = [
   {
@@ -67,10 +67,10 @@ class Watchlist extends React.Component {
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }), () => {
         if (this.state.loggedIn) {
-          post.fetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
+          request.postFetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
             this.setState(() => ({ watchlist: data.list, dataSource: data.list.map((stock) => ({ ticker: stock })) }), () => {
               for (const stock of this.state.watchlist) {
-                post.fetchReq('/api/market/price', JSON.stringify({ ticker: stock }), (data) => {
+                request.postFetchReq('/api/market/price', JSON.stringify({ ticker: stock }), (data) => {
                   this.setState((state) => {
                     const i = state.dataSource.findIndex((e) => e.ticker == stock);
                     state.dataSource[i].price = data.price;
@@ -79,7 +79,7 @@ class Watchlist extends React.Component {
                     return { dataSource: state.dataSource };
                   });
                 });
-                post.fetchReq('/api/market/optionsQuote', JSON.stringify({ ticker: stock }), (data) => {
+                request.postFetchReq('/api/market/optionsQuote', JSON.stringify({ ticker: stock }), (data) => {
                   this.setState((state) => {
                     const i = state.dataSource.findIndex((e) => e.ticker == stock);
                     state.dataSource[i].callIV = data.callIV;

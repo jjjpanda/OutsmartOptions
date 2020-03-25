@@ -1,15 +1,39 @@
-export function postFetchReq(req, body, callback, auth) {
-  fetch(req,
-    {
-      method: 'post',
-      headers: {
-        Authorization: auth == undefined ? "" : auth,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body,
-    }
+
+export function postFetchReq(req, body, callback) {
+  processResponse(
+    fetch(req,
+      {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body,
+      }
+    ), 
+    callback
   )
+}
+
+export function postFetchReqAuth(req, auth, body, callback) {
+  processResponse(
+    fetch(req,
+      {
+        method: 'post',
+        headers: {
+          Authorization: auth,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body,
+      }
+    ),
+    callback
+  )
+}
+
+function processResponse(promise, callback){
+  promise
   .then(res => res.text())
   .then((res) => {
     try {
