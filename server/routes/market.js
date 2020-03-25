@@ -20,8 +20,6 @@ const treasuryBuffer = require('./buffer/treasuryBuffer.js');
 const optionsCalculation = require('./calculation/optionsCalculation.js');
 const noCheckSend = require('./calculation/noCheckSend.js');
 
-const realTimeData = require('./buffer/realTimeData.js');
-
 router.post('/quote', validateBody, validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, noCheckSend('quote'));
 
 router.post('/chain', validateBody, validate.validateTicker, prepareAnswer, tradierBuffer.getQuotes, yFinanceBuffer.getQuote, treasuryBuffer.getYieldCurve, tradierBuffer.getChainExpiries, noCheckSend('chain'));

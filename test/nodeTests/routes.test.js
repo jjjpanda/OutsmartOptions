@@ -211,7 +211,7 @@ describe('POST Bug Reports /api/bug/', () => {
     it('sends ip', async (done) => {
       // /api/bug/track
       request(app).post('/api/bug/track')
-        .send({ ip: '64.233.160.33' })
+        .send({ ip: '64.98.160.33' })
         .expect('Content-Type', /json/)
         .expect(200)
         .then((response) => {

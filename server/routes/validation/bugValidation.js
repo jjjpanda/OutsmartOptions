@@ -1,9 +1,14 @@
+const Validator = require('validator');
+
 module.exports = {
 
     validateIP(req, res, next){
         const {ip} = req.body
-        if( ip == undefined || !(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip))){
+        if( ip == undefined){
             res.json({ error: true, details: "Validation Error from validateIP in bugValidation" })
+        }
+        else if(!Validator.isIP(ip)){
+            res.json({ error: true, details: "IP Address Incorrect from validateIP in bugValidation" })
         }
         else {
             next()
