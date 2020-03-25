@@ -4,53 +4,20 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const auth = require('./validation/authorizeUser')(jwt);
 
-const Watchlist = require('../daemons/models/Watchlist');
-const User = require('../daemons/models/User');
+const validateBody = require('./validation/validateBody.js');
+const marketValidation = require('./validation/marketDataRequestValidation.js')
 
-router.post('/view', auth, (req, res) => {
-  User.findById(req.body.id).then((user) => {
-    if (user) {
-      Watchlist.findOne({ user }).then((watchlist) => {
-        if (watchlist) {
-          res.json({ list: watchlist.stocks });
-        } else {
-          const newWatchlist = new Watchlist({ user, stocks: [] });
-          newWatchlist.save().then(() => {
-            res.json({ list: [] });
-          });
-        }
-      });
-    } else {
-      res.json({ user: 'not found' });
-    }
-  });
-});
+const prepareAnswer = require('./buffer/prepareAnswer.js')
+const tradierBuffer = require('./buffer/tradierBuffer.js')
+const buffer = require('./buffer/watchlistBuffer.js')
 
-router.post('/edit', auth, (req, res) => {
-  User.findById(req.body.id).then((user) => {
-    if (user) {
-      Watchlist.findOne({ user }).then((watchlist) => {
-        if (watchlist) {
-          const index = watchlist.stocks.indexOf(req.body.ticker);
-          if (index >= 0) {
-            watchlist.stocks.splice(index, 1);
-          } else {
-            watchlist.stocks.push(req.body.ticker);
-          }
-          watchlist.save().then(() => {
-            res.json({ list: watchlist.stocks });
-          });
-        } else {
-          const newWatchlist = new Watchlist({ user, stocks: [req.body.ticker] });
-          newWatchlist.save().then(() => {
-            res.json({ list: newWatchlist.stocks });
-          });
-        }
-      });
-    } else {
-      res.json({ user: 'not found' });
-    }
-  });
-});
+router.post('/view', validateBody, auth, buffer.viewWatchlist);
+
+router.post('/add', validateBody, auth, marketValidation.validateTicker, prepareAnswer, tradierBuffer.getQuotes, buffer.addToWatchlist);
+
+router.post('/remove', validateBody, auth, marketValidation.validateTicker, buffer.removeFromWatchlist);
+
+//Deprecated
+router.post('/edit', validateBody, auth, buffer.editWatchlist);
 
 module.exports = router;

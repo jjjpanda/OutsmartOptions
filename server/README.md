@@ -110,7 +110,8 @@ Here's your route file: [market.js](routes/market.js).
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
 |POST|/view    |So you wanna see your watchlist huh?                       |`{ header: { authorization: String }, body: { id: String } }`|`{ list: [ String... ] }`|
-|POST|/edit    |So you wanna add or remove something in your watchlist huh?|`{ header: { authorization: String }, body: { id: String, ticker: String } }`|`{ list: [ String... ] }`|
+|POST|/add    |So you wanna add something in your watchlist huh?|`{ header: { authorization: String }, body: { id: String, ticker: String } }`|`{ list: [ String... ] }`|
+|POST|/remove    |So you wanna remove something in your watchlist huh?|`{ header: { authorization: String }, body: { id: String, ticker: String } }`|`{ list: [ String... ] }`|
 
 ### /api/strategy/
 
