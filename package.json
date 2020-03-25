@@ -172,7 +172,9 @@
       },
       {
         "displayName": "Server",
-        "setupFilesAfterEnv": ["jest-extended"],
+        "setupFilesAfterEnv": [
+          "jest-extended"
+        ],
         "testRunner": "jest-circus/runner",
         "testEnvironment": "node",
         "coveragePathIgnorePatterns": [
@@ -185,7 +187,9 @@
       },
       {
         "displayName": "Browser",
-        "setupFilesAfterEnv": ["jest-extended"],
+        "setupFilesAfterEnv": [
+          "jest-extended"
+        ],
         "testEnvironment": "node",
         "coveragePathIgnorePatterns": [
           "<rootDir>/node_modules/"

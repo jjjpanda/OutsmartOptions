@@ -1,4 +1,19 @@
 
+export function getFetchReq(req, qs, callback) {
+  processResponse(
+    fetch(req,
+      {
+        method: 'get',
+        headers: {
+          Accept: 'application/json',
+        },
+        qs
+      }
+    ),
+    callback
+  )
+}
+
 export function postFetchReq(req, body, callback) {
   processResponse(
     fetch(req,
@@ -40,7 +55,7 @@ function processResponse(promise, callback){
       const resp = JSON.parse(res)
       return resp
     } catch (e) {
-      return { error: true, details: "Response Error at Client Parse" }
+      return res
     }
   })
   .then((data) => callback(data))

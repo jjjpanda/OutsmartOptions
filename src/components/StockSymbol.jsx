@@ -82,13 +82,20 @@ class StockSymbol extends React.Component {
     ))
 
     onSearch = (val) => {
-      this.setState(() => ({ loading: true }));
-      const e = val.toUpperCase().trim();
-      this.setState(() => ({
-        exists: true, symbol: e, guess: [], inWatchlist: false, earningsDate: '', historicalIV: '', divYield: '',
+      
+      this.setState(() => ({ 
+        loading: true, 
+        exists: true, 
+        symbol: e, 
+        guess: [], 
+        inWatchlist: false, 
+        earningsDate: '', 
+        historicalIV: '', 
+        divYield: ''
       }));
+      const e = val.toUpperCase().trim();
 
-      request.postFetchReq('/api/market/price', JSON.stringify({ ticker: e }), (data) => {
+      request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: e }), (data) => {
         console.log(data);
         if (data.price === undefined || data.price === null) {
           data.price = 0;
@@ -188,6 +195,18 @@ class StockSymbol extends React.Component {
           });
         });
       }
+
+
+
+
+
+
+
+
+
+
+
+
     };
 
     onStarClick = () => {

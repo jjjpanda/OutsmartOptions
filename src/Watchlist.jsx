@@ -70,7 +70,7 @@ class Watchlist extends React.Component {
           request.postFetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
             this.setState(() => ({ watchlist: data.list, dataSource: data.list.map((stock) => ({ ticker: stock })) }), () => {
               for (const stock of this.state.watchlist) {
-                request.postFetchReq('/api/market/price', JSON.stringify({ ticker: stock }), (data) => {
+                request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: stock }), (data) => {
                   this.setState((state) => {
                     const i = state.dataSource.findIndex((e) => e.ticker == stock);
                     state.dataSource[i].price = data.price;

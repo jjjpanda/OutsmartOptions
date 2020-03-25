@@ -35,25 +35,16 @@ import LoginPage from './LoginPage.jsx';
 import HelpPage from './HelpPage.jsx';
 import Checkout from './checkout.jsx';
 
-
 const { request } = util;
 
 const { Footer } = Layout;
 const { Sider } = Layout;
 const { Content } = Layout;
 
-fetch('https://api.ipify.org?format=jsoniuhb',
-  {
-    method: 'get',
-    headers: {
-      Accept: 'application/json',
-    },
-  })
-  .then((res) => res.text())
-  .then((data) => {
-    console.log(data);
-    request.postFetchReq('/api/bug/track', JSON.stringify({ ip: data }), (data) => console.log(data));
-  });
+request.getFetchReq('https://api.ipify.org?format=jsoniuhb', {}, 
+(data) => {
+  request.postFetchReq('/api/bug/track', JSON.stringify({ ip: data }), (data) => console.log(data));
+});
 
 class App extends React.Component {
   render() {
