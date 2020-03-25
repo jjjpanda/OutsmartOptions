@@ -4,16 +4,18 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const auth = require('./validation/authorizeUser')(jwt);
 
+const validateBody = require('./validation/validateBody.js');
+const validate = require('./validation/userValidation.js');
 const userBuffer = require('./buffer/userBuffer.js');
 
-router.post('/register', userBuffer.registerUser);
+router.post('/register', validateBody, validate.validateRegister ,userBuffer.registerUser);
 
-router.post('/login', userBuffer.loginUser);
+router.post('/login', validateBody, validate.validateLogin, userBuffer.loginUser);
 
-router.post('/current', auth, userBuffer.currentUser);
+router.post('/current', validateBody, auth, userBuffer.currentUser);
 
-router.post('/change', auth, userBuffer.changePassword);
+router.post('/change', validateBody, auth, userBuffer.changePassword);
 
-router.post('/delete', auth, userBuffer.deleteUser);
+router.post('/delete', validateBody, auth, userBuffer.deleteUser);
 
 module.exports = router;

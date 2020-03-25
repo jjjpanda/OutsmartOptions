@@ -3,8 +3,6 @@ const env = require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const validate = require('../validation/loginValidation.js');
-
 const secretOrKey = process.env.SECRETKEY;
 
 const User = require('../../daemons/models/User');
@@ -14,12 +12,6 @@ const appendLogs = require('../../logs/appendLogs.js');
 module.exports = {
 
   registerUser(req, res) {
-    // Form validation
-    const { errors, isValid } = validate.validateRegisterInput(req.body);
-    // Check validation
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
     User.findOne({ email: req.body.email }).then((user) => {
       if (user) {
         return res.status(400).json({ email: 'Email already exists' });
@@ -44,12 +36,6 @@ module.exports = {
   },
 
   loginUser(req, res) {
-    // Form validation
-    const { errors, isValid } = validate.validateLoginInput(req.body);
-    // Check validation
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
     const { email } = req.body;
     const { password } = req.body;
     // Find user by email

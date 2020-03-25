@@ -4,9 +4,6 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const auth = require('./validation/authorizeUser')(jwt);
 const strategyFormatCheck = require('./validation/strategyFormatCheck.js');
-const env = require('dotenv').config();
-
-const secretOrKey = process.env.SECRETKEY;
 
 const Strategy = require('../daemons/models/Strategy');
 const User = require('../daemons/models/User');

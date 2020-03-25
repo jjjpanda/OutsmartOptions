@@ -3,9 +3,6 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const auth = require('./validation/authorizeUser')(jwt);
-const env = require('dotenv').config();
-
-const secretOrKey = process.env.SECRETKEY;
 
 const Watchlist = require('../daemons/models/Watchlist');
 const User = require('../daemons/models/User');
