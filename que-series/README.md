@@ -114,7 +114,7 @@ So there's
 |Function|Description|Params|Returns|
 |:-|:-:|:-:|:-:|
 |fetchReq||
-|fetchReqAuth||
+|postFetchReqAuth||
 |fileReq||
 
 [**structures**](./lib/utilique/structuresEditingLibrary.js)

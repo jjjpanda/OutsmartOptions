@@ -13,7 +13,7 @@ import {
 import { BarLineComboGraph } from './Graphs.jsx';
 import HelpTooltip from './HelpTooltip.jsx';
 
-const { post } = util;
+const { request } = util;
 
 class OptionsLeg extends React.Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class OptionsLeg extends React.Component {
       hide: false,
       visible: false,
     };
-    post.fetchReq('/api/market/historical', JSON.stringify({ ticker: props.optionRepresented.symbol }), (data) => {
+    request.postFetchReq('/api/market/historical', JSON.stringify({ ticker: props.optionRepresented.symbol }), (data) => {
       this.setState(() => ({ historical: data }));
     });
     this.props.callback(this.state);
