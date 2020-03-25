@@ -1,34 +1,25 @@
-export function fetchReq(req, body, callback) {
+export function postFetchReq(req, body, callback, auth) {
   fetch(req,
     {
       method: 'post',
       headers: {
+        Authorization: auth == undefined ? "" : auth,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body,
-    })
-    .then((res) => res.json())
-    .then(
-      (data) => callback(data),
-    );
-}
-
-export function fetchReqAuth(req, auth, body, callback) {
-  fetch(req,
-    {
-      method: 'post',
-      headers: {
-        Authorization: auth,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body,
-    })
-    .then((res) => res.json())
-    .then(
-      (data) => callback(data),
-    );
+    }
+  )
+  .then(res => res.text())
+  .then((res) => {
+    try {
+      const resp = JSON.parse(res)
+      return resp
+    } catch (e) {
+      return { error: true, details: "Response Error at Client Parse" }
+    }
+  })
+  .then((data) => callback(data))
 }
 
 export function fileReq(req, fd) {
@@ -36,5 +27,6 @@ export function fileReq(req, fd) {
     {
       method: 'post',
       body: fd,
-    });
+    }
+  );
 }
