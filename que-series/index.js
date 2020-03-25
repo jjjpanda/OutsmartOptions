@@ -4,7 +4,7 @@ import * as options from './lib/mathematique/optionsMathLibrary.js'
 import * as stats from './lib/mathematique/outliersLibrary.js'
 import * as treasury from './lib/mathematique/treasuryLibrary.js'
 
-import * as post from './lib/utilique/fetchLibrary.js'
+import * as request from './lib/utilique/fetchLibrary.js'
 import * as structures from './lib/utilique/structuresEditingLibrary.js'
 
 export var aesthetique = {
@@ -18,7 +18,7 @@ export var mathematique = {
 }
 
 export var utilique = {
-    post,
+    request,
     structures
 }
 
