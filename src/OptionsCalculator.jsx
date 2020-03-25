@@ -41,8 +41,7 @@ const { treasury } = math;
 
 const percentageColor = aes.color;
 
-const structure = util.structures;
-const { request } = util;
+const { request, structure } = util;
 
 const ButtonGroup = Button.Group;
 const CollapsePanel = Collapse.Panel;
