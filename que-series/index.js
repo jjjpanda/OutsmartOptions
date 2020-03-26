@@ -5,7 +5,7 @@ import * as stats from './lib/mathematique/outliersLibrary.js'
 import * as treasury from './lib/mathematique/treasuryLibrary.js'
 
 import * as request from './lib/utilique/fetchLibrary.js'
-import * as structures from './lib/utilique/structuresEditingLibrary.js'
+import * as structure from './lib/utilique/structuresEditingLibrary.js'
 
 export var aesthetique = {
     color
@@ -19,6 +19,6 @@ export var mathematique = {
 
 export var utilique = {
     request,
-    structures
+    structure
 }
 
