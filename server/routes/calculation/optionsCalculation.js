@@ -42,7 +42,7 @@ module.exports = {
         strike: d.strike,
         price: d.historical[0].close,
         symbol: d.symbol,
-        iv: mathematique.options.calculateIV(moment(d.date).diff(moment(d.historical[0].date), 'days') / 365, d.historical[0].close, d.underlying, d.strike, false, 0, 0)
+        iv: mathematique.options.calculateIV(moment(d.date).diff(moment(d.historical[0].date), 'hours') / (365*24), d.historical[0].close, d.underlying, d.strike, false, 0, 0)
       };
     })
 

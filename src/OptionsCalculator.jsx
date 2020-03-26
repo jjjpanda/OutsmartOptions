@@ -52,11 +52,6 @@ request.postFetchReq('/api/market/yields', '', (data) => {
   yields = data.yields;
 });
 
-function handleMenuClick(e) {
-  message.info('Click on menu item.');
-  console.log('click', e);
-}
-
 class OptionsCalculator extends React.Component {
   constructor(props) {
     super(props);
@@ -303,13 +298,13 @@ class OptionsCalculator extends React.Component {
     const rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, this.state.percentInterval, this.state.numberIntervals, 0);
     for (const option of selectedOptions) {
       const rfir = treasury.getRightYield(yields || [], moment(option.date).diff(moment(), 'days')) / 100;
-      option.greeks = optionsMath.calculateGreeks(moment(option.date).diff(moment(), 'days') / 365.0, this.state.price, option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
+      option.greeks = optionsMath.calculateGreeks(moment(option.date).diff(moment(), 'hours') / (365*24), this.state.price, option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
       option.profit = [];
       let d = moment();
       while (moment(option.date).diff(d, 'days') > 0) {
         option.profit.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
         for (var price of option.profit[option.profit.length - 1][1]) {
-          price[1] = optionsMath.calculateOptionsPrice(moment(option.date).diff(d, 'days') / 365.0, price[0], option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
+          price[1] = optionsMath.calculateOptionsPrice(moment(option.date).diff(d, 'hours') / (365*24), price[0], option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
           price[1] -= option.limitPrice * (option.isLong ? 1 : -1);
           price[1] *= option.hide ? 0 : option.quantity;
         }
@@ -890,8 +885,7 @@ renderCalculateMenu = () => (
 );
 
 render() {
-  console.log(this.state.optionsChain)
-
+  console.log(this.state)
   return (
     <div>
       <div style={{ width: '60px', paddingBottom: '20px' }} />

@@ -1,4 +1,5 @@
-import * as math from '../../../src/jsLib/optionsMathLibrary.js';
+import { mathematique } from 'que-series'
+const math = mathematique.options
 
 describe('Options Math Test', () => {
   it('CNDF Math', () => {

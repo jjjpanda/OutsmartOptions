@@ -216,7 +216,7 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
   const underlying = answer.quote.price;
   const { yields } = answer;
   const { divYield } = answer.quote;
-  const t = moment(expiration).diff(moment(), 'days') / 365;
+  const t = moment(expiration).diff(moment(), 'hours') / (365*24);
   const rfir = mathematique.treasury.getRightYield(yields, t);
   request({
     method: 'get',
@@ -239,9 +239,18 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
         let newData = [];
         const strikes = [];
         let mid;
+        let iv;
         for (const option of options) {
           mid = parseFloat(((option.bid + option.ask) / 2).toFixed(2));
 
+          iv = mathematique.options.calculateIV(t, mid, underlying, option.strike, option.option_type == 'call', rfir, divYield)
+          if(isNaN(iv)){
+            iv = option.greeks.mid_iv
+            if(iv == 0){
+              iv = 0.01
+            }
+          }
+          
           if (!strikes.includes(option.strike)) {
             strikes.push(option.strike);
             newData.push({
@@ -252,7 +261,7 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
               [`${option.option_type}Vol`]: option.volume,
               [`${option.option_type}OI`]: option.open_interest,
               [`${option.option_type}Symbol`]: option.symbol,
-              [`${option.option_type}IV`]: mathematique.options.calculateIV(t, mid, underlying, option.strike, option.option_type == 'call', rfir, divYield),
+              [`${option.option_type}IV`]: iv,
               [`${option.option_type}Greeks`]: option.greeks,
               key: expiration + option.strike,
             });
@@ -264,7 +273,7 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
             found[`${option.option_type}Vol`] = option.volume;
             found[`${option.option_type}OI`] = option.open_interest;
             found[`${option.option_type}Symbol`] = option.symbol;
-            found[`${option.option_type}IV`] = mathematique.options.calculateIV(t, mid, underlying, option.strike, option.option_type == 'call', rfir, divYield);
+            found[`${option.option_type}IV`] = iv;
             found[`${option.option_type}Greeks`] = option.greeks;
           }
         }
