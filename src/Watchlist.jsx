@@ -46,8 +46,12 @@ const columns = [
     dataIndex: 'callIV',
   },
   {
-    title: 'P/C Ratio',
-    dataIndex: 'pcRatio',
+    title: 'P/C Ratio OI',
+    dataIndex: 'pcRatioOI',
+  },
+  {
+    title: 'P/C Ratio Vol',
+    dataIndex: 'pcRatioVol',
   },
   {
     title: '% Change',
@@ -71,6 +75,7 @@ class Watchlist extends React.Component {
             this.setState(() => ({ watchlist: data.list, dataSource: data.list.map((stock) => ({ ticker: stock })) }), () => {
               for (const stock of this.state.watchlist) {
                 request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: stock }), (data) => {
+                  data = data.quote
                   this.setState((state) => {
                     const i = state.dataSource.findIndex((e) => e.ticker == stock);
                     state.dataSource[i].price = data.price;
@@ -89,7 +94,8 @@ class Watchlist extends React.Component {
                     state.dataSource[i].putIV = data.putIV;
                     state.dataSource[i].putVol = data.putVol;
                     state.dataSource[i].putOI = data.putOI;
-                    state.dataSource[i].pcRatio = data.pcRatio;
+                    state.dataSource[i].pcRatioOI = data.pcRatioOI;
+                    state.dataSource[i].pcRatioVol = data.pcRatioVol;
                     return { dataSource: state.dataSource };
                   });
                 });
