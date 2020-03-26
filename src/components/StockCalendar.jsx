@@ -13,7 +13,7 @@ class StockCalendar extends React.Component {
   }
 
     dateCellRender = (value) => {
-      if (moment(this.props.earningsDate).diff(value, 'days') < 1) {
+      if (moment(this.props.earningsDate).diff(value, 'hours') < 24) {
         return (
           <h1>{value.date()}</h1>
         );
