@@ -48,8 +48,8 @@ const CollapsePanel = Collapse.Panel;
 
 // Treasury Yields
 let yields = [];
-request.postFetchReq('/api/market/treasury', '', (data) => {
-  yields = data;
+request.postFetchReq('/api/market/yields', '', (data) => {
+  yields = data.yields;
 });
 
 function handleMenuClick(e) {
@@ -85,6 +85,7 @@ class OptionsCalculator extends React.Component {
   }
 
   updateSearchResults = (state) => {
+    console.log(state)
     this.setState(() => ({
       symbol: state.symbol,
       exists: state.exists,
@@ -889,6 +890,8 @@ renderCalculateMenu = () => (
 );
 
 render() {
+  console.log(this.state.optionsChain)
+
   return (
     <div>
       <div style={{ width: '60px', paddingBottom: '20px' }} />

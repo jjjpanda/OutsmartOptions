@@ -236,7 +236,7 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
       let { options } = JSON.parse(body);
       if (options != null && options.option != undefined) {
         options = options.option;
-        const newData = [];
+        let newData = [];
         const strikes = [];
         let mid;
         for (const option of options) {
@@ -269,8 +269,28 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
           }
         }
 
+        newData = newData.sort((a, b) => a.strike - b.strike)
+
+        const outliers = mathematique.stats
+        
+        const callVolSum = newData.reduce((a, b) => a + b.callVol, 0);
+        const putVolSum = newData.reduce((a, b) => a + b.putVol, 0);
+        const callDist = outliers.setDistribution(newData.map((x) => x.strike), newData.map((x) => x.callVol));
+        const putDist = outliers.setDistribution(newData.map((x) => x.strike), newData.map((x) => x.putVol));
+        const callVolMean = outliers.getMean(callDist);
+        const putVolMean = outliers.getMean(putDist);
+        const callVolStd = outliers.getSD(callDist);
+        const putVolStd = outliers.getSD(putDist);
+        
+        newData.map((y, index) => {
+          y.atmNess = newData[index + 1] != undefined ? ((newData[index].strike <= underlying && newData[index + 1].strike > underlying) ? 'atmStrike' : '') : '';
+          y.callOutlier = outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd);
+          y.putOutlier = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd);
+          return y;
+        })
+
         // CHANGED DATA TO NEWDATA
-        callback(newData.sort((a, b) => a.strike - b.strike), i);
+        callback(newData, i);
       } else {
         callback([], i);
       }

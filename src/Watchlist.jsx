@@ -80,6 +80,7 @@ class Watchlist extends React.Component {
                   });
                 });
                 request.postFetchReq('/api/market/optionsQuote', JSON.stringify({ ticker: stock }), (data) => {
+                  data = data.optionsQuote
                   this.setState((state) => {
                     const i = state.dataSource.findIndex((e) => e.ticker == stock);
                     state.dataSource[i].callIV = data.callIV;

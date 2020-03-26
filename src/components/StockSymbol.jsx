@@ -64,7 +64,7 @@ class StockSymbol extends React.Component {
         console.log(data);
         this.setState(() => (
           {
-            guess: data.error ? [] : data,
+            guess: data.error ? [] : data.guesses,
           }
         ));
       });
@@ -82,7 +82,9 @@ class StockSymbol extends React.Component {
     ))
 
     onSearch = (val) => {
-      
+      if(val === this.state.symbol){
+        return
+      }
       this.setState(() => ({ 
         loading: true, 
         exists: true, 
@@ -95,117 +97,54 @@ class StockSymbol extends React.Component {
       }));
       const e = val.toUpperCase().trim();
 
-      request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: e }), (data) => {
-        console.log(data);
-        if (data.price === undefined || data.price === null) {
-          data.price = 0;
-          data.change = 0;
+      if (this.state.loggedIn) {
+        request.postFetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
+          if (data.list.includes(e)) {
+            this.setState(() => ({ inWatchlist: true }));
+          }
+        });
+      } else {
+        // Not Logged in, don't care
+      }
+
+      request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: e}), (data) => {
+        let {quote} = data
+        if(quote.found){
+          this.setState(() => ({ 
+            symbol: e, 
+            price: quote.price, 
+            priceChange: quote.change, 
+            description: quote.name, 
+            earningsDate: quote.earningsDate,
+            divYield: quote.divYield,
+            optionsChain: [['Empty', {}]] 
+          }), () => {
+            request.postFetchReq('/api/market/historical', JSON.stringify({ ticker: e }), (data) => {
+              this.setState(() => ({ historical: data.historical }), () => {
+                console.log(this.state);
+                request.postFetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
+                  this.setState(() => ({ optionsChain: data.chain }), () => {
+                      request.postFetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
+                        let iv = data.historicalIV
+                        this.setState(() => ({ historicalIV: iv, loading: false }), () => {
+                          this.props.updateCallback(this.state); 
+                        });
+                      });
+                    }
+                  )
+                })
+              });
+            });
+            
+          })
+        }
+        else{
           this.notFound(e);
-          this.setState(() => ({ exists: false }), () => { this.props.updateCallback(this.state); });
-        }
-        this.setState(() => ({
-          symbol: e, price: data.price, priceChange: data.change, description: data.name, optionsChain: [['Empty', {}]],
-        }),
-        () => {
-          if (this.state.loggedIn) {
-            request.postFetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
-              if (data.list.includes(e)) {
-                this.setState(() => ({ inWatchlist: true }));
-              }
-            });
-          } else {
-            // Not Logged in, don't care
-          }
-        });
-      });
-
-      const checkFinished = () => {
-        if (this.state.earningsDate != ' ' && this.state.historicalIV != '' && this.state.divYield != '') {
-          this.setState(() => ({ loading: false }), () => this.props.updateCallback(this.state));
-        }
-      };
-
-      request.postFetchReq('/api/market/earningsDate', JSON.stringify({ ticker: e }), (data) => {
-        this.setState(() => ({ earningsDate: data.earningsDate }), checkFinished);
-      });
-
-      request.postFetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
-        console.log(data.iv);
-        const iv = data.iv.map((d) => ({
-          date: d.date,
-          iv: optionsMath.calculateIV(d.t, d.price, d.underlying, d.strike, true, 0, 0),
-        }));
-        console.log(iv);
-        this.setState(() => ({ historicalIV: iv }), checkFinished);
-      });
-
-      request.postFetchReq('/api/market/divYield', JSON.stringify({ ticker: e }), (data) => {
-        this.setState(() => ({ divYield: data.dividendAnnum / this.state.price }), checkFinished);
-      });
-
-      if (this.props.options) {
-        request.postFetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
-          if (data != null) {
-            data = data.filter((x) => {
-              const callVolSum = x[1].map((x) => x.callVol).reduce((a, b) => a + b, 0);
-              const putVolSum = x[1].map((x) => x.putVol).reduce((a, b) => a + b, 0);
-              const callDist = outliers.setDistribution(x[1].map((x) => x.strike), x[1].map((x) => x.callVol));
-              const putDist = outliers.setDistribution(x[1].map((x) => x.strike), x[1].map((x) => x.putVol));
-              const callVolMean = outliers.getMean(callDist);
-              const putVolMean = outliers.getMean(putDist);
-              const callVolStd = outliers.getSD(callDist);
-              const putVolStd = outliers.getSD(putDist);
-              return [x[0], x[1].map((y, index) => {
-                const rfir = treasury.getRightYield(this.props.yieldCurve || [], moment(x[0]).diff(moment(), 'days')) / 100;
-                y.callIV = optionsMath.calculateIV(moment(x[0]).diff(moment(), 'days') / 365.0, y.call, this.state.price, y.strike, true, rfir, this.state.divYield);
-                y.putIV = optionsMath.calculateIV(moment(x[0]).diff(moment(), 'days') / 365.0, y.put, this.state.price, y.strike, false, rfir, this.state.divYield);
-                y.atmNess = x[1][index + 1] != undefined ? ((x[1][index].strike <= this.state.price && x[1][index + 1].strike > this.state.price) ? 'atmStrike' : '') : '';
-                y.callOutlier = outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd);
-                y.putOutlier = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd);
-                return y;
-              })];
-            });
-
-            /*
-            Filters NaN
-            data = data.map((expiry) => {
-              return [expiry[0], expiry[1].filter((strike) => {
-                return (!isNaN(strike.callIV) && !isNaN(strike.putIV) && isFinite(strike.callIV) && isFinite(strike.putIV))
-              })]
-            })
-            */
-
-            this.setState(() => ({ optionsChain: data }), () => {
-              this.props.updateCallback(this.state);
-              console.log(this.state);
-            });
-          } else {
-            this.setState(() => ({ optionsChain: [] }), () => {
-              this.props.updateCallback(this.state);
-              console.log(this.state);
-            });
-          }
-        });
-      }
-
-      if (this.props.historical) {
-        request.postFetchReq('/api/market/historical', JSON.stringify({ ticker: e }), (data) => {
-          this.setState(() => ({ historical: data }), () => {
-            console.log(this.state);
+          this.setState(() => ({ price: 0, priceChange: 0, exists: false }), 
+            () => { this.props.updateCallback(this.state); 
           });
-        });
-      }
-
-
-
-
-
-
-
-
-
-
-
+        }
+      })
 
     };
 

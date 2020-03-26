@@ -34,7 +34,7 @@ class OptionsLeg extends React.Component {
       visible: false,
     };
     request.postFetchReq('/api/market/historical', JSON.stringify({ ticker: props.optionRepresented.symbol }), (data) => {
-      this.setState(() => ({ historical: data }));
+      this.setState(() => ({ historical: data.historical }));
     });
     this.props.callback(this.state);
   }
