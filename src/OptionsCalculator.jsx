@@ -308,7 +308,7 @@ class OptionsCalculator extends React.Component {
           price[1] -= option.limitPrice * (option.isLong ? 1 : -1);
           price[1] *= option.hide ? 0 : option.quantity;
         }
-        d = d.add(1, 'days');
+        d = d.add(24, 'hours');
       }
 
       // PROFIT AT EXPIRY
@@ -380,7 +380,7 @@ class OptionsCalculator extends React.Component {
     const profitMap = [];
     let d = moment();
     const rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, this.state.percentInterval, this.state.numberIntervals, 0);
-    while (moment(expiry).diff(d, 'hours') > 0) {
+    while (moment(expiry).diff(d, 'hours') > -23) {
       profitMap.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
       for (const price of profitMap[profitMap.length - 1][1]) {
         for (const profitSet of optionsProfits) {
@@ -389,7 +389,7 @@ class OptionsCalculator extends React.Component {
           price[1] += structure.mapToObject(structure.mapToObject(profitSet)[d.format('YYYY-MM-DD')])[price[0]];
         }
       }
-      d = d.add(1, 'days');
+      d = d.add(24, 'hours');
     }
     return profitMap;
   }
