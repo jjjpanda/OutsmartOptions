@@ -40,9 +40,13 @@
 
     for(date in dataset){
       z = (dataset[date]['iv'] - mean) / std;
-      if(z > 2){ //arbitrary value to find peaks
+      if(z > 1.5){ //arbitrary value to find peaks
         spikes.push(dataset[date]);
       }
+    }
+
+    if(dataset.indexOf(spikes[spikes.length-1]) == dataset.length - 1 ){ //if the last datapoint registers as a spike, remove
+      //spikes.pop();
     }
     return spikes;
   }
@@ -63,18 +67,30 @@
 
       if(dates.length == 1 && spikes.includes(dates[0])){ //if only date between spikes is a spike
         if(spike1['iv'] > spike2['iv']){
+          if(j == spikes.length-1){ //last spike
+            newSpikes.push(spike1);
+          }
           j++;
         }
         else if(spike1['iv'] < spike2['iv']){
+          if(j == spikes.length-1){ //last spike
+            newSpikes.push(spike2);
+          }
           i = j;
           j++;
         }
       } 
       else if(dates.length == 0){ //no dates between spikes
         if(spike1['iv'] > spike2['iv']){
+          if(j == spikes.length-1){ //last spike
+            newSpikes.push(spike1);
+          }
           j++;
         }
         else if(spike1['iv'] < spike2['iv']){
+          if(j == spikes.length-1){ //last spike
+            newSpikes.push(spike2);
+          }
           i++;
           j++
         }
@@ -105,10 +121,21 @@
 
   }
 
+  function findTrough2(dates, spikes){
+    //finds first instance after spike where IV drops below threshold (specified %change in IV)
+    for (date of dates){
+      if(!(spikes.includes(date))){
+        return date;
+      }
+    }
+
+    return findTrough(dates);
+  }
+
 
 //Main
 const fs = require('fs');
-fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/AAPL_HV_3-19.json', 'utf8', (err, jsonString) => {	//file path for data here
+fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/volatility/AAPL_HV_3-19.json', 'utf8', (err, jsonString) => {	//file path for data here
     if (err) {
         console.log("File read failed:", err)
         return
@@ -131,7 +158,8 @@ fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/AAPL_HV_3-19.json', 'utf8', (e
     var spike1;
     var spike2;
     var peakToTroughRatio;
-    var spikes = consolidateSpikes(spikes, dataset);
+    var spikesCopy = spikes;
+    spikes = consolidateSpikes(spikes, dataset);
 
     console.log("Spikes after consolidation: ");
     console.log(spikes);
@@ -144,7 +172,7 @@ fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/AAPL_HV_3-19.json', 'utf8', (e
       console.log("Current spike: ", spike1);
       console.log("Next spike: ", spike2);
       dates = dataset.slice(dataset.indexOf(spike1) + 1, dataset.indexOf(spike2));
-      trough = findTrough(dates);
+      trough = findTrough2(dates, spikesCopy);
       console.log("Trough: ", trough);
       peakToTroughRatio = trough['iv'] / spike1['iv'];
       console.log("Ratio: ", peakToTroughRatio);
@@ -156,10 +184,10 @@ fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/AAPL_HV_3-19.json', 'utf8', (e
       console.log();
       console.log("Current spike: ", spike1);
       console.log("Next spike: ", spike2);
-      dates = dataset.slice(dataset.indexOf(spike1) + 1, dataset[dataset.length-1]);
-      trough = findTrough(dates);
+      dates = dataset.slice(dataset.indexOf(spike1) + 1, dataset.indexOf(spike2));
+      trough = findTrough2(dates, spikesCopy);
       console.log("Trough: ", trough);
-      peakToTroughRatio = trough / spike1;
+      peakToTroughRatio = trough['iv'] / spike1['iv'];
       console.log("Ratio: ", peakToTroughRatio);
     }
 }
