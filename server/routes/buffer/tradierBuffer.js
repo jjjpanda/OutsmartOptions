@@ -217,7 +217,7 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
   const { yields } = answer;
   const { divYield } = answer.quote;
   const t = moment(expiration).diff(moment(), 'hours') / (365*24);
-  const rfir = mathematique.treasury.getRightYield(yields, t);
+  const rfir = mathematique.treasury.getRightYield(yields, t * 365);
   request({
     method: 'get',
     url: 'https://sandbox.tradier.com/v1/markets/options/chains',

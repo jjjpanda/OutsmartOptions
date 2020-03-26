@@ -133,7 +133,7 @@ class ProfitGraph extends React.Component {
         return opacities;
       }
       for (const date of dates) {
-        opacities[date] = moment(date).diff(moment(), 'days');
+        opacities[date] = moment(date).diff(moment(), 'hours') / 24;
       }
       // console.log(opacities)
       const minOpacity = Math.min(...Object.values(opacities));

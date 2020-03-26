@@ -158,7 +158,7 @@ class OptionsCalculator extends React.Component {
   resortOptionsSelected = (symbol) => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected].sort((a, b) => {
-        const t = moment(a.date).diff(moment(b.date), 'days');
+        const t = moment(a.date).diff(moment(b.date), 'hours');
         if (t > 0) {
           return 1;
         }
@@ -301,7 +301,7 @@ class OptionsCalculator extends React.Component {
       option.greeks = optionsMath.calculateGreeks(moment(option.date).diff(moment(), 'hours') / (365*24), this.state.price, option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
       option.profit = [];
       let d = moment();
-      while (moment(option.date).diff(d, 'days') > 0) {
+      while (moment(option.date).diff(d, 'hours') > 0) {
         option.profit.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
         for (var price of option.profit[option.profit.length - 1][1]) {
           price[1] = optionsMath.calculateOptionsPrice(moment(option.date).diff(d, 'hours') / (365*24), price[0], option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
@@ -380,7 +380,7 @@ class OptionsCalculator extends React.Component {
     const profitMap = [];
     let d = moment();
     const rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, this.state.percentInterval, this.state.numberIntervals, 0);
-    while (moment(expiry).diff(d, 'days') > 0) {
+    while (moment(expiry).diff(d, 'hours') > 0) {
       profitMap.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
       for (const price of profitMap[profitMap.length - 1][1]) {
         for (const profitSet of optionsProfits) {
