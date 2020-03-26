@@ -6,7 +6,7 @@ import {
 
 import logo from '../img/logo.png';
 
-const spin = <Icon component={() => (<img key="mainLogo" id="logo" className="spin" src={logo} />)} />;
+const spin = <Icon component={() => (<img key="mainLogo" id="loadingIcon" className="spin" src={logo} />)} />;
 
 class SpinningLogo extends React.Component {
   constructor(props) {
