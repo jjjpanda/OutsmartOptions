@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../../server/app.js');
 const mongoDB = require('../../server/daemons/database');
 
-const waitTime = 30000;
+const waitTime = 10000;
 let id; let
   token;
 
@@ -28,8 +28,9 @@ describe('POST User Requests /api/users/', () => {
       request(app).post('/api/users/register')
         .send({ name: 'Bruh', email: 'email@email.email', password: 'password' })
         .expect('Content-Type', /json/)
+        .expect(200)
         .then((response) => {
-          expect(response.body._id).toBeDefined();
+          expect(response.error).toBe(true)
           done();
         });
     }, waitTime);
@@ -40,8 +41,11 @@ describe('POST User Requests /api/users/', () => {
           name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password',
         })
         .expect('Content-Type', /json/)
+        .expect(200)
         .then((response) => {
-          expect(response.body._id).toBeDefined();
+          expect(response.registered.name).toBeDefined();
+          expect(response.registered.email).toBeDefined();
+          expect(response.registered.date).toBeDefined();
           done();
         });
     }, waitTime);
@@ -52,8 +56,9 @@ describe('POST User Requests /api/users/', () => {
           name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password',
         })
         .expect('Content-Type', /json/)
+        .expect(200)
         .then((response) => {
-          expect(response.statusCode).toBe(400);
+          expect(response.error).toBe(true);
           done();
         });
     }, waitTime);
@@ -64,10 +69,14 @@ describe('POST User Requests /api/users/', () => {
       request(app).post('/api/users/login')
         .send({ email: 'email@email.email', password: 'password' })
         .expect('Content-Type', /json/)
+        .expect(200)
         .then((response) => {
+          expect(response.body.login).toBeDefined();
+          expect(response.body.login.success).toBe(true);
+          expect(response.body.login.id).toBeString();
+          expect(resposne.body.login.token).toBeString()
           id = response.body.id;
           token = response.body.token;
-          expect(response.body.success).toBe(true);
           done();
         });
     }, waitTime);
@@ -76,15 +85,16 @@ describe('POST User Requests /api/users/', () => {
       request(app).post('/api/users/login')
         .send({ email: 'email@email.email', password: 'wrongPassword' })
         .expect('Content-Type', /json/)
+        .expect(200)
         .then((response) => {
-          expect(response.statusCode).toBe(400);
+          expect(response.error).toBe(true);
           done();
         });
     }, waitTime);
   });
 });
 
-describe('POST Strategy /api/strategy/', () => {
+describe.skip('POST Strategy /api/strategy/', () => {
   describe('/save', () => {
     it('tests /save', async (done) => {
       request(app).post('/api/strategy/save')
@@ -152,9 +162,9 @@ describe('POST Strategy /api/strategy/', () => {
 });
 
 describe('POST Watchlist /api/watchlist/', () => {
-  describe('/edit', () => {
+  describe('/add', () => {
     it('tests edit watchlist to add', async (done) => {
-      request(app).post('/api/watchlist/edit')
+      request(app).post('/api/watchlist/add')
         .send({ id, ticker: 'SPY' })
         .set('Authorization', token)
         .expect('Content-Type', /json/)
@@ -180,9 +190,9 @@ describe('POST Watchlist /api/watchlist/', () => {
     }, waitTime);
   });
 
-  describe('/edit', () => {
+  describe('/remove', () => {
     it('delete from watchlist', async (done) => {
-      request(app).post('/api/watchlist/edit')
+      request(app).post('/api/watchlist/remove')
         .send({ id, ticker: 'SPY' })
         .set('Authorization', token)
         .expect('Content-Type', /json/)
@@ -202,6 +212,7 @@ describe('POST Logged In User Requests /api/users/', () => {
         .send({ id })
         .set('Authorization', token)
         .expect('Content-Type', /json/)
+        .expect(200)
         .then((response) => {
           expect(response.body.email).toBe('email@email.email');
           done();
@@ -217,6 +228,7 @@ describe('POST Logged In User Requests /api/users/', () => {
         })
         .set('Authorization', token)
         .expect('Content-Type', /json/)
+        .expect(200)
         .then((response) => {
           expect(response.body.changed).toBe(true);
           done();
@@ -230,6 +242,7 @@ describe('POST Logged In User Requests /api/users/', () => {
         })
         .set('Authorization', token)
         .expect('Content-Type', /json/)
+        .expect(200)
         .then((response) => {
           expect(response.body.error).toBeDefined();
           done();
@@ -243,6 +256,7 @@ describe('POST Logged In User Requests /api/users/', () => {
         .send({ id })
         .set('Authorization', token)
         .expect('Content-Type', /json/)
+        .expect(200)
         .then((response) => {
           expect(response.body.deleted).toBe(true);
           done();

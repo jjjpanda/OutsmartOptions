@@ -167,7 +167,8 @@
         ],
         "testPathIgnorePatterns": [
           "<rootDir>/test/nodeTests/",
-          "<rootDir>/test/browserTests/"
+          "<rootDir>/test/browserTests/",
+          "<rootDir>/que-series"
         ]
       },
       {
@@ -182,7 +183,8 @@
         ],
         "testPathIgnorePatterns": [
           "<rootDir>/test/reactTests/",
-          "<rootDir>/test/browserTests/"
+          "<rootDir>/test/browserTests/",
+          "<rootDir>/que-series"
         ]
       },
       {
@@ -196,7 +198,8 @@
         ],
         "testPathIgnorePatterns": [
           "<rootDir>/test/reactTests/",
-          "<rootDir>/test/nodeTests/"
+          "<rootDir>/test/nodeTests/",
+          "<rootDir>/que-series"
         ]
       }
     ]

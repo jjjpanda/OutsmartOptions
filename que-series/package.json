@@ -6,13 +6,41 @@
   "module": "index.js",
   "scripts": {
     "build": "npm install && npx webpack && echo \"eek que eek que\"",
-    "test": "echo \"hi\""
+    "test": "jest --runInBand"
   },
   "author": "j",
   "devDependencies": {
     "@babel/core": "^7.8.7",
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
     "babel-loader": "^8.0.6",
+    "jest": "^24.9.0",
+    "jest-extended": "^0.11.5",
     "webpack": "^4.42.0"
+  },
+  "jest": {
+    "verbose": true,
+    "modulePaths": [
+      "src"
+    ],
+    "projects": [
+      {
+        "displayName": "Que Tests",
+        "setupFilesAfterEnv": [
+          "jest-extended"
+        ],
+        "testEnvironment": "node",
+        "moduleFileExtensions": [
+          "js",
+          "json",
+          "node"
+        ],
+        "transformIgnorePatterns": [
+          "<rootDir>/node_modules/",
+          "<rootDir>/lib/",
+          "<rootDir>/test",
+          "<rootDir>/src"
+        ]
+      }
+    ]
   }
 }
