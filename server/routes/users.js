@@ -2,10 +2,11 @@ const express = require('express');
 
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const auth = require('./validation/authorizeUser')(jwt);
 
+const auth = require('./validation/authorizeUser')(jwt);
 const validateBody = require('./validation/validateBody.js');
 const validate = require('./validation/userValidation.js');
+
 const userBuffer = require('./buffer/userBuffer.js');
 
 router.post('/register', validateBody, validate.validateRegister ,userBuffer.registerUser);

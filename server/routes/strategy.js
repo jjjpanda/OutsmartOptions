@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+
 const auth = require('./validation/authorizeUser')(jwt);
 const strategyFormatCheck = require('./validation/strategyFormatCheck.js');
 

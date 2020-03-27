@@ -57,11 +57,16 @@ Here we got all of the market data: stonks, options, treasury yields... You name
 Here's your route file: [market.js](routes/market.js).
 
 1. Request Validation Files
-    - [a](a)
+    - [validateBody.js](routes/validation/validateBody.js)
+    - [marketDataRequestValidation.js](routes/validation/marketDataRequestValidation.js)
 2. Data Stream Buffers
-    - [a](a)
+    - [prepareAnswer.js](routes/buffer/prepareAnswer.js)
+    - [tradierBuffer.js](routes/buffer/tradierBuffer.js)
+    - [yFinanceBuffer.js](routes/buffer/yFinanceBuffer.js)
+    - [treasuryBuffer.js](routes/buffer/treasuryBuffer.js)
 3. Calculations and Verification
-    - [a](a)
+    - [optionsCalculation.js](routes/calculation/optionsCalculation.js)
+    - [noCheckSend.js](routes/calculation/noCheckSend.js)
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
@@ -77,6 +82,14 @@ Here's your route file: [market.js](routes/market.js).
 
 [bug.js](routes/bug.js)
 
+1. Request Validation Files
+    - [validateBody.js](routes/validation/validateBody.js)
+    - [bugValidation.js](routes/validation/bugValidation.js)
+2. Data Stream Buffers
+    - [bugBuffer.js](routes/buffer/bugBuffer.js)
+3. Calculations and Verification
+    - N/A
+
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
 |POST|/track         |Uhhhhhh. I should stop talking now.               |`{ body: { ip: String } }`|`{ error: Boolean, details: String }`|
@@ -87,6 +100,15 @@ Here's your route file: [market.js](routes/market.js).
 
 [twitter.js](routes/twitter.js)
 
+1. Request Validation Files
+    - [validateBody.js](routes/validation/validateBody.js)
+    - [twitterValidation.js](routes/validation/twitterValidation.js)
+2. Data Stream Buffers
+    - [prepareAnswer.js](routes/buffer/prepareAnswer.js)
+    - [twitterBuffer.js](routes/buffer/twitterBuffer.js)
+3. Calculations and Verification
+    - [noCheckSend.js](routes/calculation/noCheckSend.js)
+
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
 |POST|/search    |Search for tweets on Twitter.|`{ body: { q: String } }`|`{ tweets: [ TweetObject... ] }`|
@@ -94,6 +116,15 @@ Here's your route file: [market.js](routes/market.js).
 ### /api/users/
 
 [users.js](routes/users.js)
+
+1. Request Validation Files
+    - [validateBody.js](routes/validation/validateBody.js)
+    - [authorizeUser.js](routes/validation/authorizeUser.js)
+    - [userValidation.js](routes/validation/validateBody.js)
+2. Data Stream Buffers
+    - [userBuffer.js](routes/buffer/userBuffer.js)
+3. Calculations and Verification
+    - N/A
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
@@ -107,6 +138,17 @@ Here's your route file: [market.js](routes/market.js).
 
 [watchlist.js](routes/watchlist.js)
 
+1. Request Validation Files
+    - [validateBody.js](routes/validation/validateBody.js)
+    - [authorizeUser.js](routes/validation/authorizeUser.js)
+    - [marketDataRequestValidation.js](routes/validation/marketDataRequestValidation.js)
+2. Data Stream Buffers
+    - [prepareAnswer.js](routes/buffer/prepareAnswer.js)
+    - [tradierBuffer.js](routes/buffer/tradierBuffer.js)
+    - [watchlistBuffer.js](routes/buffer/watchlistBuffer.js)
+3. Calculations and Verification
+    - N/A
+
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
 |POST|/view    |So you wanna see your watchlist huh?                       |`{ header: { authorization: String }, body: { id: String } }`|`{ list: [ String... ] }`|
@@ -116,6 +158,13 @@ Here's your route file: [market.js](routes/market.js).
 ### /api/strategy/
 
 [strategy.js](routes/strategy.js)
+
+1. Request Validation Files
+    - []()
+2. Data Stream Buffers
+    - []()
+3. Calculations and Verification
+    - []()
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
