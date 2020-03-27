@@ -11,8 +11,8 @@ const alphakey = process.env.alpha;
 
 const validate = require('./validation/marketDataRequestValidation.js');
 const validateBody = require('./validation/validateBody.js');
-const prepareAnswer = require('./buffer/prepareAnswer.js');
 
+const prepareAnswer = require('./buffer/prepareAnswer.js');
 const tradierBuffer = require('./buffer/tradierBuffer.js');
 const yFinanceBuffer = require('./buffer/yFinanceBuffer.js');
 const treasuryBuffer = require('./buffer/treasuryBuffer.js');
