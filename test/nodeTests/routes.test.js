@@ -12,15 +12,21 @@ const waitTime = 10000;
 
 describe('GET Website Paths /', () => {
   it('gets index path', async (done) => {
-    request(app).get('/').then((response) => {
-      expect(response.statusCode).toBe(200);
+    request(app).get('/')
+    .expect('Content-Type', /html/)
+    .expect(200)
+    .then((response) => {
+      expect(response).toBeDefined()
       done();
     });
   }, waitTime);
 
   it('confirms 404', async (done) => {
-    request(app).get('/thisIsNotARealRoute').then((response) => {
-      expect(response.statusCode).toBe(404);
+    request(app).get('/thisIsNotARealRoute')
+    .expect('Content-Type', /text/)
+    .expect(404)
+    .then((response) => {
+      expect(response).toBeDefined()
       done();
     });
   }, waitTime);
@@ -143,6 +149,30 @@ describe('POST Market Data /api/market/', () => {
           done();
         });
     }, waitTime);
+  });
+
+  describe('/iv', () => {
+    it('tests historical iv', async (done) => {
+      request(app).post('/api/market/iv')
+      .send({ ticker })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.historicalIV).toBeArray();
+        done();
+      });
+    }, waitTime)
+
+    it('tests historical iv of stock without options', async (done) => {
+      request(app).post('/api/market/iv')
+        .send({ ticker: tickerWithoutOptions })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.error).toBe(true);
+          done();
+        });
+    }, waitTime)
   });
 
   describe('/historical', () => {

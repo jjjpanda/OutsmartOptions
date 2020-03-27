@@ -1,4 +1,5 @@
-import * as math from '../../../src/jsLib/outliersLibrary';
+const { mathematique } = require('que-series')
+const math = mathematique.stats
 
 describe('Test Basic Prob-Stats', () => {
   it('Tests Mean', () => {

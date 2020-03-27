@@ -1,4 +1,5 @@
-import * as struct from '../../../src/jsLib/structuresEditingLibrary';
+const { utilique } = require('que-series')
+const struct = utilique.structure
 
 describe('Testing Structures Editing', () => {
   it('Test Map to Object', () => {

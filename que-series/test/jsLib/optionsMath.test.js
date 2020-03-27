@@ -1,4 +1,4 @@
-import { mathematique } from 'que-series'
+const { mathematique } = require('que-series')
 const math = mathematique.options
 
 describe('Options Math Test', () => {

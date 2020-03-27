@@ -1,4 +1,5 @@
-import * as math from '../../../src/jsLib/treasuryLibrary.js';
+const { mathematique } = require('que-series')
+const math = mathematique.treasury
 
 const yields = [
   { name: 'd:BC_1MONTH', val: 0.30 },
