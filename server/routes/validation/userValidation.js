@@ -35,7 +35,7 @@ module.exports = {
     }
     //
     if (!isEmpty(errors)) {
-      return res.status(400).json(errors);
+      res.status(400).json({ error: true, errors, details: "Validation Error from validateRegister in userValidation" });
     }
     else{
       next()
@@ -59,7 +59,7 @@ module.exports = {
     }
     //
     if (!isEmpty(errors)) {
-      return res.status(400).json(errors);
+      res.status(400).json({ error: true, errors, details: "Validation Error from validateLogin in userValidation" });
     }
     else{
       next()

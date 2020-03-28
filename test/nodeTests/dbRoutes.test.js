@@ -3,6 +3,10 @@ const app = require('../../server/app.js');
 const mongoDB = require('../../server/daemons/database');
 
 const waitTime = 10000;
+let name = 'Bruh'
+let email = 'email@email.email'
+let password = 'password'
+let newPassword = 'newPassword'
 let id; let
   token;
 
@@ -22,39 +26,38 @@ afterAll(async (done) => mongoDB.disconnect((success) => {
   }
 }), waitTime);
 
-describe.skip('POST User Requests /api/users/', () => {
+describe('POST User Requests /api/users/', () => {
   describe('/register', () => {
     it('registers a new user missing password retype', async (done) => {
       request(app).post('/api/users/register')
-        .send({ name: 'Bruh', email: 'email@email.email', password: 'password' })
+        .send({ name, email, password })
         .expect('Content-Type', /json/)
         .expect(400)
         .then((response) => {
-          expect(response.error).toBe(true)
+          expect(response.body.error).toBe(true)
           done();
         });
     }, waitTime);
 
     it('registers a new user', async (done) => {
       request(app).post('/api/users/register')
-        .send({ name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password' })
+        .send({ name, email, password, password2 : password })
         .expect('Content-Type', /json/)
         .expect(200)
         .then((response) => {
-          expect(response.registered.name).toBeDefined();
-          expect(response.registered.email).toBeDefined();
-          expect(response.registered.date).toBeDefined();
+          expect(response.body.registered.name).toBe(name);
+          expect(response.body.registered.email).toBe(email);
           done();
         });
     }, waitTime);
 
     it('try registering with same email', async (done) => {
       request(app).post('/api/users/register')
-        .send({ name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password' })
+        .send({ name, email, password, password2: password })
         .expect('Content-Type', /json/)
         .expect(400)
         .then((response) => {
-          expect(response.error).toBe(true);
+          expect(response.body.error).toBe(true);
           done();
         });
     }, waitTime);
@@ -63,27 +66,27 @@ describe.skip('POST User Requests /api/users/', () => {
   describe('/login', () => {
     it('login validate', async (done) => {
       request(app).post('/api/users/login')
-        .send({ email: 'email@email.email', password: 'password' })
+        .send({ email, password })
         .expect('Content-Type', /json/)
         .expect(200)
         .then((response) => {
-          expect(response.body.login).toBeDefined();
+          expect(response.body.login).toBeObject();
           expect(response.body.login.success).toBe(true);
           expect(response.body.login.id).toBeString();
-          expect(resposne.body.login.token).toBeString()
-          id = response.body.id;
-          token = response.body.token;
+          expect(response.body.login.token).toBeString()
+          id = response.body.login.id;
+          token = response.body.login.token;
           done();
         });
     }, waitTime);
 
     it('false login', async (done) => {
       request(app).post('/api/users/login')
-        .send({ email: 'email@email.email', password: 'wrongPassword' })
+        .send({ email, password: 'wrongPassword' })
         .expect('Content-Type', /json/)
         .expect(400)
         .then((response) => {
-          expect(response.error).toBe(true);
+          expect(response.body.error).toBe(true);
           done();
         });
     }, waitTime);
@@ -201,7 +204,7 @@ describe.skip('POST Watchlist /api/watchlist/', () => {
   });
 });
 
-describe.skip('POST Logged In User Requests /api/users/', () => {
+describe('POST Logged In User Requests /api/users/', () => {
   describe('/current', () => {
     it('authentication validation', async (done) => {
       request(app).post('/api/users/current')
@@ -210,7 +213,19 @@ describe.skip('POST Logged In User Requests /api/users/', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .then((response) => {
-          expect(response.body.email).toBe('email@email.email');
+          expect(response.body.current.email).toBe(email);
+          expect(response.body.current.name).toBe(name)
+          done();
+        });
+    }, waitTime);
+
+    it('authentication validation with no token', async (done) => {
+      request(app).post('/api/users/current')
+        .send({ id })
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .then((response) => {
+          expect(response.body.unauthorized).toBe(true)
           done();
         });
     }, waitTime);
@@ -219,7 +234,7 @@ describe.skip('POST Logged In User Requests /api/users/', () => {
   describe('/change', () => {
     it('password changing', async (done) => {
       request(app).post('/api/users/change')
-        .send({ id, oldPassword: 'password', newPassword: 'password2', newPassword2: 'password2' })
+        .send({ id, oldPassword: password, newPassword, newPassword2: newPassword })
         .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200)
