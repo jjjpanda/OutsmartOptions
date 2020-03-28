@@ -30,7 +30,7 @@ module.exports = {
         };
         next();
       } else {
-        res.json({ error: true, details: 'Data Formatting Error from getQuote in yFinanceBuffer' });
+        res.status(400).json({ error: true, details: 'Data Formatting Error from getQuote in yFinanceBuffer' });
       }
     });
   },

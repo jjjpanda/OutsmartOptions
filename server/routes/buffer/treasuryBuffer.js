@@ -38,7 +38,7 @@ module.exports = {
             next();
           }
         } else {
-          res.json({ error: true, details: 'Data Formatting Error from getYieldCurve in treasuryBuffer' });
+          res.status(400).json({ error: true, details: 'Data Formatting Error from getYieldCurve in treasuryBuffer' });
         }
       });
     };

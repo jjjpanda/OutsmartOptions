@@ -16,7 +16,7 @@ module.exports = {
                 }
             });
             } else {
-            res.json({ error: true, details: 'User Not Found' });
+            res.status(400).json({ error: true, details: 'User Not Found' });
             }
         });
     },
@@ -29,7 +29,7 @@ module.exports = {
                     if (watchlist) {
                       const index = watchlist.stocks.indexOf(req.body.ticker);
                       if (index >= 0) {
-                        res.json({ error: true, details: 'Stock Already in Watchlist' });
+                        res.status(400).json({ error: true, details: 'Stock Already in Watchlist' });
                       } else {
                         watchlist.stocks.push(req.body.ticker);
                         watchlist.save().then(() => {
@@ -44,12 +44,12 @@ module.exports = {
                     }
                   });
                 } else {
-                  res.json({ error: true, details: 'User Not Found' });
+                  res.status(400).json({ error: true, details: 'User Not Found' });
                 }
             });
         }
         else{
-            res.json({ error: true, details: 'Not a Stock' });
+            res.status(400).json({ error: true, details: 'Not a Stock' });
         }
     },
 
@@ -65,12 +65,12 @@ module.exports = {
                         res.json({ list: watchlist.stocks });
                     });
                   } else {
-                    res.json({ error: true, details: "Stock Not in Watchlist" })
+                    res.status(400).json({ error: true, details: "Stock Not in Watchlist" })
                   }
                 }
               });
             } else {
-              res.json({ error: true, details: 'User Not Found' });
+              res.status(400).json({ error: true, details: 'User Not Found' });
             }
         });
     },

@@ -43,7 +43,7 @@ module.exports = {
           next();
         }
       } else {
-        res.json({ error: true, details: 'Data Formatting Error from getQuotes in tradierBuffer' });
+        res.status(400).json({ error: true, details: 'Data Formatting Error from getQuotes in tradierBuffer' });
       }
     });
   },
@@ -79,10 +79,10 @@ module.exports = {
           req.body.answer.historical = historical instanceof Array ? historical : [historical];
           next();
         } else {
-          res.json({ error: true, details: 'Data Formatting Error from getHistoricalData in tradierBuffer' });
+          res.status(400).json({ error: true, details: 'Data Formatting Error from getHistoricalData in tradierBuffer' });
         }
       } else {
-        res.json({ error: true, details: 'Data Formatting Error from getHistoricalData in tradierBuffer' });
+        res.status(400).json({ error: true, details: 'Data Formatting Error from getHistoricalData in tradierBuffer' });
       }
     });
   },
@@ -108,7 +108,10 @@ module.exports = {
           'days': parseInt(moment().diff(moment(date.date), 'days'))+parseInt(req.body.length), 
           'answer': date 
         }}
-        let s = {json : (o) => {
+        let s = {status: (n) => {
+          return s
+        },
+        json : (o) => {
           roundIndex++
           if(roundIndex < strikeRounding.length){
             looper(strikeRounding[roundIndex]) 
@@ -162,10 +165,10 @@ module.exports = {
           }
           next();
         } else {
-          res.json({ error: true, details: 'Data Formatting Error from guessSymbol in tradierBuffer' });
+          res.status(400).json({ error: true, details: 'Data Formatting Error from guessSymbol in tradierBuffer' });
         }
       } else {
-        res.json({ error: true, details: 'Data Formatting Error from guessSymbol in tradierBuffer' });
+        res.status(400).json({ error: true, details: 'Data Formatting Error from guessSymbol in tradierBuffer' });
       }
     });
   },
@@ -187,7 +190,7 @@ module.exports = {
       if (!error && response.statusCode == 200 && req.body.answer.quote.found) {
         const { expirations } = JSON.parse(body);
         if (expirations == null) {
-          res.json({ error: true, details: 'No Options Expiries from getChainExpiries in tradierBuffer' });
+          res.status(400).json({ error: true, details: 'No Options Expiries from getChainExpiries in tradierBuffer' });
         } else {
           // req.body.answer = expirations;
           const numberOfExpiries = expirations.date.length;
@@ -205,7 +208,7 @@ module.exports = {
           }
         }
       } else {
-        res.json({ error: true, details: 'Data Formatting Error from getChainExpiries in tradierBuffer' });
+        res.status(400).json({ error: true, details: 'Data Formatting Error from getChainExpiries in tradierBuffer' });
       }
     });
   },
