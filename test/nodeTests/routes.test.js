@@ -7,8 +7,9 @@ const tickerWithoutOptions = 'YYY';
 const nonTicker = 'BRUH MOMENT';
 const search = 'Apple';
 const incoherentSearch = 'bruhMoment';
+const days = 50
 
-const waitTime = 10000;
+const waitTime = 30000;
 
 describe('GET Website Paths /', () => {
   it('gets index path', async (done) => {
@@ -68,6 +69,30 @@ describe('POST Market Data /api/market/', () => {
     }, waitTime);
   });
 
+  describe('/historical', () => {
+    it('tests historical data of stock', async (done) => {
+      request(app).post('/api/market/historical')
+        .send({ ticker, days })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.historical).toBeArray();
+          done();
+        });
+    }, waitTime);
+
+    it('tests historical data of non stock', async (done) => {
+      request(app).post('/api/market/historical')
+        .send({ ticker: nonTicker, days })
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .then((response) => {
+          expect(response.body.error).toBe(true);
+          done();
+        });
+    }, waitTime);
+  });
+
   describe('/optionsQuote', () => {
     it('options quote', async (done) => {
       request(app).post('/api/market/optionsQuote')
@@ -94,7 +119,7 @@ describe('POST Market Data /api/market/', () => {
       request(app).post('/api/market/optionsQuote')
         .send({ ticker: tickerWithoutOptions })
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.body.error).toBe(true);
           done();
@@ -105,7 +130,7 @@ describe('POST Market Data /api/market/', () => {
       request(app).post('/api/market/optionsQuote')
         .send({ ticker: nonTicker })
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.body.error).toBe(true);
           done();
@@ -132,7 +157,7 @@ describe('POST Market Data /api/market/', () => {
       request(app).post('/api/market/chain')
         .send({ ticker: tickerWithoutOptions })
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.body.error).toBe(true);
           done();
@@ -143,7 +168,7 @@ describe('POST Market Data /api/market/', () => {
       request(app).post('/api/market/chain')
         .send({ ticker: nonTicker })
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.body.error).toBe(true);
           done();
@@ -154,7 +179,7 @@ describe('POST Market Data /api/market/', () => {
   describe('/iv', () => {
     it('tests historical iv', async (done) => {
       request(app).post('/api/market/iv')
-      .send({ ticker })
+      .send({ ticker, days })
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -165,38 +190,15 @@ describe('POST Market Data /api/market/', () => {
 
     it('tests historical iv of stock without options', async (done) => {
       request(app).post('/api/market/iv')
-        .send({ ticker: tickerWithoutOptions })
+        .send({ ticker: tickerWithoutOptions, days })
         .expect('Content-Type', /json/)
         .expect(200)
         .then((response) => {
-          expect(response.body.error).toBe(true);
+          expect(response.body.historicalIV).toBeArrayOfSize(0);
           done();
         });
     }, waitTime)
-  });
-
-  describe('/historical', () => {
-    it('tests historical data of stock', async (done) => {
-      request(app).post('/api/market/historical')
-        .send({ ticker })
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then((response) => {
-          expect(response.body.historical).toBeArray();
-          done();
-        });
-    }, waitTime);
-
-    it('tests historical data of non stock', async (done) => {
-      request(app).post('/api/market/historical')
-        .send({ ticker: nonTicker })
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then((response) => {
-          expect(response.body.error).toBe(true);
-          done();
-        });
-    }, waitTime);
+    
   });
 
   describe('/guessSymbol', () => {
@@ -215,7 +217,7 @@ describe('POST Market Data /api/market/', () => {
       request(app).post('/api/market/guessSymbol')
         .send({ text: incoherentSearch })
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.body.error).toBe(true);
           done();
@@ -250,12 +252,12 @@ describe('POST Bug Reports /api/bug/', () => {
         });
     }, waitTime);
 
-    it('sends nothing', async (done) => {
+    it('sends something thats not ip', async (done) => {
       // /api/bug/track
       request(app).post('/api/bug/track')
         .send({ ip: 'not really an ip' })
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.body.error).toBe(true);
           done();
@@ -288,7 +290,7 @@ describe('POST Bug Reports /api/bug/', () => {
 
     it('sends request with no file', async (done) => {
       request(app).post('/api/bug/imageReport')
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.body.error).toBe(true);
           done();
@@ -314,7 +316,7 @@ describe('POST Twitter Data /api/twitter/', () => {
     it('tests twitter with no query', async (done) => {
       request(app).post('/api/twitter/search')
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           // console.log(response.body)
           expect(response.body.error).toBe(true);

@@ -51,7 +51,7 @@ router.post('/delete', auth, strategyFormatCheck, (req, res) => {
         if (e.deletedCount == 1) {
           res.json({ error: false, details: e });
         } else {
-          res.json({ error: true, details: e });
+          res.status(400).json({ error: true, details: e });
         }
       });
     } else {
@@ -65,7 +65,7 @@ router.post('/save', auth, strategyFormatCheck, (req, res) => {
     if (user) {
       Strategy.findOne({ user, legs: req.body.strategy }).then((strategy) => {
         if (strategy) {
-          res.json({ error: true, details: 'Strategy already exists' });
+          res.status(400).json({ error: true, details: 'Strategy already exists' });
         } else {
           const newStrat = new Strategy({ user, stock: req.body.ticker, legs: req.body.strategy });
           newStrat.save().then(() => {

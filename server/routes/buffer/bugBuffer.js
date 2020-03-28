@@ -22,7 +22,7 @@ module.exports = {
               req.answer = JSON.parse(body)
               next()
             } else {
-              res.json({ error: true, details: 'IP Data Not Found' });
+              res.status(400).json({ error: true, details: 'IP Data Not Found' });
             }
         });
     },
@@ -46,7 +46,7 @@ module.exports = {
             if (!error) {
                 res.json({ error: false, details: 'IP Data Sent To Url' });
             } else {
-                res.json({ error: true, details: 'IP Data Not Sent To Url' });
+                res.status(400).json({ error: true, details: 'IP Data Not Sent To Url' });
             }
         });
     },
@@ -62,7 +62,7 @@ module.exports = {
             if (!error) {
                 res.json({ error: false, details: 'Details Sent to URL' });
             } else {
-                res.json({ error: true, details: 'Details Not Sent to URL' });
+                res.status(400).json({ error: true, details: 'Details Not Sent to URL' });
             }
         });
     },
@@ -83,9 +83,9 @@ module.exports = {
         },
         (err, response, body) => {
             if (!err) {
-                res.json({ error: true, details: 'Image Sent to URL' });
+                res.json({ error: false, details: 'Image Sent to URL' });
             } else {
-                res.json({ error: true, details: 'Image Not Sent to URL' });
+                res.status(400).json({ error: true, details: 'Image Not Sent to URL' });
             }
         });
     }

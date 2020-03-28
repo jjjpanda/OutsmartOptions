@@ -22,13 +22,13 @@ afterAll(async (done) => mongoDB.disconnect((success) => {
   }
 }), waitTime);
 
-describe('POST User Requests /api/users/', () => {
+describe.skip('POST User Requests /api/users/', () => {
   describe('/register', () => {
     it('registers a new user missing password retype', async (done) => {
       request(app).post('/api/users/register')
         .send({ name: 'Bruh', email: 'email@email.email', password: 'password' })
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.error).toBe(true)
           done();
@@ -37,9 +37,7 @@ describe('POST User Requests /api/users/', () => {
 
     it('registers a new user', async (done) => {
       request(app).post('/api/users/register')
-        .send({
-          name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password',
-        })
+        .send({ name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password' })
         .expect('Content-Type', /json/)
         .expect(200)
         .then((response) => {
@@ -52,11 +50,9 @@ describe('POST User Requests /api/users/', () => {
 
     it('try registering with same email', async (done) => {
       request(app).post('/api/users/register')
-        .send({
-          name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password',
-        })
+        .send({ name: 'Bruh', email: 'email@email.email', password: 'password', password2: 'password' })
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.error).toBe(true);
           done();
@@ -85,7 +81,7 @@ describe('POST User Requests /api/users/', () => {
       request(app).post('/api/users/login')
         .send({ email: 'email@email.email', password: 'wrongPassword' })
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.error).toBe(true);
           done();
@@ -161,7 +157,7 @@ describe.skip('POST Strategy /api/strategy/', () => {
   });
 });
 
-describe('POST Watchlist /api/watchlist/', () => {
+describe.skip('POST Watchlist /api/watchlist/', () => {
   describe('/add', () => {
     it('tests edit watchlist to add', async (done) => {
       request(app).post('/api/watchlist/add')
@@ -205,7 +201,7 @@ describe('POST Watchlist /api/watchlist/', () => {
   });
 });
 
-describe('POST Logged In User Requests /api/users/', () => {
+describe.skip('POST Logged In User Requests /api/users/', () => {
   describe('/current', () => {
     it('authentication validation', async (done) => {
       request(app).post('/api/users/current')
@@ -223,9 +219,7 @@ describe('POST Logged In User Requests /api/users/', () => {
   describe('/change', () => {
     it('password changing', async (done) => {
       request(app).post('/api/users/change')
-        .send({
-          id, oldPassword: 'password', newPassword: 'password2', newPassword2: 'password2',
-        })
+        .send({ id, oldPassword: 'password', newPassword: 'password2', newPassword2: 'password2' })
         .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200)
@@ -237,12 +231,10 @@ describe('POST Logged In User Requests /api/users/', () => {
 
     it('incorrect password changing', async (done) => {
       request(app).post('/api/users/change')
-        .send({
-          id, oldPassword: 'passwordThatsWrong', newPassword: 'shouldntReallyMatter', newPassword2: 'shouldntReallyMatter',
-        })
+        .send({ id, oldPassword: 'passwordThatsWrong', newPassword: 'shouldntReallyMatter', newPassword2: 'shouldntReallyMatter' })
         .set('Authorization', token)
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
           expect(response.body.error).toBeDefined();
           done();
