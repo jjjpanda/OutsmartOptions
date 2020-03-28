@@ -201,6 +201,18 @@ describe('POST Market Data /api/market/', () => {
     
   });
 
+  describe('/yields', () => {
+    it('tests treasury yields', async (done) => {
+      request(app).post('/api/market/yields')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.yields).toBeArray();
+          done();
+        });
+    }, waitTime);
+  });
+
   describe('/guessSymbol', () => {
     it('guess on a company name', async (done) => {
       request(app).post('/api/market/guessSymbol')
@@ -220,18 +232,6 @@ describe('POST Market Data /api/market/', () => {
         .expect(400)
         .then((response) => {
           expect(response.body.error).toBe(true);
-          done();
-        });
-    }, waitTime);
-  });
-
-  describe('/yields', () => {
-    it('tests treasury yields', async (done) => {
-      request(app).post('/api/market/yields')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then((response) => {
-          expect(response.body.yields).toBeArray();
           done();
         });
     }, waitTime);

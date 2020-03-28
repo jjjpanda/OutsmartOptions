@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
-const auth = require('./validation/authorizeUser')(jwt);
+const auth = require('./validation/authorizeUser.js')(jwt);
 const strategyFormatCheck = require('./validation/strategyFormatCheck.js');
 
 const Strategy = require('../daemons/models/Strategy');

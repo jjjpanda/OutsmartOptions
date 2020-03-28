@@ -130,9 +130,9 @@ Here's your route file: [market.js](routes/market.js).
 | :-|:- |:-:|:-:|:-:|
 |POST|/register    |Register an account with us.                           |`{ body: { name: String, email: String, password: String, password2: String } }`|`{ registered: { name: String, email: String, date: String } }`|
 |POST|/login       |Login into the account.                                |`{ body: { email: String, password: String } }`|`{ login: { success: Boolean, id: String, token: String } }`|
-|POST|/current     |Using cookies and whatnot to get tokens and whatnot.   |`{ header: { authorization: String }, body: { id: String } }`|`{ current: { user: String, email: String } }`|
+|POST|/current     |Using cookies and whatnot to get tokens and whatnot.   |`{ header: { authorization: String }, body: { id: String } }`|`{ current: { name: String, email: String } }`|
 |POST|/change      |Change your password with this.                        |`{ header: { authorization: String }, body: { id: String, oldPassword: String, newPassword: String, newPassword2: String } }`|`{ changed: Boolean }`|
-|POST|/delete      |Delete.😢                                              |`{ header: { authorization: String }, body: { id: String } }`|`{ deleted: true }`|
+|POST|/delete      |Delete.😢                                              |`{ header: { authorization: String }, body: { id: String } }`|`{ deleted: Boolean }`|
 
 ### /api/watchlist/
 
