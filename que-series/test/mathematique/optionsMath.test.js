@@ -2,6 +2,12 @@ const { mathematique } = require('que-series')
 const math = mathematique.options
 
 describe('Options Math Test', () => {
+  it('Options Price', () => { 
+    //(t: Double, priceUnderlying: Double, strike: Double, isCall: Boolean, isLong: Boolean, r: Double, divYield: Double, iv: Double)
+    expect(math.calculateOptionsPrice(Math.random(), 100, 0, true, true, 0, 0, 0)).toBeCloseTo(100)
+    expect(math.calculateOptionsPrice(Math.random(), 100, 0, true, false, 0, 0, 0)).toBeCloseTo(-100)
+  })
+
   it('CNDF Math', () => {
     expect(math.cndf(3)).toBeCloseTo(1);
     expect(math.cndf(1)).toBeCloseTo(0.84);
