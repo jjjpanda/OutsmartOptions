@@ -23,9 +23,9 @@ module.exports = {
       req.body.answer.optionsQuote.callIVArray[req.body.answer.optionsQuote.callIVArray.length - 1][1] /= strikes.length;
       req.body.answer.optionsQuote.putIVArray[req.body.answer.optionsQuote.putIVArray.length - 1][1] /= strikes.length;
 
-      req.body.answer.optionsQuote.callIV = req.body.answer.optionsQuote.callIVArray.reduce((acc, c) => acc + (c[1] == null ? 0 : c[1]), 0);
+      req.body.answer.optionsQuote.callIV = req.body.answer.optionsQuote.callIVArray.reduce((acc, c) => acc + (c[1] == null || !isFinite(c[1]) || isNaN(c[1]) ? 0 : c[1]), 0);
       req.body.answer.optionsQuote.callIV /= strikes.length;
-      req.body.answer.optionsQuote.putIV = req.body.answer.optionsQuote.putIVArray.reduce((acc, c) => acc + (c[1] == null ? 0 : c[1]), 0);
+      req.body.answer.optionsQuote.putIV = req.body.answer.optionsQuote.putIVArray.reduce((acc, c) => acc + (c[1] == null || !isFinite(c[1]) || isNaN(c[1]) ? 0 : c[1]), 0);
       req.body.answer.optionsQuote.putIV /= strikes.length;
 
       req.body.answer.optionsQuote.pcRatioOI = req.body.answer.optionsQuote.putOI / req.body.answer.optionsQuote.callOI;
