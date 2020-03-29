@@ -160,11 +160,13 @@ Here's your route file: [market.js](routes/market.js).
 [strategy.js](routes/strategy.js)
 
 1. Request Validation Files
-    - []()
+    - [authorizeUser.js](routes/validation/authorizeUser.js)
+    - [marketDataRequestValidation.js](routes/validation/marketDataRequestValidation.js)
+    - [strategyFormatting.js](routes/validation/strategyFormatting.js)
 2. Data Stream Buffers
-    - []()
+    - [strategyBuffer.js](routes/buffer/strategyBuffer.js)
 3. Calculations and Verification
-    - []()
+    - N/A
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
