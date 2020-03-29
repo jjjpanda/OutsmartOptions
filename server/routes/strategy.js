@@ -1,9 +1,8 @@
 const express = require('express');
 
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 
-const auth = require('./validation/authorizeUser.js')(jwt);
+const auth = require('./validation/authorizeUser.js');
 const marketDataValidation = require('./validation/marketDataRequestValidation.js');
 const strategyFormatting = require('./validation/strategyFormatting.js');
 
