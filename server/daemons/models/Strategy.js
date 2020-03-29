@@ -7,14 +7,16 @@ const StratSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
   },
-  stock: String,
+  ticker: String,
+  key: String,
   legs: [{
-    date: Date,
+    date: String,
     strike: Number,
     price: Number,
     isCall: Boolean,
     isLong: Boolean,
     quantity: Number,
+    symbol: String,
   }],
 }, { collection: 'strategy' });
 

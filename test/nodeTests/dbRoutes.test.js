@@ -2,6 +2,8 @@ const request = require('supertest');
 const app = require('../../server/app.js');
 const mongoDB = require('../../server/daemons/database');
 
+const Option = require('../../server/daemons/models/Option.js')
+
 const waitTime = 10000;
 let name = 'Bruh'
 let email = 'email@email.email'
@@ -139,38 +141,37 @@ describe('Consecutive Tests', () => {
     });
   });
   
-  describe.skip('POST Strategy /api/strategy/', () => {
+  describe('POST Strategy /api/strategy/', () => {
+
+    const underlyingTicker = 'ABC'
+    const Option1 = new Option("2000-01-01", 100, 5, true, true, 3, "A000101C00010000")
+    const Option2 = new Option("2000-01-01", 105, 2, true, false, 1, "A000101C00010500")
+
     describe('/save', () => {
       it('tests /save', async (done) => {
         request(app).post('/api/strategy/save')
-          .send({ id, ticker: 'SPY', strategy: [{ strike: 30 }, { price: 2 }, { quantity: 4 }] }) // Array of Objects should pass
+          .send({ id, ticker: underlyingTicker, legs: [
+            Option1, // Array of Options should pass
+            Option2, // Or Object imitating Option
+            {date: "2000-01-01", strike: 100, price: 0.5, isCall: false, isLong: true, quantity: 2, symbol: "A000101P00010000"}
+          ] }) 
           .set('Authorization', token)
           .expect('Content-Type', /json/)
           .expect(200)
           .then((response) => {
-            expect(response.body.strategy).toBe(true);
+            expect(response.body.saved).toBe(true);
             done();
           });
       }, waitTime);
   
       it('tests badly formatted /save', async (done) => {
         request(app).post('/api/strategy/save')
-          .send({ id, ticker: 'SPY', strategy: [7, 7, 7] }) // Array with anything other than Objects should fail
+          .send({ id, ticker: underlyingTicker, strategy: [7, 7, 7] }) // Array with anything other than Options should fail
           .set('Authorization', token)
           .expect('Content-Type', /json/)
+          .expect(400)
           .then((response) => {
-            expect(response.body.details).toBe('Badly Formatted Strategies, Not Array of Objects');
-            done();
-          });
-      }, waitTime);
-  
-      it('tests badly formatted /save', async (done) => {
-        request(app).post('/api/strategy/save')
-          .send({ id, ticker: 'SPY', strategy: 14 }) // No Array, No pass
-          .set('Authorization', token)
-          .expect('Content-Type', /json/)
-          .then((response) => {
-            expect(response.body.details).toBe('Badly Formatted Strategies, Not Array');
+            expect(response.body.error).toBe(true);
             done();
           });
       }, waitTime);
@@ -179,12 +180,12 @@ describe('Consecutive Tests', () => {
     describe('/load', () => {
       it('Tests /load', async (done) => {
         request(app).post('/api/strategy/load')
-          .send({ id, ticker: 'SPY' })
+          .send({ id, ticker: underlyingTicker })
           .set('Authorization', token)
           .expect('Content-Type', /json/)
           .expect(200)
           .then((response) => {
-            expect(response.body.strategies[0].legs).toMatchObject([{ strike: 30 }, { price: 2 }, { quantity: 4 }]);
+            expect(response.body.strategies[0].legs[0].date).toMatchObject(Option2);
             done();
           });
       }, waitTime);
@@ -193,13 +194,17 @@ describe('Consecutive Tests', () => {
     describe('/delete', () => {
       it('tests /delete', async (done) => {
         request(app).post('/api/strategy/delete')
-          .send({ id, ticker: 'SPY', strategy: [{ strike: 30 }, { price: 2 }, { quantity: 4 }] })
+          .send({ id, ticker: underlyingTicker, legs: [
+            Option1,
+            Option2, 
+            {date: "2000-01-01", strike: 100, price: 0.5, isCall: false, isLong: true, quantity: 2, symbol: "A000101P00010000" }
+          ] })
           .set('Authorization', token)
           .expect('Content-Type', /json/)
           .expect(200)
           .then((response) => {
             console.log(response.body);
-            expect(response.body.details.deletedCount).toBe(1);
+            expect(response.body.deleted).toBe(true);
             done();
           });
       }, waitTime);
