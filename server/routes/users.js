@@ -1,9 +1,8 @@
 const express = require('express');
 
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 
-const auth = require('./validation/authorizeUser.js')(jwt);
+const auth = require('./validation/authorizeUser.js');
 const validateBody = require('./validation/validateBody.js');
 const validate = require('./validation/userValidation.js');
 
