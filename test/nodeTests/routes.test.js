@@ -5,9 +5,9 @@ const app = require('../../server/app.js');
 const ticker = 'MSFT';
 const tickerWithoutOptions = 'YYY';
 const nonTicker = 'BRUH MOMENT';
-const search = 'Apple';
+const search = 'Microsoft';
 const incoherentSearch = 'bruhMoment';
-const days = 50
+const days = 31
 
 const waitTime = 30000;
 
@@ -34,6 +34,13 @@ describe('GET Website Paths /', () => {
 });
 
 describe('POST Market Data /api/market/', () => {
+
+  beforeEach((done) => {
+    setTimeout(() => {
+      done()
+    }, 50)
+  })
+
   describe('/quote', () => {
     it('stock quote', async (done) => {
       request(app).post('/api/market/quote')
@@ -192,9 +199,9 @@ describe('POST Market Data /api/market/', () => {
       request(app).post('/api/market/iv')
         .send({ ticker: tickerWithoutOptions, days })
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(400)
         .then((response) => {
-          expect(response.body.historicalIV).toBeArrayOfSize(0);
+          expect(response.body.error).toBe(true);
           done();
         });
     }, waitTime)

@@ -107,22 +107,18 @@ module.exports = {
       else {
         bcrypt.compare(oldPassword, user.password).then((isMatch) => {
           if (isMatch) {
-            if (newPassword == newPassword2) {
-              bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newPassword, salt, (err, hash) => {
-                  if (err) throw err;
-                  else{
-                    user.password = hash;
-                    user
-                      .save()
-                      .then((user) => res.json({ changed: true }))
-                      .catch((err) => res.json({ changed: false }));
-                  }
-                });
+            bcrypt.genSalt(10, (err, salt) => {
+              bcrypt.hash(newPassword, salt, (err, hash) => {
+                if (err) throw err;
+                else{
+                  user.password = hash;
+                  user
+                    .save()
+                    .then((user) => res.json({ changed: true }))
+                    .catch((err) => res.json({ changed: false }));
+                }
               });
-            } else {
-              res.status(400).json({ error: true, details: 'Buffer Error from changePassword in userBuffer', errors: "Passwords don't match" });
-            }
+            });
           } else {
             res.status(400).json({ error: true, details: 'Buffer Error from changePassword in userBuffer', errors: "Passwords Incorrect" });
           }
