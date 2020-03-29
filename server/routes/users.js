@@ -15,7 +15,7 @@ router.post('/login', validateBody, validate.validateLogin, userBuffer.loginUser
 
 router.post('/current', validateBody, auth, userBuffer.currentUser);
 
-router.post('/change', validateBody, auth, userBuffer.changePassword);
+router.post('/change', validateBody, validate.validatePasswordChange, auth, userBuffer.changePassword);
 
 router.post('/delete', validateBody, auth, userBuffer.deleteUser);
 

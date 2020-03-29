@@ -173,6 +173,35 @@ module.exports = {
     });
   },
 
+  getOptionable(req, res, next) {
+    request({
+      method: 'get',
+      url: 'https://sandbox.tradier.com/v1/markets/options/expirations',
+      qs: {
+        symbol: req.body.ticker,
+        includeAllRoots: true,
+        strikes: false,
+      },
+      headers: {
+        Authorization: `Bearer ${apikey}`,
+        Accept: 'application/json',
+      },
+    }, (error, response, body) => {
+      if (!error && response.statusCode == 200){
+        const {expirations} = JSON.parse(body)
+        if(expirations != null && expirations.date instanceof Array && expirations.date.length > 0){
+          next()
+        }
+        else{
+          res.status(400).json({ error: true, details: 'No Options Expiries from getOptionable in tradierBuffer' })
+        }
+      }
+      else{
+        res.status(400).json({ error: true, details: 'No Options Expiries from getOptionable in tradierBuffer' })
+      }
+    })
+  }, 
+
   getChainExpiries(req, res, next) {
     request({
       method: 'get',

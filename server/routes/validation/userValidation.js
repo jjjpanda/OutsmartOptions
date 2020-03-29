@@ -64,6 +64,31 @@ module.exports = {
     else{
       next()
     }
+  },
+
+  validatePasswordChange(req, res, next){
+    const errors = {};
+
+    req.body.oldPassword = !isEmpty(req.body.oldPassword) ? req.body.oldPassword : '';
+    req.body.newPassword = !isEmpty(req.body.newPassword) ? req.body.newPassword : '';
+    req.body.newPassword2 = !isEmpty(req.body.newPassword2) ? req.body.newPassword2 : '';
+
+    if (Validator.isEmpty(req.body.oldPassword)) {
+      error.password = "Incorrect Password"
+    }
+    if (Validator.isEmpty(req.body.newPassword) || Validator.isEmpty(req.body.newPassword2)) {
+      error.newPassword = "No New Password Given"
+    }
+    if (req.body.newPassword !== req.body.newPassword2){
+      error.newPassword = "Passwords don't match"
+    }
+
+    if (!isEmpty(errors)) {
+      res.status(400).json({ error: true, errors, details: "Validation Error from validatePasswordChange in userValidation" });
+    }
+    else{
+      next()
+    }
   }
 
 };

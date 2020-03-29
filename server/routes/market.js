@@ -28,7 +28,7 @@ router.post('/optionsQuote', validateBody, validate.validateTicker, prepareAnswe
 
 router.post('/historical', validateBody, validate.validateTicker, validate.validateDays, prepareAnswer, tradierBuffer.getHistoricalData, noCheckSend('historical'));
 
-router.post('/iv', validateBody, validate.validateTicker, validate.validateDays, validate.validateIVLength, prepareAnswer, tradierBuffer.getHistoricalData, tradierBuffer.getHistoricalIV, optionsCalculation.getHistoricalIV, noCheckSend('historicalIV'));
+router.post('/iv', validateBody, validate.validateTicker, validate.validateDays, validate.validateIVLength, prepareAnswer, tradierBuffer.getOptionable, tradierBuffer.getHistoricalData, tradierBuffer.getHistoricalIV, optionsCalculation.getHistoricalIV, noCheckSend('historicalIV'));
 
 router.post('/guessSymbol', validateBody, validate.validateText, prepareAnswer, tradierBuffer.guessSymbol, noCheckSend('guesses'));
 
