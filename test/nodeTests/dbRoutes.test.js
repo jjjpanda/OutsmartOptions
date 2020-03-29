@@ -146,14 +146,15 @@ describe('Consecutive Tests', () => {
     const underlyingTicker = 'ABC'
     const Option1 = new Option("2000-01-01", 100, 5, true, true, 3, "A000101C00010000")
     const Option2 = new Option("2000-01-01", 105, 2, true, false, 1, "A000101C00010500")
+    const Option3 = {date: "2000-01-01", strike: 100, price: 0.5, isCall: false, isLong: true, quantity: 2, symbol: "A000101P00010000"}
 
     describe('/save', () => {
       it('tests /save', async (done) => {
         request(app).post('/api/strategy/save')
           .send({ id, ticker: underlyingTicker, legs: [
             Option1, // Array of Options should pass
-            Option2, // Or Object imitating Option
-            {date: "2000-01-01", strike: 100, price: 0.5, isCall: false, isLong: true, quantity: 2, symbol: "A000101P00010000"}
+            Option2, 
+            Option3  // Or Object imitating Option
           ] }) 
           .set('Authorization', token)
           .expect('Content-Type', /json/)
@@ -185,7 +186,9 @@ describe('Consecutive Tests', () => {
           .expect('Content-Type', /json/)
           .expect(200)
           .then((response) => {
-            expect(response.body.strategies[0].legs[0].date).toMatchObject(Option2);
+            expect(response.body.strategies[0].legs[0]).toMatchObject(Option2);
+            expect(response.body.strategies[0].legs[1]).toMatchObject(Option3);
+            expect(response.body.strategies[0].legs[2]).toMatchObject(Option1);
             done();
           });
       }, waitTime);
@@ -197,7 +200,7 @@ describe('Consecutive Tests', () => {
           .send({ id, ticker: underlyingTicker, legs: [
             Option1,
             Option2, 
-            {date: "2000-01-01", strike: 100, price: 0.5, isCall: false, isLong: true, quantity: 2, symbol: "A000101P00010000" }
+            Option3
           ] })
           .set('Authorization', token)
           .expect('Content-Type', /json/)
