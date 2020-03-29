@@ -885,7 +885,6 @@ renderCalculateMenu = () => (
 );
 
 render() {
-  console.log(this.state)
   return (
     <div>
       <div style={{ width: '60px', paddingBottom: '20px' }} />
