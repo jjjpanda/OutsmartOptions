@@ -3,15 +3,15 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { shallow, mount } from 'enzyme';
 
-import Watchlist from '../../src/Watchlist';
+import HomePage from '../../../src/pages/HomePage.jsx';
 
-describe('Watch Test', () => {
-  it('Watchlist Render', () => {
-    shallow(<Watchlist />);
+describe('Home Test', () => {
+  it('Home Render', () => {
+    shallow(<HomePage />);
   });
-  test('Watch', () => {
+  test('Home', () => {
     const component = renderer.create(
-      <Watchlist />,
+      <HomePage />,
     );
     const tree = component.toJSON();
     expect(tree).not.toBe('');

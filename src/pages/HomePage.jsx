@@ -4,10 +4,10 @@ import {
   TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton,
 } from 'react-twitter-embed';
 import InstagramEmbed from 'react-instagram-embed';
-import './css/home.css';
+import '../css/home.css';
 
-import { BarLineComboGraph } from './components/Graphs.jsx';
-import StockSymbol from './components/StockSymbol.jsx';
+import { BarLineComboGraph } from '../components/Graphs.jsx';
+import StockSymbol from '../components/StockSymbol.jsx';
 
 class HomePage extends React.Component {
   constructor(props) {

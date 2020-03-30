@@ -3,15 +3,15 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { shallow, mount } from 'enzyme';
 
-import OptionsCalculator from '../../src/OptionsCalculator';
+import HelpPage from '../../../src/pages/HelpPage.jsx';
 
-describe('Calculator Test', () => {
-  it('Calculator Render', () => {
-    shallow(<OptionsCalculator />);
+describe('Help Test', () => {
+  it('Help Render', () => {
+    shallow(<HelpPage />);
   });
-  test('Calculator', () => {
+  test('Help', () => {
     const component = renderer.create(
-      <OptionsCalculator />,
+      <HelpPage />,
     );
     const tree = component.toJSON();
     expect(tree).not.toBe('');
