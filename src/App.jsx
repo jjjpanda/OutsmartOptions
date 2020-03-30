@@ -27,13 +27,13 @@ import './css/index.less';
 import { darkTheme, lightTheme } from './css/themes.js';
 
 import SideMenuRoute from './components/SideMenu.jsx';
-import HomePage from './HomePage.jsx';
-import OptionsCalculator from './OptionsCalculator.jsx';
-import Watchlist from './Watchlist.jsx';
-import AboutPage from './AboutPage.jsx';
-import LoginPage from './LoginPage.jsx';
-import HelpPage from './HelpPage.jsx';
-import Checkout from './checkout.jsx';
+import HomePage from './pages/HomePage.jsx';
+import OptionsCalculator from './pages/OptionsCalculator.jsx';
+import Watchlist from './pages/Watchlist.jsx';
+import AboutPage from './pages/AboutPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import HelpPage from './pages/HelpPage.jsx';
+import Checkout from './pages/checkout.jsx';
 
 const { request } = util;
 

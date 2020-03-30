@@ -1,7 +1,5 @@
 # Outsmart Options Server
 
-**THIS MAY BE INACCURATE. SERVER IS UNDER DEVELOPMENT AND MAY CHANGE. DOCUMENT DRIVEN DEVELOPMENT, YOU KNOW?**
-
 The server starts from [server.js](server.js), 
 which calls 3 main subprocesses: 
 1. **[The Routes and Endpoints](#routes-and-endpoints)**

@@ -25,13 +25,13 @@ import {
 } from 'que-series';
 import html2canvas from 'html2canvas';
 import * as moment from 'moment';
-import { NoAxisGraph, ProfitGraph } from './components/Graphs.jsx';
-import { StrategyInfo } from './components/StrategyInfo.jsx';
-import SpinningLogo from './components/SpinningLogo.jsx';
-import StockSymbol from './components/StockSymbol.jsx';
-import StockCalendar from './components/StockCalendar.jsx';
-import OptionsLeg from './components/OptionsLeg.jsx';
-import verifyUser from './components/UserVerifier.jsx';
+import { NoAxisGraph, ProfitGraph } from '../components/Graphs.jsx';
+import { StrategyInfo } from '../components/StrategyInfo.jsx';
+import SpinningLogo from '../components/SpinningLogo.jsx';
+import StockSymbol from '../components/StockSymbol.jsx';
+import StockCalendar from '../components/StockCalendar.jsx';
+import OptionsLeg from '../components/OptionsLeg.jsx';
+import verifyUser from '../components/UserVerifier.jsx';
 
 // JS Libraries
 

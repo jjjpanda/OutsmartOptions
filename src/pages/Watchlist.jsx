@@ -4,7 +4,7 @@ import { Table } from 'antd';
 import Cookie from 'js-cookie';
 
 import { utilique as util } from 'que-series';
-import verifyUser from './components/UserVerifier.jsx';
+import verifyUser from '../components/UserVerifier.jsx';
 
 const { request } = util;
 

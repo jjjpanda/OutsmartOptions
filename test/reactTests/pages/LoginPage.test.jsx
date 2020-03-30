@@ -3,15 +3,15 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { shallow, mount } from 'enzyme';
 
-import HelpPage from '../../src/HelpPage';
+import LoginPage from '../../../src/pages/LoginPage.jsx';
 
-describe('Help Test', () => {
-  it('Help Render', () => {
-    shallow(<HelpPage />);
+describe('Login Test', () => {
+  it('Login Render', () => {
+    shallow(<LoginPage />);
   });
-  test('Help', () => {
+  test('Login', () => {
     const component = renderer.create(
-      <HelpPage />,
+      <LoginPage />,
     );
     const tree = component.toJSON();
     expect(tree).not.toBe('');

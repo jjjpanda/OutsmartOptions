@@ -1,9 +1,9 @@
 import React from 'react';
 
-import verifyUser from './components/UserVerifier.jsx';
+import verifyUser from '../components/UserVerifier.jsx';
 import {
   LoginForm, RegisterForm, ChangePasswordForm, SignOut, DeleteAccount,
-} from './components/UserForms.jsx';
+} from '../components/UserForms.jsx';
 
 const hasErrors = (fieldsError) => Object.keys(fieldsError).some((field) => fieldsError[field]);
 

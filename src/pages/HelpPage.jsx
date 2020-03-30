@@ -10,7 +10,7 @@ import {
   Popover,
 } from 'antd';
 import ButtonGroup from 'antd/lib/button/button-group';
-import HelpTooltip from './components/HelpTooltip.jsx';
+import HelpTooltip from '../components/HelpTooltip.jsx';
 
 class Help2 extends React.Component {
   constructor(props) {
