@@ -133,7 +133,7 @@ class OptionsCalculator extends React.Component {
         <Table
           dataSource={e[1]}
           columns={this.columns(e[0])}
-          rowClassName={(record) => record.atmNess}
+          rowClassName={(record) => record.atm?"atmStrike":""}
           pagination={false}
           size="small"
           scroll={{ y: 500 }}
