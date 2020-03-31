@@ -1,5 +1,6 @@
 //import * as prob from '../outliersLibrary.js'; //import machine broke
 
+
 //Finds all volatility spikes using z score and calculates the peak to trough ratio of each spike.
 
   function getMean(dist) {
@@ -178,7 +179,8 @@ fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/volatility/AAPL_HV_3-19.json',
       console.log("Ratio: ", peakToTroughRatio);
     }
 
-    if(dataset.indexOf(spike2) != dataset.length - 1 ){ //If the last datapoint is not a spike
+    
+    
       spike1 = spike2;
       spike2 = dataset[dataset.length-1];
       console.log();
@@ -189,6 +191,7 @@ fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/volatility/AAPL_HV_3-19.json',
       console.log("Trough: ", trough);
       peakToTroughRatio = trough['iv'] / spike1['iv'];
       console.log("Ratio: ", peakToTroughRatio);
-    }
+    
+    
 }
 )
