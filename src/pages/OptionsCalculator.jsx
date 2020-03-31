@@ -35,6 +35,7 @@ import verifyUser from '../components/UserVerifier.jsx';
 
 // JS Libraries
 
+import {tutorialSteps} from './tour/OptionCalculatorTour.jsx'
 
 const optionsMath = math.options;
 const { treasury } = math;
@@ -210,7 +211,7 @@ class OptionsCalculator extends React.Component {
 
   profitTableFormatting = () => {
     this.setState((state) => ({
-      profitTableData: this.dataToTableConversion(state.mergedOptions.profit),
+      profitTableData: structure.dataToTableConversion(state.mergedOptions.profit),
     }));
     this.setState((state) => ({
       profitColumns: this.columnCreation(state.mergedOptions.profit),
@@ -219,7 +220,7 @@ class OptionsCalculator extends React.Component {
 
   profitGraphFormatting = () => {
     this.setState((state) => ({
-      profitGraphData: this.dataToGraphConversion(state.optionsSelected.map((option) => ({ profit: option.profit, key: option.key }))),
+      profitGraphData: structure.dataToGraphConversion(state.optionsSelected.map((option) => ({ profit: option.profit, key: option.key }))),
     }),
     () => console.log(this.state));
   }
@@ -234,20 +235,6 @@ class OptionsCalculator extends React.Component {
       }
     }
     return data;
-  }
-
-  dataToTableConversion = (data) => {
-    const dataConverted = [];
-
-    for (let i = data[0][1].length - 1, end = 0; i >= end; i--) {
-      const o = {};
-      o.x = data[0][1][i][0].toFixed(2);
-      for (const date of data) {
-        o[date[0]] = date[1][i][1].toFixed(2);
-      }
-      dataConverted.push(o);
-    }
-    return dataConverted;
   }
 
   columnCreation = (data) => {
@@ -266,57 +253,16 @@ class OptionsCalculator extends React.Component {
     return columns;
   }
 
-  dataToGraphConversion = (data) => {
-    const dataConverted = [];
-
-    const keyNameObj = { x: 0 };
-    for (var option of data) {
-      for (var i = data[0].profit.length - 1, factor = Math.round(data[0].profit.length / 7) + 1; i >= 0; i -= factor) {
-        keyNameObj[`${option.key}a${option.profit[i][0]}`] = 0;
-      }
-    }
-    for (var j = 0; j < data[0].profit[0][1].length; j++) {
-      // console.log(option.key+ option.profit[i][0]+ option.profit[i][1][j])
-      dataConverted.push({ ...keyNameObj });
-      dataConverted[dataConverted.length - 1].x = data[0].profit[0][1][j][0];
-    }
-    for (var option of data) {
-      for (var i = data[0].profit.length - 1, factor = Math.round(data[0].profit.length / 7) + 1; i >= 0; i -= factor) {
-        for (var j = 0; j < data[0].profit[i][1].length; j++) {
-          dataConverted[j][`${option.key}a${option.profit[i][0]}`] = option.profit[i][1][j][1];
-        }
-      }
-    }
-    return dataConverted;
-  }
-
   calculateProfits = () => {
     const selectedOptions = this.state.optionsSelected;
     if (selectedOptions.filter((o) => !o.hide).length <= 0) {
       return;
     }
-    const rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, this.state.percentInterval, this.state.numberIntervals, 0);
+    
     for (const option of selectedOptions) {
       const rfir = treasury.getRightYield(yields || [], moment(option.date).diff(moment(), 'days')) / 100;
       option.greeks = optionsMath.calculateGreeks(moment(option.date).diff(moment(), 'hours') / (365*24), this.state.price, option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
-      option.profit = [];
-      let d = moment();
-      while (moment(option.date).diff(d, 'hours') > 0) {
-        option.profit.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
-        for (var price of option.profit[option.profit.length - 1][1]) {
-          price[1] = optionsMath.calculateOptionsPrice(moment(option.date).diff(d, 'hours') / (365*24), price[0], option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
-          price[1] -= option.limitPrice * (option.isLong ? 1 : -1);
-          price[1] *= option.hide ? 0 : option.quantity;
-        }
-        d = d.add(24, 'hours');
-      }
-
-      // PROFIT AT EXPIRY
-      option.profit.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
-      for (price of option.profit[option.profit.length - 1][1]) {
-        price[1] = optionsMath.calculateProfitAtExpiry(option.limitPrice, price[0], option.strike, option.isCall, option.isLong);
-        price[1] *= option.hide ? 0 : option.quantity;
-      }
+      option.profit = optionsMath.calculateProfits(this.state.price, this.state.percentInterval, this.state.numberIntervals, option, rfir, this.state.divYield)
     }
     this.setState(() => ({ optionsSelected: selectedOptions }),
       () => {
@@ -334,9 +280,6 @@ class OptionsCalculator extends React.Component {
       profit: [],
     };
 
-    // var strategyCost = 0
-
-
     for (const option of selectedOptions) {
       mergedOptions.limitPrice += (option.isLong ? 1 : -1) * parseFloat(option.limitPrice) * (option.hide ? 0 : parseInt(option.quantity));
 
@@ -345,27 +288,15 @@ class OptionsCalculator extends React.Component {
       mergedOptions.greeks.theta += option.greeks.theta * option.hide ? 0 : option.quantity;
       mergedOptions.greeks.vega += option.greeks.vega * option.hide ? 0 : option.quantity;
       mergedOptions.greeks.rho += option.greeks.rho * option.hide ? 0 : option.quantity;
-      // strategyCost += option.limitPrice * option.quantity
     }
 
-    console.log(selectedOptions.filter((o) => !o.hide));
     const optionsProfits = selectedOptions.filter((o) => !o.hide).map((o) => o.profit);
 
     mergedOptions.date = moment(selectedOptions.filter((o) => !o.hide).map((o) => moment(o.date).format('YYYY-MM-DD')).sort((a, b) => moment(a).diff(moment(b)))[0]).format('YYYY-MM-DD');
 
-    mergedOptions.percentProfit = [];
-    mergedOptions.profit = this.mergeProfits(optionsProfits, mergedOptions.date);
-    for (const day of mergedOptions.profit) {
-      mergedOptions.percentProfit.push([day[0], []]);
-      for (const price of day[1]) {
-        mergedOptions.percentProfit[mergedOptions.percentProfit.length - 1][1].push(
-          [
-            parseFloat((price[0]).toFixed(2)),
-            parseFloat(((price[1]).toFixed(2)) + mergedOptions.limitPrice) / Math.abs(mergedOptions.limitPrice),
-          ],
-        );
-      }
-    }
+    mergedOptions.profit = optionsMath.mergeProfits(this.state.price, this.state.percentInterval, this.state.numberIntervals, optionsProfits, mergedOptions.date);
+    
+    mergedOptions.percentProfit = optionsMath.percentProfit(mergedOptions.profit, mergedOptions.limitPrice)
 
     this.profitGraphFormatting();
 
@@ -374,24 +305,6 @@ class OptionsCalculator extends React.Component {
         this.profitTableFormatting();
         console.log(this.state);
       });
-  }
-
-  mergeProfits = (optionsProfits, expiry) => {
-    const profitMap = [];
-    let d = moment();
-    const rangeOfPrices = optionsMath.getRangeOfPrices(this.state.price, this.state.percentInterval, this.state.numberIntervals, 0);
-    while (moment(expiry).diff(d, 'hours') > -23) {
-      profitMap.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
-      for (const price of profitMap[profitMap.length - 1][1]) {
-        for (const profitSet of optionsProfits) {
-          console.log(structure.mapToObject(profitSet));
-          console.log(d.format('YYYY-MM-DD'));
-          price[1] += structure.mapToObject(structure.mapToObject(profitSet)[d.format('YYYY-MM-DD')])[price[0]];
-        }
-      }
-      d = d.add(24, 'hours');
-    }
-    return profitMap;
   }
 
   openOptionsChainModal = () => this.setAddLegModalVisible(true)
@@ -505,348 +418,6 @@ class OptionsCalculator extends React.Component {
     this.setState(() => ({ isTourOpen: false }));
   }
 
-  tutorialSteps = (state) => [
-    // Step 1: Title
-    {
-      position: 'right',
-      selector: '[step-name="title"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          What's up 😊? I'm Mr. Outsmart, a sentient AI that'll help guide you on your journey.
-          Follow the arrows (⬅➡) and you'll get it in no time.
-          <br />
-          <a onClick={() => goTo(step)}> Click me ➡ when you're ready to go. </a>
-        </div>
-      ),
-      style: {
-        backgroundColor: 'black',
-        color: 'white',
-      },
-    },
-    // Step 2: Stock Symbol
-    {
-      position: 'right',
-      selector: '[step-name="stock-symbol-input"]',
-      content: ({ goTo, inDOM, step }) => {
-        if (!state.exists || state.symbol != '') {
-          goTo(step);
-        }
-        return (
-          <div>
-            First things first, you should type in a stock and press enter. 😎 (Try something like AAPL or MSFT)
-          </div>
-        );
-      },
-    },
-    // Step 3: Stock Symbol Incorrect
-    {
-      position: 'right',
-      selector: '[step-name="stock-nonexistent"]',
-      content: ({ goTo, inDOM, step }) => {
-        if (inDOM) {
-          return (
-            <div>
-              Well, well, well 😒. Looks like we got a rebel here.
-              <a onClick={() => {
-                this.setState(() => ({ exists: true, symbol: '' }));
-                goTo(1);
-              }}
-              >
-                {' '}
-                Go back ⬅
-              </a>
-              and type in a stock that actually exists and has options.
-            </div>
-          );
-        }
-
-        goTo(step);
-      },
-    },
-    // Step 4: Price
-    {
-      position: 'right',
-      selector: '[step-name="stock-price"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          Once you type in the stock, you'll see the current price right here. Pretty cool right?
-          <br />
-          <a onClick={() => goTo(step)}>Click here ➡ to move on</a>
-          <br />
-          <a onClick={() => {
-            this.setState(() => ({ symbol: '' }));
-            goTo(1);
-          }}
-          >
-            Click here ⬅ to input a stock
-          </a>
-        </div>
-      ),
-    },
-    // Step 5: Percent Change
-    {
-      position: 'right',
-      selector: '[step-name="stock-percent-change"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          And here is the percent change for the day. We don't have premarket moves, so only during and after market hours will you see any changes.
-          <br />
-          <a onClick={() => goTo(step)}>Click here ➡ to move on</a>
-          <br />
-          <a onClick={() => {
-            this.setState(() => ({ symbol: '' }));
-            goTo(1);
-          }}
-          >
-            Click here ⬅ to input a stock
-          </a>
-        </div>
-      ),
-    },
-    // Step 6: Edit Leg Button
-    {
-      position: 'right',
-      selector: '[step-name="edit-leg"]',
-      content: ({ goTo, inDOM, step }) => {
-        if (state.addLegModalVisible) {
-          goTo(step);
-        }
-        return (
-          <div>
-            So here is where we get into the meat 🍖 of this thing.
-            This button will open up the options chain.
-            Note that if you -sigh- didn't type in an stock that
-            has an options chain 😓 the button will be disabled.
-            However, if a stock doesn't immediately load the button, don't get scared 😯.
-            It may take a while to load. So go ahead, click the button.
-            <br />
-            <a onClick={() => goTo(step - 2)}>Click here ⬅ to go back.</a>
-          </div>
-        );
-      },
-    },
-    // Step 7: Show modal with expiries
-    {
-      position: 'right',
-      selector: '[step-name="edit-leg-modal"]',
-      content: ({ goTo, inDOM, step }) => {
-        if (state.activeOptionExpiry != undefined && state.activeOptionExpiry.length > 0) {
-          goTo(step);
-        }
-        if (state.addLegModalVisible) {
-          return (
-            <div>
-              Here it is 🎉.
-              Each date displayed is an expiry date for the contracts available for the stock.
-              So what are you waiting for? Pick an expiry.
-              <br />
-              <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
-              <br />
-              <a onClick={() => {
-                this.closeOptionsChainModal();
-                goTo(step - 2);
-              }}
-              >
-                Click here ⬅ to go back.
-              </a>
-            </div>
-          );
-        }
-
-        goTo(step - 2);
-      },
-    },
-    // Step 8: Show selected expiry table
-    {
-      position: 'right',
-      selector: `[step-name="${state.activeOptionExpiry || ' '}"]`,
-      content: ({ goTo, inDOM, step }) => {
-        if (inDOM && state.addLegModalVisible && state.activeOptionExpiry != undefined && state.activeOptionExpiry != '') {
-          return (
-            <div>
-              Yikes 😬. A lot, right?
-              You'll see call options on the left, put options on the right.
-              If you found the green row, that is the at-the-money strike.
-              Use the checkboxes ☑ to add a contract to your strategy. Or 3 contracts. Or 5. Up to you 🤷‍♀️.
-              <br />
-              If you don't know what these words mean 🤔, you should probably go to our help page. We explain stuff in detail there 🤓.
-              <br />
-              <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
-              <br />
-              <a onClick={() => {
-                this.closeOptionsChainModal();
-                goTo(step - 3);
-              }}
-              >
-                Click here ⬅ to go back.
-              </a>
-            </div>
-          );
-        }
-
-        goTo(step - 2);
-      },
-    },
-    // Step 9: Ok button on modal
-    {
-      position: 'right',
-      selector: '[step-name="ok-button-modal"]',
-      content: ({ goTo, inDOM, step }) => {
-        if (state.addLegModalVisible) {
-          if (state.optionsSelected.length > 0) {
-            return (
-              <div>
-                Once you select all the strategies your heart desires, click this ok button 🆗.
-              </div>
-            );
-          }
-
-          goTo(step - 2);
-        } else {
-          goTo(step);
-        }
-      },
-    },
-    // Step 10: Example option leg
-    {
-      position: 'right',
-      selector: '[step-name="example-contract"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          Here's the list of the options you just selected.
-          <br />
-          <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
-          <br />
-          <a onClick={() => goTo(5)}>Click here ⬅ to go back.</a>
-        </div>
-      ),
-    },
-    // Step 11: Option name
-    {
-      position: 'right',
-      selector: '[step-name="contract-name"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          This is the name of the contract.
-          <br />
-          <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
-          <br />
-          <a onClick={() => goTo(step - 2)}>Click here ⬅ to go back.</a>
-        </div>
-      ),
-    },
-    // Step 12: Option long or short
-    {
-      position: 'right',
-      selector: '[step-name="buy-or-write"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          Here you can specify whether this specific option is being written or bought.
-          <br />
-          <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
-          <br />
-          <a onClick={() => goTo(step - 2)}>Click here ⬅ to go back.</a>
-        </div>
-      ),
-    },
-    // Step 13: Option quantity.
-    {
-      position: 'right',
-      selector: '[step-name="option-quantity"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          And here's some more input if you wanna increase the quantity of the specific contract 💸.
-          Maybe you wanna buy 3, 4, 50 contracts. No judgement here 🤐.
-          <br />
-          <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
-          <br />
-          <a onClick={() => goTo(step - 2)}>Click here ⬅ to go back.</a>
-        </div>
-      ),
-    },
-    // Step 14: Option bought at price.
-    {
-      position: 'right',
-      selector: '[step-name="limit-price"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          And another input 😪. This is for specifying the price you paid or got paid for this specific leg.
-          For example, you may have already bought a contract and it didn't go so well 📉.
-          In that case you can type in that you paid a bit more than the price now.
-          <br />
-          <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
-          <br />
-          <a onClick={() => goTo(step - 2)}>Click here ⬅ to go back.</a>
-        </div>
-      ),
-    },
-    // Step 15: Calculate button
-    {
-      position: 'right',
-      selector: '[step-name="calculate-button"]',
-      content: ({ goTo, inDOM, step }) => {
-        if (state.mergedOptions != undefined) {
-          goTo(step);
-        }
-        return (
-          <div>
-            Finally, we get to the big cheese 🧀. Hit this calculate button for the results we've all been waiting for.
-            <br />
-            <a onClick={() => goTo(step - 2)}>Click here ⬅ to go back.</a>
-          </div>
-        );
-      },
-    },
-    // Step 16: Cost of strat card
-    {
-      position: 'right',
-      selector: '[step-name="cost-card"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          Here is the cost of the strategy.
-          <br />
-          <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
-          <br />
-          <a onClick={() => {
-            this.setState(() => ({ mergedOptions: undefined }));
-            goTo(step - 2);
-          }}
-          >
-            Click here ⬅ to go back.
-          </a>
-        </div>
-      ),
-    },
-    // Step 17: Profit graph
-    {
-      position: 'right',
-      selector: '[step-name="profit-graph"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          graf
-          <br />
-          <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
-          <br />
-          <a onClick={() => goTo(step - 2)}>Click here ⬅ to go back.</a>
-        </div>
-      ),
-    },
-    // Step 18: Profit table
-    {
-      position: 'right',
-      selector: '[step-name="profit-table"]',
-      content: ({ goTo, inDOM, step }) => (
-        <div>
-          table
-          <br />
-          <a onClick={() => goTo(step)}>Click here ➡ to continue.</a>
-          <br />
-          <a onClick={() => goTo(step - 2)}>Click here ⬅ to go back.</a>
-        </div>
-      ),
-    },
-  ]
-
 renderCalculateMenu = () => (
   <Menu>
     <Menu.Item key="1">
@@ -954,7 +525,7 @@ render() {
           </div>
         </div>
         <div style={{ width: '43px', display: 'inline-block' }} />
-        <div id="strategyButton"><Button icon="fund" onClick={() => {}}>Strategy</Button></div>
+        <div id="strategyButton"><Button icon="fund" onClick={() => {this.startTutorial()}}>Strategy</Button></div>
         <div style={{ width: '43px', display: 'inline-block' }} />
         <div id="calculateButton" step-name="calculate-button">
           <ButtonGroup>
@@ -998,7 +569,7 @@ render() {
       }
       </div>
       <Tour
-        steps={this.tutorialSteps(this.state)}
+        steps={tutorialSteps(this.state, this)}
         showNavigation={false}
         showNumber={false}
         showButtons={false}
