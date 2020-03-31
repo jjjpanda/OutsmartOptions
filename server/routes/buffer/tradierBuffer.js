@@ -294,7 +294,7 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
               [`${option.option_type}OI`]: option.open_interest,
               [`${option.option_type}Symbol`]: option.symbol,
               [`${option.option_type}IV`]: iv,
-              [`${option.option_type}Greeks`]: option.greeks,
+              //[`${option.option_type}Greeks`]: option.greeks,
               key: expiration + option.strike,
             });
           } else {
@@ -306,7 +306,7 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
             found[`${option.option_type}OI`] = option.open_interest;
             found[`${option.option_type}Symbol`] = option.symbol;
             found[`${option.option_type}IV`] = iv;
-            found[`${option.option_type}Greeks`] = option.greeks;
+            //found[`${option.option_type}Greeks`] = option.greeks;
           }
         }
 
@@ -324,7 +324,26 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
         const putVolStd = outliers.getSD(putDist);
         
         newData.map((y, index) => {
-          y.atmNess = newData[index + 1] != undefined ? ((newData[index].strike <= underlying && newData[index + 1].strike > underlying) ? 'atmStrike' : '') : '';
+
+          y.moneyness = y.strike/underlying
+
+          if(newData[index+1] == undefined){
+            y.atm = false
+          }
+          else{
+            if(Math.abs(Math.log10(newData[index+1].strike/underlying)) < Math.abs(Math.log10(y.moneyness))){
+              y.atm = false;
+            }
+            else{
+              if(newData[index -1 ] != undefined && Math.abs(Math.log10(newData[index-1].moneyness)) >= Math.abs(Math.log10(y.moneyness))){
+                y.atm = true
+              }
+              else{
+                y.atm = false
+              }
+            }
+          }
+
           y.callOutlier = outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd);
           y.putOutlier = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd);
           return y;
