@@ -75,29 +75,34 @@ class Watchlist extends React.Component {
             this.setState(() => ({ watchlist: data.list, dataSource: data.list.map((stock) => ({ ticker: stock })) }), () => {
               for (const stock of this.state.watchlist) {
                 request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: stock }), (data) => {
-                  data = data.quote
-                  this.setState((state) => {
-                    const i = state.dataSource.findIndex((e) => e.ticker == stock);
-                    state.dataSource[i].price = data.price;
-                    state.dataSource[i].change = data.change;
-                    state.dataSource[i].name = data.name;
-                    return { dataSource: state.dataSource };
-                  });
+                  if(!data.error && data.quote != undefined){
+                    data = data.quote
+                    this.setState((state) => {
+                      const i = state.dataSource.findIndex((e) => e.ticker == stock);
+                      state.dataSource[i].price = data.price;
+                      state.dataSource[i].change = data.change;
+                      state.dataSource[i].name = data.name;
+                      return { dataSource: state.dataSource };
+                    });
+                  }
                 });
                 request.postFetchReq('/api/market/optionsQuote', JSON.stringify({ ticker: stock }), (data) => {
-                  data = data.optionsQuote
-                  this.setState((state) => {
-                    const i = state.dataSource.findIndex((e) => e.ticker == stock);
-                    state.dataSource[i].callIV = data.callIV;
-                    state.dataSource[i].callVol = data.callVol;
-                    state.dataSource[i].callOI = data.callOI;
-                    state.dataSource[i].putIV = data.putIV;
-                    state.dataSource[i].putVol = data.putVol;
-                    state.dataSource[i].putOI = data.putOI;
-                    state.dataSource[i].pcRatioOI = data.pcRatioOI;
-                    state.dataSource[i].pcRatioVol = data.pcRatioVol;
-                    return { dataSource: state.dataSource };
-                  });
+                  if(!data.error && data.optionsQuote != undefined){
+                    this.setState((state) => {
+                      data = data.optionsQuote
+                      const i = state.dataSource.findIndex((e) => e.ticker == stock);
+                      state.dataSource[i].callIV = data.callIV;
+                      state.dataSource[i].callVol = data.callVol;
+                      state.dataSource[i].callOI = data.callOI;
+                      state.dataSource[i].putIV = data.putIV;
+                      state.dataSource[i].putVol = data.putVol;
+                      state.dataSource[i].putOI = data.putOI;
+                      state.dataSource[i].pcRatioOI = data.pcRatioOI;
+                      state.dataSource[i].pcRatioVol = data.pcRatioVol;
+                      return { dataSource: state.dataSource };
+                    });
+                  }
+                  
                 });
               }
             });
