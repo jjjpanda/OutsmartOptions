@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
+const ErrorOverlayPlugin = require('error-overlay-webpack-plugin')
 
 const options = {
   antDir: path.join(__dirname, './node_modules/antd'),
@@ -106,6 +107,8 @@ module.exports = {
       chunks : ['app'],
       filename: 'app.html'
     }),
-    new AntDesignThemePlugin(options)
-  ]
+    new AntDesignThemePlugin(options),
+    new ErrorOverlayPlugin()
+  ],
+  devtool: 'cheap-module-source-map', 
 }
