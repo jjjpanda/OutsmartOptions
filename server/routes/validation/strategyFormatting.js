@@ -2,7 +2,10 @@ const Option = require('../../daemons/models/Option.js')
 module.exports = {
 
   strategyFormatCheck(req, res, next) {
-    if (!(req.body.legs instanceof Array)) {
+    if(req.body.legs == undefined){
+      res.status(400).json({ error: true, details: "Validation Error from strategyFormatCheck in strategyFormatCheck", errors: 'Badly Formatted Strategies, Nonexistent' });
+    }
+    else if (!(req.body.legs instanceof Array)) {
       res.status(400).json({ error: true, details: "Validation Error from strategyFormatCheck in strategyFormatCheck", errors: 'Badly Formatted Strategies, Not Array' });
     }
     else{

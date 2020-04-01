@@ -8,10 +8,10 @@ module.exports = (req, res, next) => {
   if (id != undefined && req.header('authorization') != undefined && req.header('authorization').split(' ')[0] == 'Bearer') {
     jwt.verify(req.header('authorization').split(' ')[1], secretOrKey + req.body.id, (err, decoded) => {
       if (err) {
-        res.status(401).send({ unauthorized: true });
+        res.status(401).send({ error: true, unauthorized: true });
       } else {
         next();
       }
     });
-  } else res.status(401).send({ unauthorized: true });
+  } else res.status(401).send({ error: true, unauthorized: true });
 };

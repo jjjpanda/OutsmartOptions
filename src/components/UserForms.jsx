@@ -51,7 +51,8 @@ class LoginModal extends React.Component {
           // console.log('Received values of form: ', values);
 
           request.postFetchReq('/api/users/login', JSON.stringify({ email: values.email, password: values.password }), (data) => {
-            if (data.success) {
+            if (!data.error && data.login != undefined && data.login.success) {
+              data = data.login
               this.setState(() => ({
                 visible: false,
                 confirmLoading: false,
@@ -164,7 +165,7 @@ class RegisterModal extends React.Component {
           request.postFetchReq('/api/users/register', JSON.stringify({
             name: values.userName, email: values.email, password: values.password, password2: values.password2,
           }), (data) => {
-            if (data._id != undefined) {
+            if (!data.error && data.registered != undefined) {
               this.setState(() => ({
                 visible: false,
                 confirmLoading: false,

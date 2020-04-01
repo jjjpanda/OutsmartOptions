@@ -5,7 +5,7 @@ module.exports = {
     loadStrategy(req, res, next){
         User.findById(req.body.id).then((user) => {
             if (user) {
-              if (req.body.ticker != undefined) {
+              if (req.body.ticker != undefined && req.body.ticker != "") {
                 Strategy.find({ user, ticker: req.body.ticker }).then((strategies) => {
                   if (strategies) {
                     res.json({ strategies: strategies.map(strat => { return {ticker: strat.ticker, legs: strat.legs} }) });

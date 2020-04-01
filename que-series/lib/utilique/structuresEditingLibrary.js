@@ -38,6 +38,19 @@ export function dataURItoBlob(dataURI) {
   return blob;
 }
 
+export function strategiesExtraction(strategies){
+  let formattedStrategies = {}
+  for(let strat of strategies){
+    if(formattedStrategies[strat.ticker] == undefined){
+      formattedStrategies[strat.ticker] = [strat.legs]
+    }
+    else{
+      formattedStrategies[strat.ticker].push(strat.legs)
+    }
+  }
+  return formattedStrategies
+}
+
 export function dataToGraphConversion(data) {
   const dataConverted = [];
 
