@@ -30,6 +30,7 @@ import { StrategyInfo } from '../components/StrategyInfo.jsx';
 import SpinningLogo from '../components/SpinningLogo.jsx';
 import StockSymbol from '../components/StockSymbol.jsx';
 import StockCalendar from '../components/StockCalendar.jsx';
+import StrategySelector from '../components/StrategySelector.jsx'
 import OptionsLeg from '../components/OptionsLeg.jsx';
 import verifyUser from '../components/UserVerifier.jsx';
 
@@ -385,30 +386,6 @@ class OptionsCalculator extends React.Component {
     },
   ]
 
-  saveStrategy = () => {
-    if (this.state.symbol != '' && this.state.optionsSelected.length > 0) {
-      if (Cookie.get(this.state.symbol.toUpperCase()) != undefined) {
-        Cookie.set(this.state.symbol.toUpperCase(),
-          [...Cookie.get(this.state.symbol.toUpperCase()), this.state.optionsSelected]);
-      } else {
-        Cookie.set(this.state.symbol.toUpperCase(),
-          [this.state.optionsSelected]);
-      }
-    }
-
-    if (this.state.loggedIn) {
-      request.postFetchReqAuth('/api/strategy/save', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id'), ticker: this.state.symbol, strategy: this.state.optionsSelected }), (data) => {
-        console.log(data);
-      });
-    } else {
-      // Not Logged in, reroute the uesr to login
-    }
-  }
-
-  loadStrategy = () => {
-    console.log(Cookie.get());
-  }
-
   startTutorial = () => {
     // introJs('.intro').start();
     this.setState(() => ({ isTourOpen: true }));
@@ -525,7 +502,7 @@ render() {
           </div>
         </div>
         <div style={{ width: '43px', display: 'inline-block' }} />
-        <div id="strategyButton"><Button icon="fund" onClick={() => {this.startTutorial()}}>Strategy</Button></div>
+        <div id="strategyButton"><Button icon="fund" onClick={() => {}}>Strategy</Button></div>
         <div style={{ width: '43px', display: 'inline-block' }} />
         <div id="calculateButton" step-name="calculate-button">
           <ButtonGroup>
@@ -540,8 +517,7 @@ render() {
         >
           {this.renderCalculateMenu()}
         </Modal>
-        <div id="saveButton"><Button shape="circle" icon="save" onClick={this.saveStrategy} /></div>
-        <div id="savedStrategyButton"><Button shape="circle" icon="download" onClick={this.loadStrategy} /></div>
+        <div id="strategyButtons"><StrategySelector symbol={this.state.symbol} optionsSelected={this.state.optionsSelected} /></div>
       </div>
       <br />
       <div>

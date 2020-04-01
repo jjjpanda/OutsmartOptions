@@ -158,6 +158,7 @@ Here's your route file: [market.js](routes/market.js).
 [strategy.js](routes/strategy.js)
 
 1. Request Validation Files
+    - [validateBody.js](routes/validation/validateBody.js)
     - [authorizeUser.js](routes/validation/authorizeUser.js)
     - [marketDataRequestValidation.js](routes/validation/marketDataRequestValidation.js)
     - [strategyFormatting.js](routes/validation/strategyFormatting.js)
