@@ -685,7 +685,7 @@ export function calculateProfits(price, percentInterval, numberIntervals, option
   let d = moment();
   while (moment(option.date).diff(d, 'hours') > 0) {
     profit.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
-    for (var price of profit[profit.length - 1][1]) {
+    for (let price of profit[profit.length - 1][1]) {
       price[1] = calculateOptionsPrice(moment(option.date).diff(d, 'hours') / (365*24), price[0], option.strike, option.isCall, option.isLong, rfir, divYield, option.iv);
       price[1] -= option.limitPrice * (option.isLong ? 1 : -1);
       price[1] *= option.hide ? 0 : option.quantity;
@@ -695,7 +695,7 @@ export function calculateProfits(price, percentInterval, numberIntervals, option
 
   // PROFIT AT EXPIRY
   profit.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
-  for (price of profit[profit.length - 1][1]) {
+  for (let price of profit[profit.length - 1][1]) {
     price[1] = calculateProfitAtExpiry(option.limitPrice, price[0], option.strike, option.isCall, option.isLong);
     price[1] *= option.hide ? 0 : option.quantity;
   }
@@ -709,8 +709,8 @@ export function mergeProfits (price, percentInterval, numberIntervals, optionsPr
   const rangeOfPrices = getRangeOfPrices(price, percentInterval, numberIntervals, 0);
   while (moment(expiry).diff(d, 'hours') > -23) {
     profitMap.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
-    for (const price of profitMap[profitMap.length - 1][1]) {
-      for (const profitSet of optionsProfits) {
+    for (let price of profitMap[profitMap.length - 1][1]) {
+      for (let profitSet of optionsProfits) {
         //console.log(structure.mapToObject(profitSet));
         //console.log(d.format('YYYY-MM-DD'));
         price[1] += structure.mapToObject(structure.mapToObject(profitSet)[d.format('YYYY-MM-DD')])[price[0]];
@@ -724,9 +724,9 @@ export function mergeProfits (price, percentInterval, numberIntervals, optionsPr
 export function percentProfit(profit, limitPrice){
 
   let percentProfit = [];
-  for (const day of profit) {
+  for (let day of profit) {
     percentProfit.push([day[0], []]);
-    for (const price of day[1]) {
+    for (let price of day[1]) {
       percentProfit[percentProfit.length - 1][1].push(
         [
           parseFloat((price[0]).toFixed(2)),
