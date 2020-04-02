@@ -82,7 +82,7 @@ class OptionsCalculator extends React.Component {
     this.stockSymbol = React.createRef()
   }
 
-  updateSearchResults = (state) => {
+  updateSearchResults = (state, callback) => {
     console.log(state)
     this.setState(() => ({
       symbol: state.symbol,
@@ -93,7 +93,11 @@ class OptionsCalculator extends React.Component {
       divYield: state.divYield,
       optionsSelected: [],
       earningsDate: state.earningsDate,
-    }));
+    }), () => {
+      if(callback != undefined) {
+        callback()
+      }
+    });
   }
 
   handleChange = (e) => {
