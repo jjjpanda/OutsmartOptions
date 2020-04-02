@@ -9,6 +9,7 @@ const StratSchema = new Schema({
   },
   ticker: String,
   key: String,
+  name: String,
   legs: [{
     date: String,
     strike: Number,

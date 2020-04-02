@@ -11,8 +11,8 @@ const strategyBuffer = require('./buffer/strategyBuffer.js')
 
 router.post('/load', validateBody, auth, strategyBuffer.loadStrategy)
 
-router.post('/save', validateBody, auth, marketDataValidation.validateTicker, strategyFormatting.strategyFormatCheck, strategyFormatting.strategySorting, strategyBuffer.saveStrategy)
+router.post('/save', validateBody, auth, marketDataValidation.validateTicker, strategyFormatting.strategyFormatCheck, strategyFormatting.strategyNameCheck, strategyFormatting.strategySorting, strategyBuffer.saveStrategy)
 
-router.post('/delete', validateBody, auth, marketDataValidation.validateTicker, strategyFormatting.strategyFormatCheck, strategyFormatting.strategySorting, strategyBuffer.deleteStrategy)
+router.post('/delete', validateBody, auth, marketDataValidation.validateTicker, strategyFormatting.strategyFormatCheck, strategyFormatting.strategyNameCheck, strategyFormatting.strategySorting, strategyBuffer.deleteStrategy)
 
 module.exports = router;

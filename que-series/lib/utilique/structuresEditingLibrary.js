@@ -38,14 +38,18 @@ export function dataURItoBlob(dataURI) {
   return blob;
 }
 
-export function strategiesExtraction(strategies){
+export function strategiesClumpByStock(strategiesUnsorted){
+  let strategies = strategiesUnsorted.sort((a,b) => {
+    return a.ticker > b.ticker
+  })
+
   let formattedStrategies = {}
   for(let strat of strategies){
     if(formattedStrategies[strat.ticker] == undefined){
-      formattedStrategies[strat.ticker] = [strat.legs]
+      formattedStrategies[strat.ticker] = [{legs: strat.legs, name: strat.name}]
     }
     else{
-      formattedStrategies[strat.ticker].push(strat.legs)
+      formattedStrategies[strat.ticker].push({legs: strat.legs, name: strat.name})
     }
   }
   return formattedStrategies

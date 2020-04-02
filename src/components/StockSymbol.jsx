@@ -6,6 +6,7 @@ import {
   AutoComplete,
   Button,
   Spin,
+  Progress
 } from 'antd';
 
 import Cookie from 'js-cookie';
@@ -40,6 +41,7 @@ class StockSymbol extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      progress: 0,
       symbol: '',
       description: '',
       exists: true,
@@ -93,7 +95,8 @@ class StockSymbol extends React.Component {
         inWatchlist: false, 
         earningsDate: '', 
         historicalIV: '', 
-        divYield: ''
+        divYield: '',
+        progress: 0
       }));
       const e = val.toUpperCase().trim();
 
@@ -117,16 +120,17 @@ class StockSymbol extends React.Component {
             description: quote.name, 
             earningsDate: quote.earningsDate,
             divYield: quote.divYield,
-            optionsChain: [['Empty', {}]] 
+            optionsChain: [['Empty', {}]], 
+            progress: 25 
           }), () => {
             request.postFetchReq('/api/market/historical', JSON.stringify({ ticker: e }), (data) => {
-              this.setState(() => ({ historical: data.historical }), () => {
+              this.setState(() => ({ historical: data.historical, progress: 50 }), () => {
                 console.log(this.state);
                 request.postFetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
-                  this.setState(() => ({ optionsChain: data.chain }), () => {
+                  this.setState(() => ({ optionsChain: data.chain, progress: 75 }), () => {
                       request.postFetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
                         let iv = data.historicalIV
-                        this.setState(() => ({ historicalIV: iv, loading: false }), () => {
+                        this.setState(() => ({ historicalIV: iv, loading: false, progress: 100 }), () => {
                           this.props.updateCallback(this.state); 
                         });
                       });
@@ -203,6 +207,7 @@ class StockSymbol extends React.Component {
               <Card>
                 {this.state.description != null ? `${this.state.description} ${(this.state.optionsChain[0] != undefined ? '' : 'has no options chain')}` : "Stock Doesn't Exist"}
                 {this.state.loading ? <SpinningLogo /> : null}
+                {this.state.loading ? <Progress percent={this.state.progress} status={"active"} /> : null}
               </Card>
             </div>
             <div style={{ width: '600px' }} />
