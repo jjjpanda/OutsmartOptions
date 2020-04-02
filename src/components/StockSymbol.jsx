@@ -132,10 +132,7 @@ class StockSymbol extends React.Component {
                       request.postFetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
                         let iv = data.historicalIV
                         this.setState(() => ({ historicalIV: iv, loading: false, progress: 100 }), () => {
-                          this.props.updateCallback(this.state); 
-                          if(callback != undefined) {
-                            callback()
-                          }
+                          this.props.updateCallback(this.state, callback);    
                         });
                       });
                     }
