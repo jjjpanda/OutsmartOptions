@@ -1,75 +1,31 @@
 
-@font-face {
-    font-family: "Galyon-Italic";
-    src: url("./fonts/Galyon-Italic.eot"); /* IE9 Compat Modes */
-    src: url("./fonts/Galyon-Italic.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-      url("./fonts/Galyon-Italic.otf") format("opentype"), /* Open Type Font */
-      url("./fonts/Galyon-Italic.svg") format("svg"), /* Legacy iOS */
-      url("./fonts/Galyon-Italic.ttf") format("truetype"), /* Safari, Android, iOS */
-      url("./fonts/Galyon-Italic.woff") format("woff"), /* Modern Browsers */
-      url("./fonts/Galyon-Italic.woff2") format("woff2"); /* Modern Browsers */
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "Galyon-Bold";
-    src: url("./fonts/Galyon-Bold.eot"); /* IE9 Compat Modes */
-    src: url("./fonts/Galyon-Bold.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-      url("./fonts/Galyon-Bold.otf") format("opentype"), /* Open Type Font */
-      url("./fonts/Galyon-Bold.svg") format("svg"), /* Legacy iOS */
-      url("./fonts/Galyon-Bold.ttf") format("truetype"), /* Safari, Android, iOS */
-      url("./fonts/Galyon-Bold.woff") format("woff"), /* Modern Browsers */
-      url("./fonts/Galyon-Bold.woff2") format("woff2"); /* Modern Browsers */
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: "Galyon-Regular";
-    src: url("./fonts/Galyon-Regular.eot"); /* IE9 Compat Modes */
-    src: url("./fonts/Galyon-Regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-      url("./fonts/Galyon-Regular.otf") format("opentype"), /* Open Type Font */
-      url("./fonts/Galyon-Regular.svg") format("svg"), /* Legacy iOS */
-      url("./fonts/Galyon-Regular.ttf") format("truetype"), /* Safari, Android, iOS */
-      url("./fonts/Galyon-Regular.woff") format("woff"), /* Modern Browsers */
-      url("./fonts/Galyon-Regular.woff2") format("woff2"); /* Modern Browsers */
-    font-weight: normal;
-    font-style: normal;
-}
-
 .aStyle{
     font-Size: 45px;
     font-Weight: 'bold';
-    font-family: "Galyon-Regular";
 }
 .bStyle{
     margin-Left: 200;
     margin-Right: 200;
     font-Size: 20px;
-    font-family: "Galyon-Regular";
 }
 .cStyle{
     margin-Left: 50;
     margin-Right: 400;
     font-Size: 17px;
-    font-family: "Galyon-Regular";
 }
 .dStyle{
     margin-Left: 50;
     font-Size: 20px;
     font-Weight: 600;
-    font-family: "Galyon-Regular";
 }
 .eStyle{
     font-Size: 20px;
     font-Weight: 600;
-    font-family: "Galyon-Regular"; 
+
 }
 .fStyle{
     font-size: 17px;
     font-Weight: 100;
-    font-family: "Galyon-Regular";
 }
 #mission{
     margin: 0% 5%;
