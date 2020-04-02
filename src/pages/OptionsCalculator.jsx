@@ -79,6 +79,7 @@ class OptionsCalculator extends React.Component {
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }));
     });
+    this.stockSymbol = React.createRef()
   }
 
   updateSearchResults = (state) => {
@@ -186,10 +187,10 @@ class OptionsCalculator extends React.Component {
     });
   }
 
-  addOption = (isCall, strike, price, date, iv, symbol) => {
+  addOption = (isCall, isLong, strike, price, date, iv, symbol) => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected, {
-        key: symbol, isCall, date, strike, price, iv, symbol,
+        key: symbol, isCall, isLong, date, strike, price, iv, symbol
       }],
     }), () => this.resortOptionsSelected(symbol));
   }
@@ -198,11 +199,21 @@ class OptionsCalculator extends React.Component {
     this.setState((state) => ({ optionsSelected: state.optionsSelected.filter((e) => !(e.key == symbol)) }), () => this.resortOptionsSelected(symbol));
   }
 
-  onHandleOptionLegChange = (needToAdd, isCall, strike, price, date, iv, symbol) => {
+  loadInOptionsSelected = (legs) => {
+    
+    for(let leg of legs){
+      const rfir = treasury.getRightYield(yields || [], moment(leg.date).diff(moment(), 'days')) / 100;
+      const iv = optionsMath.calculateIV(moment(leg.date).diff(moment(), 'hours')/(365*24), leg.price, this.state.price, leg.strike, leg.isCall, rfir, this.state.divYield)
+      this.onHandleOptionLegChange(true, leg.isCall, leg.isLong, leg.strike, leg.price, leg.date, iv, leg.symbol)
+    }
+
+  }
+
+  onHandleOptionLegChange = (needToAdd, isCall, isLong, strike, price, date, iv, symbol) => {
     // console.log(needToAdd)
     // console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
     if (needToAdd) {
-      this.addOption(isCall, strike, price, date, iv, symbol);
+      this.addOption(isCall, isLong, strike, price, date, iv, symbol);
       this.setState((state) => ({ editLegLoading: [...state.editLegLoading, symbol] }), () => console.log(this.state.editLegLoading));
     } else {
       this.deleteOption(symbol);
@@ -224,18 +235,6 @@ class OptionsCalculator extends React.Component {
       profitGraphData: structure.dataToGraphConversion(state.optionsSelected.map((option) => ({ profit: option.profit, key: option.key }))),
     }),
     () => console.log(this.state));
-  }
-
-  legAddition = (data, dates, legs) => {
-    for (const date of dates) {
-      for (const point of data) {
-        point[date] = 0;
-        for (const leg of legs) {
-          point[date] += point[`${leg}a${date}`];
-        }
-      }
-    }
-    return data;
   }
 
   columnCreation = (data) => {
@@ -332,9 +331,7 @@ class OptionsCalculator extends React.Component {
               {})),
         }),
         (data) => {
-          console.log('Report Sent');
           this.setState(() => ({ reportLoading: false }));
-          console.log(data);
         });
     });
   }
@@ -344,7 +341,7 @@ class OptionsCalculator extends React.Component {
       title: '',
       dataIndex: 'callAction',
       width: '10%',
-      render: (text, row) => (this.state.editLegLoading.includes(row.callSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.callIV)} checked={this.state.optionsSelected.some((option) => option.key === row.callSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, true, row.strike, row.call, expiry, row.callIV, row.callSymbol); }} />),
+      render: (text, row) => (this.state.editLegLoading.includes(row.callSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.callIV)} checked={this.state.optionsSelected.some((option) => option.key === row.callSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, true, true, row.strike, row.call, expiry, row.callIV, row.callSymbol); }} />),
     },
     {
       title: 'Call',
@@ -382,7 +379,7 @@ class OptionsCalculator extends React.Component {
     {
       title: '',
       dataIndex: 'putAction',
-      render: (text, row) => (this.state.editLegLoading.includes(row.putSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.putIV)} checked={this.state.optionsSelected.some((option) => option.key === row.putSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, false, row.strike, row.put, expiry, row.putIV, row.putSymbol); }} />),
+      render: (text, row) => (this.state.editLegLoading.includes(row.putSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.putIV)} checked={this.state.optionsSelected.some((option) => option.key === row.putSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, false, true, row.strike, row.put, expiry, row.putIV, row.putSymbol); }} />),
     },
   ]
 
@@ -438,7 +435,7 @@ render() {
       <div style={{ width: '60px', paddingBottom: '20px' }} />
       <div style={{ width: '60px', display: 'inline-block' }} />
       <h1 key="mainTitle" step-name="title" style={{ width: '135px', display: 'inline-block' }}>Outsmart Options</h1>
-      <StockSymbol updateCallback={this.updateSearchResults} yieldCurve={yields} options historical={false} />
+      <StockSymbol ref={this.stockSymbol} updateCallback={this.updateSearchResults} yieldCurve={yields} options historical={false} />
 
       <hr id="hr" align="left" />
 
@@ -517,7 +514,7 @@ render() {
         >
           {this.renderCalculateMenu()}
         </Modal>
-        <div id="strategyButtons"><StrategySelector symbol={this.state.symbol} optionsSelected={this.state.optionsSelected} /></div>
+        <div id="strategyButtons"><StrategySelector loadInOptionsSelected={this.loadInOptionsSelected} forceSearch={(symbol, callback) => {this.stockSymbol.current.onSearch(symbol, undefined, callback)}} symbol={this.state.symbol} optionsSelected={this.state.optionsSelected} /></div>
       </div>
       <br />
       <div>
@@ -530,7 +527,7 @@ render() {
               </div>
 
               <div className="profitGraphWrapper" step-name="profit-graph">
-                <ProfitGraph data={this.state.profitGraphData} legAddition={this.legAddition} keys={Object.keys(this.state.profitGraphData[0]).filter((o) => o != 'x')} />
+                <ProfitGraph data={this.state.profitGraphData} keys={Object.keys(this.state.profitGraphData[0]).filter((o) => o != 'x')} />
               </div>
 
               <hr id="hr2" />
@@ -539,6 +536,14 @@ render() {
                 <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
               </div>
               <Button onClick={this.sendCalcError} loading={this.state.reportLoading}>Report Calculation Error</Button>
+              <Modal
+                visible={this.state.reportLoading}
+                closable={false}
+                maskClosable={false}
+                footer = {null}
+              >
+                <SpinningLogo />
+              </Modal>
             </div>
           )
           : null

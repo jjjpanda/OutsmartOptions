@@ -36,8 +36,21 @@ class StrategySelector extends React.Component{
         });
     }
 
+    loadStrategyIntoState = (strat, symbol) => {
+        if(this.props.symbol.length > 0){
+            this.props.loadInOptionsSelected(strat.legs) 
+            this.closeModal()
+        }
+        else{
+            this.props.forceSearch(symbol, () => {
+                this.props.loadInOptionsSelected(strat.legs)
+                this.closeModal()
+            })
+        }
+    }
+
     loadStrategy = () => {
-        this.setState(() => ({loading: true, modalVisible: false}))
+        this.openModal()
         //
         request.postFetchReqAuth('/api/strategy/load', Cookie.get('token'), JSON.stringify({ticker: this.props.symbol != undefined ? this.props.symbol: "", id: Cookie.get('id')}), (data) => {
             console.log(data)
@@ -75,20 +88,13 @@ class StrategySelector extends React.Component{
         }
     }
 
-    handleOk = () => {
-
-    }
-
-    handleCancel = () => {
-        this.setState(() => ({modalVisible: false}))
-    }
 
     renderCards = (stockStrats, symbol) => {
         return stockStrats.map((strat) => (
             <List
                 header={<div>
                     {strat.name}
-                    <Button shape="circle" icon="right" onClick= {() => {}} />
+                    <Button shape="circle" icon="right" onClick= {() => {this.loadStrategyIntoState(strat, symbol)}} />
                     <Button shape="circle" icon="delete" onClick={() => {this.deleteStrategy(strat.legs, strat.name, symbol)}} />
                 </div>}
                 bordered
@@ -110,6 +116,16 @@ class StrategySelector extends React.Component{
         ))
     }
 
+    openModal = () => {
+        this.setState(() => ({loading: true, modalVisible: false}))
+    }
+
+    closeModal = () => {
+        this.setState(() => ({  
+            modalVisible: false
+        }))
+    }
+
     render(){
         return (
             <div>
@@ -120,6 +136,8 @@ class StrategySelector extends React.Component{
                     visible={this.state.modalVisible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
+                    closable={false}
+                    footer = {<Button onClick={this.closeModal}>Close</Button>}
                 >
                     <Tabs tabPosition={'left'}>
                         {this.renderTabs()}
