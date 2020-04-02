@@ -120,7 +120,7 @@ class SideMenu extends React.Component {
               <Icon type="tool" theme="filled" />
             </Menu.Item>
 
-            <Menu.Item key="/checkout" onClick={() => this.checkout()}>
+            <Menu.Item key="/checkout" onClick={() => {}}>
               <Icon type="dollar" />
               <Link to="/checkout">Checkout</Link>
             </Menu.Item>

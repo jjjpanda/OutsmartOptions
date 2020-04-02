@@ -169,9 +169,9 @@ Here's your route file: [market.js](routes/market.js).
 
 |Type|Route|Description|Parameters|Returns|
 | :-|:- |:-:|:-:|:-:|
-|POST |/load     |See all your saved strats. |`{ header: { authorization: String }, body: { id: String, ticker: "" } }`|`{ strategies: [ { ticker: String, legs: [ Option... ] }... ] }`|
-|POST |/save     |Save a strategy.           |`{ header: { authorization: String }, body: { id: String, ticker: String, legs: [ Option... ] } }`|`{ saved: Boolean }`|
-|POST |/delete   |Delete a strategy.         |`{ header: { authorization: String }, body: { id: String, ticker: String, legs: [ Option... ] } }`|`{ deleted: Boolean }`|
+|POST |/load     |See all your saved strats. |`{ header: { authorization: String }, body: { id: String, ticker: "" } }`|`{ strategies: [ { name: String, ticker: String, legs: [ Option... ] }... ] }`|
+|POST |/save     |Save a strategy.           |`{ header: { authorization: String }, body: { id: String, name: String, ticker: String, legs: [ Option... ] } }`|`{ saved: Boolean }`|
+|POST |/delete   |Delete a strategy.         |`{ header: { authorization: String }, body: { id: String, name: String, ticker: String, legs: [ Option... ] } }`|`{ deleted: Boolean }`|
 
 
 ### /dev/
@@ -206,6 +206,7 @@ The [database folder](daemons/models), holds the models and objects that are use
 3. [Strategy](daemons/models/Strategy.js)
     - **user**: User
     - **ticker**: String
+    - **name**: String
     - **key**: String
     - **legs**: Array of Options
 4. [Earnings](daemons/models/Earnings.js)

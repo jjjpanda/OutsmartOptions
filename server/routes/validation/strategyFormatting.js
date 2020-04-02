@@ -31,6 +31,15 @@ module.exports = {
   strategySorting(req, res, next){
     req.body.legs = req.body.legs.sort((a, b) => {return Option.compare(a, b)})
     next()
+  },
+
+  strategyNameCheck(req, res, next){
+    if(req.body.name != undefined && req.body.name.length >= 0){
+      next()
+    }
+    else{
+      res.status(400).json({ error: true, details: "Validation Error, no Name" })
+    }
   }
 
 };

@@ -359,7 +359,7 @@ class OptionsCalculator extends React.Component {
     {
       title: 'Call IV',
       dataIndex: 'callIV',
-      render: (text) => (<div>{isNaN(text) ? '-' : text.toFixed(2)}</div>),
+      render: (text) => (<div>{isNaN(text) || text === null ? '-' : text.toFixed(2)}</div>),
     },
     {
       title: 'Strike',
@@ -377,7 +377,7 @@ class OptionsCalculator extends React.Component {
     {
       title: 'Put IV',
       dataIndex: 'putIV',
-      render: (text) => (<div>{isNaN(text) ? '-' : text.toFixed(2)}</div>),
+      render: (text) => (<div>{isNaN(text) || text === null ? '-' : text.toFixed(2)}</div>),
     },
     {
       title: '',

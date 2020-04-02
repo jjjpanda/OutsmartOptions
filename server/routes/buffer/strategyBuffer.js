@@ -8,7 +8,7 @@ module.exports = {
               if (req.body.ticker != undefined && req.body.ticker != "") {
                 Strategy.find({ user, ticker: req.body.ticker }).then((strategies) => {
                   if (strategies) {
-                    res.json({ strategies: strategies.map(strat => { return {ticker: strat.ticker, legs: strat.legs} }) });
+                    res.json({ strategies: strategies.map(strat => { return {ticker: strat.ticker, legs: strat.legs, name: strat.name} }) });
                   } else {
                     res.json({ strategies: [] });
                   }
@@ -16,7 +16,7 @@ module.exports = {
               } else {
                 Strategy.find({ user }).then((strategies) => {
                   if (strategies) {
-                    res.json({ strategies: strategies.map(strat => { return {ticker: strat.ticker, legs: strat.legs} }) });
+                    res.json({ strategies: strategies.map(strat => { return {ticker: strat.ticker, legs: strat.legs, name: strat.name} }) });
                   } else {
                     res.json({ strategies: [] });
                   }
@@ -35,7 +35,7 @@ module.exports = {
                 if (strategy) {
                     res.status(400).json({ error: true, details: "Buffer Error from saveStrategy in strategyBuffer", errors: 'Strategy already exists' });
                 } else {
-                    const newStrat = new Strategy({ user, ticker: req.body.ticker, legs: req.body.legs, key: req.body.legs.reduce((key, leg) => key + `${leg.symbol}${leg.quantity}${leg.isLong ? "LONG" : "SHORT"}`, "") });
+                    const newStrat = new Strategy({ user, ticker: req.body.ticker, legs: req.body.legs, name: req.body.name, key: req.body.legs.reduce((key, leg) => key + `${leg.symbol}${leg.quantity}${leg.isLong ? "LONG" : "SHORT"}`, "") });
                     newStrat.save().then(() => {
                         res.json({ saved: true });
                     });
@@ -50,7 +50,7 @@ module.exports = {
     deleteStrategy(req, res) {
         User.findById(req.body.id).then((user) => {
           if (user) {
-            Strategy.deleteOne({ user, ticker: req.body.ticker, key: req.body.legs.reduce((key, leg) => key + `${leg.symbol}${leg.quantity}${leg.isLong ? "LONG" : "SHORT"}`, "") }).then((e) => {
+            Strategy.deleteOne({ user, ticker: req.body.ticker, name: req.body.name, key: req.body.legs.reduce((key, leg) => key + `${leg.symbol}${leg.quantity}${leg.isLong ? "LONG" : "SHORT"}`, "") }).then((e) => {
               if (e.deletedCount == 1) {
                 res.json({ deleted: true });
               } else {

@@ -148,10 +148,12 @@ describe('Consecutive Tests', () => {
     const Option2 = new Option("2000-01-01", 105, 2, true, false, 1, "A000101C00010500")
     const Option3 = {date: "2000-01-01", strike: 100, price: 0.5, isCall: false, isLong: true, quantity: 2, symbol: "A000101P00010000"}
 
+    const stratName = "The Best Strat"
+
     describe('/save', () => {
       it('tests /save', async (done) => {
         request(app).post('/api/strategy/save')
-          .send({ id, ticker: underlyingTicker, legs: [
+          .send({ id, ticker: underlyingTicker, name: stratName, legs: [
             Option1, // Array of Options should pass
             Option2, 
             Option3  // Or Object imitating Option
@@ -186,6 +188,7 @@ describe('Consecutive Tests', () => {
           .expect('Content-Type', /json/)
           .expect(200)
           .then((response) => {
+            expect(response.body.strategies[0].name).toBe(stratName)
             expect(response.body.strategies[0].legs[0]).toMatchObject(Option2);
             expect(response.body.strategies[0].legs[1]).toMatchObject(Option3);
             expect(response.body.strategies[0].legs[2]).toMatchObject(Option1);
@@ -197,7 +200,7 @@ describe('Consecutive Tests', () => {
     describe('/delete', () => {
       it('tests /delete', async (done) => {
         request(app).post('/api/strategy/delete')
-          .send({ id, ticker: underlyingTicker, legs: [
+          .send({ id, ticker: underlyingTicker, name: stratName, legs: [
             Option1,
             Option2, 
             Option3
