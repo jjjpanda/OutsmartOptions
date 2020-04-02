@@ -84,7 +84,7 @@ class StockSymbol extends React.Component {
     ))
 
     onSearch = (val) => {
-      if(val === this.state.symbol){
+      if(val === this.state.symbol || val == ""){
         return
       }
       this.setState(() => ({ 
