@@ -83,7 +83,8 @@ class StockSymbol extends React.Component {
       </AutoCompleteOption>
     ))
 
-    onSearch = (val) => {
+
+    onSearch = (val, event, callback) => {
       if(val === this.state.symbol || val == ""){
         return
       }
@@ -132,6 +133,9 @@ class StockSymbol extends React.Component {
                         let iv = data.historicalIV
                         this.setState(() => ({ historicalIV: iv, loading: false, progress: 100 }), () => {
                           this.props.updateCallback(this.state); 
+                          if(callback != undefined) {
+                            callback()
+                          }
                         });
                       });
                     }

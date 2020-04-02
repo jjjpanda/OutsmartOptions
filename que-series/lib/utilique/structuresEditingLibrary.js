@@ -92,3 +92,15 @@ export function dataToTableConversion(data) {
   }
   return dataConverted;
 }
+
+export function legAddition(data, dates, legs) {
+  for (const date of dates) {
+    for (const point of data) {
+      point[date] = 0;
+      for (const leg of legs) {
+        point[date] += point[`${leg}a${date}`];
+      }
+    }
+  }
+  return data;
+}

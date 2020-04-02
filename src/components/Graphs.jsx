@@ -1,5 +1,10 @@
 /* eslint-disable max-classes-per-file */
 import React from 'react';
+import {
+  utilique as util,
+} from 'que-series';
+
+const { structure } = util;
 
 import {
   XAxis,
@@ -78,7 +83,7 @@ class ProfitGraph extends React.Component {
     const legs = Array.from(new Set(props.keys.map((a) => a.substring(0, a.indexOf('a'))))).filter((a) => a != '');
     const dates = Array.from(new Set(props.keys.map((a) => a.substring(a.indexOf('a') + 1)))).filter((a) => a != '');
     this.state = {
-      data: props.legAddition(props.data, dates, legs),
+      data: structure.legAddition(props.data, dates, legs),
       keys: props.keys,
       legs,
       dates,
@@ -91,7 +96,7 @@ class ProfitGraph extends React.Component {
       const legs = Array.from(new Set(props.keys.map((a) => a.substring(0, a.indexOf('a'))))).filter((a) => a != '');
       const dates = Array.from(new Set(props.keys.map((a) => a.substring(a.indexOf('a') + 1)))).filter((a) => a != '');
       return {
-        data: props.legAddition(props.data, dates, legs),
+        data: structure.legAddition(props.data, dates, legs),
         keys: props.keys,
         legs,
         dates,

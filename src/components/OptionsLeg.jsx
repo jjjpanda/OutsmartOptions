@@ -27,7 +27,7 @@ class OptionsLeg extends React.Component {
       strike: props.optionRepresented.strike,
       price: props.optionRepresented.price,
       iv: props.optionRepresented.iv,
-      isLong: true,
+      isLong: props.optionRepresented.isLong,
       quantity: 1,
       limitPrice: props.optionRepresented.price,
       hide: false,
@@ -81,7 +81,7 @@ class OptionsLeg extends React.Component {
                 <HelpTooltip hide={false} title="Buy or Write" content="Options can be bought or sold. So click to reveal what you want to do with this specific contract." />
               ) : null}
               <div id="buyWriteSwitch">
-                <Switch checkedChildren="Buy" unCheckedChildren="Write" defaultChecked onChange={this.handleSwitchChange} />
+                <Switch checkedChildren="Buy" unCheckedChildren="Write" checked={this.state.isLong} onChange={this.handleSwitchChange} />
               </div>
             </div>
             <div style={{ width: '60px', display: 'inline-block' }} />

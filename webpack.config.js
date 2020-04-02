@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
 const ErrorOverlayPlugin = require('error-overlay-webpack-plugin')
 
+const env = require('dotenv').config();
+
 const options = {
   antDir: path.join(__dirname, './node_modules/antd'),
   stylesDir: path.join(__dirname, './src/css'),
@@ -54,7 +56,7 @@ const options = {
 }
 
 module.exports = {
-  mode: 'development',
+  mode: process.env.NODE_ENV,
   entry: {
     app: './src/App.jsx',
   },
