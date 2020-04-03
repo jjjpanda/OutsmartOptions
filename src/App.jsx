@@ -47,16 +47,23 @@ request.getFetchReq('https://api.ipify.org?format=jsoniuhb', {},
 });
 
 class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      readyToGo: false
+    }
+  }
+
   render() {
     return (
       <Router>
         <Layout style={{ minHeight: '100vh' }}>
-          <SideMenuRoute />
+          <SideMenuRoute bypass={this.state.readyToGo}/>
           <Layout>
             <Content>
               <div className="contentWrapper">
                 <Route exact path="/" component={HomePage} />
-                <Route exact path="/calc" component={OptionsCalculator} />
+                <Route exact path="/calc" render={(props) => (<OptionsCalculator {...props} updateApp = {(state) => {this.setState(() => ({readyToGo: state.saved}))}}/>)} />
                 <Route exact path="/watch" component={Watchlist} />
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/about" component={AboutPage} />

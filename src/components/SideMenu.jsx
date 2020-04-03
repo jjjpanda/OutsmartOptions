@@ -13,7 +13,7 @@ import {
   Layout,
   Menu,
   Switch,
-  Anchor,
+  Typography,
 } from 'antd';
 import Cookie from 'js-cookie';
 
@@ -83,46 +83,62 @@ class SideMenu extends React.Component {
           <Menu theme="dark" defaultSelectedKeys={this.props.location.pathname.match(/\/(.*[^\/])?/)} mode="inline" onClick={this.handleClick}>
 
             <Menu.Item key="/">
-              <Icon type="home" />
-              <Link to="/">Home</Link>
+              <Link to="/">
+                <Icon type="home" />
+                <Typography>Home</Typography>
+              </Link>
             </Menu.Item>
 
             <Menu.Item key="/calc">
-              <Icon type="calculator" />
-              <Link to="/calc">Calculator</Link>
+              <Link to="/calc">
+                <Icon type="calculator" />
+                <Typography>Calculator</Typography>
+              </Link>
             </Menu.Item>
 
             <Menu.Item key="/watch">
-              <Icon type="eye" />
-              <Link to="/watch">Watchlist</Link>
+              <Link to="/watch">
+                <Icon type="eye" />
+                <Typography>Watchlist</Typography>
+              </Link>
             </Menu.Item>
 
             <Menu.Item key="/login">
-              <Icon type="login" />
-              <Link to="/login">Login</Link>
+              <Link to="/login">
+                <Icon type="login" />
+                <Typography>Login</Typography>
+              </Link>
             </Menu.Item>
 
             <Menu.Item key="/about">
-              <Icon type="woman" />
-              <Link to="/about">About</Link>
+              <Link to="/about">
+                <Icon type="info-circle-o" />
+                <Typography>About</Typography>
+              </Link>
             </Menu.Item>
 
             <Menu.Item key="/help">
-              <Icon type="question-circle-o" />
-              <Link to="/help">Help</Link>
+              <Link to="/help">
+                <Icon type="question-circle-o" />
+                <Typography>Help</Typography>
+              </Link>
             </Menu.Item>
 
             <Menu.Item key="darkmode" onClick={() => this.toggleDarkMode()}>
               <Icon type="bulb" theme="filled" />
+              <Typography>Theme</Typography>
             </Menu.Item>
 
             <Menu.Item key="tooltip" onClick={() => this.toggleTooltips()}>
               <Icon type="tool" theme="filled" />
+              <Typography>Toggle Tooltips</Typography>
             </Menu.Item>
 
             <Menu.Item key="/checkout" onClick={() => {}}>
-              <Icon type="dollar" />
-              <Link to="/checkout">Checkout</Link>
+              <Link to="/checkout">
+                <Icon type="dollar" />
+                <Typography>Checkout</Typography>
+              </Link>
             </Menu.Item>
 
           </Menu>

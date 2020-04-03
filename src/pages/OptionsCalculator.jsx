@@ -75,11 +75,14 @@ class OptionsCalculator extends React.Component {
       calculateMenuVisible: false,
       reportLoading: false,
       editLegLoading: [],
+      saved: false
     };
     verifyUser(({ loggedIn, user, email }) => {
       this.setState(() => ({ loggedIn }));
     });
     this.stockSymbol = React.createRef()
+    
+    this.props.updateApp(this.state)
   }
 
   updateSearchResults = (state, callback) => {
