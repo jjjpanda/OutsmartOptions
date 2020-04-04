@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router,
   Link,
   Route,
+  Prompt
 } from 'react-router-dom';
 import {
   Icon,
@@ -58,6 +59,10 @@ class App extends React.Component {
     return (
       <Router>
         <Layout style={{ minHeight: '100vh' }}>
+          <Prompt
+            when={!this.state.readyToGo}
+            message='You have unsaved changes, are you sure you want to leave?'
+          />
           <SideMenuRoute bypass={this.state.readyToGo}/>
           <Layout>
             <Content>
