@@ -25,9 +25,9 @@ import '../css/logo.css';
 import '../css/index.less';
 import { darkTheme, lightTheme } from '../css/themes.js';
 
-const { Footer } = Layout;
-const { Sider } = Layout;
-const { Content } = Layout;
+const Footer = Layout.Footer;
+const Sider = Layout.Sider;
+const Content = Layout.Content;
 
 class SideMenu extends React.Component {
     state = {
