@@ -23,11 +23,13 @@ import {
   mathematique as math,
   utilique as util,
 } from 'que-series';
-import html2canvas from 'html2canvas';
 import * as moment from 'moment';
 import { NoAxisGraph, ProfitGraph } from '../components/Graphs.jsx';
 import { StrategyInfo } from '../components/StrategyInfo.jsx';
-import SpinningLogo from '../components/SpinningLogo.jsx';
+import OptionsChain from '../components/OptionsChain.jsx'
+import IVSkew from '../components/IVSkew.jsx'
+import CalculateMenu from '../components/CalculateMenu.jsx'
+import ReportModal from '../components/ReportModal.jsx'
 import StockSymbol from '../components/StockSymbol.jsx';
 import StockCalendar from '../components/StockCalendar.jsx';
 import StrategySelector from '../components/StrategySelector.jsx'
@@ -68,7 +70,6 @@ class OptionsCalculator extends React.Component {
       isTourOpen: false,
       optionsChain: [['Empty', {}]],
       optionsSelected: [],
-      activeOptionExpiry: '',
       numberIntervals: 15,
       percentInterval: 1,
       erVisible: false,
@@ -108,14 +109,6 @@ class OptionsCalculator extends React.Component {
     console.log(this.state);
   }
 
-  setAddLegModalVisible(addLegModalVisible) {
-    this.setState({ addLegModalVisible });
-  }
-
-  setIVSkewModalVisible(ivSkewModalVisible) {
-    this.setState({ ivSkewModalVisible });
-  }
-
   renderLegs() {
     return this.state.optionsSelected.map((option, index) => (
       <OptionsLeg isFirst={index === 0} key={option.key} callback={this.optionsSelectedMoreInfo} deleteSelf={this.deleteOption} optionRepresented={option} />
@@ -137,33 +130,6 @@ class OptionsCalculator extends React.Component {
     return null;
   }
 
-  renderOptionsChain = () => this.state.optionsChain.map((e) => (
-    <CollapsePanel key={`${e[0]}_optionexpiries`} header={e[0]} extra={this.modalTrackSelected(e[0])}>
-      <div step-name={`${e[0]}_optionexpiries`}>
-        <Table
-          dataSource={e[1]}
-          columns={this.columns(e[0])}
-          rowClassName={(record) => record.atm?"atmStrike":""}
-          pagination={false}
-          size="small"
-          scroll={{ y: 500 }}
-        />
-      </div>
-    </CollapsePanel>
-  ))
-
-  renderIVSkew = () => this.state.optionsChain.map((e) => (
-    <CollapsePanel key={`${e[0]}_ivexpiries`} header={e[0]} extra={this.modalTrackSelected(e[0])}>
-      <div className="IVSkewGraphs">
-        <div id="IVGraph1">
-          <NoAxisGraph data={e[1]} xKey="strike" dataKey="callIV" />
-        </div>
-        <div id="IVGraph2">
-          <NoAxisGraph data={e[1]} xKey="strike" dataKey="putIV" />
-        </div>
-      </div>
-    </CollapsePanel>
-  ))
 
   resortOptionsSelected = (symbol) => {
     this.setState((state) => ({
@@ -314,81 +280,7 @@ class OptionsCalculator extends React.Component {
       });
   }
 
-  openOptionsChainModal = () => this.setAddLegModalVisible(true)
-
-  closeOptionsChainModal = () => this.setAddLegModalVisible(false)
-
-  sendCalcError = () => {
-    this.setState(() => ({ reportLoading: true }), () => {
-      const input = document.getElementsByTagName('html')[0];
-      html2canvas(input).then((c) => {
-        const base64image = c.toDataURL('image/png');
-        const formData = new FormData();
-        formData.append('file', structure.dataURItoBlob(base64image), 'img');
-        request.fileReq('/api/bug/imageReport', formData);
-      });
-      request.postFetchReq('/api/bug/report',
-        JSON.stringify({
-          options: this.state.optionsSelected
-            .map((option) => Object.keys(option).filter((key) => key != 'profit')
-              .reduce((obj, key) => {
-                obj[key] = option[key];
-                return obj;
-              },
-              {})),
-        }),
-        (data) => {
-          this.setState(() => ({ reportLoading: false }));
-        });
-    });
-  }
-
-  columns = (expiry) => [
-    {
-      title: '',
-      dataIndex: 'callAction',
-      width: '10%',
-      render: (text, row) => (this.state.editLegLoading.includes(row.callSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.callIV)} checked={this.state.optionsSelected.some((option) => option.key === row.callSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, true, true, row.strike, row.call, expiry, row.callIV, row.callSymbol); }} />),
-    },
-    {
-      title: 'Call',
-      dataIndex: 'call',
-    },
-    {
-      title: 'Call Vol',
-      dataIndex: 'callVol',
-      width: '10%',
-      render: (text, row) => (row.callOutlier ? (<strong>{text}</strong>) : (<div>{text}</div>)),
-    },
-    {
-      title: 'Call IV',
-      dataIndex: 'callIV',
-      render: (text) => (<div>{isNaN(text) || text === null ? '-' : text.toFixed(2)}</div>),
-    },
-    {
-      title: 'Strike',
-      dataIndex: 'strike',
-    },
-    {
-      title: 'Put',
-      dataIndex: 'put',
-    },
-    {
-      title: 'Put Vol',
-      dataIndex: 'putVol',
-      render: (text, row) => (row.putOutlier ? (<strong>{text}</strong>) : (<div>{text}</div>)),
-    },
-    {
-      title: 'Put IV',
-      dataIndex: 'putIV',
-      render: (text) => (<div>{isNaN(text) || text === null ? '-' : text.toFixed(2)}</div>),
-    },
-    {
-      title: '',
-      dataIndex: 'putAction',
-      render: (text, row) => (this.state.editLegLoading.includes(row.putSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.putIV)} checked={this.state.optionsSelected.some((option) => option.key === row.putSymbol) || false} onChange={(e) => { this.onHandleOptionLegChange(e.target.checked, false, true, row.strike, row.put, expiry, row.putIV, row.putSymbol); }} />),
-    },
-  ]
+  
 
   startTutorial = () => {
     // introJs('.intro').start();
@@ -399,181 +291,92 @@ class OptionsCalculator extends React.Component {
     this.setState(() => ({ isTourOpen: false }));
   }
 
-renderCalculateMenu = () => (
-  <Menu>
-    <Menu.Item key="1">
-      <InputNumber
-        placeholder="Percent Interval"
-        onPressEnter={this.calculateProfits}
-        onChange={(e) => { this.setState(() => ({ percentInterval: e })); }}
-        suffix={(
-          <Icon type="percentage" />
-      )}
-      />
-    </Menu.Item>
-    <Menu.Item key="2">
-      <InputNumber
-        placeholder="Number of Intervals"
-        onPressEnter={this.calculateProfits}
-        onChange={(e) => { this.setState(() => ({ numberIntervals: e })); }}
-        suffix={(
-          <Icon type="number" />
-      )}
-      />
-    </Menu.Item>
-    <Menu.Item key="3">
-      <Button onClick={() => { this.setState(() => ({ erVisible: true, calculateMenuVisible: false })); }}>
-        Show Calender
-      </Button>
-      <Modal
-        visible={this.state.erVisible}
-        onOk={() => { this.setState(() => ({ erVisible: false, calculateMenuVisible: true })); }}
-        onCancel={() => { this.setState(() => ({ erVisible: false, calculateMenuVisible: true })); }}
-      >
-        <StockCalendar earningsDate={this.state.earningsDate} fullscreen={false} />
-      </Modal>
-    </Menu.Item>
-  </Menu>
-);
-
-render() {
-  return (
-    <div>
-      <div style={{ width: '60px', paddingBottom: '20px' }} />
-      <div style={{ width: '60px', display: 'inline-block' }} />
-      <h1 key="mainTitle" step-name="title" style={{ width: '135px', display: 'inline-block' }}>Outsmart Options</h1>
-      <StockSymbol ref={this.stockSymbol} updateCallback={this.updateSearchResults} yieldCurve={yields} options historical={false} />
-
-      <hr id="hr" align="left" />
-
-      <div className="optionsList" step-name="example-contract">{this.renderLegs()}</div>
-
-      <div className="optionsButtons">
+  render() {
+    return (
+      <div>
+        <div style={{ width: '60px', paddingBottom: '20px' }} />
         <div style={{ width: '60px', display: 'inline-block' }} />
-        <div id="addLegButton" step-name="edit-leg">
-          <Button icon="edit" disabled={this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0] == 'Empty')} onClick={this.openOptionsChainModal}>Edit Legs</Button>
-          <div className="addLegButtonWrapper">
-            <div>
-              <Modal
-                title="Add Leg"
-                centered
-                width="50%"
-                visible={this.state.addLegModalVisible}
-                footer={(
-                  <Button key="ok" step-name="ok-button-modal" type="primary" onClick={this.closeOptionsChainModal}>
-                    Ok
-                  </Button>
-                )}
-                onCancel={this.closeOptionsChainModal}
-              >
-                <div step-name="edit-leg-modal">
-                  <Collapse onChange={(e) => { this.setState(() => ({ activeOptionExpiry: e })); }} accordion>
-                    {this.renderOptionsChain()}
-                  </Collapse>
+        <h1 key="mainTitle" step-name="title" style={{ width: '135px', display: 'inline-block' }}>Outsmart Options</h1>
+        <StockSymbol ref={this.stockSymbol} updateCallback={this.updateSearchResults} yieldCurve={yields} options historical={false} />
+
+        <hr id="hr" align="left" />
+
+        <div className="optionsList" step-name="example-contract">{this.renderLegs()}</div>
+
+        <div className="optionsButtons">
+          <div style={{ width: '60px', display: 'inline-block' }} />
+          <OptionsChain onHandleOptionLegChange={this.onHandleOptionLegChange} modalTrackSelected={this.modalTrackSelected} editLegLoading={this.state.editLegLoading} optionsSelected={this.state.optionsSelected} optionsChain= {this.state.optionsChain} />
+          <div style={{ width: '43px', display: 'inline-block' }} />
+          <IVSkew modalTrackSelected={this.modalTrackSelected} optionsChain={this.state.optionsChain} />
+          <div style={{ width: '43px', display: 'inline-block' }} />
+          <div id="strategyButton"><Button icon="fund" onClick={() => {}}>Strategy</Button></div>
+          <div style={{ width: '43px', display: 'inline-block' }} />
+          <div id="calculateButton" step-name="calculate-button">
+            <ButtonGroup>
+              <Button onClick={this.calculateProfits} type="primary">Calculate</Button>
+              <Button type="primary" icon="cloud" onClick={() => { this.setState(() => ({ calculateMenuVisible: true })); }} />
+            </ButtonGroup>
+          </div>
+          <Modal
+            visible={this.state.calculateMenuVisible}
+            onOk={() => { this.setState(() => ({ calculateMenuVisible: false })); }}
+            onCancel={() => { this.setState(() => ({ calculateMenuVisible: false })); }}
+          >
+            <CalculateMenu 
+              calculateProfits={this.calculateProfits} 
+              erVisible={this.state.erVisible}
+              intervalChange={(e) => { this.setState(() => ({ percentInterval: e })); }} 
+              numberChange ={(e) => { this.setState(() => ({ numberIntervals: e })); }} 
+              showCalenderOnClick = {() => { this.setState(() => ({ erVisible: true, calculateMenuVisible: false })); }}
+              calendarModalOk = {() => { this.setState(() => ({ erVisible: false, calculateMenuVisible: true })); }}
+              earningsDate={this.state.earningsDate}
+            />
+          </Modal>
+          <div id="strategyButtons"><StrategySelector loadInOptionsSelected={this.loadInOptionsSelected} forceSearch={(symbol, callback) => {this.stockSymbol.current.onSearch(symbol, undefined, callback)}} symbol={this.state.symbol} optionsSelected={this.state.optionsSelected} /></div>
+        </div>
+        <br />
+        <div>
+          {
+          this.state.mergedOptions != undefined
+            ? (
+              <div>
+                <div className="costStrategy">
+                  <StrategyInfo stockPrice={this.state.price} optionsSelected={this.state.optionsSelected} mergedOptions={this.state.mergedOptions} />
                 </div>
 
-              </Modal>
-            </div>
-          </div>
-        </div>
-        <div style={{ width: '43px', display: 'inline-block' }} />
-        <div id="ivSkewButton">
-          <Button
-            icon="profile"
-            disabled={this.state.optionsChain[0] == undefined ? true : (this.state.optionsChain[0][0]
-            == 'Empty')}
-            onClick={() => this.setIVSkewModalVisible(true)}
-          >
-            IV Skew
-          </Button>
-          <div className="addLegButtonWrapper">
-            <Modal
-              title="IV Skew"
-              centered
-              width="50%"
-              visible={this.state.ivSkewModalVisible}
-              footer={(
-                <Button key="ok" type="primary" onClick={() => this.setIVSkewModalVisible(false)}>
-                  Ok
-                </Button>
-              )}
-              onCancel={() => this.setIVSkewModalVisible(false)}
-            >
-              <Collapse accordion>
-                {this.renderIVSkew()}
-              </Collapse>
-            </Modal>
-          </div>
-        </div>
-        <div style={{ width: '43px', display: 'inline-block' }} />
-        <div id="strategyButton"><Button icon="fund" onClick={() => {}}>Strategy</Button></div>
-        <div style={{ width: '43px', display: 'inline-block' }} />
-        <div id="calculateButton" step-name="calculate-button">
-          <ButtonGroup>
-            <Button onClick={this.calculateProfits} type="primary">Calculate</Button>
-            <Button type="primary" icon="cloud" onClick={() => { this.setState(() => ({ calculateMenuVisible: true })); }} />
-          </ButtonGroup>
-        </div>
-        <Modal
-          visible={this.state.calculateMenuVisible}
-          onOk={() => { this.setState(() => ({ calculateMenuVisible: false })); }}
-          onCancel={() => { this.setState(() => ({ calculateMenuVisible: false })); }}
-        >
-          {this.renderCalculateMenu()}
-        </Modal>
-        <div id="strategyButtons"><StrategySelector loadInOptionsSelected={this.loadInOptionsSelected} forceSearch={(symbol, callback) => {this.stockSymbol.current.onSearch(symbol, undefined, callback)}} symbol={this.state.symbol} optionsSelected={this.state.optionsSelected} /></div>
-      </div>
-      <br />
-      <div>
-        {
-        this.state.mergedOptions != undefined
-          ? (
-            <div>
-              <div className="costStrategy">
-                <StrategyInfo stockPrice={this.state.price} optionsSelected={this.state.optionsSelected} mergedOptions={this.state.mergedOptions} />
-              </div>
+                <div className="profitGraphWrapper" step-name="profit-graph">
+                  <ProfitGraph data={this.state.profitGraphData} keys={Object.keys(this.state.profitGraphData[0]).filter((o) => o != 'x')} />
+                </div>
 
-              <div className="profitGraphWrapper" step-name="profit-graph">
-                <ProfitGraph data={this.state.profitGraphData} keys={Object.keys(this.state.profitGraphData[0]).filter((o) => o != 'x')} />
+                <hr id="hr2" />
+                <h3 style={{ marginLeft: '60px' }}>Profit Table:</h3>
+                <div className="profitTableWrapper" step-name="profit-table" style={{ width: '80vw' }}>
+                  <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
+                </div>
+                <ReportModal optionsSelected={this.state.optionsSelected} loading ={this.state.reportLoading} />
               </div>
-
-              <hr id="hr2" />
-              <h3 style={{ marginLeft: '60px' }}>Profit Table:</h3>
-              <div className="profitTableWrapper" step-name="profit-table" style={{ width: '80vw' }}>
-                <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
-              </div>
-              <Button onClick={this.sendCalcError} loading={this.state.reportLoading}>Report Calculation Error</Button>
-              <Modal
-                visible={this.state.reportLoading}
-                closable={false}
-                maskClosable={false}
-                footer = {null}
-              >
-                <SpinningLogo />
-              </Modal>
-            </div>
-          )
-          : null
-      }
+            )
+            : null
+        }
+        </div>
+        <Tour
+          steps={tutorialSteps(this.state, this)}
+          showNavigation={false}
+          showNumber={false}
+          showButtons={false}
+          showCloseButton={false}
+          disableKeyboardNavigation
+          maskSpace={3}
+          startAt={0}
+          update={JSON.stringify(this.state)}
+          onAfterOpen={(target) => disableBodyScroll(target)}
+          onBeforeClose={(target) => enableBodyScroll(target)}
+          isOpen={this.state.isTourOpen}
+          onRequestClose={this.closeTutorial}
+        />
       </div>
-      <Tour
-        steps={tutorialSteps(this.state, this)}
-        showNavigation={false}
-        showNumber={false}
-        showButtons={false}
-        showCloseButton={false}
-        disableKeyboardNavigation
-        maskSpace={3}
-        startAt={0}
-        update={JSON.stringify(this.state)}
-        onAfterOpen={(target) => disableBodyScroll(target)}
-        onBeforeClose={(target) => enableBodyScroll(target)}
-        isOpen={this.state.isTourOpen}
-        onRequestClose={this.closeTutorial}
-      />
-    </div>
-  );
-}
+    );
+  }
 }
 
 export default OptionsCalculator;
