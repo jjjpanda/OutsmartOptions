@@ -126,7 +126,6 @@ class OptionsChain extends React.Component {
                     </div>
                 </div>
             </div>
-        
         )
     }
 }

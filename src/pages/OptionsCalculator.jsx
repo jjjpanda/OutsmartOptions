@@ -28,6 +28,7 @@ import { NoAxisGraph, ProfitGraph } from '../components/Graphs.jsx';
 import { StrategyInfo } from '../components/StrategyInfo.jsx';
 import OptionsChain from '../components/OptionsChain.jsx'
 import IVSkew from '../components/IVSkew.jsx'
+import EquityModal from '../components/EquityModal.jsx'
 import CalculateMenu from '../components/CalculateMenu.jsx'
 import ReportModal from '../components/ReportModal.jsx'
 import StockSymbol from '../components/StockSymbol.jsx';
@@ -305,6 +306,8 @@ class OptionsCalculator extends React.Component {
 
         <div className="optionsButtons">
           <div style={{ width: '60px', display: 'inline-block' }} />
+          <EquityModal symbol={this.state.symbol} price={this.state.price} onHandleOptionLegChange={this.onHandleOptionLegChange} />
+          <div style={{ width: '43px', display: 'inline-block' }} />
           <OptionsChain onHandleOptionLegChange={this.onHandleOptionLegChange} modalTrackSelected={this.modalTrackSelected} editLegLoading={this.state.editLegLoading} optionsSelected={this.state.optionsSelected} optionsChain= {this.state.optionsChain} />
           <div style={{ width: '43px', display: 'inline-block' }} />
           <IVSkew modalTrackSelected={this.modalTrackSelected} optionsChain={this.state.optionsChain} />
