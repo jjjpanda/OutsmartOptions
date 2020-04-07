@@ -281,7 +281,7 @@ export function extractStrategies(options) {
         upper: list[i].strike,
         lower: list[j].strike,
         date: list[i].date,
-        price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+        price: (list[i].isLong ? 1 : -1) * list[i].cost + (list[j].isLong ? 1 : -1) * list[j].cost,
         quantity: 2,
       });
       list.splice(i + 1, 1);
@@ -429,7 +429,7 @@ export function extractStrategies(options) {
         lower: list[i].strike < list[j].strike ? list[i].strike : list[j].strike,
         dir: (list[j].isLong ? (list[i].strike > list[j].strike ? 'Bull' : 'Bear') : (list[i].strike > list[j].strike ? 'Bear' : 'Bull')),
         type: `Diagonal ${list[i].isCall ? 'Call' : 'Put'} Spread`,
-        price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+        price: (list[i].isLong ? 1 : -1) * list[i].cost + (list[j].isLong ? 1 : -1) * list[j].cost,
         quantity: 2,
       });
       list.splice(i + 1, 1);
@@ -461,7 +461,7 @@ export function extractStrategies(options) {
         strike: list[i].strike,
         dir: (list[j].isLong ? 'Pin' : 'Neu'),
         type: `${list[i].isCall ? 'Call' : 'Put'} Calendar Spread`,
-        price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+        price: (list[i].isLong ? 1 : -1) * list[i].cost + (list[j].isLong ? 1 : -1) * list[j].cost,
         quantity: 2,
       });
       list.splice(i + 1, 1);
@@ -494,7 +494,7 @@ export function extractStrategies(options) {
           strike: list[i].strike,
           dir: (list[i].isLong ? 'Neu' : 'Pin'),
           type: 'Straddle',
-          price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+          price: (list[i].isLong ? 1 : -1) * list[i].cost + (list[j].isLong ? 1 : -1) * list[j].cost,
           quantity: 2,
         });
         list.splice(i + 1, 1);
@@ -511,7 +511,7 @@ export function extractStrategies(options) {
           lower: list[j].strike,
           dir: (list[i].isLong ? 'Neu' : 'Pin'),
           type: 'Strangle',
-          price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+          price: (list[i].isLong ? 1 : -1) * list[i].cost + (list[j].isLong ? 1 : -1) * list[j].cost,
           quantity: 2,
         });
         list.splice(i + 1, 1);
@@ -544,7 +544,7 @@ export function extractStrategies(options) {
         lower: list[j].strike,
         dir: (list[i].isLong ? (list[i].isCall ? 'Bull' : 'Bear') : (list[i].isCall ? 'Bear' : 'Bull')),
         type: 'Synthetic',
-        price: (list[i].isLong ? 1 : -1) * list[i].limitPrice + (list[j].isLong ? 1 : -1) * list[j].limitPrice,
+        price: (list[i].isLong ? 1 : -1) * list[i].cost + (list[j].isLong ? 1 : -1) * list[j].cost,
         quantity: 2,
       });
       list.splice(i + 1, 1);
@@ -576,7 +576,7 @@ export function extractStrategies(options) {
         isLong: list[i].isLong,
         date: list[i].date,
         strike: list[i].strike,
-        price: (list[i].isLong ? 1 : -1) * list[i].limitPrice,
+        price: (list[i].isLong ? 1 : -1) * list[i].cost,
         quantity: 1,
       };
     }
@@ -687,7 +687,7 @@ export function calculateProfits(price, percentInterval, numberIntervals, option
     profit.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
     for (let price of profit[profit.length - 1][1]) {
       price[1] = calculateOptionsPrice(moment(option.date).diff(d, 'hours') / (365*24), price[0], option.strike, option.isCall, option.isLong, rfir, divYield, option.iv);
-      price[1] -= option.limitPrice * (option.isLong ? 1 : -1);
+      price[1] -= option.cost * (option.isLong ? 1 : -1);
       price[1] *= option.hide ? 0 : option.quantity;
     }
     d = d.add(24, 'hours');
@@ -696,7 +696,7 @@ export function calculateProfits(price, percentInterval, numberIntervals, option
   // PROFIT AT EXPIRY
   profit.push([d.format('YYYY-MM-DD'), rangeOfPrices.map((arr) => arr.slice())]);
   for (let price of profit[profit.length - 1][1]) {
-    price[1] = calculateProfitAtExpiry(option.limitPrice, price[0], option.strike, option.isCall, option.isLong);
+    price[1] = calculateProfitAtExpiry(option.cost, price[0], option.strike, option.isCall, option.isLong);
     price[1] *= option.hide ? 0 : option.quantity;
   }
 
@@ -721,7 +721,7 @@ export function mergeProfits (price, percentInterval, numberIntervals, optionsPr
   return profitMap;
 }
 
-export function percentProfit(profit, limitPrice){
+export function percentProfit(profit, cost){
 
   let percentProfit = [];
   for (let day of profit) {
@@ -730,7 +730,7 @@ export function percentProfit(profit, limitPrice){
       percentProfit[percentProfit.length - 1][1].push(
         [
           parseFloat((price[0]).toFixed(2)),
-          parseFloat(((price[1]).toFixed(2)) + limitPrice) / Math.abs(limitPrice),
+          parseFloat(((price[1]).toFixed(2)) + cost) / Math.abs(cost),
         ],
       );
     }

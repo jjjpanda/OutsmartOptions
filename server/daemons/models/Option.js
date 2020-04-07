@@ -1,10 +1,10 @@
 const moment = require('moment')
 
 const Option = class {
-  constructor(date, strike, price, isCall, isLong, quantity, symbol) {
+  constructor(date, strike, cost, isCall, isLong, quantity, symbol) {
     this.date = date;
     this.strike = strike;
-    this.price = price;
+    this.cost = cost;
     this.isCall = isCall;
     this.isLong = isLong;
     this.quantity = quantity
