@@ -74,10 +74,10 @@ describe('Options Math Test', () => {
   });
   it('Identify Spreads', () => {
     expect(math.extractStrategies([{
-      isCall: true, isLong: false, date: '2020-12-20', strike: 101, limitPrice: 2,
+      isCall: true, isLong: false, date: '2020-12-20', strike: 101, cost: 2,
     },
     {
-      isCall: true, isLong: true, date: '2020-12-20', strike: 100, limitPrice: 3,
+      isCall: true, isLong: true, date: '2020-12-20', strike: 100, cost: 3,
     }]))
       .toMatchObject([{
         isCall: true, isLong: true, date: '2020-12-20', upper: 101, lower: 100, dir: 'Bull', type: 'Call Spread', price: 1, quantity: 2,

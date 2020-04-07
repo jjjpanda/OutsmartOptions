@@ -52,7 +52,7 @@ export const StrategyInfo = ({ stockPrice, optionsSelected, mergedOptions }) => 
     nakedPuts: [],
     assigmentRisk: optionsMath.assignmentRiskAnalysis(stockPrice, optionsSelected),
     collateral: optionsMath.collateralAnalysis(analyzedStrategies) * 100,
-    cost: (mergedOptions.limitPrice * 100),
+    cost: (mergedOptions.cost * 100),
     severity: '#ff9900',
   };
 

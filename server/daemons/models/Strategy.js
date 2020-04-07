@@ -13,7 +13,7 @@ const StratSchema = new Schema({
   legs: [{
     date: String,
     strike: Number,
-    price: Number,
+    cost: Number,
     isCall: Boolean,
     isLong: Boolean,
     quantity: Number,

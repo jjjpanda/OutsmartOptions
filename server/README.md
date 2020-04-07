@@ -215,7 +215,7 @@ The [database folder](daemons/models), holds the models and objects that are use
 5. [Option](daemons/models/Option.js)
     - **date**: String (YYYY-MM-DD)
     - **strike**: Double
-    - **price**: Double
+    - **cost**: Double
     - **isCall**: Boolean
     - **isLong**: Boolean
     - **quantity**: Integer

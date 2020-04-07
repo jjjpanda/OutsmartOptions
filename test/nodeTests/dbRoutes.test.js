@@ -146,8 +146,8 @@ describe('Consecutive Tests', () => {
     const underlyingTicker = 'ABC'
     const Option1 = new Option("2000-01-01", 100, 5, true, true, 3, "A000101C00010000")
     const Option2 = new Option("2000-01-01", 105, 2, true, false, 1, "A000101C00010500")
-    const Option3 = {date: "2000-01-01", strike: 100, price: 0.5, isCall: false, isLong: true, quantity: 2, symbol: "A000101P00010000"}
-
+    const Option3 = {date: "2000-01-01", strike: 100, cost: 0.5, isCall: false, isLong: true, quantity: 2, symbol: "A000101P00010000"}
+ 
     const stratName = "The Best Strat"
 
     describe('/save', () => {
