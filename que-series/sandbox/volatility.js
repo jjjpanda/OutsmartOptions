@@ -45,10 +45,6 @@
         spikes.push(dataset[date]);
       }
     }
-
-    if(dataset.indexOf(spikes[spikes.length-1]) == dataset.length - 1 ){ //if the last datapoint registers as a spike, remove
-      //spikes.pop();
-    }
     return spikes;
   }
 
@@ -60,6 +56,7 @@
     var newSpikes = [];
     var i = 0;
     var j = i + 1;
+    var dates = [];
 
     while(j < spikes.length){
       spike1 = spikes[i];
@@ -123,7 +120,8 @@
   }
 
   function findTrough2(dates, spikes){
-    //finds first instance after spike where IV drops below threshold (specified %change in IV)
+    //finds first instance after spike where IV drops below threshold (specified %change in IV?
+    
     for (date of dates){
       if(!(spikes.includes(date))){
         return date;
@@ -142,6 +140,7 @@ fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/volatility/AAPL_HV_3-19.json',
         return
     }
     var dataset = JSON.parse(jsonString);
+    console.log(dataset);
     var IV = [];
 
     //collect IVs
@@ -180,7 +179,7 @@ fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/volatility/AAPL_HV_3-19.json',
     }
 
     
-    
+    if(dataset.indexOf(spike2) != dataset.length - 1 ){ //If last spike is not the last datapoint
       spike1 = spike2;
       spike2 = dataset[dataset.length-1];
       console.log();
@@ -191,7 +190,7 @@ fs.readFile('/Users/Eamon/Desktop/OutsmartOptions/volatility/AAPL_HV_3-19.json',
       console.log("Trough: ", trough);
       peakToTroughRatio = trough['iv'] / spike1['iv'];
       console.log("Ratio: ", peakToTroughRatio);
-    
+    }
     
 }
 )

@@ -5,7 +5,7 @@
     var z = 0;
     var spikes = [];
 
-    for(date in dataset){
+    for(var date in dataset){
       z = (dataset[date]['iv'] - mean) / std;
       if(z > 1.5){ //value adjustable for detection sensitivity
         spikes.push(dataset[date]);
@@ -23,6 +23,7 @@
     var newSpikes = [];
     var i = 0;
     var j = i + 1;
+    var dates = [];
 
     while(j < spikes.length){
       spike1 = spikes[i];
@@ -43,7 +44,7 @@
           i = j;
           j++;
         }
-      } 
+      }
       else if(dates.length == 0){ //no dates between spikes
         if(spike1['iv'] > spike2['iv']){
           if(j == spikes.length-1){ //last spike
@@ -68,8 +69,8 @@
         }
       }
     }
-
-    return newSpikes;
+  
+  return newSpikes;
 }
 
   export function findTrough(dates, allSpikes){
@@ -77,15 +78,16 @@
     //Currently finds first non-spike, but can be updated to find first volatility below specified threshold
     //dates: array of all datapoints from current spike to next spike
     //allSpikes: array of all detected spikes (not filtered spikes)
-    for (date of dates){
+    for (var date of dates){
       if(!(allSpikes.includes(date))){
+        console.log("why");
         return date;
       }
     }
     
     //If no date found, finds lowest point between IV spikes
     var min = dates[0];
-    for (date of dates){
+    for (var date of dates){
       if(date['iv'] < min['iv']){
         min = date;
       }
