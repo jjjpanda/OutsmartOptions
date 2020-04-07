@@ -356,7 +356,7 @@ class OptionsCalculator extends React.Component {
                 <hr id="hr2" />
                 <h3 style={{ marginLeft: '60px' }}>Profit Table:</h3>
                 <div className="profitTableWrapper" step-name="profit-table" style={{ width: '80vw' }}>
-                  <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 500 }} size="small" />
+                  <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 'max-content' }} size="small" />
                 </div>
                 <ReportModal optionsSelected={this.state.optionsSelected} loading ={this.state.reportLoading} />
               </div>
