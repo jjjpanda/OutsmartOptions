@@ -34,7 +34,7 @@ class EquityModal extends React.Component {
     }
 
     closeEquityModal = () => {
-        this.props.onHandleOptionLegChange(true, true, this.state.isLong, 0, this.props.price, moment().add(5, 'years'), 0, `${this.state.isLong?"long":"short"}${this.state.shares}`)
+        this.props.onHandleOptionLegChange(true, true, this.state.isLong, 0, this.props.price, this.props.price, moment().add(5, 'years'), 0, `${this.state.isLong?"long":"short"}${this.state.shares}`)
         this.setState(() => ({equityModalVisible: false}))
     }
 

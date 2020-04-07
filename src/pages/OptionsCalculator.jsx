@@ -161,10 +161,10 @@ class OptionsCalculator extends React.Component {
     });
   }
 
-  addOption = (isCall, isLong, strike, price, date, iv, symbol) => {
+  addOption = (isCall, isLong, strike, price, cost, date, iv, symbol) => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected, {
-        key: symbol, isCall, isLong, date, strike, price, iv, symbol
+        key: symbol, isCall, isLong, date, strike, price, cost, iv, symbol
       }],
     }), () => this.resortOptionsSelected(symbol));
   }
@@ -174,20 +174,21 @@ class OptionsCalculator extends React.Component {
   }
 
   loadInOptionsSelected = (legs) => {
-    
     for(let leg of legs){
       const rfir = treasury.getRightYield(yields || [], moment(leg.date).diff(moment(), 'days')) / 100;
       const iv = optionsMath.calculateIV(moment(leg.date).diff(moment(), 'hours')/(365*24), leg.price, this.state.price, leg.strike, leg.isCall, rfir, this.state.divYield)
-      this.onHandleOptionLegChange(true, leg.isCall, leg.isLong, leg.strike, leg.price, leg.date, iv, leg.symbol)
+      const currentPrice = this.state.optionsChain.find(o => o[0] === leg.date)[1].find(o => o.strike === leg.strike)[`${leg.isCall ? "call" : "put"}`]
+      console.log(currentPrice, leg.price)
+      this.onHandleOptionLegChange(true, leg.isCall, leg.isLong, leg.strike, currentPrice, leg.price, leg.date, iv, leg.symbol)
     }
 
   }
 
-  onHandleOptionLegChange = (needToAdd, isCall, isLong, strike, price, date, iv, symbol) => {
+  onHandleOptionLegChange = (needToAdd, isCall, isLong, strike, price, cost, date, iv, symbol) => {
     // console.log(needToAdd)
     // console.log((needToAdd ? "ADDING" : "DELETING")+' '+(isCall ? "Call" : "Put") + ' STRIKE: ' + strike + '@'+ price + ' => ' + date)
     if (needToAdd) {
-      this.addOption(isCall, isLong, strike, price, date, iv, symbol);
+      this.addOption(isCall, isLong, strike, price, cost, date, iv, symbol);
       this.setState((state) => ({ editLegLoading: [...state.editLegLoading, symbol] }), () => console.log(this.state.editLegLoading));
     } else {
       this.deleteOption(symbol);
@@ -246,7 +247,7 @@ class OptionsCalculator extends React.Component {
 
   mergeOptions = (selectedOptions) => {
     const mergedOptions = {
-      limitPrice: 0,
+      cost: 0,
       date: '',
       greeks: {
         delta: 0, gamma: 0, theta: 0, vega: 0, rho: 0,
@@ -255,7 +256,7 @@ class OptionsCalculator extends React.Component {
     };
 
     for (const option of selectedOptions) {
-      mergedOptions.limitPrice += (option.isLong ? 1 : -1) * parseFloat(option.limitPrice) * (option.hide ? 0 : parseInt(option.quantity));
+      mergedOptions.cost += (option.isLong ? 1 : -1) * parseFloat(option.cost) * (option.hide ? 0 : parseInt(option.quantity));
 
       mergedOptions.greeks.delta += option.greeks.delta * option.hide ? 0 : option.quantity;
       mergedOptions.greeks.gamma += option.greeks.gamma * option.hide ? 0 : option.quantity;
@@ -270,7 +271,7 @@ class OptionsCalculator extends React.Component {
 
     mergedOptions.profit = optionsMath.mergeProfits(this.state.price, this.state.percentInterval, this.state.numberIntervals, optionsProfits, mergedOptions.date);
     
-    mergedOptions.percentProfit = optionsMath.percentProfit(mergedOptions.profit, mergedOptions.limitPrice)
+    mergedOptions.percentProfit = optionsMath.percentProfit(mergedOptions.profit, mergedOptions.cost)
 
     this.profitGraphFormatting();
 
@@ -306,7 +307,8 @@ class OptionsCalculator extends React.Component {
 
         <div className="optionsButtons">
           <div style={{ width: '60px', display: 'inline-block' }} />
-          <EquityModal symbol={this.state.symbol} price={this.state.price} onHandleOptionLegChange={this.onHandleOptionLegChange} />
+          {/* <EquityModal symbol={this.state.symbol} price={this.state.price} onHandleOptionLegChange={this.onHandleOptionLegChange} />
+           */}
           <div style={{ width: '43px', display: 'inline-block' }} />
           <OptionsChain onHandleOptionLegChange={this.onHandleOptionLegChange} modalTrackSelected={this.modalTrackSelected} editLegLoading={this.state.editLegLoading} optionsSelected={this.state.optionsSelected} optionsChain= {this.state.optionsChain} />
           <div style={{ width: '43px', display: 'inline-block' }} />

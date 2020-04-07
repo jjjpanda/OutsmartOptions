@@ -29,7 +29,7 @@ class OptionsLeg extends React.Component {
       iv: props.optionRepresented.iv,
       isLong: props.optionRepresented.isLong,
       quantity: 1,
-      limitPrice: props.optionRepresented.price,
+      cost: props.optionRepresented.cost,
       hide: false,
       visible: false,
     };
@@ -110,7 +110,7 @@ class OptionsLeg extends React.Component {
               {this.props.isFirst ? (
                 <HelpTooltip hide={false} title="Price" content={"Suppose you made the mistake of buying a contract when it was a bit more valuable. Oof. Or maybe you've made a little profit but need some guidance. You can specify how much you paid for it so the calculator will account for that."} />
               ) : null}
-              <div id="atPriceInput"><Input id="limitPrice" placeholder={this.state.limitPrice} onChange={this.handleChange} /></div>
+              <div id="atPriceInput"><Input id="cost" placeholder={this.state.cost} onChange={this.handleChange} /></div>
             </div>
             <div className="removeDisable">
               <div id="removeButton"><Button shape="circle" icon="delete" onClick={() => { this.props.deleteSelf(this.state.key); }} /></div>

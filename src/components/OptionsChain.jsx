@@ -33,7 +33,7 @@ class OptionsChain extends React.Component {
           title: '',
           dataIndex: 'callAction',
           width: '10%',
-          render: (text, row) => (this.props.editLegLoading.includes(row.callSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.callIV)} checked={this.props.optionsSelected.some((option) => option.key === row.callSymbol) || false} onChange={(e) => { this.props.onHandleOptionLegChange(e.target.checked, true, true, row.strike, row.call, expiry, row.callIV, row.callSymbol); }} />),
+          render: (text, row) => (this.props.editLegLoading.includes(row.callSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.callIV)} checked={this.props.optionsSelected.some((option) => option.key === row.callSymbol) || false} onChange={(e) => { this.props.onHandleOptionLegChange(e.target.checked, true, true, row.strike, row.call, row.call, expiry, row.callIV, row.callSymbol); }} />),
         },
         {
           title: 'Call',
@@ -71,7 +71,7 @@ class OptionsChain extends React.Component {
         {
           title: '',
           dataIndex: 'putAction',
-          render: (text, row) => (this.props.editLegLoading.includes(row.putSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.putIV)} checked={this.props.optionsSelected.some((option) => option.key === row.putSymbol) || false} onChange={(e) => { this.props.onHandleOptionLegChange(e.target.checked, false, true, row.strike, row.put, expiry, row.putIV, row.putSymbol); }} />),
+          render: (text, row) => (this.props.editLegLoading.includes(row.putSymbol) ? <SpinningLogo /> : <Checkbox disabled={isNaN(row.putIV)} checked={this.props.optionsSelected.some((option) => option.key === row.putSymbol) || false} onChange={(e) => { this.props.onHandleOptionLegChange(e.target.checked, false, true, row.strike, row.put, row.put, expiry, row.putIV, row.putSymbol); }} />),
         },
     ]
 
