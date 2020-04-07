@@ -11,15 +11,15 @@
   "author": "j",
   "dependencies": {
     "webpack": "^4.42.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "moment": "^2.24.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
     "babel-loader": "^8.0.6",
     "jest": "^24.9.0",
-    "jest-extended": "^0.11.5",
-    "moment": "^2.24.0"
+    "jest-extended": "^0.11.5"
   },
   "jest": {
     "verbose": true,

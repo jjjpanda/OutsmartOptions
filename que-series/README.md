@@ -109,11 +109,12 @@ So there's
 
 ### Utilique
 
-[**post**](./lib/utilique/fetchLibrary.js)
+[**request**](./lib/utilique/fetchLibrary.js)
 
 |Function|Description|Params|Returns|
 |:-|:-:|:-:|:-:|
-|fetchReq||
+|getFetchReq||
+|postFetchReq||
 |postFetchReqAuth||
 |fileReq||
 

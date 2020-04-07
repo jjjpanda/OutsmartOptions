@@ -1,9 +1,5 @@
 import React from 'react';
-// import {CardElement} from 'react-stripe-elements';
-import {
-  TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton,
-} from 'react-twitter-embed';
-import InstagramEmbed from 'react-instagram-embed';
+import TwitterFeed from '../components/TwitterFeed.jsx'
 import '../css/home.css';
 
 import { BarLineComboGraph } from '../components/Graphs.jsx';
@@ -47,14 +43,7 @@ class HomePage extends React.Component {
 
             </div>
             <div id="twitter">
-              <TwitterTimelineEmbed
-                sourceType="profile"
-                screenName="Outsmart Options"
-                options={{ height: 100 }}
-              />
-              <a className="twitter-timeline" href="https://twitter.com/OutsmartO">Outsmart Options on Twitter</a>
-              {' '}
-              <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
+              <TwitterFeed key={this.state.symbol} symbol={this.state.symbol}/>
             </div>
           </div>
           <div />
