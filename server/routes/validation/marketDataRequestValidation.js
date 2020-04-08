@@ -21,7 +21,7 @@ module.exports = {
   validateDays(req, res, next) {
     const { days } = req.body;
     if (days == undefined) {
-      req.body.days = 720;
+      req.body.days = 120;
     }
     next();
   },
