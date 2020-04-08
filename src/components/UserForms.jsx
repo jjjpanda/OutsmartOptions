@@ -57,8 +57,8 @@ class LoginModal extends React.Component {
                 visible: false,
                 confirmLoading: false,
               }), () => {
-                Cookie.set('id', data.id);
-                Cookie.set('token', data.token);
+                Cookie.set('id', data.id, { expires: 365 });
+                Cookie.set('token', data.token, { expires: 365 });
                 this.props.form.resetFields();
                 window.location = window.location;
               });
@@ -170,8 +170,8 @@ class RegisterModal extends React.Component {
                 visible: false,
                 confirmLoading: false,
               }), () => {
-                Cookie.set('id', '');
-                Cookie.set('token', '');
+                Cookie.set('id', '', { expires: 365 });
+                Cookie.set('token', '', { expires: 365 });
                 this.props.form.resetFields();
               });
             } else {
@@ -304,8 +304,8 @@ class ChangePasswordModal extends React.Component {
                 visible: false,
                 confirmLoading: false,
               }), () => {
-                Cookie.set('id', '');
-                Cookie.set('token', '');
+                Cookie.set('id', '', { expires: 365 });
+                Cookie.set('token', '', { expires: 365 });
                 this.props.form.resetFields();
                 window.location = window.location;
               });
@@ -388,8 +388,8 @@ class ChangePasswordModal extends React.Component {
 
 class SignOut extends React.Component {
     onClick = (e) => {
-      Cookie.set('id', '');
-      Cookie.set('token', '');
+      Cookie.set('id', '', { expires: 365 });
+      Cookie.set('token', '', { expires: 365 });
       window.location = window.location;
     }
 
@@ -410,8 +410,8 @@ class DeleteAccount extends React.Component {
             visible: false,
             confirmLoading: false,
           }), () => {
-            Cookie.set('id', '');
-            Cookie.set('token', '');
+            Cookie.set('id', '', { expires: 365 });
+            Cookie.set('token', '', { expires: 365 });
             window.location = window.location;
           });
         } else {

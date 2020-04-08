@@ -111,47 +111,79 @@ class StockSymbol extends React.Component {
         // Not Logged in, don't care
       }
 
-      request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: e}), (data) => {
-        console.log(data)
-        let {quote} = data
-        if(quote.found){
-          this.setState(() => ({ 
-            symbol: e, 
-            price: quote.price, 
-            priceChange: quote.change, 
-            description: quote.name, 
-            earningsDate: quote.earningsDate,
-            divYield: quote.divYield,
-            optionsChain: [['Empty', {}]], 
-            progress: 25 
-          }), () => {
-            request.postFetchReq('/api/market/historical', JSON.stringify({ ticker: e }), (data) => {
-              this.setState(() => ({ historical: data.historical, progress: 50 }), () => {
-                console.log(this.state);
-                request.postFetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
-                  this.setState(() => ({ optionsChain: data.chain, progress: 75 }), () => {
-                      request.postFetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
-                        let iv = data.historicalIV
-                        this.setState(() => ({ historicalIV: iv, loading: false, progress: 100 }), () => {
-                          this.props.updateCallback(this.state, callback);    
-                        });
-                      });
-                    }
-                  )
-                })
-              });
-            });
-            
-          })
-        }
-        else{
-          this.notFound(e);
-          this.setState(() => ({ price: 0, priceChange: 0, exists: false }), 
-            () => { this.props.updateCallback(this.state); 
-          });
-        }
-      })
+      let quote = (callback, rejected) => {
+        console.log("Quote")
+        request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: e}), (data) => {
+          if(!data.error && data.quote != undefined && data.quote.found){
+            let {quote} = data
+            this.setState(() => ({ 
+              symbol: e, 
+              price: quote.price, 
+              priceChange: quote.change, 
+              description: quote.name, 
+              earningsDate: quote.earningsDate,
+              divYield: quote.divYield,
+              optionsChain: [['Empty', {}]], 
+              progress: 25 
+            }), callback)
+          }
+          else{
+            this.notFound(e);
+            this.setState(() => ({ price: 0, priceChange: 0, exists: false, loading: false, progress: NaN }), rejected)
+          }
+        })
+      }
 
+      let historical = (callback, rejected) => {
+        console.log("Historical")
+        request.postFetchReq('/api/market/historical', JSON.stringify({ ticker: e, days: 300 }), (data) => {
+          if(!data.error && data.historical != undefined){
+            this.setState(() => ({ historical: data.historical, progress: 50 }), callback);
+          }
+          else{
+            this.setState(() => ({historical: [], loading: false, progress: NaN}), rejected)
+          }
+        });
+      }
+
+      let chain = (callback, rejected) => {
+        console.log("Chain")
+        request.postFetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
+          if(!data.error && data.chain != undefined){
+            this.setState(() => ({ optionsChain: data.chain, progress: 75 }), callback)
+          }
+          else {
+            this.setState(() => ({optionsChain: [['Empty', {}]], loading: false, progress: NaN }), rejected)
+          }
+        })
+      }
+
+      let historicalIV = (callback, rejected) => { 
+        console.log("IV")
+        request.postFetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
+          if(!data.error && data.historicalIV != undefined){
+            let iv = data.historicalIV
+            this.setState(() => ({ historicalIV: iv, loading: false, progress: 100 }), callback);
+          }
+          else{
+            this.setState(() => ({historicalIV: [], loading: false, progress: NaN}), rejected)
+          }
+        });
+      }
+      
+      let updateErrorToParent = () => {
+        this.props.updateCallback(this.state)
+      }
+
+      quote(() => {
+        historical(() => {
+            chain(() => {
+              historicalIV(() => {
+                this.props.updateCallback(this.state, callback); 
+              }, updateErrorToParent)
+            }, updateErrorToParent )
+          }, updateErrorToParent )
+      }, updateErrorToParent )
     };
 
     onStarClick = () => {
@@ -209,7 +241,7 @@ class StockSymbol extends React.Component {
               <Card>
                 {this.state.description != null ? `${this.state.description} ${(this.state.optionsChain[0] != undefined ? '' : 'has no options chain')}` : "Stock Doesn't Exist"}
                 {this.state.loading ? <SpinningLogo /> : null}
-                {this.state.loading ? <Progress percent={this.state.progress} status={"active"} /> : null}
+                {this.state.loading ? <Progress percent={isNaN(this.state.progress) ? "" : this.state.progress} status={isNaN(this.state.progress) ? "exception" : ""} status={"active"} /> : null}
               </Card>
             </div>
             <div style={{ width: '600px' }} />
