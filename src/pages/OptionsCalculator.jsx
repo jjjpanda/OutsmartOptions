@@ -309,6 +309,7 @@ class OptionsCalculator extends React.Component {
           <div style={{ width: '60px', display: 'inline-block' }} />
           {/* <EquityModal symbol={this.state.symbol} price={this.state.price} onHandleOptionLegChange={this.onHandleOptionLegChange} />
            */}
+          <StockCalendar earningsDate={this.state.earningsDate} />
           <div style={{ width: '43px', display: 'inline-block' }} />
           <OptionsChain onHandleOptionLegChange={this.onHandleOptionLegChange} modalTrackSelected={this.modalTrackSelected} editLegLoading={this.state.editLegLoading} optionsSelected={this.state.optionsSelected} optionsChain= {this.state.optionsChain} />
           <div style={{ width: '43px', display: 'inline-block' }} />
@@ -319,7 +320,7 @@ class OptionsCalculator extends React.Component {
           <div id="calculateButton" step-name="calculate-button">
             <ButtonGroup>
               <Button onClick={this.calculateProfits} type="primary">Calculate</Button>
-              <Button type="primary" icon="cloud" onClick={() => { this.setState(() => ({ calculateMenuVisible: true })); }} />
+              <Button type="primary" icon="setting" onClick={() => { this.setState(() => ({ calculateMenuVisible: true })); }} />
             </ButtonGroup>
           </div>
           <Modal
@@ -329,12 +330,8 @@ class OptionsCalculator extends React.Component {
           >
             <CalculateMenu 
               calculateProfits={this.calculateProfits} 
-              erVisible={this.state.erVisible}
               intervalChange={(e) => { this.setState(() => ({ percentInterval: e })); }} 
               numberChange ={(e) => { this.setState(() => ({ numberIntervals: e })); }} 
-              showCalenderOnClick = {() => { this.setState(() => ({ erVisible: true, calculateMenuVisible: false })); }}
-              calendarModalOk = {() => { this.setState(() => ({ erVisible: false, calculateMenuVisible: true })); }}
-              earningsDate={this.state.earningsDate}
             />
           </Modal>
           <div id="strategyButtons"><StrategySelector loadInOptionsSelected={this.loadInOptionsSelected} forceSearch={(symbol, callback) => {this.stockSymbol.current.onSearch(symbol, undefined, callback)}} symbol={this.state.symbol} optionsSelected={this.state.optionsSelected} /></div>

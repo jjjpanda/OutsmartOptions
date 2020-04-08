@@ -112,6 +112,7 @@ class StockSymbol extends React.Component {
       }
 
       request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: e}), (data) => {
+        console.log(data)
         let {quote} = data
         if(quote.found){
           this.setState(() => ({ 
