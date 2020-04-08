@@ -4,10 +4,11 @@ import {
   Badge,
   Icon,
   Button,
-  Modal
+  Modal,
+  Popover
 } from 'antd';
 
-import * as moment from 'moment';
+import IVDate from './IVDate.jsx'
 
 class StockCalendar extends React.Component {
   constructor(props) {
@@ -18,15 +19,9 @@ class StockCalendar extends React.Component {
   }
 
   dateCellRender = (value) => {
-    if (moment(this.props.earningsDate).diff(value, 'hours') < 24) {
-      return (
-        <h1>{value.date()}</h1>
-      );
-    }
-
     return (
-      <strong>{value.date()}</strong>
-    );
+      <IVDate key={value} date={value} earningsDate={this.props.earningsDate} />
+    )
   }
 
   onDateChange = (value, m) => {
@@ -49,7 +44,7 @@ class StockCalendar extends React.Component {
             visible={this.state.erVisible}
             footer = {<Button onClick={this.closeCalendar} >Ok</Button>}
         >
-          <Calendar fullscreen={false} onSelect={this.onDateChange} dateFullCellRender={this.dateCellRender} />
+          <Calendar fullscreen={true} onSelect={this.onDateChange} dateFullCellRender={this.dateCellRender} />
         </Modal>
       </div>
     );

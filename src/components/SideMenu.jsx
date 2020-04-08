@@ -30,12 +30,18 @@ const Sider = Layout.Sider;
 const Content = Layout.Content;
 
 class SideMenu extends React.Component {
-    state = {
-      collapsed: true,
-      currentTab: 'index',
-      toggleDarkMode: true,
-      toggleTooltip: true,
-    };
+    constructor(props){
+      super(props)
+      this.state = {
+        collapsed: true,
+        currentTab: 'index',
+        toggleDarkMode: (Cookie.get('theme') === undefined ? false : Cookie.get('theme')) === 'true',
+        toggleTooltip: true,
+      };
+      window.less.modifyVars(
+        this.state.toggleDarkMode ? darkTheme : lightTheme,
+      ).then((e) => console.log(e), (e) => console.log('error', e));
+    }
 
     onCollapse = (collapsed) => {
       console.log(collapsed);
@@ -50,24 +56,23 @@ class SideMenu extends React.Component {
     };
 
     toggleTooltips = () => {
-      this.setState({
-        toggleTooltip: !this.state.toggleTooltip,
+      this.setState((state) => ({
+        toggleTooltip: !state.toggleTooltip,
+      }), () => {
+        console.log('Toggled tooltip: ', +this.state.toggleTooltip);
       });
-      console.log('Toggled tooltip: ', +this.state.toggleTooltip);
     }
 
     toggleDarkMode = () => {
-      this.setState(() => ({
-        toggleDarkMode: !this.state.toggleDarkMode,
+      this.setState((state) => ({
+        toggleDarkMode: !state.toggleDarkMode,
       }), () => {
-        Cookie.set('theme', this.state.toggleDarkMode);
+        console.log('Toggled darkmode: ', +this.state.toggleDarkMode);
+        Cookie.set('theme', this.state.toggleDarkMode, { expires: 365 });
+        window.less.modifyVars(
+          this.state.toggleDarkMode ? darkTheme : lightTheme,
+        ).then((e) => console.log(e), (e) => console.log('error', e));
       });
-      console.log('Toggled darkmode: ', +this.state.toggleDarkMode);
-
-
-      window.less.modifyVars(
-        this.state.toggleDarkMode ? darkTheme : lightTheme,
-      ).then((e) => console.log(e), (e) => console.log('error', e));
     }
 
     render() {
