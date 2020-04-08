@@ -29,6 +29,13 @@ const Footer = Layout.Footer;
 const Sider = Layout.Sider;
 const Content = Layout.Content;
 
+let themeChange 
+try{
+  themeChange = window.less.modifyVars
+} catch(e) {
+  themeChange = () => { return Promise.reject(e) }
+}
+
 class SideMenu extends React.Component {
     constructor(props){
       super(props)
@@ -38,7 +45,7 @@ class SideMenu extends React.Component {
         toggleDarkMode: (Cookie.get('theme') === undefined ? false : Cookie.get('theme')) === 'true',
         toggleTooltip: true,
       };
-      window.less.modifyVars(
+      themeChange(
         this.state.toggleDarkMode ? darkTheme : lightTheme,
       ).then((e) => console.log(e), (e) => console.log('error', e));
     }
@@ -69,7 +76,7 @@ class SideMenu extends React.Component {
       }), () => {
         console.log('Toggled darkmode: ', +this.state.toggleDarkMode);
         Cookie.set('theme', this.state.toggleDarkMode, { expires: 365 });
-        window.less.modifyVars(
+        themeChange(
           this.state.toggleDarkMode ? darkTheme : lightTheme,
         ).then((e) => console.log(e), (e) => console.log('error', e));
       });
