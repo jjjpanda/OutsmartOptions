@@ -2,7 +2,11 @@
   "name": "outsmart_options",
   "version": "1.0.0",
   "description": "Y'all ever wanted to make money?",
-  "main": "server.js",
+  "main": "server/server.js",
+  "engines": {
+    "node": "12.16.1",
+    "npm": "6.14.4"
+  },
   "scripts": {
     "build": "run-s clean createDist",
     "start": "node ./server/server.js",
