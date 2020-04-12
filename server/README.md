@@ -11,7 +11,7 @@ which calls 3 main subprocesses:
         - [/api/users/](#apiusers)
         - [/api/watchlist/](#apiwatchlist)
         - [/api/strategy/](#apistrategy)
-    - [Dev Endpoints](#dev/)
+    - [Dev Endpoints](#dev)
 2. **[The Discord Bot](#discord-and-roku)**
 3. **[The Daemons](#daemons)**
     - [The MongoDB Database](#the-database)
