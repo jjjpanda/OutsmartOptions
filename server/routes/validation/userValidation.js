@@ -3,7 +3,7 @@ const isEmpty = require('is-empty');
 
 module.exports = {
 
-  validateRegister(req, res, next){
+  validateRegister(req, res, next) {
     const errors = {};
     // Convert empty fields to an empty string so we can use validator functions
     req.body.name = !isEmpty(req.body.name) ? req.body.name : '';
@@ -35,14 +35,13 @@ module.exports = {
     }
     //
     if (!isEmpty(errors)) {
-      res.status(400).json({ error: true, errors, details: "Validation Error from validateRegister in userValidation" });
-    }
-    else{
-      next()
+      res.status(400).json({ error: true, errors, details: 'Validation Error from validateRegister in userValidation' });
+    } else {
+      next();
     }
   },
 
-  validateLogin(req, res, next){
+  validateLogin(req, res, next) {
     const errors = {};
     // Convert empty fields to an empty string so we can use validator functions
     req.body.email = !isEmpty(req.body.email) ? req.body.email : '';
@@ -59,14 +58,13 @@ module.exports = {
     }
     //
     if (!isEmpty(errors)) {
-      res.status(400).json({ error: true, errors, details: "Validation Error from validateLogin in userValidation" });
-    }
-    else{
-      next()
+      res.status(400).json({ error: true, errors, details: 'Validation Error from validateLogin in userValidation' });
+    } else {
+      next();
     }
   },
 
-  validatePasswordChange(req, res, next){
+  validatePasswordChange(req, res, next) {
     const errors = {};
 
     req.body.oldPassword = !isEmpty(req.body.oldPassword) ? req.body.oldPassword : '';
@@ -74,21 +72,20 @@ module.exports = {
     req.body.newPassword2 = !isEmpty(req.body.newPassword2) ? req.body.newPassword2 : '';
 
     if (Validator.isEmpty(req.body.oldPassword)) {
-      error.password = "Incorrect Password"
+      error.password = 'Incorrect Password';
     }
     if (Validator.isEmpty(req.body.newPassword) || Validator.isEmpty(req.body.newPassword2)) {
-      error.newPassword = "No New Password Given"
+      error.newPassword = 'No New Password Given';
     }
-    if (req.body.newPassword !== req.body.newPassword2){
-      error.newPassword = "Passwords don't match"
+    if (req.body.newPassword !== req.body.newPassword2) {
+      error.newPassword = "Passwords don't match";
     }
 
     if (!isEmpty(errors)) {
-      res.status(400).json({ error: true, errors, details: "Validation Error from validatePasswordChange in userValidation" });
+      res.status(400).json({ error: true, errors, details: 'Validation Error from validatePasswordChange in userValidation' });
+    } else {
+      next();
     }
-    else{
-      next()
-    }
-  }
+  },
 
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 
 export function tutorialSteps(state, this_) {
-  
   return [
     // Step 1: Title
     {
@@ -342,5 +341,5 @@ export function tutorialSteps(state, this_) {
         </div>
       ),
     },
-  ]
+  ];
 }

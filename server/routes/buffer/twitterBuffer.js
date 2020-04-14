@@ -1,10 +1,11 @@
 const request = require('request');
 const env = require('dotenv').config();
-const twitterKey = process.env.twitterKey
+
+const { twitterKey } = process.env;
 
 module.exports = {
 
-  getTweets(req, res, next){
+  getTweets(req, res, next) {
     request({
       method: 'get',
       url: 'https://api.twitter.com/1.1/search/tweets.json',
@@ -23,10 +24,10 @@ module.exports = {
         } else {
           req.body.answer = { tweets: false };
         }
-        next()
+        next();
       } else {
-        res.status(400).json({ error: true, details: "Data Formatting Error from getTweets in twitterBuffer" });
+        res.status(400).json({ error: true, details: 'Data Formatting Error from getTweets in twitterBuffer' });
       }
     });
-  }
+  },
 };

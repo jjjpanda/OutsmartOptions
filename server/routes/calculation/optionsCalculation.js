@@ -1,5 +1,5 @@
 const { mathematique } = require('que-series');
-const moment = require('moment')
+const moment = require('moment');
 
 module.exports = {
 
@@ -34,22 +34,20 @@ module.exports = {
     next();
   },
 
-  getHistoricalIV(req, res, next){
-    let historicalIV = req.body.answer.historical.filter(a => a.historical).map((d) => {
-      return {
-        date: d.historical[0].date,
-        underlying: d.underlying,
-        strike: d.strike,
-        price: d.historical[0].close,
-        symbol: d.symbol,
-        iv: mathematique.options.calculateIV(moment(d.date).diff(moment(d.historical[0].date), 'hours') / (365*24), d.historical[0].close, d.underlying, d.strike, false, 0, 0)
-      };
-    })
+  getHistoricalIV(req, res, next) {
+    let historicalIV = req.body.answer.historical.filter((a) => a.historical).map((d) => ({
+      date: d.historical[0].date,
+      underlying: d.underlying,
+      strike: d.strike,
+      price: d.historical[0].close,
+      symbol: d.symbol,
+      iv: mathematique.options.calculateIV(moment(d.date).diff(moment(d.historical[0].date), 'hours') / (365 * 24), d.historical[0].close, d.underlying, d.strike, false, 0, 0),
+    }));
 
-    historicalIV = historicalIV.sort((a, b) => moment(a.date).diff(moment(b.date), 'days'))
+    historicalIV = historicalIV.sort((a, b) => moment(a.date).diff(moment(b.date), 'days'));
 
-    req.body.answer.historicalIV = historicalIV
-    next()
-  }
+    req.body.answer.historicalIV = historicalIV;
+    next();
+  },
 
 };

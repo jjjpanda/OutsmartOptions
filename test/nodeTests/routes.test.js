@@ -7,39 +7,38 @@ const tickerWithoutOptions = 'YYY';
 const nonTicker = 'BRUH MOMENT';
 const search = 'Microsoft';
 const incoherentSearch = 'bruhMoment';
-const days = 31
+const days = 31;
 
 const waitTime = 30000;
 
 describe('GET Website Paths /', () => {
   it('gets index path', async (done) => {
     request(app).get('/')
-    .expect('Content-Type', /html/)
-    .expect(200)
-    .then((response) => {
-      expect(response).toBeDefined()
-      done();
-    });
+      .expect('Content-Type', /html/)
+      .expect(200)
+      .then((response) => {
+        expect(response).toBeDefined();
+        done();
+      });
   }, waitTime);
 
   it('confirms 404', async (done) => {
     request(app).get('/thisIsNotARealRoute')
-    .expect('Content-Type', /text/)
-    .expect(404)
-    .then((response) => {
-      expect(response).toBeDefined()
-      done();
-    });
+      .expect('Content-Type', /text/)
+      .expect(404)
+      .then((response) => {
+        expect(response).toBeDefined();
+        done();
+      });
   }, waitTime);
 });
 
 describe('POST Market Data /api/market/', () => {
-
   beforeEach((done) => {
     setTimeout(() => {
-      done()
-    }, 50)
-  })
+      done();
+    }, 50);
+  });
 
   describe('/quote', () => {
     it('stock quote', async (done) => {
@@ -186,14 +185,14 @@ describe('POST Market Data /api/market/', () => {
   describe('/iv', () => {
     it('tests historical iv', async (done) => {
       request(app).post('/api/market/iv')
-      .send({ ticker, days })
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.historicalIV).toBeArray();
-        done();
-      });
-    }, waitTime)
+        .send({ ticker, days })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.historicalIV).toBeArray();
+          done();
+        });
+    }, waitTime);
 
     it('tests historical iv of stock without options', async (done) => {
       request(app).post('/api/market/iv')
@@ -204,8 +203,7 @@ describe('POST Market Data /api/market/', () => {
           expect(response.body.error).toBe(true);
           done();
         });
-    }, waitTime)
-    
+    }, waitTime);
   });
 
   describe('/yields', () => {

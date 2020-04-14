@@ -15,8 +15,7 @@ module.exports = {
     User.findOne({ email: req.body.email }).then((user) => {
       if (user) {
         res.status(400).json({ error: true, details: 'Buffer Error from registerUser in userBuffer' });
-      }
-      else{
+      } else {
         const newUser = new User({
           name: req.body.name,
           email: req.body.email,
@@ -26,13 +25,12 @@ module.exports = {
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
-            else{
+            else {
               newUser.password = hash;
               newUser
                 .save()
                 .then((user) => res.json({ registered: { name: user.name, email: user.email, date: user.date } }))
                 .catch((err) => appendLogs('./server/logs/logs.txt', err));
-            
             }
           });
         });
@@ -48,8 +46,7 @@ module.exports = {
       // Check if user exists
       if (!user) {
         res.status(400).json({ error: true, details: 'Buffer Error from loginUser in userBuffer' });
-      }
-      else{
+      } else {
         // Check password
         bcrypt.compare(password, user.password).then((isMatch) => {
           if (isMatch) {
@@ -66,15 +63,17 @@ module.exports = {
                 expiresIn: 31556926, // 1 year in seconds
               },
               (err, token) => {
-                res.json({ login: {
-                  success: true,
-                  id: user.id,
-                  token: `Bearer ${token}`,
-                }});
+                res.json({
+                  login: {
+                    success: true,
+                    id: user.id,
+                    token: `Bearer ${token}`,
+                  },
+                });
               },
             );
           } else {
-            res.status(400).json({ error: true, details: 'Buffer Error from loginUser in userBuffer', errors: "Password Incorrect" });
+            res.status(400).json({ error: true, details: 'Buffer Error from loginUser in userBuffer', errors: 'Password Incorrect' });
           }
         });
       }
@@ -86,9 +85,8 @@ module.exports = {
     User.findById(id).then((user) => {
       if (!user) {
         res.status(400).json({ error: true, details: 'Buffer Error from currentUser in userBuffer' });
-      }
-      else{
-        res.json({current: { name: user.name, email: user.email }});
+      } else {
+        res.json({ current: { name: user.name, email: user.email } });
       }
     }).catch((errors) => {
       res.json({ error: true, details: 'Buffer Error from currentUser in userBuffer', errors });
@@ -96,21 +94,22 @@ module.exports = {
   },
 
   changePassword(req, res) {
-    const { id, oldPassword, newPassword, newPassword2 } = req.body;
+    const {
+      id, oldPassword, newPassword, newPassword2,
+    } = req.body;
     if (oldPassword == undefined || newPassword == undefined || newPassword2 == undefined) {
       res.status(400).json({ error: true, details: 'Buffer Error from changePassword in userBuffer' });
     }
     User.findById(id).then((user) => {
       if (!user) {
         res.status(400).json({ error: true, details: 'Buffer Error from changePassword in userBuffer' });
-      }
-      else {
+      } else {
         bcrypt.compare(oldPassword, user.password).then((isMatch) => {
           if (isMatch) {
             bcrypt.genSalt(10, (err, salt) => {
               bcrypt.hash(newPassword, salt, (err, hash) => {
                 if (err) throw err;
-                else{
+                else {
                   user.password = hash;
                   user
                     .save()
@@ -120,7 +119,7 @@ module.exports = {
               });
             });
           } else {
-            res.status(400).json({ error: true, details: 'Buffer Error from changePassword in userBuffer', errors: "Passwords Incorrect" });
+            res.status(400).json({ error: true, details: 'Buffer Error from changePassword in userBuffer', errors: 'Passwords Incorrect' });
           }
         });
       }
@@ -132,8 +131,7 @@ module.exports = {
     User.findByIdAndDelete(id).then((err, user) => {
       if (!err) {
         res.status(400).json({ error: true, details: 'Buffer Error from deleteUser in userBuffer' });
-      }
-      else{
+      } else {
         res.json({ deleted: true });
       }
     });

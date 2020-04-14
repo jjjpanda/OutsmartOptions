@@ -16,8 +16,6 @@ import {
 } from 'que-series';
 import verifyUser from './UserVerifier.jsx';
 
-const TabPane = Tabs.TabPane;
-
 const { request, structure } = util;
 const { options } = math;
 
@@ -111,9 +109,9 @@ class StrategySelector extends React.Component {
     ))
 
     renderTabs = () => Object.keys(this.state.strategies).map((i) => (
-      <TabPane tab={i} key={i}>
+      <Tabs.TabPane tab={i} key={i}>
         {this.renderCards(this.state.strategies[i], i)}
-      </TabPane>
+      </Tabs.TabPane>
     ))
 
     openModal = () => {

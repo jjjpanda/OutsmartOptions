@@ -2,13 +2,13 @@ const request = require('supertest');
 const app = require('../../server/app.js');
 const mongoDB = require('../../server/daemons/database');
 
-const Option = require('../../server/daemons/models/Option.js')
+const Option = require('../../server/daemons/models/Option.js');
 
 const waitTime = 10000;
-let name = 'Bruh'
-let email = 'email@email.email'
-let password = 'password'
-let newPassword = 'newPassword'
+const name = 'Bruh';
+const email = 'email@email.email';
+const password = 'password';
+const newPassword = 'newPassword';
 let id; let
   token;
 
@@ -29,7 +29,6 @@ afterAll(async (done) => mongoDB.disconnect((success) => {
 }), waitTime);
 
 describe('Consecutive Tests', () => {
-  
   describe('POST User Requests /api/users/', () => {
     describe('/register', () => {
       it('registers a new user missing password retype', async (done) => {
@@ -38,14 +37,16 @@ describe('Consecutive Tests', () => {
           .expect('Content-Type', /json/)
           .expect(400)
           .then((response) => {
-            expect(response.body.error).toBe(true)
+            expect(response.body.error).toBe(true);
             done();
           });
       }, waitTime);
-  
+
       it('registers a new user', async (done) => {
         request(app).post('/api/users/register')
-          .send({ name, email, password, password2 : password })
+          .send({
+            name, email, password, password2: password,
+          })
           .expect('Content-Type', /json/)
           .expect(200)
           .then((response) => {
@@ -54,10 +55,12 @@ describe('Consecutive Tests', () => {
             done();
           });
       }, waitTime);
-  
+
       it('try registering with same email', async (done) => {
         request(app).post('/api/users/register')
-          .send({ name, email, password, password2: password })
+          .send({
+            name, email, password, password2: password,
+          })
           .expect('Content-Type', /json/)
           .expect(400)
           .then((response) => {
@@ -66,7 +69,7 @@ describe('Consecutive Tests', () => {
           });
       }, waitTime);
     });
-  
+
     describe('/login', () => {
       it('login validate', async (done) => {
         request(app).post('/api/users/login')
@@ -77,13 +80,13 @@ describe('Consecutive Tests', () => {
             expect(response.body.login).toBeObject();
             expect(response.body.login.success).toBe(true);
             expect(response.body.login.id).toBeString();
-            expect(response.body.login.token).toBeString()
+            expect(response.body.login.token).toBeString();
             id = response.body.login.id;
             token = response.body.login.token;
             done();
           });
       }, waitTime);
-  
+
       it('false login', async (done) => {
         request(app).post('/api/users/login')
           .send({ email, password: 'wrongPassword' })
@@ -96,7 +99,7 @@ describe('Consecutive Tests', () => {
       }, waitTime);
     });
   });
-  
+
   describe('POST Watchlist /api/watchlist/', () => {
     describe('/add', () => {
       it('tests edit watchlist to add', async (done) => {
@@ -111,7 +114,7 @@ describe('Consecutive Tests', () => {
           });
       }, waitTime);
     });
-  
+
     describe('/view', () => {
       it('view watchlist', async (done) => {
         request(app).post('/api/watchlist/view')
@@ -125,7 +128,7 @@ describe('Consecutive Tests', () => {
           });
       }, waitTime);
     });
-  
+
     describe('/remove', () => {
       it('delete from watchlist', async (done) => {
         request(app).post('/api/watchlist/remove')
@@ -140,24 +143,30 @@ describe('Consecutive Tests', () => {
       }, waitTime);
     });
   });
-  
-  describe('POST Strategy /api/strategy/', () => {
 
-    const underlyingTicker = 'ABC'
-    const Option1 = new Option("2000-01-01", 100, 5, true, true, 3, "A000101C00010000")
-    const Option2 = new Option("2000-01-01", 105, 2, true, false, 1, "A000101C00010500")
-    const Option3 = {date: "2000-01-01", strike: 100, cost: 0.5, isCall: false, isLong: true, quantity: 2, symbol: "A000101P00010000"}
- 
-    const stratName = "The Best Strat"
+  describe('POST Strategy /api/strategy/', () => {
+    const underlyingTicker = 'ABC';
+    const Option1 = new Option('2000-01-01', 100, 5, true, true, 3, 'A000101C00010000');
+    const Option2 = new Option('2000-01-01', 105, 2, true, false, 1, 'A000101C00010500');
+    const Option3 = {
+      date: '2000-01-01', strike: 100, cost: 0.5, isCall: false, isLong: true, quantity: 2, symbol: 'A000101P00010000',
+    };
+
+    const stratName = 'The Best Strat';
 
     describe('/save', () => {
       it('tests /save', async (done) => {
         request(app).post('/api/strategy/save')
-          .send({ id, ticker: underlyingTicker, name: stratName, legs: [
-            Option1, // Array of Options should pass
-            Option2, 
-            Option3  // Or Object imitating Option
-          ] }) 
+          .send({
+            id,
+            ticker: underlyingTicker,
+            name: stratName,
+            legs: [
+              Option1, // Array of Options should pass
+              Option2,
+              Option3, // Or Object imitating Option
+            ],
+          })
           .set('Authorization', token)
           .expect('Content-Type', /json/)
           .expect(200)
@@ -166,7 +175,7 @@ describe('Consecutive Tests', () => {
             done();
           });
       }, waitTime);
-  
+
       it('tests badly formatted /save', async (done) => {
         request(app).post('/api/strategy/save')
           .send({ id, ticker: underlyingTicker, strategy: [7, 7, 7] }) // Array with anything other than Options should fail
@@ -179,7 +188,7 @@ describe('Consecutive Tests', () => {
           });
       }, waitTime);
     });
-  
+
     describe('/load', () => {
       it('Tests /load', async (done) => {
         request(app).post('/api/strategy/load')
@@ -188,7 +197,7 @@ describe('Consecutive Tests', () => {
           .expect('Content-Type', /json/)
           .expect(200)
           .then((response) => {
-            expect(response.body.strategies[0].name).toBe(stratName)
+            expect(response.body.strategies[0].name).toBe(stratName);
             expect(response.body.strategies[0].legs[0]).toMatchObject(Option2);
             expect(response.body.strategies[0].legs[1]).toMatchObject(Option3);
             expect(response.body.strategies[0].legs[2]).toMatchObject(Option1);
@@ -196,15 +205,20 @@ describe('Consecutive Tests', () => {
           });
       }, waitTime);
     });
-  
+
     describe('/delete', () => {
       it('tests /delete', async (done) => {
         request(app).post('/api/strategy/delete')
-          .send({ id, ticker: underlyingTicker, name: stratName, legs: [
-            Option1,
-            Option2, 
-            Option3
-          ] })
+          .send({
+            id,
+            ticker: underlyingTicker,
+            name: stratName,
+            legs: [
+              Option1,
+              Option2,
+              Option3,
+            ],
+          })
           .set('Authorization', token)
           .expect('Content-Type', /json/)
           .expect(200)
@@ -216,7 +230,7 @@ describe('Consecutive Tests', () => {
       }, waitTime);
     });
   });
-  
+
   describe('POST Logged In User Requests /api/users/', () => {
     describe('/current', () => {
       it('authentication validation', async (done) => {
@@ -227,27 +241,29 @@ describe('Consecutive Tests', () => {
           .expect(200)
           .then((response) => {
             expect(response.body.current.email).toBe(email);
-            expect(response.body.current.name).toBe(name)
+            expect(response.body.current.name).toBe(name);
             done();
           });
       }, waitTime);
-  
+
       it('authentication validation with no token', async (done) => {
         request(app).post('/api/users/current')
           .send({ id })
           .expect('Content-Type', /json/)
           .expect(401)
           .then((response) => {
-            expect(response.body.unauthorized).toBe(true)
+            expect(response.body.unauthorized).toBe(true);
             done();
           });
       }, waitTime);
     });
-  
+
     describe('/change', () => {
       it('password changing', async (done) => {
         request(app).post('/api/users/change')
-          .send({ id, oldPassword: password, newPassword, newPassword2: newPassword })
+          .send({
+            id, oldPassword: password, newPassword, newPassword2: newPassword,
+          })
           .set('Authorization', token)
           .expect('Content-Type', /json/)
           .expect(200)
@@ -256,10 +272,12 @@ describe('Consecutive Tests', () => {
             done();
           });
       }, waitTime);
-  
+
       it('incorrect password changing', async (done) => {
         request(app).post('/api/users/change')
-          .send({ id, oldPassword: 'passwordThatsWrong', newPassword: 'shouldntReallyMatter', newPassword2: 'shouldntReallyMatter' })
+          .send({
+            id, oldPassword: 'passwordThatsWrong', newPassword: 'shouldntReallyMatter', newPassword2: 'shouldntReallyMatter',
+          })
           .set('Authorization', token)
           .expect('Content-Type', /json/)
           .expect(400)
@@ -269,7 +287,7 @@ describe('Consecutive Tests', () => {
           });
       }, waitTime);
     });
-  
+
     describe('/delete', () => {
       it('delete user', async (done) => {
         request(app).post('/api/users/delete')
@@ -284,5 +302,4 @@ describe('Consecutive Tests', () => {
       }, waitTime);
     });
   });
-  
-})
+});
