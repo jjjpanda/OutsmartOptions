@@ -111,7 +111,7 @@ class StockSymbol extends React.Component {
         // Not Logged in, don't care
       }
 
-      let quote = (callback, rejected) => {
+      let quote = (callback, rejected, progressObj) => {
         console.log("Quote")
         request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: e}), (data) => {
           if(!data.error && data.quote != undefined && data.quote.found){
@@ -124,7 +124,7 @@ class StockSymbol extends React.Component {
               earningsDate: quote.earningsDate,
               divYield: quote.divYield,
               optionsChain: [['Empty', {}]], 
-              progress: 25 
+              ...progressObj
             }), callback)
           }
           else{
@@ -134,11 +134,11 @@ class StockSymbol extends React.Component {
         })
       }
 
-      let historical = (callback, rejected) => {
+      let historical = (callback, rejected, progressObj) => {
         console.log("Historical")
         request.postFetchReq('/api/market/historical', JSON.stringify({ ticker: e, days: 300 }), (data) => {
           if(!data.error && data.historical != undefined){
-            this.setState(() => ({ historical: data.historical, progress: 50 }), callback);
+            this.setState(() => ({ historical: data.historical, ...progressObj }), callback);
           }
           else{
             this.setState(() => ({historical: [], loading: false, progress: NaN}), rejected)
@@ -146,11 +146,11 @@ class StockSymbol extends React.Component {
         });
       }
 
-      let chain = (callback, rejected) => {
+      let chain = (callback, rejected, progressObj) => {
         console.log("Chain")
         request.postFetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
           if(!data.error && data.chain != undefined){
-            this.setState(() => ({ optionsChain: data.chain, progress: 75 }), callback)
+            this.setState(() => ({ optionsChain: data.chain, ...progressObj }), callback)
           }
           else {
             this.setState(() => ({optionsChain: [['Empty', {}]], loading: false, progress: NaN }), rejected)
@@ -158,12 +158,12 @@ class StockSymbol extends React.Component {
         })
       }
 
-      let historicalIV = (callback, rejected) => { 
+      let historicalIV = (callback, rejected, progressObj) => { 
         console.log("IV")
         request.postFetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
           if(!data.error && data.historicalIV != undefined){
             let iv = data.historicalIV
-            this.setState(() => ({ historicalIV: iv, loading: false, progress: 100 }), callback);
+            this.setState(() => ({ historicalIV: iv, ...progressObj }), callback);
           }
           else{
             this.setState(() => ({historicalIV: [], loading: false, progress: NaN}), rejected)
@@ -178,12 +178,12 @@ class StockSymbol extends React.Component {
       quote(() => {
         historical(() => {
             chain(() => {
-              historicalIV(() => {
+              //historicalIV(() => {
                 this.props.updateCallback(this.state, callback); 
-              }, updateErrorToParent)
-            }, updateErrorToParent )
-          }, updateErrorToParent )
-      }, updateErrorToParent )
+              //}, updateErrorToParent, {loading: false, progress: 100 })
+            }, updateErrorToParent, { progress: 100, loading: false } )
+          }, updateErrorToParent, { progress: 66 } )
+      }, updateErrorToParent, { progress: 33 } )
     };
 
     onStarClick = () => {
