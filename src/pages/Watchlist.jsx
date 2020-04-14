@@ -79,8 +79,8 @@ class Watchlist extends React.Component {
                     data = data.quote
                     this.setState((state) => {
                       const i = state.dataSource.findIndex((e) => e.ticker == stock);
-                      state.dataSource[i].price = data.price;
-                      state.dataSource[i].change = data.change;
+                      state.dataSource[i].price = Math.round(100*data.price)/100;
+                      state.dataSource[i].change = Math.round(100*data.change)/100;
                       state.dataSource[i].name = data.name;
                       return { dataSource: state.dataSource };
                     });
@@ -91,14 +91,14 @@ class Watchlist extends React.Component {
                     this.setState((state) => {
                       data = data.optionsQuote
                       const i = state.dataSource.findIndex((e) => e.ticker == stock);
-                      state.dataSource[i].callIV = data.callIV;
-                      state.dataSource[i].callVol = data.callVol;
-                      state.dataSource[i].callOI = data.callOI;
-                      state.dataSource[i].putIV = data.putIV;
-                      state.dataSource[i].putVol = data.putVol;
-                      state.dataSource[i].putOI = data.putOI;
-                      state.dataSource[i].pcRatioOI = data.pcRatioOI;
-                      state.dataSource[i].pcRatioVol = data.pcRatioVol;
+                      state.dataSource[i].callIV = Math.round(100*data.callIV)/100;
+                      state.dataSource[i].callVol = Math.round(100*data.callVol)/100;
+                      state.dataSource[i].callOI = Math.round(100*data.callOI)/100;
+                      state.dataSource[i].putIV = Math.round(100*data.putIV)/100;
+                      state.dataSource[i].putVol = Math.round(100*data.putVol)/100;
+                      state.dataSource[i].putOI = Math.round(100*data.putOI)/100;
+                      state.dataSource[i].pcRatioOI = Math.round(100*data.pcRatioOI)/100;
+                      state.dataSource[i].pcRatioVol = Math.round(100*data.pcRatioVol)/100;
                       return { dataSource: state.dataSource };
                     });
                   }
