@@ -28,8 +28,11 @@ class LoginPage extends React.Component {
         <div>
 
           <ChangePasswordForm />
+          <br />
           <SignOut />
+          <br />
           <DeleteAccount />
+          <br />
 
         </div>
       );
@@ -39,7 +42,9 @@ class LoginPage extends React.Component {
       <div>
 
         <LoginForm />
+        <br />
         <RegisterForm />
+        <br />
 
       </div>
     );

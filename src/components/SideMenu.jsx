@@ -14,11 +14,16 @@ import {
   Menu,
   Switch,
   Typography,
+  Popover,
+  Modal,
+  Button  
 } from 'antd';
 import Cookie from 'js-cookie';
 
 // Files
 import logo from '../img/logo.png';
+
+import LoginPage from '../pages/LoginPage.jsx';
 
 // CSS
 import '../css/logo.css';
@@ -44,6 +49,7 @@ class SideMenu extends React.Component {
         currentTab: 'index',
         toggleDarkMode: (Cookie.get('theme') === undefined ? false : Cookie.get('theme')) === 'true',
         toggleTooltip: true,
+        loginVisible: false,
       };
       themeChange(
         this.state.toggleDarkMode ? darkTheme : lightTheme,
@@ -82,6 +88,13 @@ class SideMenu extends React.Component {
       });
     }
 
+    showLoginPage = () => {
+        this.setState(() => ({ loginVisible : true }))
+    }
+    closeLoginPage = () => {
+      this.setState(() => ({ loginVisible : false }))
+    }
+
     render() {
       console.log(this.props.location.pathname.match(/\/(.*[^\/])?/));
       return (
@@ -115,11 +128,9 @@ class SideMenu extends React.Component {
               </Link>
             </Menu.Item>
 
-            <Menu.Item key="/login">
-              <Link to="/login">
+            <Menu.Item onClick={this.showLoginPage} key="/login">
                 <Icon type="login" />
                 <Typography>Login</Typography>
-              </Link>
             </Menu.Item>
 
             <Menu.Item key="/about">
@@ -141,7 +152,7 @@ class SideMenu extends React.Component {
               <Typography>Theme</Typography>
             </Menu.Item>
 
-            <Menu.Item key="tooltip" onClick={() => this.toggleTooltips()}>
+            {/* <Menu.Item key="tooltip" onClick={() => this.toggleTooltips()}>
               <Icon type="tool" theme="filled" />
               <Typography>Toggle Tooltips</Typography>
             </Menu.Item>
@@ -151,9 +162,19 @@ class SideMenu extends React.Component {
                 <Icon type="dollar" />
                 <Typography>Checkout</Typography>
               </Link>
-            </Menu.Item>
+            </Menu.Item> */}
 
           </Menu>
+
+          <Modal 
+            title ="Login"
+            visible={this.state.loginVisible}
+            footer ={<Button onClick = {this.closeLoginPage}>Ok</Button>}
+            closable = {false}
+          >
+            <LoginPage />
+          </Modal>
+
         </Sider>
       );
     }
