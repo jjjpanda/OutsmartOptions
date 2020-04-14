@@ -99,6 +99,7 @@ class OptionsCalculator extends React.Component {
       optionsSelected: [],
       earningsDate: state.earningsDate,
     }), () => {
+      console.log('Doing search finalized callback')
       if(callback != undefined) {
         callback()
       }
@@ -176,10 +177,10 @@ class OptionsCalculator extends React.Component {
   loadInOptionsSelected = (legs) => {
     for(let leg of legs){
       const rfir = treasury.getRightYield(yields || [], moment(leg.date).diff(moment(), 'days')) / 100;
-      const iv = optionsMath.calculateIV(moment(leg.date).diff(moment(), 'hours')/(365*24), leg.price, this.state.price, leg.strike, leg.isCall, rfir, this.state.divYield)
+      const iv = optionsMath.calculateIV(moment(leg.date).diff(moment(), 'hours')/(365*24), leg.cost, this.state.price, leg.strike, leg.isCall, rfir, this.state.divYield)
       const currentPrice = this.state.optionsChain.find(o => o[0] === leg.date)[1].find(o => o.strike === leg.strike)[`${leg.isCall ? "call" : "put"}`]
-      console.log(currentPrice, leg.price)
-      this.onHandleOptionLegChange(true, leg.isCall, leg.isLong, leg.strike, currentPrice, leg.price, leg.date, iv, leg.symbol)
+      console.log(currentPrice, leg.cost)
+      this.onHandleOptionLegChange(true, leg.isCall, leg.isLong, leg.strike, currentPrice, leg.cost, leg.date, iv, leg.symbol)
     }
 
   }
