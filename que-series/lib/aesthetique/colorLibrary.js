@@ -15,6 +15,16 @@ export function hexColorFromPercent(percentGain) {
     return colorToHex(0, Math.max(80, 255 - (25 * percentGain)), 0);
   }
 }
+
+export function hexColorFromPercentA(percentGain){
+  if(percentGain >= 0){
+    return `rgba(0,155,0,${Math.min(percentGain, 1)*0.61})`;
+  }
+  else{
+    return `rgba(155,0,0,${Math.min(Math.abs(percentGain), 1)*0.61})`;
+  }
+}
+
 function colorToHex(r, g, b) {
-  return `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)}, 1)`;
+  return `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
 }

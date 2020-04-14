@@ -201,7 +201,7 @@ class OptionsCalculator extends React.Component {
       profitTableData: structure.dataToTableConversion(state.mergedOptions.profit),
     }));
     this.setState((state) => ({
-      profitColumns: this.columnCreation(state.mergedOptions.profit),
+      profitColumns: this.columnCreation(state.mergedOptions.profit, state.mergedOptions.percentProfit),
     }));
   }
 
@@ -212,14 +212,14 @@ class OptionsCalculator extends React.Component {
     () => console.log(this.state));
   }
 
-  columnCreation = (data) => {
+  columnCreation = (data, pData) => {
     const columns = [{ title: 'Price', dataIndex: 'x', fixed: 'left' }, ...data.map((key, i) => ({
       title: key[0],
       dataIndex: key[0],
       render: (text, record, index) =>
-        // console.log(percentageColor.hexColorFromPercent(data[i][1][index][1]))
+        //console.log(data[i][1][index][1], pData[i][1][index][1])
         (
-          <div style={{ border: percentageColor.hexColorFromPercent(data[i][1][index][1]) }}>
+          <div style={{ backgroundColor: percentageColor.hexColorFromPercentA([...pData[i][1]].reverse()[index][1]) }}>
             {text}
           </div>
         ),
