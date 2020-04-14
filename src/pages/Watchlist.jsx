@@ -135,7 +135,12 @@ class Watchlist extends React.Component {
         <div>
           <h1 className="title">Username's Watchlist</h1>
         </div>
-        <Table columns={columns} dataSource={this.state.dataSource} locale={{ emptyText: 'No watched tickers or User not logged in' }} />
+        <Table 
+          columns={columns} 
+          dataSource={this.state.dataSource} 
+          rowClassName={ (record, index) => { return (record.change >=0 ? 'watchlistUp' : 'watchlistDown') } }
+          locale={{ emptyText: 'No watched tickers or User not logged in' }}
+         />
       </div>
     );
   }
