@@ -306,10 +306,9 @@ class OptionsCalculator extends React.Component {
         <div className="optionsList" step-name="example-contract">{this.renderLegs()}</div>
 
         <div className="optionsButtons">
-          <div style={{ width: '60px', display: 'inline-block' }} />
+          <div style={{ width: '15px', display: 'inline-block' }} />
           {/* <EquityModal symbol={this.state.symbol} price={this.state.price} onHandleOptionLegChange={this.onHandleOptionLegChange} />
            */}
-          <StockCalendar earningsDate={this.state.earningsDate} />
           <div style={{ width: '43px', display: 'inline-block' }} />
           <OptionsChain onHandleOptionLegChange={this.onHandleOptionLegChange} modalTrackSelected={this.modalTrackSelected} editLegLoading={this.state.editLegLoading} optionsSelected={this.state.optionsSelected} optionsChain= {this.state.optionsChain} />
           <div style={{ width: '43px', display: 'inline-block' }} />
@@ -335,6 +334,7 @@ class OptionsCalculator extends React.Component {
             />
           </Modal>
           <div id="strategyButtons"><StrategySelector loadInOptionsSelected={this.loadInOptionsSelected} forceSearch={(symbol, callback) => {this.stockSymbol.current.onSearch(symbol, undefined, callback)}} symbol={this.state.symbol} optionsSelected={this.state.optionsSelected} /></div>
+          <div id="calendarButton"><StockCalendar earningsDate={this.state.earningsDate} /></div>
         </div>
         <br />
         <div>
