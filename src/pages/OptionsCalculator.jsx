@@ -323,6 +323,7 @@ class OptionsCalculator extends React.Component {
             </ButtonGroup>
           </div>
           <Modal
+            title="Calculate Settings"
             visible={this.state.calculateMenuVisible}
             onOk={() => { this.setState(() => ({ calculateMenuVisible: false })); }}
             onCancel={() => { this.setState(() => ({ calculateMenuVisible: false })); }}

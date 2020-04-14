@@ -96,7 +96,7 @@ class StrategySelector extends React.Component {
         header={(
           <div>
             {strat.name}
-            <Button shape="circle" style={{ float: 'right', marginTop: '-5px' }} icon="right" onClick={() => { this.loadStrategyIntoState(strat, symbol); }} />
+            <Button shape="circle" style={{ float: 'right', marginTop: '-5px', marginLeft: '5px' }} icon="right" onClick={() => { this.loadStrategyIntoState(strat, symbol); }} />
             <Button shape="circle" style={{ float: 'right', marginTop: '-5px' }} icon="delete" onClick={() => { this.deleteStrategy(strat.legs, strat.name, symbol); }} />
           </div>
 )}
