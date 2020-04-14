@@ -18,10 +18,10 @@ export function hexColorFromPercent(percentGain) {
 
 export function hexColorFromPercentA(percentGain){
   if(percentGain >= 0){
-    return `rgba(0,155,0,${Math.min(percentGain, 1)*0.61})`;
+    return `rgba(0,210,0,${Math.min(percentGain, 1)*0.39})`;
   }
   else{
-    return `rgba(155,0,0,${Math.min(Math.abs(percentGain), 1)*0.61})`;
+    return `rgba(200,0,0,${Math.min(Math.abs(percentGain), 1)*0.39})`;
   }
 }
 
