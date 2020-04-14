@@ -67,9 +67,10 @@ class Watchlist extends React.Component {
       selectedRowKeys: [], // Check here to configure the default column
       dataSource: [],
       watchlist: [],
+      username: "Username"
     };
-    verifyUser(({ loggedIn, user, email }) => {
-      this.setState(() => ({ loggedIn }), () => {
+    verifyUser(({ loggedIn, username, email }) => {
+      this.setState(() => ({ loggedIn, username }), () => {
         if (this.state.loggedIn) {
           request.postFetchReqAuth('/api/watchlist/view', Cookie.get('token'), JSON.stringify({ id: Cookie.get('id') }), (data) => {
             this.setState(() => ({ watchlist: data.list, dataSource: data.list.map((stock) => ({ ticker: stock })) }), () => {
@@ -133,7 +134,7 @@ class Watchlist extends React.Component {
     return (
       <div className="tableWrapper">
         <div>
-          <h1 className="title">Username's Watchlist</h1>
+          <h1 className="title">{`${this.state.username}\'s Watchlist`}</h1>
         </div>
         <Table 
           columns={columns} 

@@ -16,7 +16,7 @@ import {
 } from 'que-series';
 import verifyUser from './UserVerifier.jsx';
 
-const { TabPane } = Tabs;
+const TabPane = Tabs.TabPane;
 
 const { request, structure } = util;
 const { options } = math;
@@ -31,7 +31,7 @@ class StrategySelector extends React.Component {
       loggedIn: false,
       strategies: [],
     };
-    verifyUser(({ loggedIn, user, email }) => {
+    verifyUser(({ loggedIn, username, email }) => {
       this.setState(() => ({ loggedIn }));
     });
   }
