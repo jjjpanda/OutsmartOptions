@@ -79,7 +79,7 @@ class OptionsCalculator extends React.Component {
       editLegLoading: [],
       saved: false
     };
-    verifyUser(({ loggedIn, user, email }) => {
+    verifyUser(({ loggedIn, username, email }) => {
       this.setState(() => ({ loggedIn }));
     });
     this.stockSymbol = React.createRef()

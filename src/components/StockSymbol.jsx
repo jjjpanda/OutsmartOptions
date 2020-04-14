@@ -55,7 +55,7 @@ class StockSymbol extends React.Component {
       inWatchlist: false,
       loading: false,
     };
-    verifyUser(({ loggedIn, user, email }) => {
+    verifyUser(({ loggedIn, username, email }) => {
       this.setState(() => ({ loggedIn }));
     });
   }
