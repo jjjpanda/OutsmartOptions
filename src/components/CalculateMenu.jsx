@@ -13,7 +13,7 @@ class CalculateMenu extends React.Component {
     return (
       <div>
         <InputNumber
-          style= {{ width: '175px', marginBottom: '3vh' }}
+          style={{ width: '175px', marginBottom: '3vh' }}
           placeholder="Percent Interval"
           onPressEnter={this.props.calculateProfits}
           onChange={this.props.intervalChange}
@@ -23,7 +23,7 @@ class CalculateMenu extends React.Component {
         />
         <br />
         <InputNumber
-          style= {{ width: '175px', marginBottom: '1vh' }}
+          style={{ width: '175px', marginBottom: '1vh' }}
           placeholder="Number of Intervals"
           onPressEnter={this.props.calculateProfits}
           onChange={this.props.numberChange}

@@ -4,11 +4,11 @@ const router = express.Router();
 
 const auth = require('./validation/authorizeUser.js');
 const validateBody = require('./validation/validateBody.js');
-const marketValidation = require('./validation/marketDataRequestValidation.js')
+const marketValidation = require('./validation/marketDataRequestValidation.js');
 
-const prepareAnswer = require('./buffer/prepareAnswer.js')
-const tradierBuffer = require('./buffer/tradierBuffer.js')
-const buffer = require('./buffer/watchlistBuffer.js')
+const prepareAnswer = require('./buffer/prepareAnswer.js');
+const tradierBuffer = require('./buffer/tradierBuffer.js');
+const buffer = require('./buffer/watchlistBuffer.js');
 
 router.post('/view', validateBody, auth, buffer.viewWatchlist);
 
@@ -16,7 +16,7 @@ router.post('/add', validateBody, auth, marketValidation.validateTicker, prepare
 
 router.post('/remove', validateBody, auth, marketValidation.validateTicker, buffer.removeFromWatchlist);
 
-//Deprecated
+// Deprecated
 router.post('/edit', validateBody, auth, buffer.editWatchlist);
 
 module.exports = router;

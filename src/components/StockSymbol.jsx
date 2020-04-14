@@ -6,7 +6,7 @@ import {
   AutoComplete,
   Button,
   Spin,
-  Progress
+  Progress,
 } from 'antd';
 
 import Cookie from 'js-cookie';
@@ -85,19 +85,19 @@ class StockSymbol extends React.Component {
 
 
     onSearch = (val, event, fBack) => {
-      if(val === this.state.symbol || val == ""){
-        return
+      if (val === this.state.symbol || val == '') {
+        return;
       }
-      this.setState(() => ({ 
-        loading: true, 
-        exists: true, 
-        symbol: e, 
-        guess: [], 
-        inWatchlist: false, 
-        earningsDate: '', 
-        historicalIV: '', 
+      this.setState(() => ({
+        loading: true,
+        exists: true,
+        symbol: e,
+        guess: [],
+        inWatchlist: false,
+        earningsDate: '',
+        historicalIV: '',
         divYield: '',
-        progress: 0
+        progress: 0,
       }));
       const e = val.toUpperCase().trim();
 
@@ -111,85 +111,81 @@ class StockSymbol extends React.Component {
         // Not Logged in, don't care
       }
 
-      let quote = (callback, rejected, progressObj) => {
-        request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: e}), (data) => {
-          if(!data.error && data.quote != undefined && data.quote.found){
-            console.log("Quote")
-            let {quote} = data
-            this.setState(() => ({ 
-              symbol: e, 
-              price: quote.price, 
-              priceChange: quote.change, 
-              description: quote.name, 
+      const quote = (callback, rejected, progressObj) => {
+        request.postFetchReq('/api/market/quote', JSON.stringify({ ticker: e }), (data) => {
+          if (!data.error && data.quote != undefined && data.quote.found) {
+            console.log('Quote');
+            const { quote } = data;
+            this.setState(() => ({
+              symbol: e,
+              price: quote.price,
+              priceChange: quote.change,
+              description: quote.name,
               earningsDate: quote.earningsDate,
               divYield: quote.divYield,
-              optionsChain: [['Empty', {}]], 
-              ...progressObj
-            }), callback)
-          }
-          else{
-            console.log("no quote")
+              optionsChain: [['Empty', {}]],
+              ...progressObj,
+            }), callback);
+          } else {
+            console.log('no quote');
             this.notFound(e);
-            this.setState(() => ({ price: 0, priceChange: 0, exists: false, loading: false, progress: NaN }), rejected)
+            this.setState(() => ({
+              price: 0, priceChange: 0, exists: false, loading: false, progress: NaN,
+            }), rejected);
           }
-        })
-      }
+        });
+      };
 
-      let historical = (callback, rejected, progressObj) => {
+      const historical = (callback, rejected, progressObj) => {
         request.postFetchReq('/api/market/historical', JSON.stringify({ ticker: e, days: 300 }), (data) => {
-          if(!data.error && data.historical != undefined){
-            console.log("Historical")
+          if (!data.error && data.historical != undefined) {
+            console.log('Historical');
             this.setState(() => ({ historical: data.historical, ...progressObj }), callback);
-          }
-          else{
-            console.log("No historical")
-            this.setState(() => ({historical: [], loading: false, progress: NaN}), rejected)
+          } else {
+            console.log('No historical');
+            this.setState(() => ({ historical: [], loading: false, progress: NaN }), rejected);
           }
         });
-      }
+      };
 
-      let chain = (callback, rejected, progressObj) => {
-       
+      const chain = (callback, rejected, progressObj) => {
         request.postFetchReq('/api/market/chain', JSON.stringify({ ticker: e }), (data) => {
-          if(!data.error && data.chain != undefined){
-            console.log("Chain")
-            this.setState(() => ({ optionsChain: data.chain, ...progressObj }), callback)
-          }
-          else {
-            console.log("No Chain")
-            this.setState(() => ({optionsChain: [['Empty', {}]], loading: false, progress: NaN }), rejected)
-          }
-        })
-      }
-
-      let historicalIV = (callback, rejected, progressObj) => { 
-        
-        request.postFetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
-          if(!data.error && data.historicalIV != undefined){
-            console.log("IV")
-            let iv = data.historicalIV
-            this.setState(() => ({ historicalIV: iv, ...progressObj }), callback);
-          }
-          else{
-            console.log("No IV")
-            this.setState(() => ({historicalIV: [], loading: false, progress: NaN}), rejected)
+          if (!data.error && data.chain != undefined) {
+            console.log('Chain');
+            this.setState(() => ({ optionsChain: data.chain, ...progressObj }), callback);
+          } else {
+            console.log('No Chain');
+            this.setState(() => ({ optionsChain: [['Empty', {}]], loading: false, progress: NaN }), rejected);
           }
         });
-      }
-      
-      let updateErrorToParent = () => {
-        this.props.updateCallback(this.state)
-      }
+      };
+
+      const historicalIV = (callback, rejected, progressObj) => {
+        request.postFetchReq('/api/market/iv', JSON.stringify({ ticker: e }), (data) => {
+          if (!data.error && data.historicalIV != undefined) {
+            console.log('IV');
+            const iv = data.historicalIV;
+            this.setState(() => ({ historicalIV: iv, ...progressObj }), callback);
+          } else {
+            console.log('No IV');
+            this.setState(() => ({ historicalIV: [], loading: false, progress: NaN }), rejected);
+          }
+        });
+      };
+
+      const updateErrorToParent = () => {
+        this.props.updateCallback(this.state);
+      };
 
       quote(() => {
         historical(() => {
-            chain(() => {
-              //historicalIV(() => {
-                this.props.updateCallback(this.state, fBack); 
-              //}, updateErrorToParent, {loading: false, progress: 100 })
-            }, updateErrorToParent, { progress: 100, loading: false } )
-          }, updateErrorToParent, { progress: 66 } )
-      }, updateErrorToParent, { progress: 33 } )
+          chain(() => {
+            // historicalIV(() => {
+            this.props.updateCallback(this.state, fBack);
+            // }, updateErrorToParent, {loading: false, progress: 100 })
+          }, updateErrorToParent, { progress: 100, loading: false });
+        }, updateErrorToParent, { progress: 66 });
+      }, updateErrorToParent, { progress: 33 });
     };
 
     onStarClick = () => {
@@ -247,7 +243,7 @@ class StockSymbol extends React.Component {
               <Card>
                 {this.state.description != null ? `${this.state.description} ${(this.state.optionsChain[0] != undefined ? '' : 'has no options chain')}` : "Stock Doesn't Exist"}
                 {this.state.loading ? <SpinningLogo /> : null}
-                {this.state.loading ? <Progress percent={isNaN(this.state.progress) ? "" : this.state.progress} status={isNaN(this.state.progress) ? "exception" : ""} status={"active"} /> : null}
+                {this.state.loading ? <Progress percent={isNaN(this.state.progress) ? '' : this.state.progress} status={isNaN(this.state.progress) ? 'exception' : ''} status="active" /> : null}
               </Card>
             </div>
             <div style={{ width: '600px' }} />

@@ -53,7 +53,7 @@ module.exports = {
       method: 'get',
       url: 'https://sandbox.tradier.com/v1/markets/history',
       qs: {
-        symbol: req.body.ticker,    
+        symbol: req.body.ticker,
         interval: 'daily',
         start: moment().subtract(req.body.days, 'days').format('YYYY-MM-DD'),
         end: moment().format('YYYY-MM-DD'),
@@ -88,51 +88,51 @@ module.exports = {
   },
 
   getHistoricalIV(req, res, next) {
-    let editCount = 0
-    let lastDay = req.body.answer.historical[req.body.answer.historical.length - 1]
-    for(let i = 0; i < req.body.length; i++){
+    let editCount = 0;
+    const lastDay = req.body.answer.historical[req.body.answer.historical.length - 1];
+    for (let i = 0; i < req.body.length; i++) {
       req.body.answer.historical.push({
-        date: moment(lastDay.date).add(i+1, 'days').format('YYYY-MM-DD'),
-        close: lastDay.close
-      })
-    };
+        date: moment(lastDay.date).add(i + 1, 'days').format('YYYY-MM-DD'),
+        close: lastDay.close,
+      });
+    }
     req.body.answer.historical.forEach((date, index) => {
-      date.underlying = req.body.answer.historical[(index - req.body.length >= 0) ? (index - req.body.length) : 0].close
-      let strikeRounding = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
-      let roundIndex = 0
-      let looper = (roundNumber) => {
-        date.strike = Math.ceil(date.underlying / roundNumber) * roundNumber
-        date.symbol = `${req.body.ticker}${moment(date.date).format('YYMMDD')}P${(`00000000${date.strike * 1000}`).slice(-8)}`
-        let r = { 'body': {
-          'ticker': date.symbol,
-          'days': parseInt(moment().diff(moment(date.date), 'days'))+parseInt(req.body.length), 
-          'answer': date 
-        }}
-        let s = {status: (n) => {
-          return s
-        },
-        json : (o) => {
-          roundIndex++
-          if(roundIndex < strikeRounding.length){
-            looper(strikeRounding[roundIndex]) 
-          }
-          else {
-            
-            editCount++
-            if(editCount >= req.body.answer.historical.length){
-              next()
+      date.underlying = req.body.answer.historical[(index - req.body.length >= 0) ? (index - req.body.length) : 0].close;
+      const strikeRounding = [0.5, 1, 2, 2.5, 5, 10, 20, 50, 100];
+      let roundIndex = 0;
+      const looper = (roundNumber) => {
+        date.strike = Math.ceil(date.underlying / roundNumber) * roundNumber;
+        date.symbol = `${req.body.ticker}${moment(date.date).format('YYMMDD')}P${(`00000000${date.strike * 1000}`).slice(-8)}`;
+        const r = {
+          body: {
+            ticker: date.symbol,
+            days: parseInt(moment().diff(moment(date.date), 'days')) + parseInt(req.body.length),
+            answer: date,
+          },
+        };
+        const s = {
+          status: (n) => s,
+          json: (o) => {
+            roundIndex++;
+            if (roundIndex < strikeRounding.length) {
+              looper(strikeRounding[roundIndex]);
+            } else {
+              editCount++;
+              if (editCount >= req.body.answer.historical.length) {
+                next();
+              }
             }
-          }
-        }}
+          },
+        };
         module.exports.getHistoricalData(r, s, () => {
-          editCount++
-          if(editCount >= req.body.answer.historical.length){
-            next()
+          editCount++;
+          if (editCount >= req.body.answer.historical.length) {
+            next();
           }
-        })
-      }
-      looper(strikeRounding[roundIndex])
-    })
+        });
+      };
+      looper(strikeRounding[roundIndex]);
+    });
   },
 
   guessSymbol(req, res, next) {
@@ -187,20 +187,18 @@ module.exports = {
         Accept: 'application/json',
       },
     }, (error, response, body) => {
-      if (!error && response.statusCode == 200){
-        const {expirations} = JSON.parse(body)
-        if(expirations != null && expirations.date instanceof Array && expirations.date.length > 0){
-          next()
+      if (!error && response.statusCode == 200) {
+        const { expirations } = JSON.parse(body);
+        if (expirations != null && expirations.date instanceof Array && expirations.date.length > 0) {
+          next();
+        } else {
+          res.status(400).json({ error: true, details: 'No Options Expiries from getOptionable in tradierBuffer' });
         }
-        else{
-          res.status(400).json({ error: true, details: 'No Options Expiries from getOptionable in tradierBuffer' })
-        }
+      } else {
+        res.status(400).json({ error: true, details: 'No Options Expiries from getOptionable in tradierBuffer' });
       }
-      else{
-        res.status(400).json({ error: true, details: 'No Options Expiries from getOptionable in tradierBuffer' })
-      }
-    })
-  }, 
+    });
+  },
 
   getChainExpiries(req, res, next) {
     request({
@@ -248,7 +246,7 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
   const underlying = answer.quote.price;
   const { yields } = answer;
   const { divYield } = answer.quote;
-  const t = moment(expiration).diff(moment(), 'hours') / (365*24);
+  const t = moment(expiration).diff(moment(), 'hours') / (365 * 24);
   const rfir = mathematique.treasury.getRightYield(yields, t * 365);
   request({
     method: 'get',
@@ -275,14 +273,14 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
         for (const option of options) {
           mid = parseFloat(((option.bid + option.ask) / 2).toFixed(2));
 
-          iv = mathematique.options.calculateIV(t, mid, underlying, option.strike, option.option_type == 'call', rfir, divYield)
-          if(isNaN(iv)){
-            iv = option.greeks.mid_iv
-            if(iv == 0){
-              iv = 0.01
+          iv = mathematique.options.calculateIV(t, mid, underlying, option.strike, option.option_type == 'call', rfir, divYield);
+          if (isNaN(iv)) {
+            iv = option.greeks.mid_iv;
+            if (iv == 0) {
+              iv = 0.01;
             }
           }
-          
+
           if (!strikes.includes(option.strike)) {
             strikes.push(option.strike);
             newData.push({
@@ -294,7 +292,7 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
               [`${option.option_type}OI`]: option.open_interest,
               [`${option.option_type}Symbol`]: option.symbol,
               [`${option.option_type}IV`]: iv,
-              //[`${option.option_type}Greeks`]: option.greeks,
+              // [`${option.option_type}Greeks`]: option.greeks,
               key: expiration + option.strike,
             });
           } else {
@@ -306,14 +304,14 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
             found[`${option.option_type}OI`] = option.open_interest;
             found[`${option.option_type}Symbol`] = option.symbol;
             found[`${option.option_type}IV`] = iv;
-            //found[`${option.option_type}Greeks`] = option.greeks;
+            // found[`${option.option_type}Greeks`] = option.greeks;
           }
         }
 
-        newData = newData.sort((a, b) => a.strike - b.strike)
+        newData = newData.sort((a, b) => a.strike - b.strike);
 
-        const outliers = mathematique.stats
-        
+        const outliers = mathematique.stats;
+
         const callVolSum = newData.reduce((a, b) => a + b.callVol, 0);
         const putVolSum = newData.reduce((a, b) => a + b.putVol, 0);
         const callDist = outliers.setDistribution(newData.map((x) => x.strike), newData.map((x) => x.callVol));
@@ -322,32 +320,24 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
         const putVolMean = outliers.getMean(putDist);
         const callVolStd = outliers.getSD(callDist);
         const putVolStd = outliers.getSD(putDist);
-        
+
         newData.map((y, index) => {
+          y.moneyness = y.strike / underlying;
 
-          y.moneyness = y.strike/underlying
-
-          if(newData[index+1] == undefined){
-            y.atm = false
-          }
-          else{
-            if(Math.abs(Math.log10(newData[index+1].strike/underlying)) < Math.abs(Math.log10(y.moneyness))){
-              y.atm = false;
-            }
-            else{
-              if(newData[index -1 ] != undefined && Math.abs(Math.log10(newData[index-1].moneyness)) >= Math.abs(Math.log10(y.moneyness))){
-                y.atm = true
-              }
-              else{
-                y.atm = false
-              }
-            }
+          if (newData[index + 1] == undefined) {
+            y.atm = false;
+          } else if (Math.abs(Math.log10(newData[index + 1].strike / underlying)) < Math.abs(Math.log10(y.moneyness))) {
+            y.atm = false;
+          } else if (newData[index - 1] != undefined && Math.abs(Math.log10(newData[index - 1].moneyness)) >= Math.abs(Math.log10(y.moneyness))) {
+            y.atm = true;
+          } else {
+            y.atm = false;
           }
 
           y.callOutlier = outliers.isOutlier(y.callVol, callVolSum, y.strike, callVolMean, callVolStd);
           y.putOutlier = outliers.isOutlier(y.putVol, putVolSum, y.strike, putVolMean, putVolStd);
           return y;
-        })
+        });
 
         // CHANGED DATA TO NEWDATA
         callback(newData, i);
@@ -358,5 +348,4 @@ const getChainOfExpiry = (ticker, expiration, answer, callback, i = 0) => {
       callback([], i);
     }
   });
-  
 };

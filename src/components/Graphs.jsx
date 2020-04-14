@@ -4,8 +4,6 @@ import {
   utilique as util,
 } from 'que-series';
 
-const { structure } = util;
-
 import {
   XAxis,
   YAxis,
@@ -23,6 +21,8 @@ import {
 import * as moment from 'moment';
 import Cookie from 'js-cookie';
 import { darkTheme, lightTheme } from '../css/themes.js';
+
+const { structure } = util;
 
 const colors = { dark: darkTheme, light: lightTheme };
 
@@ -210,7 +210,7 @@ class ProfitGraph extends React.Component {
             <stop offset={this.gradientOffset(this.state.data, date)} stopColor="#009900" stopOpacity={opacities[date]} />
             <stop stopColor="#ff0000" stopOpacity={opacities[date]} />
           </linearGradient>
-                  </defs>
+        </defs>
         ));
         arr.push((
           <Line name={date} type="monotone" dot={false} hide={this.state.disabledDates.includes(date)} dataKey={date} stroke={this.colorOfLine(this.state.data, date, opacities[date])} />

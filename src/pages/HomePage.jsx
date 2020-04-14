@@ -1,5 +1,5 @@
 import React from 'react';
-import TwitterFeed from '../components/TwitterFeed.jsx'
+import TwitterFeed from '../components/TwitterFeed.jsx';
 import '../css/home.css';
 
 import { BarLineComboGraph } from '../components/Graphs.jsx';
@@ -43,7 +43,7 @@ class HomePage extends React.Component {
 
             </div>
             <div id="twitter">
-              <TwitterFeed key={this.state.symbol} symbol={this.state.symbol}/>
+              <TwitterFeed key={this.state.symbol} symbol={this.state.symbol} />
             </div>
           </div>
           <div />

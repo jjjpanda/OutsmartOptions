@@ -5,7 +5,7 @@ module.exports = {
     if (ticker == undefined) {
       res.status(400).json({ error: true, details: 'Validation Error from validateTicker in marketDataRequestValidation' });
     } else {
-      req.body.ticker = ticker.toUpperCase()
+      req.body.ticker = ticker.toUpperCase();
       next();
     }
   },

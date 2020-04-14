@@ -5,35 +5,33 @@ import {
   Icon,
   Button,
   Modal,
-  Popover
+  Popover,
 } from 'antd';
 
-import IVDate from './IVDate.jsx'
+import IVDate from './IVDate.jsx';
 
 class StockCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      erVisible: false
-    }
+      erVisible: false,
+    };
   }
 
-  dateCellRender = (value) => {
-    return (
-      <IVDate key={value} date={value} earningsDate={this.props.earningsDate} />
-    )
-  }
+  dateCellRender = (value) => (
+    <IVDate key={value} date={value} earningsDate={this.props.earningsDate} />
+  )
 
   onDateChange = (value, m) => {
     console.log(value);
   }
 
   showCalendar = () => {
-    this.setState(() => ({erVisible: true}))
+    this.setState(() => ({ erVisible: true }));
   }
 
   closeCalendar = () => {
-    this.setState(() => ({erVisible: false}))
+    this.setState(() => ({ erVisible: false }));
   }
 
   render() {
@@ -41,10 +39,10 @@ class StockCalendar extends React.Component {
       <div>
         <Button icon="calendar" onClick={this.showCalendar} />
         <Modal
-            visible={this.state.erVisible}
-            footer = {<Button onClick={this.closeCalendar} >Ok</Button>}
+          visible={this.state.erVisible}
+          footer={<Button onClick={this.closeCalendar}>Ok</Button>}
         >
-          <Calendar fullscreen={true} onSelect={this.onDateChange} dateFullCellRender={this.dateCellRender} />
+          <Calendar fullscreen onSelect={this.onDateChange} dateFullCellRender={this.dateCellRender} />
         </Modal>
       </div>
     );

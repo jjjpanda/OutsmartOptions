@@ -52,7 +52,7 @@ class LoginModal extends React.Component {
 
           request.postFetchReq('/api/users/login', JSON.stringify({ email: values.email, password: values.password }), (data) => {
             if (!data.error && data.login != undefined && data.login.success) {
-              data = data.login
+              data = data.login;
               this.setState(() => ({
                 visible: false,
                 confirmLoading: false,

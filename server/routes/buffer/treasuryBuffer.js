@@ -43,6 +43,6 @@ module.exports = {
       });
     };
     looper();
-  }
+  },
 
 };

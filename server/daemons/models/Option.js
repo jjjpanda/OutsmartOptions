@@ -1,4 +1,4 @@
-const moment = require('moment')
+const moment = require('moment');
 
 const Option = class {
   constructor(date, strike, cost, isCall, isLong, quantity, symbol) {
@@ -7,29 +7,29 @@ const Option = class {
     this.cost = cost;
     this.isCall = isCall;
     this.isLong = isLong;
-    this.quantity = quantity
+    this.quantity = quantity;
     this.symbol = symbol;
   }
 
-  static compare(a, b){
-    const t = moment(a.date).diff(moment(b.date), 'hours')
-    if( t > 0){
+  static compare(a, b) {
+    const t = moment(a.date).diff(moment(b.date), 'hours');
+    if (t > 0) {
       return 1;
     }
-    if(t < 0){
+    if (t < 0) {
       return -1;
     }
-    if(a.strike < b.strike){
+    if (a.strike < b.strike) {
       return 1;
     }
-    if( b.strike < a.strike ){
-      return -1
+    if (b.strike < a.strike) {
+      return -1;
     }
-    if( a.isCall){
-      return 1
+    if (a.isCall) {
+      return 1;
     }
-    return -1
+    return -1;
   }
-}
+};
 
 module.exports = Option;

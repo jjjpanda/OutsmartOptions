@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Link,
   Route,
-  Prompt
+  Prompt,
 } from 'react-router-dom';
 import {
   Icon,
@@ -37,21 +37,17 @@ import Checkout from './pages/checkout.jsx';
 
 const { request } = util;
 
-const Footer = Layout.Footer;
-const Sider = Layout.Sider;
-const Content = Layout.Content;
-
-request.getFetchReq('https://api.ipify.org?format=jsoniuhb', {}, 
-(data) => {
-  request.postFetchReq('/api/bug/track', JSON.stringify({ ip: data }), (data) => console.log(data));
-});
+request.getFetchReq('https://api.ipify.org?format=jsoniuhb', {},
+  (data) => {
+    request.postFetchReq('/api/bug/track', JSON.stringify({ ip: data }), (data) => console.log(data));
+  });
 
 class Main extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      readyToGo: false
-    }
+      readyToGo: false,
+    };
   }
 
   render() {
@@ -62,12 +58,12 @@ class Main extends React.Component {
             when={!this.state.readyToGo}
             message='You have unsaved changes, are you sure you want to leave?'
           /> */}
-          <SideMenuRoute bypass={this.state.readyToGo}/>
+          <SideMenuRoute bypass={this.state.readyToGo} />
           <Layout>
-            <Content>
+            <Layout.Content>
               <div className="contentWrapper">
                 <Route exact path="/" component={HomePage} />
-                <Route exact path="/calc" render={(props) => (<OptionsCalculator {...props} updateApp = {(state) => {this.setState(() => ({readyToGo: state.saved}))}}/>)} />
+                <Route exact path="/calc" render={(props) => (<OptionsCalculator {...props} updateApp={(state) => { this.setState(() => ({ readyToGo: state.saved })); }} />)} />
                 <Route exact path="/watch" component={Watchlist} />
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/about" component={AboutPage} />
@@ -75,8 +71,16 @@ class Main extends React.Component {
                 <Route exact path="/checkout" component={Checkout} />
               </div>
 
-            </Content>
-            <Footer />
+            </Layout.Content>
+            <Layout.Footer >
+              <span style={{ display: 'flex', justifyContent:"space-between" }}>
+                <a href="https://www.instagram.com/OutsmartOptions/"> Insta <Icon type="instagram" /></a>
+                <a href = "https://twitter.com/OutsmartO"> Twitter <Icon type="twitter" /></a>
+                <a href="mailto:outsmartoptions@gmail.com?Subject=Hello%20Mr.Outsmart"> Email Us <Icon type="mail" /></a>
+                <a href="https://www.reddit.com/r/OutsmartOptions/" > Reddit <Icon type="reddit" /></a>
+                <a href="https://www.youtube.com/watch?v=-r7tj-jqwj8" > Bruh <Icon type="youtube" /></a>
+              </span>
+            </Layout.Footer>
           </Layout>
         </Layout>
       </Router>

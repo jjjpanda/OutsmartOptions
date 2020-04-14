@@ -16,7 +16,7 @@ import {
   Typography,
   Popover,
   Modal,
-  Button  
+  Button,
 } from 'antd';
 import Cookie from 'js-cookie';
 
@@ -30,31 +30,27 @@ import '../css/logo.css';
 import '../css/index.less';
 import { darkTheme, lightTheme } from '../css/themes.js';
 
-const Footer = Layout.Footer;
-const Sider = Layout.Sider;
-const Content = Layout.Content;
-
-let themeChange 
-try{
-  themeChange = window.less.modifyVars
-} catch(e) {
-  themeChange = () => { return Promise.reject(e) }
+let themeChange;
+try {
+  themeChange = window.less.modifyVars;
+} catch (e) {
+  themeChange = () => Promise.reject(e);
 }
 
 class SideMenu extends React.Component {
-    constructor(props){
-      super(props)
-      this.state = {
-        collapsed: true,
-        currentTab: 'index',
-        toggleDarkMode: (Cookie.get('theme') === undefined ? false : Cookie.get('theme')) === 'true',
-        toggleTooltip: true,
-        loginVisible: false,
-      };
-      themeChange(
-        this.state.toggleDarkMode ? darkTheme : lightTheme,
-      ).then((e) => console.log(e), (e) => console.log('error', e));
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapsed: true,
+      currentTab: 'index',
+      toggleDarkMode: (Cookie.get('theme') === undefined ? false : Cookie.get('theme')) === 'true',
+      toggleTooltip: true,
+      loginVisible: false,
+    };
+    themeChange(
+      this.state.toggleDarkMode ? darkTheme : lightTheme,
+    ).then((e) => console.log(e), (e) => console.log('error', e));
+  }
 
     onCollapse = (collapsed) => {
       console.log(collapsed);
@@ -89,16 +85,17 @@ class SideMenu extends React.Component {
     }
 
     showLoginPage = () => {
-        this.setState(() => ({ loginVisible : true }))
+      this.setState(() => ({ loginVisible: true }));
     }
+
     closeLoginPage = () => {
-      this.setState(() => ({ loginVisible : false }))
+      this.setState(() => ({ loginVisible: false }));
     }
 
     render() {
       console.log(this.props.location.pathname.match(/\/(.*[^\/])?/));
       return (
-        <Sider
+        <Layout.Sider
           collapsible={false}
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
@@ -129,8 +126,8 @@ class SideMenu extends React.Component {
             </Menu.Item>
 
             <Menu.Item onClick={this.showLoginPage} key="/login">
-                <Icon type="login" />
-                <Typography>Login</Typography>
+              <Icon type="login" />
+              <Typography>Login</Typography>
             </Menu.Item>
 
             <Menu.Item key="/about">
@@ -166,16 +163,16 @@ class SideMenu extends React.Component {
 
           </Menu>
 
-          <Modal 
-            title ="Login"
+          <Modal
+            title="Login"
             visible={this.state.loginVisible}
-            footer ={<Button onClick = {this.closeLoginPage}>Ok</Button>}
-            closable = {false}
+            footer={<Button onClick={this.closeLoginPage}>Ok</Button>}
+            closable={false}
           >
             <LoginPage />
           </Modal>
 
-        </Sider>
+        </Layout.Sider>
       );
     }
 }

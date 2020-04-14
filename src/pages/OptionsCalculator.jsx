@@ -26,20 +26,20 @@ import {
 import * as moment from 'moment';
 import { NoAxisGraph, ProfitGraph } from '../components/Graphs.jsx';
 import { StrategyInfo } from '../components/StrategyInfo.jsx';
-import OptionsChain from '../components/OptionsChain.jsx'
-import IVSkew from '../components/IVSkew.jsx'
-import EquityModal from '../components/EquityModal.jsx'
-import CalculateMenu from '../components/CalculateMenu.jsx'
-import ReportModal from '../components/ReportModal.jsx'
+import OptionsChain from '../components/OptionsChain.jsx';
+import IVSkew from '../components/IVSkew.jsx';
+import EquityModal from '../components/EquityModal.jsx';
+import CalculateMenu from '../components/CalculateMenu.jsx';
+import ReportModal from '../components/ReportModal.jsx';
 import StockSymbol from '../components/StockSymbol.jsx';
 import StockCalendar from '../components/StockCalendar.jsx';
-import StrategySelector from '../components/StrategySelector.jsx'
+import StrategySelector from '../components/StrategySelector.jsx';
 import OptionsLeg from '../components/OptionsLeg.jsx';
 import verifyUser from '../components/UserVerifier.jsx';
 
 // JS Libraries
 
-import {tutorialSteps} from './tour/OptionCalculatorTour.jsx'
+import { tutorialSteps } from './tour/OptionCalculatorTour.jsx';
 
 const optionsMath = math.options;
 const { treasury } = math;
@@ -77,18 +77,18 @@ class OptionsCalculator extends React.Component {
       calculateMenuVisible: false,
       reportLoading: false,
       editLegLoading: [],
-      saved: false
+      saved: false,
     };
     verifyUser(({ loggedIn, username, email }) => {
       this.setState(() => ({ loggedIn }));
     });
-    this.stockSymbol = React.createRef()
-    
-    this.props.updateApp(this.state)
+    this.stockSymbol = React.createRef();
+
+    this.props.updateApp(this.state);
   }
 
   updateSearchResults = (state, callback) => {
-    console.log(state)
+    console.log(state);
     this.setState(() => ({
       symbol: state.symbol,
       exists: state.exists,
@@ -99,9 +99,9 @@ class OptionsCalculator extends React.Component {
       optionsSelected: [],
       earningsDate: state.earningsDate,
     }), () => {
-      console.log('Doing search finalized callback')
-      if(callback != undefined) {
-        callback()
+      console.log('Doing search finalized callback');
+      if (callback != undefined) {
+        callback();
       }
     });
   }
@@ -165,7 +165,7 @@ class OptionsCalculator extends React.Component {
   addOption = (isCall, isLong, strike, price, cost, date, iv, symbol) => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected, {
-        key: symbol, isCall, isLong, date, strike, price, cost, iv, symbol
+        key: symbol, isCall, isLong, date, strike, price, cost, iv, symbol,
       }],
     }), () => this.resortOptionsSelected(symbol));
   }
@@ -175,14 +175,13 @@ class OptionsCalculator extends React.Component {
   }
 
   loadInOptionsSelected = (legs) => {
-    for(let leg of legs){
+    for (const leg of legs) {
       const rfir = treasury.getRightYield(yields || [], moment(leg.date).diff(moment(), 'days')) / 100;
-      const iv = optionsMath.calculateIV(moment(leg.date).diff(moment(), 'hours')/(365*24), leg.cost, this.state.price, leg.strike, leg.isCall, rfir, this.state.divYield)
-      const currentPrice = this.state.optionsChain.find(o => o[0] === leg.date)[1].find(o => o.strike === leg.strike)[`${leg.isCall ? "call" : "put"}`]
-      console.log(currentPrice, leg.cost)
-      this.onHandleOptionLegChange(true, leg.isCall, leg.isLong, leg.strike, currentPrice, leg.cost, leg.date, iv, leg.symbol)
+      const iv = optionsMath.calculateIV(moment(leg.date).diff(moment(), 'hours') / (365 * 24), leg.cost, this.state.price, leg.strike, leg.isCall, rfir, this.state.divYield);
+      const currentPrice = this.state.optionsChain.find((o) => o[0] === leg.date)[1].find((o) => o.strike === leg.strike)[`${leg.isCall ? 'call' : 'put'}`];
+      console.log(currentPrice, leg.cost);
+      this.onHandleOptionLegChange(true, leg.isCall, leg.isLong, leg.strike, currentPrice, leg.cost, leg.date, iv, leg.symbol);
     }
-
   }
 
   onHandleOptionLegChange = (needToAdd, isCall, isLong, strike, price, cost, date, iv, symbol) => {
@@ -218,7 +217,7 @@ class OptionsCalculator extends React.Component {
       title: key[0],
       dataIndex: key[0],
       render: (text, record, index) =>
-        //console.log(data[i][1][index][1], pData[i][1][index][1])
+        // console.log(data[i][1][index][1], pData[i][1][index][1])
         (
           <div style={{ backgroundColor: percentageColor.hexColorFromPercentA([...pData[i][1]].reverse()[index][1]) }}>
             {text}
@@ -234,11 +233,11 @@ class OptionsCalculator extends React.Component {
     if (selectedOptions.filter((o) => !o.hide).length <= 0) {
       return;
     }
-    
+
     for (const option of selectedOptions) {
       const rfir = treasury.getRightYield(yields || [], moment(option.date).diff(moment(), 'days')) / 100;
-      option.greeks = optionsMath.calculateGreeks(moment(option.date).diff(moment(), 'hours') / (365*24), this.state.price, option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
-      option.profit = optionsMath.calculateProfits(this.state.price, this.state.percentInterval, this.state.numberIntervals, option, rfir, this.state.divYield)
+      option.greeks = optionsMath.calculateGreeks(moment(option.date).diff(moment(), 'hours') / (365 * 24), this.state.price, option.strike, option.isCall, option.isLong, rfir, this.state.divYield, option.iv);
+      option.profit = optionsMath.calculateProfits(this.state.price, this.state.percentInterval, this.state.numberIntervals, option, rfir, this.state.divYield);
     }
     this.setState(() => ({ optionsSelected: selectedOptions }),
       () => {
@@ -271,8 +270,8 @@ class OptionsCalculator extends React.Component {
     mergedOptions.date = moment(selectedOptions.filter((o) => !o.hide).map((o) => moment(o.date).format('YYYY-MM-DD')).sort((a, b) => moment(a).diff(moment(b)))[0]).format('YYYY-MM-DD');
 
     mergedOptions.profit = optionsMath.mergeProfits(this.state.price, this.state.percentInterval, this.state.numberIntervals, optionsProfits, mergedOptions.date);
-    
-    mergedOptions.percentProfit = optionsMath.percentProfit(mergedOptions.profit, mergedOptions.cost)
+
+    mergedOptions.percentProfit = optionsMath.percentProfit(mergedOptions.profit, mergedOptions.cost);
 
     this.profitGraphFormatting();
 
@@ -283,7 +282,6 @@ class OptionsCalculator extends React.Component {
       });
   }
 
-  
 
   startTutorial = () => {
     // introJs('.intro').start();
@@ -311,7 +309,7 @@ class OptionsCalculator extends React.Component {
           {/* <EquityModal symbol={this.state.symbol} price={this.state.price} onHandleOptionLegChange={this.onHandleOptionLegChange} />
            */}
           <div style={{ width: '43px', display: 'inline-block' }} />
-          <OptionsChain onHandleOptionLegChange={this.onHandleOptionLegChange} modalTrackSelected={this.modalTrackSelected} editLegLoading={this.state.editLegLoading} optionsSelected={this.state.optionsSelected} optionsChain= {this.state.optionsChain} />
+          <OptionsChain onHandleOptionLegChange={this.onHandleOptionLegChange} modalTrackSelected={this.modalTrackSelected} editLegLoading={this.state.editLegLoading} optionsSelected={this.state.optionsSelected} optionsChain={this.state.optionsChain} />
           <div style={{ width: '43px', display: 'inline-block' }} />
           <IVSkew modalTrackSelected={this.modalTrackSelected} optionsChain={this.state.optionsChain} />
           <div style={{ width: '43px', display: 'inline-block' }} />
@@ -329,13 +327,13 @@ class OptionsCalculator extends React.Component {
             onOk={() => { this.setState(() => ({ calculateMenuVisible: false })); }}
             onCancel={() => { this.setState(() => ({ calculateMenuVisible: false })); }}
           >
-            <CalculateMenu 
-              calculateProfits={this.calculateProfits} 
-              intervalChange={(e) => { this.setState(() => ({ percentInterval: e })); }} 
-              numberChange ={(e) => { this.setState(() => ({ numberIntervals: e })); }} 
+            <CalculateMenu
+              calculateProfits={this.calculateProfits}
+              intervalChange={(e) => { this.setState(() => ({ percentInterval: e })); }}
+              numberChange={(e) => { this.setState(() => ({ numberIntervals: e })); }}
             />
           </Modal>
-          <div id="strategyButtons"><StrategySelector loadInOptionsSelected={this.loadInOptionsSelected} forceSearch={(symbol, callback) => {this.stockSymbol.current.onSearch(symbol, undefined, callback)}} symbol={this.state.symbol} optionsSelected={this.state.optionsSelected} /></div>
+          <div id="strategyButtons"><StrategySelector loadInOptionsSelected={this.loadInOptionsSelected} forceSearch={(symbol, callback) => { this.stockSymbol.current.onSearch(symbol, undefined, callback); }} symbol={this.state.symbol} optionsSelected={this.state.optionsSelected} /></div>
           <div id="calendarButton"><StockCalendar earningsDate={this.state.earningsDate} /></div>
         </div>
         <br />
@@ -357,7 +355,7 @@ class OptionsCalculator extends React.Component {
                 <div className="profitTableWrapper" step-name="profit-table" style={{ width: '80vw' }}>
                   <Table dataSource={this.state.profitTableData} columns={this.state.profitColumns} pagination={false} scroll={{ x: 'max-content' }} size="small" />
                 </div>
-                <ReportModal optionsSelected={this.state.optionsSelected} loading ={this.state.reportLoading} />
+                <ReportModal optionsSelected={this.state.optionsSelected} loading={this.state.reportLoading} />
               </div>
             )
             : null
