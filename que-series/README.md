@@ -107,6 +107,13 @@ So there's
 |getDays||
 |getRightYield||
 
+[**volatiltiy**](./lib/mathematique/volatilityLibrary.js)
+|Function|Description|Params|Returns|
+|:-|:-:|:-:|:-:|
+|findSpikes|Finds volatility spikes in dataset as z-score outliers|`(dataset: [ JSON, JSON... ], mean: Double, std: Double)`| `[ JSON, JSON... ]`|
+|filterSpikes|Consolidates volatility spikes of consecutive dates into single spike|`(dataset: [ JSON, JSON... ],spikes: [ JSON, JSON... ]`| `[ JSON, JSON... ]`|
+|findTrough|Finds trough after volatility spike|`(dates:[ JSON, JSON... ], allSpikes: [ JSON, JSON... ])`| `JSON`)|
+
 ### Utilique
 
 [**request**](./lib/utilique/fetchLibrary.js)

@@ -44,7 +44,7 @@
           i = j;
           j++;
         }
-      }
+      } 
       else if(dates.length == 0){ //no dates between spikes
         if(spike1['iv'] > spike2['iv']){
           if(j == spikes.length-1){ //last spike
@@ -69,16 +69,17 @@
         }
       }
     }
-  
-  return newSpikes;
-}
+
+    return newSpikes;
+  }
+
 
   export function findTrough(dates, allSpikes){
     //finds first instance after spike where IV drops below threshold
     //Currently finds first non-spike, but can be updated to find first volatility below specified threshold
     //dates: array of all datapoints from current spike to next spike
     //allSpikes: array of all detected spikes (not filtered spikes)
-    for (var date of dates){
+    for (date of dates){
       if(!(allSpikes.includes(date))){
         console.log("why");
         return date;

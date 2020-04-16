@@ -121,6 +121,7 @@
 
   function findTrough2(dates, spikes){
     //finds first instance after spike where IV drops below threshold (specified %change in IV?
+    console.log(dates);
     
     for (date of dates){
       if(!(spikes.includes(date))){
