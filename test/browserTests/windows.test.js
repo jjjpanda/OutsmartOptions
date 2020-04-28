@@ -7,6 +7,8 @@ const env = require('dotenv').config();
 
 const port = process.env.PORT;
 
+const waitTime = 15000;
+
 const bs_local = new browserstack.Local();
 const bs_local_args = { key: capabilities.credentials['browserstack.key'], onlyAutomate: true, logFile: 'test/browserTests/log.txt' };
 
@@ -32,11 +34,11 @@ const stop = async () => new Promise((resolve, reject) => {
 
 beforeAll(async () => {
   await start();
-}, 10000);
+}, waitTime);
 
 afterAll(async () => {
   await stop();
-}, 10000);
+}, waitTime);
 
 const domains = ['http://www.outsmartoptions.live'];
 
@@ -56,7 +58,7 @@ for (const capability of capabilities.capabilities) {
         }, () => {
           done.fail(new Error("Website Didn't Load."));
         });
-      }, 50000);
+      }, waitTime * 5);
 
       afterAll(async (done) => {
         await driver.quit().then(() => {
@@ -64,13 +66,13 @@ for (const capability of capabilities.capabilities) {
         }, () => {
           done.fail(new Error('Issue with disconnecting.'));
         });
-      }, 10000);
+      }, waitTime);
 
       it('React Root Exists', async (done) => {
         const root = await eleManip.getElementById(webdriver, driver, 'root');
         expect(root).toBeDefined();
         done();
-      }, 10000);
+      }, waitTime);
 
       it('Go to Calculator', async (done) => {
         await driver.get(`${website}/calc`).then(() => {
@@ -78,7 +80,7 @@ for (const capability of capabilities.capabilities) {
         }, () => {
           done.fail(new Error("Website Didn't Load."));
         });
-      }, 10000);
+      }, waitTime);
 
       it('Go to Watchlist', async (done) => {
         await driver.get(`${website}/watch`).then(() => {
@@ -86,7 +88,7 @@ for (const capability of capabilities.capabilities) {
         }, () => {
           done.fail(new Error("Website Didn't Load."));
         });
-      }, 10000);
+      }, waitTime);
 
       it('Go to HelpPage', async (done) => {
         await driver.get(`${website}/help`).then(() => {
@@ -94,7 +96,7 @@ for (const capability of capabilities.capabilities) {
         }, () => {
           done.fail(new Error("Website Didn't Load."));
         });
-      }, 10000);
+      }, waitTime);
 
       it('Go to AboutPage', async (done) => {
         await driver.get(`${website}/about`).then(() => {
@@ -102,7 +104,7 @@ for (const capability of capabilities.capabilities) {
         }, () => {
           done.fail(new Error("Website Didn't Load."));
         });
-      }, 10000);
+      }, waitTime);
     });
   }
 }

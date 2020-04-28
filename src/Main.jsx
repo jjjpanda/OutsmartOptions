@@ -72,13 +72,33 @@ class Main extends React.Component {
               </div>
 
             </Layout.Content>
-            <Layout.Footer >
-              <span style={{ display: 'flex', justifyContent:"space-between" }}>
-                <a href="https://www.instagram.com/OutsmartOptions/"> Insta <Icon type="instagram" /></a>
-                <a href = "https://twitter.com/OutsmartO"> Twitter <Icon type="twitter" /></a>
-                <a href="mailto:outsmartoptions@gmail.com?Subject=Hello%20Mr.Outsmart"> Email Us <Icon type="mail" /></a>
-                <a href="https://www.reddit.com/r/OutsmartOptions/" > Reddit <Icon type="reddit" /></a>
-                <a href="https://www.youtube.com/watch?v=-r7tj-jqwj8" > Bruh <Icon type="youtube" /></a>
+            <Layout.Footer>
+              <span style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <a href="https://www.instagram.com/OutsmartOptions/">
+                  {' '}
+                  Insta
+                  <Icon type="instagram" />
+                </a>
+                <a href="https://twitter.com/OutsmartO">
+                  {' '}
+                  Twitter
+                  <Icon type="twitter" />
+                </a>
+                <a href="mailto:outsmartoptions@gmail.com?Subject=Hello%20Mr.Outsmart">
+                  {' '}
+                  Email Us
+                  <Icon type="mail" />
+                </a>
+                <a href="https://www.reddit.com/r/OutsmartOptions/">
+                  {' '}
+                  Reddit
+                  <Icon type="reddit" />
+                </a>
+                <a href="https://www.youtube.com/watch?v=-r7tj-jqwj8">
+                  {' '}
+                  Bruh
+                  <Icon type="youtube" />
+                </a>
               </span>
             </Layout.Footer>
           </Layout>
