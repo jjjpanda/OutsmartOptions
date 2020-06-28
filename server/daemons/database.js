@@ -18,15 +18,16 @@ mongoose.connection.once('disconnected', () => {
 
 module.exports = {
 
-  connect: (url, callback) => mongoose.connect(`mongodb://${process.env.dbIP}:${process.env.dbPORT}/${url}`,
+  connect: (url, callback) => mongoose.connect(`${process.env.MONGODB_URI.split('/')[0]}/${process.env.MONGODB_URI.split('/')[1]}/${process.env.MONGODB_URI.split('/')[2]}/${url}`,
+    //`mongodb://${process.env.dbIP}:${process.env.dbPORT}/${url}`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      auth: {
+      /* auth: {
         authSource: 'admin',
         user: process.env.dbNAME,
         password: process.env.dbPWD,
-      },
+      }, */
     })
     .then(
       () => {
