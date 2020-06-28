@@ -24,5 +24,5 @@ const discord = require('./discord.js');
 discord.start();
 
 // Daemons
-require('./daemons/database.js').connect('dev', (success) => {});
+require('./daemons/database.js').connect(process.env.MONGODB_URI.split('/')[3], (success) => {});
 require('./daemons/serverWarmer.js')();
