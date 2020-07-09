@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../../server/app.js');
 const mongoDB = require('../../server/daemons/database');
+const env = require('dotenv').config();
 
 const Option = require('../../server/daemons/models/Option.js');
 
@@ -12,7 +13,7 @@ const newPassword = 'newPassword';
 let id; let
   token;
 
-beforeAll(async (done) => mongoDB.connect('tests', (success) => {
+beforeAll(async (done) => mongoDB.connect(process.env.MONGODB_URI.split('/')[3], (success) => {
   if (success) {
     done();
   } else {
