@@ -1048,7 +1048,6 @@ class Help2 extends React.Component {
       'Options Contracts',
       caro2];
 
-
     const card3 = ['Excercise and Expiry',
       'https://is2-ssl.mzstatic.com/image/thumb/Purple4/v4/90/37/b5/9037b5ac-701d-6e15-a56e-b13bff7c1602/Icon.png/1200x630bb.png',
       'https://www.youtube.com/embed/zRi8bCfGhBo',
@@ -1182,7 +1181,6 @@ class Help2 extends React.Component {
       'Calendar Spreads',
       caro21];
 
-
     const row1 = [card1, card2, card3];
     const row2 = [card4, card5, card6];
     const row3 = [card7, card8, card9];
@@ -1190,7 +1188,6 @@ class Help2 extends React.Component {
     const row5 = [card13, card14, card15];
     const row6 = [card16, card17, card18];
     const row7 = [card19, card20, card21];
-
 
     return (
       <div style={{ padding: '30px' }}>

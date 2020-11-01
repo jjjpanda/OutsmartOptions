@@ -96,7 +96,6 @@ const columns = [
   },
 ];
 
-
 class Watchlist extends React.Component {
   constructor(props) {
     super(props);

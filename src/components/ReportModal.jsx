@@ -8,7 +8,6 @@ import {
   Table,
 } from 'antd';
 
-
 import {
   aesthetique as aes,
   mathematique as math,

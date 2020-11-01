@@ -132,7 +132,6 @@ class OptionsCalculator extends React.Component {
     return null;
   }
 
-
   resortOptionsSelected = (symbol) => {
     this.setState((state) => ({
       optionsSelected: [...state.optionsSelected].sort((a, b) => {
@@ -281,7 +280,6 @@ class OptionsCalculator extends React.Component {
         console.log(this.state);
       });
   }
-
 
   startTutorial = () => {
     // introJs('.intro').start();
