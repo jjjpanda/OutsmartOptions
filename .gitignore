@@ -4,3 +4,5 @@ dist
 .env
 server/logs/*.txt
 .DS_Store
+eslint/lintOutput.html
+test/report/index.html
