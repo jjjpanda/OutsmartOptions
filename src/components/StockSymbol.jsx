@@ -22,7 +22,6 @@ import verifyUser from './UserVerifier.jsx';
 
 // JS Libraries
 
-
 import SpinningLogo from './SpinningLogo.jsx';
 
 import '../css/logo.css';
@@ -30,7 +29,6 @@ import '../css/logo.css';
 const optionsMath = math.options;
 const outliers = math.stats;
 const { treasury } = math;
-
 
 const { request } = util;
 
@@ -82,7 +80,6 @@ class StockSymbol extends React.Component {
         </span>
       </AutoCompleteOption>
     ))
-
 
     onSearch = (val, event, fBack) => {
       if (val === this.state.symbol || val == '') {

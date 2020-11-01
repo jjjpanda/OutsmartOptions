@@ -29,7 +29,6 @@ class HomePage extends React.Component {
       }), () => console.log(this.state));
     }
 
-
     render() {
       return (
         <div>

@@ -63,9 +63,14 @@ class StrategySelector extends React.Component {
       console.log('saving', this.props.symbol, this.props.optionsSelected, options.nameStrategy(options.extractStrategies(this.props.optionsSelected)));
       if (this.props.symbol != '' && this.props.optionsSelected.length > 0 && this.state.loggedIn) {
         request.postFetchReqAuth('/api/strategy/save', Cookie.get('token'), JSON.stringify({
-          id: Cookie.get('id'), ticker: this.props.symbol, name: options.nameStrategy(options.extractStrategies(this.props.optionsSelected)), legs: this.props.optionsSelected.map(({date, strike, cost, isCall, isLong, quantity, symbol}) => {
-            return { date, strike, cost, isCall, isLong, quantity, symbol }
-          }),
+          id: Cookie.get('id'),
+          ticker: this.props.symbol,
+          name: options.nameStrategy(options.extractStrategies(this.props.optionsSelected)),
+          legs: this.props.optionsSelected.map(({
+            date, strike, cost, isCall, isLong, quantity, symbol,
+          }) => ({
+            date, strike, cost, isCall, isLong, quantity, symbol,
+          })),
         }), (data) => {
           console.log(data);
         });
@@ -89,7 +94,6 @@ class StrategySelector extends React.Component {
         // Not Logged in, reroute the uesr to login
       }
     }
-
 
     renderCards = (stockStrats, symbol) => stockStrats.map((strat) => (
       <List

@@ -11,7 +11,6 @@ import Cookie from 'js-cookie';
 import { utilique as util } from 'que-series';
 import verifyUser from './UserVerifier.jsx';
 
-
 const { request } = util;
 
 const hasErrors = (fieldsError) => Object.keys(fieldsError).some((field) => fieldsError[field]);

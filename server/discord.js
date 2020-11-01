@@ -19,7 +19,6 @@ client.on('disconnect', () => {
   }
 });
 
-
 client.on('error', () => {
   loginAttempts--;
   if (loginAttempts > 0) {

@@ -9,7 +9,6 @@ import {
 } from 'que-series';
 import { IconText } from './IconText.jsx';
 
-
 const { request } = utilique;
 
 class TwitterFeed extends React.Component {
