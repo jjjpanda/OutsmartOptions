@@ -1,5 +1,5 @@
 # OutsmartOptions
-[![Build Status](https://travis-ci.com/jjjpanda/OutsmartOptions.svg?token=Mvsy5wJMfgp4LkpXqF7g&branch=master)](https://travis-ci.com/jjjpanda/OutsmartOptions)
+[![Actions Status](https://github.com/jjjpanda/OutsmartOptions/workflows/testing-oo/badge.svg)](https://github.com/jjjpanda/OutsmartOptions/actions)
 
 Y'all ever wanted to make money?
 Time to outsmart options.
