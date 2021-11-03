@@ -80,7 +80,7 @@
     "stripe": "^8.138.0",
     "styled-components": "^4.4.1",
     "url-loader": "^2.3.0",
-    "validator": "^12.2.0",
+    "validator": "^13.7.0",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
