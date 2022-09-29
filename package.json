@@ -74,7 +74,7 @@
     "react-router-dom": "^5.2.0",
     "react-stripe-elements": "^6.1.2",
     "reactour": "^1.18.3",
-    "recharts": "^1.8.5",
+    "recharts": "^2.1.14",
     "request": "^2.88.2",
     "selenium-webdriver": "^4.0.0-beta.1",
     "stripe": "^8.138.0",
